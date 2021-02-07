@@ -12,4 +12,5 @@
     <string name="img_desc">Special Meal</string>
     <string name="btnText">Add to Cart</string>
     <string name="foodDesc">Italian Pancake with tomatoes source</string>
+    <string name="Price">$0.00</string>
 </resources>

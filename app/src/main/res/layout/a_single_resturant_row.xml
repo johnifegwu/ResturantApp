@@ -11,10 +11,11 @@
         android:layout_height="200dp"
         android:contentDescription="@string/img_desc"
         android:scaleType="centerCrop"
+        android:src="@drawable/meal3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/meal3" />
+         />
 
     <TextView
         android:id="@+id/txtFoodDesc"
@@ -24,6 +25,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/foodDesc"
+        android:textColor="#2B2B2B"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,5 +39,23 @@
         android:layout_marginTop="16dp"
         android:text="@string/btnText"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtFoodDesc" />
+
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="21dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:freezesText="true"
+        android:text="@string/Price"
+        android:textAlignment="textEnd"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAdd"
         app:layout_constraintTop_toBottomOf="@+id/txtFoodDesc" />
 </androidx.constraintlayout.widget.ConstraintLayout>
