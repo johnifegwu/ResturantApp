@@ -6,4 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".Show_Pic_Activity">
 
+    <com.mickleentityltdnigeria.resturantapp.extensions.MyImageView
+        android:id="@+id/imgFood"
+        android:layout_width="0dp"
+        android:layout_height="600dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/img_desc"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bugger1"
+        app:layout_constraintBottom_toTopOf="@+id/txtFoodDesc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtFoodDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/foodDesc"
+        android:textColor="#2B2B2B"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAdd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/btnText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:freezesText="true"
+        android:text="@string/Price"
+        android:textAlignment="textEnd"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAdd" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
