@@ -51,7 +51,7 @@ public class MyImageView extends androidx.appcompat.widget.AppCompatImageView {
                 }
                 break;
             }
-            case MotionEvent.ACTION_POINTER_1_DOWN: {
+            case MotionEvent.ACTION_POINTER_INDEX_MASK: {
                 if (mScaleDetector.isInProgress()) {
                     final float gx = mScaleDetector.getFocusX();
                     final float gy = mScaleDetector.getFocusY();
@@ -97,10 +97,7 @@ public class MyImageView extends androidx.appcompat.widget.AppCompatImageView {
 
                 break;
             }
-            case MotionEvent.ACTION_UP: {
-                mActivePointerId = INVALID_POINTER_ID;
-                break;
-            }
+            case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
                 mActivePointerId = INVALID_POINTER_ID;
                 break;
@@ -148,13 +145,18 @@ public class MyImageView extends androidx.appcompat.widget.AppCompatImageView {
         canvas.restore();
     }
 
+   /* public float getFactor(Canvas canvas){
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+    }*/
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             mScaleFactor *= detector.getScaleFactor();
 
             // Don't let the object get too small or too large.
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 10.0f));
+            mScaleFactor = Math.max(0.5f, Math.min(mScaleFactor, 10.0f));
 
             invalidate();
             return true;
