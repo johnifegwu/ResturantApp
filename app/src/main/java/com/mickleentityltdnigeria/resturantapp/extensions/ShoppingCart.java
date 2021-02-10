@@ -17,7 +17,7 @@ public class ShoppingCart
     public final void addCartItem(int itemId, Double itemPrice, String itemDesc, int itemQty, String itemImgUrl)
     {
         if(cartItems.get(itemDesc) != null){
-            cartItems.get(itemDesc).setItemQty(itemQty);
+            cartItems.get(itemDesc).setItemQty(cartItems.get(itemDesc).getItemQty() + itemQty);
         }else {
             cartItems.put(itemDesc, new CartItem(itemId, itemPrice, itemDesc, itemQty, itemImgUrl));
         }

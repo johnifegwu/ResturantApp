@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.FoodItem;
 
 import java.io.InputStream;
@@ -53,16 +54,18 @@ public class Show_Pic_Activity extends AppCompatActivity {
             }catch (Exception e){
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+            final View[] vw = new View[1];
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
+                    vw[0] = v;
                     addToCart(1);
                 }
             });
             // Register interest in the completed report
             CartItemChangedHandler cartChanged = new CartItemChangedHandler() {
                 public void invoke(int qty) {
-                    displayCartQty(qty);
+                    displayCartQty(qty, vw[0]);
                 }
             };
 
@@ -74,8 +77,10 @@ public class Show_Pic_Activity extends AppCompatActivity {
         module.shoppingCart.addCartItem(this.foodItem.getID(),this.foodItem.getFoodPrice(),this.foodItem.getFoodDesc(), Qty,this.foodItem.getFoodUrl());
     }
 
-    public void displayCartQty(int Qty) {
-        Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
+    public void displayCartQty(int Qty, View v) {
+        Snackbar.make(v , ""+ Qty + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+        //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
     }
 
 }
