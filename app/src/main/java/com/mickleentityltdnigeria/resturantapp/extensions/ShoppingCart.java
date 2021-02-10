@@ -16,9 +16,12 @@ public class ShoppingCart
 
     public final void addCartItem(int itemId, Double itemPrice, String itemDesc, int itemQty, String itemImgUrl)
     {
-        cartItems.put(itemDesc, new CartItem( itemId, itemPrice, itemDesc, itemQty, itemImgUrl));
-        for (CartItemChangedHandler listener : cartItemChanged.listeners())
-        {
+        if(cartItems.get(itemDesc) != null){
+            cartItems.get(itemDesc).setItemQty(itemQty);
+        }else {
+            cartItems.put(itemDesc, new CartItem(itemId, itemPrice, itemDesc, itemQty, itemImgUrl));
+        }
+        for (CartItemChangedHandler listener : cartItemChanged.listeners()) {
             listener.invoke(this.countCartItemsQty());
         }
     }
@@ -29,6 +32,18 @@ public class ShoppingCart
         for (CartItemChangedHandler listener : cartItemChanged.listeners())
         {
             listener.invoke(this.countCartItemsQty());
+        }
+    }
+
+    public final void updateCartItem(String name, int Qty)
+    {
+        if(Qty > 0) {
+            cartItems.get(name).setItemQty(Qty);
+            for (CartItemChangedHandler listener : cartItemChanged.listeners()) {
+                listener.invoke(this.countCartItemsQty());
+            }
+        }else{
+            removeCartItem(name);
         }
     }
 

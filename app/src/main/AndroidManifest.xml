@@ -6,14 +6,14 @@
         android:name=".ApplicationContextProvider"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_Title"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResturantApp">
         <activity android:name=".Show_Pic_Activity"></activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/app_Title"
             android:theme="@style/Theme.ResturantApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
