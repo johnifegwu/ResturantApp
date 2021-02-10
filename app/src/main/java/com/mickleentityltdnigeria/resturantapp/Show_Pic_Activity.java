@@ -1,12 +1,9 @@
 package com.mickleentityltdnigeria.resturantapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,14 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.FoodItem;
+import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.module;
 
 import java.io.InputStream;
-
-import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
-import com.mickleentityltdnigeria.resturantapp.extensions.Event;
-import com.mickleentityltdnigeria.resturantapp.extensions.module;
 
 public class Show_Pic_Activity extends AppCompatActivity {
 
@@ -29,8 +26,8 @@ public class Show_Pic_Activity extends AppCompatActivity {
     TextView foodText, foodPrice;
     Button btnAdd;
     public FoodItem foodItem;
-    private Context myContext = ApplicationContextProvider.getContext();
-    private AssetManager assetManager = myContext.getAssets();
+    private final Context myContext = ApplicationContextProvider.getContext();
+    private final AssetManager assetManager = myContext.getAssets();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
