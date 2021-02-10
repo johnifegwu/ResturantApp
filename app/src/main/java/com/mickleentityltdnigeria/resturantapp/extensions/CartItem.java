@@ -6,17 +6,27 @@ public class CartItem implements Serializable {
     private int itemID;
     private Double itemPrice;
     private String itemDesc;
+    private String itemImgUrl;
     private int itemQty;
 
     public CartItem(){
 
     }
 
-    public CartItem(int itemId, Double itemPrice, String itemDesc, int itemQty){
+    public CartItem(int itemId, Double itemPrice, String itemDesc, int itemQty, String itemImgUrl){
         this.itemID = itemId;
         this.itemDesc = itemDesc;
         this.itemPrice = itemPrice;
         this.itemQty = itemQty;
+        this.itemImgUrl = itemImgUrl;
+    }
+
+    public void setItemImgUrl(String itemImgUrl){
+        this.itemImgUrl = itemImgUrl;
+    }
+
+    public String getItemImgUrl(){
+        return this.itemImgUrl;
     }
 
     public void setItemID(int itemId){

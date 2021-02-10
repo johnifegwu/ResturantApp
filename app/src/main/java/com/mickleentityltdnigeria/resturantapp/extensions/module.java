@@ -10,4 +10,6 @@ public class module {
     public static Intent genIntentForShowPic(Context c){
         return  new Intent(c, Show_Pic_Activity.class);
     }
+
+    public static  ShoppingCart shoppingCart = new ShoppingCart();
 }

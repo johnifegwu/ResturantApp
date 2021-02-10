@@ -8,6 +8,8 @@ import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,11 +17,13 @@ import android.widget.Toast;
 import com.mickleentityltdnigeria.resturantapp.data.FoodItem;
 
 import java.io.InputStream;
+import com.mickleentityltdnigeria.resturantapp.extensions.module;
 
 public class Show_Pic_Activity extends AppCompatActivity {
 
     ImageView foodImg;
     TextView foodText, foodPrice;
+    Button btnAdd;
     public FoodItem foodItem;
     private Context myContext = ApplicationContextProvider.getContext();
     private AssetManager assetManager = myContext.getAssets();
@@ -33,8 +37,10 @@ public class Show_Pic_Activity extends AppCompatActivity {
             this.foodImg = (ImageView) findViewById(R.id.imgFood);
             this.foodText = (TextView) findViewById(R.id.txtFoodDesc);
             this.foodPrice = (TextView) findViewById(R.id.txtPrice);
-
+            this.btnAdd = (Button) findViewById(R.id.btnAdd);
+            //
             this.foodItem = (FoodItem) bundle.getSerializableExtra("payLoad");
+            //
             try {
                 InputStream ims = assetManager.open(this.foodItem.getFoodUrl());
                 Drawable d = Drawable.createFromStream(ims, null);
@@ -44,7 +50,17 @@ public class Show_Pic_Activity extends AppCompatActivity {
             }catch (Exception e){
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
+                {
+                    addToCart(1);
+                }
+            });
         }
     }
+
+    public void addToCart(int Qty){
+        module.shoppingCart.addCartItem(this.foodItem.getID(),this.foodItem.getFoodPrice(),this.foodItem.getFoodDesc(), Qty,this.foodItem.getFoodUrl());
+    }
+
 }

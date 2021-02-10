@@ -14,4 +14,7 @@
     <string name="foodDesc">Italian Pancake with tomatoes source</string>
     <string name="Price">$0.00</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cartQty">Cart: 0</string>
+    <string name="todo">TODO</string>
+    <string name="Cart">0</string>
 </resources>
