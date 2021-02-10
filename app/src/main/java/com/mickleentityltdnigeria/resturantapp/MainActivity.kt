@@ -26,10 +26,8 @@ class MainActivity : AppCompatActivity() {
         this.txtCart = findViewById<TextView>(R.id.txtCartQty)
 
         // Register interest in the completed report
-        var cartChanged: CartItemChangedHandler =  CartItemChangedHandler {
-            fun displayCartQty(qty:Int) {
-                txtCart.setText(qty.toString())
-            }
+        var cartChanged = CartItemChangedHandler {
+            displayCartQty(it)
         }
         module.shoppingCart.cartItemChanged.addListener(cartChanged)
 
@@ -49,5 +47,9 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    public fun displayCartQty(qty:Int) {
+        txtCart.setText(qty.toString())
     }
 }

@@ -17,6 +17,9 @@ import android.widget.Toast;
 import com.mickleentityltdnigeria.resturantapp.data.FoodItem;
 
 import java.io.InputStream;
+
+import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.module;
 
 public class Show_Pic_Activity extends AppCompatActivity {
@@ -56,11 +59,23 @@ public class Show_Pic_Activity extends AppCompatActivity {
                     addToCart(1);
                 }
             });
+            // Register interest in the completed report
+            CartItemChangedHandler cartChanged = new CartItemChangedHandler() {
+                public void invoke(int qty) {
+                    displayCartQty(qty);
+                }
+            };
+
+            module.shoppingCart.cartItemChanged.addListener(cartChanged);
         }
     }
 
     public void addToCart(int Qty){
         module.shoppingCart.addCartItem(this.foodItem.getID(),this.foodItem.getFoodPrice(),this.foodItem.getFoodDesc(), Qty,this.foodItem.getFoodUrl());
+    }
+
+    public void displayCartQty(int Qty) {
+        Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
     }
 
 }

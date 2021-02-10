@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
-            android:elevation="7dp"
+            android:elevation="40dp"
             android:text="@string/Cart"
             android:textColor="#000000"
             android:textSize="22sp"
