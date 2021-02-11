@@ -33,7 +33,9 @@ public class Show_Pic_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show__pic_);
+        //
         Intent bundle = getIntent();
+        //
         if (bundle != null) {
             this.foodImg = (ImageView) findViewById(R.id.imgFood);
             this.foodText = (TextView) findViewById(R.id.txtFoodDesc);

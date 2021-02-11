@@ -12,7 +12,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.mickleentityltdnigeria.resturantapp.data.FoodItem
+import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.module
 
 
@@ -32,9 +34,9 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*view.findViewById<Button>(R.id.button_first).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }*/
+        // Register interest in the completed report
+        val cartChanged = CartItemChangedHandler { qty -> displayCartQty(qty, this.view) }
+        module.shoppingCart.cartItemChanged.addListener(cartChanged)
 
         val foodItems = listOf(
             FoodItem(11, "meal1.jpg", "Bulgarian fish toast & veggie", 14.5),
@@ -67,10 +69,18 @@ class FirstFragment : Fragment() {
                 intent.putExtra("payLoad",foodItem)
                 startActivity(intent)
             }
+
         })
 
         //Set adapter to RecyclerView
         mRecyclerView.adapter = adapter
 
     }
+
+    private fun displayCartQty(Qty: Int, v: View?) {
+        Snackbar.make(v!!, "$Qty item(s) added to Cart.", Snackbar.LENGTH_LONG)
+            .setAction("Action", null).show()
+        //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
+    }
+
 }

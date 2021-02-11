@@ -6,10 +6,14 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.mickleentityltdnigeria.resturantapp.data.FoodItem
+import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
+import com.mickleentityltdnigeria.resturantapp.extensions.module
 import java.io.InputStream
 
 
@@ -35,6 +39,10 @@ class ResturantsAdapter(
                 foodItems.get(myViewHolder.getLayoutPosition())
             )
         })
+        myViewHolder.itemView.findViewById<Button>(R.id.btnAdd).setOnClickListener(View.OnClickListener {
+            addToCart(1, foodItems.get(myViewHolder.getLayoutPosition()))
+        })
+
         return myViewHolder
     }
 
@@ -45,7 +53,21 @@ class ResturantsAdapter(
         holder.bind(fooditem)
     }
 
-    class ViewHolder(view: View, private val myContext: Context, private val assetManager: AssetManager) : RecyclerView.ViewHolder(view) {
+    private fun addToCart(Qty: Int, foodItem: FoodItem) {
+        module.shoppingCart.addCartItem(
+            foodItem.id,
+            foodItem.foodPrice,
+            foodItem.foodDesc,
+            Qty,
+            foodItem.foodUrl
+        )
+    }
+
+    class ViewHolder(
+        view: View,
+        private val myContext: Context,
+        private val assetManager: AssetManager
+    ) : RecyclerView.ViewHolder(view) {
         fun bind(fooditem: FoodItem) {
             try
             {
