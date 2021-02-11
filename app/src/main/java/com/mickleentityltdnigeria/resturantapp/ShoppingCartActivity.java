@@ -80,6 +80,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         try {
             //Reference of RecyclerView
             RecyclerView mRecyclerView = this.findViewById(R.id.shoppingCartRecyclerView);
+
             //Create adapter
             ShoppingCartAdapter adapter = new ShoppingCartAdapter(module.shoppingCart.getCartItemsX(), new CartRecyclerViewItemClickListener() {
                 @Override
@@ -87,8 +88,9 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
                 }
             });
+
             //Set adapter to RecyclerView
-            mRecyclerView.setAdapter(adapter);
+            mRecyclerView.swapAdapter(adapter,false);
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -103,8 +105,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
     public void displayCartQty(int Qty, View v) {
         Snackbar.make(v, "" + Qty + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-        SetStatus();
         updateAdapter();
+        SetStatus();
         //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
     }
 }

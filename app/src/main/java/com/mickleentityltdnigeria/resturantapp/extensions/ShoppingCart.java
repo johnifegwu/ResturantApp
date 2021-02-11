@@ -76,15 +76,13 @@ public class ShoppingCart
 
     public final double getCartTotal()
     {
-        int tQ = 0;
-        double tP = 0;
+        double tP = 0.0;
         for (CartItem c : cartItems.values())
         {
-            tQ += c.getItemQty();
-            tP += c.getItemPrice();
+            tP += (c.getItemPrice()*c.getItemQty());
         }
 
-        return (tP*tQ);
+        return (tP);
     }
 
 
