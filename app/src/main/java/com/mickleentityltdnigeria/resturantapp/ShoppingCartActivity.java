@@ -25,7 +25,7 @@ import static android.widget.Toast.makeText;
 
 public class ShoppingCartActivity extends AppCompatActivity {
 
-    private final Context myContext = ApplicationContextProvider.getContext();
+    //private final Context myContext = ApplicationContextProvider.getContext();
 
     TextView status;
 
@@ -33,7 +33,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
-
+        AppGlobals.setAppContext(this);
         this.status = (TextView) findViewById(R.id.txtCartStatus);
 
         // Register interest in the CartItem Change.
@@ -52,7 +52,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
             RecyclerView mRecyclerView = this.findViewById(R.id.shoppingCartRecyclerView);
 
             //Linear Layout Manager
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(myContext, RecyclerView.VERTICAL, false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AppGlobals.getAppContext(), RecyclerView.VERTICAL, false);
 
             //Set Layout Manager to RecyclerView
             mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -64,6 +64,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
                 }
             });
+
             //Set adapter to RecyclerView
             mRecyclerView.setAdapter(adapter);
             //

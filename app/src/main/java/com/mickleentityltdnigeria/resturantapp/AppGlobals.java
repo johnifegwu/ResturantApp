@@ -19,4 +19,5 @@ public class AppGlobals extends Activity {
     public static void StartActivity(Intent intent){
         appContext.startActivity(intent);
     }
+
 }

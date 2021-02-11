@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        AppGlobals.setAppContext(this)
-
+        
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
+            AppGlobals.setAppContext(this)
             Snackbar.make(view, "Shopping Cart", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             try {

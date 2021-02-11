@@ -3,7 +3,6 @@ package com.mickleentityltdnigeria.resturantapp
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.drawable.Drawable
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,37 +28,41 @@ class ShoppingCartAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.a_single_cart_row, parent, false)
-
+        AppGlobals.setAppContext(parent.context)
         //Create View Holder
-        val myViewHolder = ViewHolder(view, myContext, assetManager)
+        val myViewHolder = ViewHolder(view, AppGlobals.getAppContext(), assetManager)
 
         //Item Clicks
-        myViewHolder.itemView.setOnClickListener(View.OnClickListener {
+        myViewHolder.itemView.setOnClickListener {
             mItemClickListener.onItemClicked(
                 cartItems.get(myViewHolder.getLayoutPosition())
             )
-        })
+        }
 
-        myViewHolder.itemView.findViewById<Button>(R.id.btnUpdateCart).setOnClickListener(View.OnClickListener {
+        myViewHolder.itemView.findViewById<Button>(R.id.btnUpdateCart).setOnClickListener {
             try {
-                var qty: String = myViewHolder.itemView.findViewById<EditText>(R.id.txtQty).text.toString()
+                var qty: String =
+                    myViewHolder.itemView.findViewById<EditText>(R.id.txtQty).text.toString()
                 try {
-                    if(qty.toInt()<0){
+                    if (qty.toInt() < 0) {
                         qty = "0"
                     }
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     qty = "0"
                 }
                 updateCartItem(qty.toInt(), cartItems.get(myViewHolder.getLayoutPosition()))
-               //update data adapter.
-
+                //update data adapter.
             } catch (e: Exception) {
-                Toast.makeText(it.context, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show();
             }
+        }
 
-        })
 
         return myViewHolder
+    }
+
+    private fun updateCartItem(qty:Int, cartItem: CartItem) {
+        module.shoppingCart.updateCartItem(cartItem.itemDesc, qty)
     }
 
     override fun getItemCount() = cartItems.size
@@ -69,9 +72,6 @@ class ShoppingCartAdapter(
         holder.bind(cartItem)
     }
 
-    private fun updateCartItem(Qty: Int, cartItem: CartItem) {
-        module.shoppingCart.updateCartItem(cartItem.itemDesc, Qty)
-    }
 
 
     class ViewHolder(
@@ -93,7 +93,6 @@ class ShoppingCartAdapter(
             {
                 Toast.makeText(myContext, e.message, Toast.LENGTH_LONG).show()
             }
-
         }
 
     }
