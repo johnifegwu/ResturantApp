@@ -69,6 +69,7 @@ public class Show_Pic_Activity extends AppCompatActivity {
             };
 
             module.shoppingCart.cartItemChanged.addListener(cartChanged);
+
         }
     }
 

@@ -1,14 +1,9 @@
 package com.mickleentityltdnigeria.resturantapp
 
-//import android.widget.Button
-//import androidx.navigation.fragment.findNavController
-
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,8 +29,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Register interest in the completed report
-        val cartChanged = CartItemChangedHandler { qty -> displayCartQty(qty, this.view) }
+        // Register interest in the CartItem Change.
+        val cartChanged = CartItemChangedHandler { qty -> displayCartQty(qty, view) }
         module.shoppingCart.cartItemChanged.addListener(cartChanged)
 
         val foodItems = listOf(
@@ -64,10 +59,7 @@ class FirstFragment : Fragment() {
         val adapter = ResturantsAdapter(foodItems, object : MyRecyclerViewItemClickListener {
             //Handling clicks
             override fun onItemClicked(foodItem: FoodItem) {
-                Toast.makeText(context, foodItem.foodDesc, Toast.LENGTH_SHORT).show()
-                val intent = module.genIntentForShowPic(context)
-                intent.putExtra("payLoad",foodItem)
-                startActivity(intent)
+                //do something here.
             }
 
         })

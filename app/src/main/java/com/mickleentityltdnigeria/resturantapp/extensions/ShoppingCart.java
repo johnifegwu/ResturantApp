@@ -1,7 +1,9 @@
 package com.mickleentityltdnigeria.resturantapp.extensions;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ShoppingCart
 {
@@ -52,6 +54,15 @@ public class ShoppingCart
         return this.cartItems;
     }
 
+    public final List<CartItem> getCartItemsX()
+    {
+        List<CartItem> cartItemList = new ArrayList<CartItem>();
+        for (CartItem c:this.cartItems.values()) {
+            cartItemList.add(c);
+        }
+        return cartItemList;
+    }
+
     public final int countCartItemsQty()
     {
         int result = 0;
@@ -61,6 +72,19 @@ public class ShoppingCart
         }
 
         return result;
+    }
+
+    public final double getCartTotal()
+    {
+        int tQ = 0;
+        double tP = 0;
+        for (CartItem c : cartItems.values())
+        {
+            tQ += c.getItemQty();
+            tP += c.getItemPrice();
+        }
+
+        return (tP*tQ);
     }
 
 

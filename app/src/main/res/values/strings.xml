@@ -17,4 +17,7 @@
     <string name="cartQty">Cart: 0</string>
     <string name="todo">TODO</string>
     <string name="Cart">0</string>
+    <string name="btnUpdate">Update</string>
+    <string name="txtCartQty">1</string>
+    <string name="cart_total">Cart Total: $0.00</string>
 </resources>

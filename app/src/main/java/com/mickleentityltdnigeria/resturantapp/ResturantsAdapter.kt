@@ -1,5 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp
 
+import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.drawable.Drawable
@@ -9,10 +10,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.mickleentityltdnigeria.resturantapp.data.FoodItem
-import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.module
 import java.io.InputStream
 
@@ -34,13 +35,32 @@ class ResturantsAdapter(
         val myViewHolder = ViewHolder(view, myContext, assetManager)
 
         //Item Clicks
-        myViewHolder.itemView.setOnClickListener(View.OnClickListener {
+       myViewHolder.itemView.setOnClickListener(View.OnClickListener {
             mItemClickListener.onItemClicked(
                 foodItems.get(myViewHolder.getLayoutPosition())
             )
         })
+
         myViewHolder.itemView.findViewById<Button>(R.id.btnAdd).setOnClickListener(View.OnClickListener {
-            addToCart(1, foodItems.get(myViewHolder.getLayoutPosition()))
+            try {
+                addToCart(1, foodItems.get(myViewHolder.getLayoutPosition()))
+            }catch (e: Exception){
+                //Toast.makeText(it.context, e.message, Toast.LENGTH_LONG).show()
+            }
+
+        })
+
+        myViewHolder.itemView.findViewById<ImageView>(R.id.imgFood).setOnClickListener(View.OnClickListener {
+            val intent = module.genIntentForShowPic(it.context)
+            try {
+               val fooditem = foodItems.get(myViewHolder.getLayoutPosition())
+               Toast.makeText(it.context, fooditem.foodDesc, Toast.LENGTH_SHORT).show()
+               intent.putExtra("payLoad",fooditem)
+               startActivity(it.context,intent,null)
+           }finally {
+               getActivity(it.context,intent.hashCode(),intent,intent.flags).cancel()
+           }
+
         })
 
         return myViewHolder
@@ -63,6 +83,7 @@ class ResturantsAdapter(
         )
     }
 
+
     class ViewHolder(
         view: View,
         private val myContext: Context,
@@ -79,7 +100,7 @@ class ResturantsAdapter(
                 itemView.findViewById<TextView>(R.id.txtPrice).text = "$"+ fooditem.foodPrice
             }catch (e: Exception)
             {
-               val s = e.message
+                Toast.makeText(myContext, e.message, Toast.LENGTH_LONG).show()
             }
 
         }

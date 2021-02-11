@@ -1,27 +1,40 @@
 package com.mickleentityltdnigeria.resturantapp
 
+
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.mickleentityltdnigeria.resturantapp.extensions.module
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
+import com.mickleentityltdnigeria.resturantapp.extensions.module
+
 
 class MainActivity : AppCompatActivity() {
 
-    public lateinit var txtCart: TextView
+    lateinit var txtCart: TextView
+    //private val myContext: Context = ApplicationContextProvider.getContext()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+        AppGlobals.setAppContext(this)
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Shopping Cart", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+            try {
+                val intent = module.genIntentForShoppingCart(AppGlobals.getAppContext())
+                AppGlobals.StartActivity(intent)
+            }catch (e: Exception) {
+                Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            }
         }
         this.txtCart = findViewById<TextView>(R.id.txtCartQty)
 
@@ -49,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    public fun displayCartQty(qty:Int) {
-        txtCart.setText(qty.toString())
+    private fun displayCartQty(qty: Int) {
+        txtCart.text = qty.toString()
     }
 }
