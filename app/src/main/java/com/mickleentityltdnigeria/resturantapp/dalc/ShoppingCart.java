@@ -1,5 +1,9 @@
-package com.mickleentityltdnigeria.resturantapp.extensions;
+package com.mickleentityltdnigeria.resturantapp.dalc;
 
+
+import com.mickleentityltdnigeria.resturantapp.data.CartItem;
+import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +11,7 @@ import java.util.List;
 
 public class ShoppingCart
 {
-    private HashMap<String,CartItem> cartItems;
+    private HashMap<String, CartItem> cartItems;
 
     public ShoppingCart()
     {

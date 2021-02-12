@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.mickleentityltdnigeria.resturantapp.extensions.CartItem
+import com.mickleentityltdnigeria.resturantapp.data.CartItem
 import com.mickleentityltdnigeria.resturantapp.extensions.module
 import java.io.InputStream
 

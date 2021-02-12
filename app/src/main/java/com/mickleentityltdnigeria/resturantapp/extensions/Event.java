@@ -2,12 +2,6 @@ package com.mickleentityltdnigeria.resturantapp.extensions;
 
 //Helper class:
 
-//----------------------------------------------------------------------------------------
-//	Copyright © 2007 - 2021 Tangible Software Solutions, Inc.
-//	This class can be used by anyone provided that the copyright notice remains intact.
-//
-//	This class is used to convert C# events to Java.
-//----------------------------------------------------------------------------------------
 public final class Event<T>
 {
     private java.util.Map<String, T> namedListeners = new java.util.HashMap<String, T>();

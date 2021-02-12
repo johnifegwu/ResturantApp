@@ -5,14 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.mickleentityltdnigeria.resturantapp.extensions.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.CartItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.module;
 

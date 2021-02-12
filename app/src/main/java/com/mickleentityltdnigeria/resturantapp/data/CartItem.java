@@ -1,4 +1,4 @@
-package com.mickleentityltdnigeria.resturantapp.extensions;
+package com.mickleentityltdnigeria.resturantapp.data;
 
 import java.io.Serializable;
 
