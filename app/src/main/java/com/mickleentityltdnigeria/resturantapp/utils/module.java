@@ -19,8 +19,11 @@ public class module {
     public static final String UserTypeSELLER = "SELLER";
     public static final String UserTypeCUSTOMER = "CUSTOMER";
 
+    public static int userID = -1;
     public static String userName = "";
     public static boolean isLoggedIn = false;
     public static String userType = "";
+    public static String zipCode = "";
+
 
 }

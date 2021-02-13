@@ -25,7 +25,7 @@ public class FoodDalc {
 
     }
 
-    public List<FoodItem> SearchFoodItems(String searchTerm){
+    public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode){
         //TODO update database here.
         List<FoodItem> foodItems =  new ArrayList<FoodItem>();
 

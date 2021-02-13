@@ -25,8 +25,8 @@ public class FoodService {
         this.food.DeleteFoodItem(foodID);
     }
 
-    public List<FoodItem> SearchFoodItems(String searchTerm){
-        return this.food.SearchFoodItems(searchTerm);
+    public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode){
+        return this.food.SearchFoodItems(searchTerm, zipCode);
     }
 
     public List<FoodItem> getFoodItemsByUser(int userID) throws InvalidUserException {

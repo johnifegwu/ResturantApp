@@ -14,10 +14,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.service.Service;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 public class Show_Pic_Activity extends AppCompatActivity {
@@ -45,7 +48,7 @@ public class Show_Pic_Activity extends AppCompatActivity {
             this.foodItem = (FoodItem) bundle.getSerializableExtra("payLoad");
             //
             try {
-                InputStream ims = assetManager.open(this.foodItem.getFoodUrl());
+                InputStream ims = new ByteArrayInputStream(foodItem.getFoodImg()); //assetManager.open(this.foodItem.getFoodUrl());
                 Drawable d = Drawable.createFromStream(ims, null);
                 this.foodImg.setImageDrawable(d);
                 this.foodText.setText(foodItem.getFoodDesc());
@@ -68,13 +71,22 @@ public class Show_Pic_Activity extends AppCompatActivity {
                 }
             };
 
-            module.shoppingCart.cartItemChanged.addListener(cartChanged);
+            Service.cart().Cart.cartItemChanged.addListener(cartChanged);
 
         }
     }
 
     public void addToCart(int Qty){
-        module.shoppingCart.addCartItem(this.foodItem.getID(),this.foodItem.getFoodPrice(),this.foodItem.getFoodDesc(), Qty,this.foodItem.getFoodUrl());
+        CartItem cartItem = new CartItem();
+        cartItem.setCartQty(Qty);
+        cartItem.setCartID(-1);
+        cartItem.setFoodDesc(foodItem.getFoodDesc());
+        cartItem.setFoodID(foodItem.getFoodID());
+        cartItem.setFoodImg(foodItem.getFoodImg());
+        cartItem.setFoodImgUrl(foodItem.getFoodImgUrl());
+        cartItem.setFoodPrice(foodItem.getFoodPrice());
+        cartItem.setUserID(module.userID);
+        Service.cart().addCartItem(cartItem, module.userName);
     }
 
     public void displayCartQty(int Qty, View v) {

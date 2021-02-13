@@ -36,4 +36,7 @@
     <string name="foodhubLogo">Food Hub</string>
     <string name="Register">Register</string>
     <string name="login">Login</string>
+    <string name="SearchHint">What would you like to eat?</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="search">Search</string>
 </resources>

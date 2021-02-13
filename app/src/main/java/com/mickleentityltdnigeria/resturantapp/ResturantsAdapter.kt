@@ -13,8 +13,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
+import com.mickleentityltdnigeria.resturantapp.service.CartService
+import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.module
+import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 
@@ -74,13 +78,17 @@ class ResturantsAdapter(
     }
 
     private fun addToCart(Qty: Int, foodItem: FoodItem) {
-        module.shoppingCart.addCartItem(
-            foodItem.id,
-            foodItem.foodPrice,
-            foodItem.foodDesc,
-            Qty,
-            foodItem.foodUrl
-        )
+        val cartItem:CartItem = CartItem()
+        cartItem.cartQty = Qty
+        cartItem.cartID = -1
+        cartItem.foodDesc = foodItem.foodDesc
+        cartItem.foodID = foodItem.foodID
+        cartItem.foodImg = foodItem.foodImg
+        cartItem.foodImgUrl = foodItem.foodImgUrl
+        cartItem.foodPrice = foodItem.foodPrice
+        cartItem.userID = module.userID
+        Service.cart().addCartItem(cartItem, module.userName)
+
     }
 
 
@@ -92,7 +100,7 @@ class ResturantsAdapter(
         fun bind(fooditem: FoodItem) {
             try
             {
-                val ims: InputStream = assetManager.open(fooditem.foodUrl)
+                val ims: InputStream =  ByteArrayInputStream(fooditem.foodImg)  //assetManager.open(fooditem.foodUrl)
                 val d: Drawable = Drawable.createFromStream(ims, null)
 
                 itemView.findViewById<ImageView>(R.id.imgFood).setImageDrawable(d)

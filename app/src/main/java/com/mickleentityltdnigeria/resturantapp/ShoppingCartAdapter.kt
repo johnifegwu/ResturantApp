@@ -9,7 +9,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
+import com.mickleentityltdnigeria.resturantapp.service.CartService
+import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.module
+import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 class ShoppingCartAdapter(
@@ -62,7 +65,7 @@ class ShoppingCartAdapter(
     }
 
     private fun updateCartItem(qty:Int, cartItem: CartItem) {
-        module.shoppingCart.updateCartItem(cartItem.itemDesc, qty)
+        Service.cart().Cart.UpdateCartItem(cartItem.cartID,qty,module.userName)
     }
 
     override fun getItemCount() = cartItems.size
@@ -82,13 +85,13 @@ class ShoppingCartAdapter(
         fun bind(cartItem: CartItem) {
             try
             {
-                val ims: InputStream = assetManager.open(cartItem.itemImgUrl)
+                val ims: InputStream = ByteArrayInputStream(cartItem.foodImg) //assetManager.open(cartItem.foodImgUrl)
                 val d: Drawable = Drawable.createFromStream(ims, null)
 
                 itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(d)
-                itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.itemDesc
-                itemView.findViewById<TextView>(R.id.txtPrice).text = "$"+ cartItem.itemPrice
-                itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.itemQty.toString())
+                itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.foodDesc
+                itemView.findViewById<TextView>(R.id.txtPrice).text = "$"+ cartItem.foodPrice
+                itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.cartQty)
             }catch (e: Exception)
             {
                 Toast.makeText(myContext, e.message, Toast.LENGTH_LONG).show()

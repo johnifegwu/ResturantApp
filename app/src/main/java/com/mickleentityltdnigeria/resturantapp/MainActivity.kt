@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
+import com.mickleentityltdnigeria.resturantapp.service.CartService
+import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
 
@@ -22,14 +24,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        
+
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             AppGlobals.setAppContext(this)
             Snackbar.make(view, "Shopping Cart", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             try {
-                val intent = module.genIntentForShoppingCart(AppGlobals.getAppContext())
-                AppGlobals.StartActivity(intent)
+                if(module.isLoggedIn){
+                    val intent = module.genIntentForShoppingCart(AppGlobals.getAppContext())
+                    AppGlobals.StartActivity(intent)
+                }
             }catch (e: Exception) {
                 Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
             }
@@ -40,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         var cartChanged = CartItemChangedHandler {
             displayCartQty(it)
         }
-        module.shoppingCart.cartItemChanged.addListener(cartChanged)
+        Service.cart().Cart.cartItemChanged.addListener(cartChanged)
 
     }
 

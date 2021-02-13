@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.service.CartService;
+import com.mickleentityltdnigeria.resturantapp.service.Service;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +27,6 @@ import static android.widget.Toast.makeText;
 public class ShoppingCartActivity extends AppCompatActivity {
 
     //private final Context myContext = ApplicationContextProvider.getContext();
-
     TextView status;
 
     @Override
@@ -43,9 +44,9 @@ public class ShoppingCartActivity extends AppCompatActivity {
         };
 
         try {
-            module.shoppingCart.cartItemChanged.addListener(cartChanged);
+            Service.cart().Cart.cartItemChanged.addListener(cartChanged);
 
-            List<CartItem> cartItems = module.shoppingCart.getCartItemsX();
+            List<CartItem> cartItems = Service.cart().getCartItems(module.userName);
 
             //Reference of RecyclerView
             RecyclerView mRecyclerView = this.findViewById(R.id.shoppingCartRecyclerView);
@@ -81,7 +82,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
             RecyclerView mRecyclerView = this.findViewById(R.id.shoppingCartRecyclerView);
 
             //Create adapter
-            ShoppingCartAdapter adapter = new ShoppingCartAdapter(module.shoppingCart.getCartItemsX(), new CartRecyclerViewItemClickListener() {
+            ShoppingCartAdapter adapter = new ShoppingCartAdapter(Service.cart().Cart.getCartItems(module.userName), new CartRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClicked(@NotNull CartItem cartItem) {
 
@@ -98,7 +99,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     private void SetStatus(){
         DecimalFormat dc = new DecimalFormat("#,###,##0.00");
-        this.status.setText("Cart total: $"+ dc.format(module.shoppingCart.getCartTotal()));
+        this.status.setText("Cart total: $"+ dc.format(Service.cart().Cart.getCartTotal(module.userName)));
     }
 
     public void displayCartQty(int Qty, View v) {
