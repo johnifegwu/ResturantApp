@@ -6,7 +6,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="app_Title">Resturants</string>
+    <string name="app_Title">Bon Appétit</string>
+    <string name="home_slogan">Order your favorite food; And Pay only when the food is delivered.</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="img_desc">Special Meal</string>
@@ -30,4 +31,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="foodhubLogo">Food Hub</string>
+    <string name="Register">Register</string>
+    <string name="login">Login</string>
 </resources>

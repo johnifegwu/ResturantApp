@@ -1,4 +1,4 @@
-package com.mickleentityltdnigeria.resturantapp.data;
+package com.mickleentityltdnigeria.resturantapp.data.model;
 
 import java.io.Serializable;
 
@@ -17,11 +17,12 @@ public class User implements Serializable {
     private String zipCode;
     private String state;
     private String country;
+    private String deviceID;
+    private String userType;
 
     public User(){}
 
-    public User(int userID, String userName, String passWord, String firstName, String middleName,
-                String lastName, String eMail, String mobilePhone, String contactAddress, String city, String zipCode, String state, String country){
+    public User(int userID, String userName, String passWord, String firstName, String middleName, String lastName, String eMail, String mobilePhone, String contactAddress, String city, String zipCode, String state, String country, String deviceID, String userType) {
         this.userID = userID;
         this.userName = userName;
         this.passWord = passWord;
@@ -35,10 +36,27 @@ public class User implements Serializable {
         this.zipCode = zipCode;
         this.state = state;
         this.country = country;
-
+        this.deviceID = deviceID;
+        this.userType = userType;
     }
 
-   public void setUserID(int userID){
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(String deviceID) {
+        this.deviceID = deviceID;
+    }
+
+    public void setUserID(int userID){
         this.userID = userID;
    }
     public int getUserID(){
@@ -78,13 +96,6 @@ public class User implements Serializable {
     }
     public String getLastName(){
         return this.lastName;
-    }
-
-    public void setEMail(String eMail){
-        this.eMail = eMail;
-    }
-    public String getEMail(){
-        return this.eMail;
     }
 
     public void setMobilePhone(String mobilePhone){
@@ -127,5 +138,13 @@ public class User implements Serializable {
     }
     public String getCountry(){
         return this.country;
+    }
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
     }
 }

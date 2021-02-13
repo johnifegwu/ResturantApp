@@ -5,8 +5,6 @@ import android.content.Intent;
 
 import com.mickleentityltdnigeria.resturantapp.ShoppingCartActivity;
 import com.mickleentityltdnigeria.resturantapp.Show_Pic_Activity;
-import com.mickleentityltdnigeria.resturantapp.dalc.ShoppingCart;
-import com.mickleentityltdnigeria.resturantapp.dalc.UserDalc;
 
 public class module {
 
@@ -18,8 +16,7 @@ public class module {
         return  new Intent(c, ShoppingCartActivity.class);
     }
 
-    public static ShoppingCart shoppingCart = new ShoppingCart();
-
-    public static UserDalc userDalc = new UserDalc();
+    public static String userName = "";
+    public static boolean isLoggedIn = false;
 
 }

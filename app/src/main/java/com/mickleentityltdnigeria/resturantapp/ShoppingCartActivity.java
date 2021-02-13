@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.mickleentityltdnigeria.resturantapp.data.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.module;
 

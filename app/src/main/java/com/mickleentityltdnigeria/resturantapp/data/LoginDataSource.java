@@ -1,8 +1,10 @@
 package com.mickleentityltdnigeria.resturantapp.data;
 
 import com.mickleentityltdnigeria.resturantapp.data.model.LoggedInUser;
+import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserCredentialsException;
 import com.mickleentityltdnigeria.resturantapp.extensions.module;
+import com.mickleentityltdnigeria.resturantapp.service.UserService;
 
 import java.io.IOException;
 
@@ -12,12 +14,15 @@ import java.io.IOException;
 public class LoginDataSource {
 
     public Result<LoggedInUser> login(String username, String password) {
-
+        UserService service = new UserService();
         try {
-            if(module.userDalc.LogIn(username, password)){
-                LoggedInUser realUser = new LoggedInUser(java.util.UUID.randomUUID().toString(),
-                        module.userDalc.getUsers().get(0).getFirstName() + " " + module.userDalc.getUsers().get(0).getLastName()
+            if(service.LogIn(username, password)){
+                User user = service.getUserByName(username);
+                LoggedInUser realUser = new LoggedInUser( user.getUserName(),
+                        user.getFirstName() + " " + user.getLastName()
                 );
+                module.userName = user.getUserName();
+                module.isLoggedIn = true;
                 return new Result.Success<>(realUser);
             }else {
                 return new Result.Error(new IOException("Invalid userName or passWord."));
@@ -28,6 +33,8 @@ public class LoginDataSource {
     }
 
     public void logout() {
-        module.userDalc.LogOut();
+        new UserService().LogOut();
+        module.isLoggedIn = false;
+        module.userName = "";
     }
 }

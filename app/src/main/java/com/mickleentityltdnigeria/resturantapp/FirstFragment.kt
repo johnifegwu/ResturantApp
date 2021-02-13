@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.mickleentityltdnigeria.resturantapp.data.FoodItem
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.module
 
@@ -34,16 +34,66 @@ class FirstFragment : Fragment() {
         module.shoppingCart.cartItemChanged.addListener(cartChanged)
 
         val foodItems = listOf(
-            FoodItem(11, "meal1.jpg", "Bulgarian fish toast & veggie", 14.5),
-            FoodItem(12, "meal2.jpg", "Macaroni with tomato source", 10.89),
-            FoodItem(13, "meal3.jpg", "Italian pancake with honey", 12.99),
-            FoodItem(14, "meal4.jpg", "Mediterranean grill", 20.43),
-            FoodItem(15, "meal5.jpg", "Honey pancake", 7.99),
-            FoodItem(16, "meal6.jpg", "Chicken lap grill", 30.0),
-            FoodItem(17, "meal7.jpg", "Mediterranean chicken", 20.55),
-            FoodItem(18, "bugger1.jpg", "Continental pancake", 4.99),
-            FoodItem(19, "bugger2.jpg", "African pancake with strawberry cream", 8.99),
-            FoodItem(20, "bugger3.jpg", "Texas pancake with vanilla", 3.99)
+            FoodItem(
+                11,
+                "meal1.jpg",
+                "Bulgarian fish toast & veggie",
+                14.5
+            ),
+            FoodItem(
+                12,
+                "meal2.jpg",
+                "Macaroni with tomato source",
+                10.89
+            ),
+            FoodItem(
+                13,
+                "meal3.jpg",
+                "Italian pancake with honey",
+                12.99
+            ),
+            FoodItem(
+                14,
+                "meal4.jpg",
+                "Mediterranean grill",
+                20.43
+            ),
+            FoodItem(
+                15,
+                "meal5.jpg",
+                "Honey pancake",
+                7.99
+            ),
+            FoodItem(
+                16,
+                "meal6.jpg",
+                "Chicken lap grill",
+                30.0
+            ),
+            FoodItem(
+                17,
+                "meal7.jpg",
+                "Mediterranean chicken",
+                20.55
+            ),
+            FoodItem(
+                18,
+                "bugger1.jpg",
+                "Continental pancake",
+                4.99
+            ),
+            FoodItem(
+                19,
+                "bugger2.jpg",
+                "African pancake with strawberry cream",
+                8.99
+            ),
+            FoodItem(
+                20,
+                "bugger3.jpg",
+                "Texas pancake with vanilla",
+                3.99
+            )
         )
 
         //Reference of RecyclerView

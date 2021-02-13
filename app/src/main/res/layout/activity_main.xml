@@ -27,16 +27,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end">
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="78dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:contentDescription="@string/todo"
-        android:foreground="@drawable/cart1"
-        android:tooltipText="Shopping Cart"
-        app:fabSize="auto" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="78dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:contentDescription="@string/todo"
+            android:foreground="@drawable/cartpurple2"
+            android:tooltipText="Shopping Cart"
+            app:backgroundTint="@color/Background"
+            app:fabSize="auto" />
 
         <TextView
             android:id="@+id/txtCartQty"
@@ -46,7 +48,7 @@
             android:layout_margin="10dp"
             android:elevation="40dp"
             android:text="@string/Cart"
-            android:textColor="@color/purple_700"
+            android:textColor="#FF3D00"
             android:textSize="25sp"
             android:textStyle="bold" />
 
