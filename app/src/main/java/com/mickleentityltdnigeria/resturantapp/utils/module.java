@@ -1,4 +1,4 @@
-package com.mickleentityltdnigeria.resturantapp.extensions;
+package com.mickleentityltdnigeria.resturantapp.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,11 @@ public class module {
         return  new Intent(c, ShoppingCartActivity.class);
     }
 
+    public static final String UserTypeSELLER = "SELLER";
+    public static final String UserTypeCUSTOMER = "CUSTOMER";
+
     public static String userName = "";
     public static boolean isLoggedIn = false;
+    public static String userType = "";
 
 }

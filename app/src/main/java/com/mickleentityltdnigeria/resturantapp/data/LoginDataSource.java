@@ -3,7 +3,7 @@ package com.mickleentityltdnigeria.resturantapp.data;
 import com.mickleentityltdnigeria.resturantapp.data.model.LoggedInUser;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserCredentialsException;
-import com.mickleentityltdnigeria.resturantapp.extensions.module;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 import com.mickleentityltdnigeria.resturantapp.service.UserService;
 
 import java.io.IOException;
@@ -23,6 +23,8 @@ public class LoginDataSource {
                 );
                 module.userName = user.getUserName();
                 module.isLoggedIn = true;
+                module.userType = user.getUserType();
+                //
                 return new Result.Success<>(realUser);
             }else {
                 return new Result.Error(new IOException("Invalid userName or passWord."));

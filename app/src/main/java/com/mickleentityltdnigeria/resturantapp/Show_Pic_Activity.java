@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
-import com.mickleentityltdnigeria.resturantapp.extensions.module;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.io.InputStream;
 

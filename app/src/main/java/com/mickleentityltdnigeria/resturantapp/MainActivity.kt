@@ -1,8 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp
 
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
-import com.mickleentityltdnigeria.resturantapp.extensions.module
+import com.mickleentityltdnigeria.resturantapp.utils.module
 
 
 class MainActivity : AppCompatActivity() {

@@ -2,6 +2,9 @@ package com.mickleentityltdnigeria.resturantapp.utils;
 
 public class ImageHelper {
 
+    public ImageHelper() {
+    }
+
     public byte[] ScaleDown(String fileLocation) {
         try{
             byte[] result = null;

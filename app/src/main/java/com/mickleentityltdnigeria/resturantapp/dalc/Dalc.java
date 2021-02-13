@@ -7,7 +7,12 @@ public class Dalc {
     }
 
     public static CartDalc Cart(){
+
         return new CartDalc();
+    }
+
+    public static FoodDalc Food(){
+        return new FoodDalc();
     }
 
 }

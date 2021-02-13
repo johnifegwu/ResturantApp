@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
-import com.mickleentityltdnigeria.resturantapp.extensions.module
+import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.InputStream
 
 class ShoppingCartAdapter(

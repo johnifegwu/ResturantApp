@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
-import com.mickleentityltdnigeria.resturantapp.extensions.module
+import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.InputStream
 
 

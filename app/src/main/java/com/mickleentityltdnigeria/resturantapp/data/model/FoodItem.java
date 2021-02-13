@@ -10,18 +10,28 @@ public class FoodItem implements Serializable {
     private String foodDesc;
     private Double foodPrice;
     private byte[] foodImg;
+    private int userID;
 
     public FoodItem(){
 
     }
 
-    public FoodItem(int foodID, int resturantID, String foodImgUrl, String foodDesc, Double foodPrice, byte[] foodImg) {
+    public FoodItem(int foodID, int resturantID, String foodImgUrl, String foodDesc, Double foodPrice, byte[] foodImg, int userID) {
         this.foodID = foodID;
         this.resturantID = resturantID;
         this.foodImgUrl = foodImgUrl;
         this.foodDesc = foodDesc;
         this.foodPrice = foodPrice;
         this.foodImg = foodImg;
+        this.userID = userID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public int getFoodID() {
