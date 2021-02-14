@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
 import com.mickleentityltdnigeria.resturantapp.service.Service
@@ -45,20 +44,26 @@ class FirstFragment : Fragment() {
         this.txtsearchZipCode.setText(module.zipCode)
         btnSearch.setOnClickListener(View.OnClickListener {
             try {
-                foodItems = Service.food().SearchFoodItems(txtsearchString.text.toString(), txtsearchZipCode.text.toString())
-                //Reference of RecyclerView
-                val mRecyclerView:RecyclerView =  view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
+                if(txtsearchString.text.toString() != "" && txtsearchZipCode.text.toString() != "" ){
+                    foodItems = Service.food().SearchFoodItems(txtsearchString.text.toString(), txtsearchZipCode.text.toString())
+                    //Reference of RecyclerView
+                    val mRecyclerView:RecyclerView =  view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
 
-                //Create adapter
-                val adapter = ResturantsAdapter(foodItems,object : MyRecyclerViewItemClickListener {
-                    override fun onItemClicked(foodItem: FoodItem) {
+                    //Create adapter
+                    val adapter = FoodItemAdapter(foodItems,object : MyRecyclerViewItemClickListener {
+                        override fun onItemClicked(foodItem: FoodItem) {
 
-                    }
-                })
+                        }
+                    })
 
-                //Set adapter to RecyclerView
-                mRecyclerView.swapAdapter(adapter, false)
-                //
+                    //Set adapter to RecyclerView
+                    mRecyclerView.swapAdapter(adapter, false)
+                    //
+                }else{
+                    Snackbar.make(view, "Please enter a valid Zip-Code and the kind of food you would want to eat.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+
             } catch (e: java.lang.Exception) {
                 Toast.makeText(this.context, e.message, Toast.LENGTH_LONG).show()
             }
@@ -77,7 +82,7 @@ class FirstFragment : Fragment() {
         mRecyclerView.layoutManager = linearLayoutManager
 
         //Create adapter
-        val adapter = ResturantsAdapter(foodItems, object : MyRecyclerViewItemClickListener {
+        val adapter = FoodItemAdapter(foodItems, object : MyRecyclerViewItemClickListener {
             //Handling clicks
             override fun onItemClicked(foodItem: FoodItem) {
                 //do something here.

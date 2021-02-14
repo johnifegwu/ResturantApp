@@ -15,17 +15,16 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
-import com.mickleentityltdnigeria.resturantapp.service.CartService
 import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 
-class ResturantsAdapter(
+class FoodItemAdapter(
     private val foodItems: List<FoodItem>,
     itemClickListener: MyRecyclerViewItemClickListener
-) : RecyclerView.Adapter<ResturantsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<FoodItemAdapter.ViewHolder>() {
 
     private val myContext:Context = ApplicationContextProvider.getContext()
     private val assetManager: AssetManager = myContext.getAssets()
