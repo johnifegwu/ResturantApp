@@ -17,8 +17,9 @@ public class FoodLogic {
     public FoodLogic() {
     }
 
+    //Zip Codes derived from Resturant separated by spaces
     public void AddFoodItem(FoodItem foodItem) throws InvalidUserException {
-        if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
+        if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }
         Dalc.Food().AddFoodItem(foodItem);
@@ -50,8 +51,8 @@ public class FoodLogic {
         }
     }
 
-    public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode){
-        return Dalc.Food().SearchFoodItems(searchTerm,zipCode);
+    public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode,boolean isApproved){
+        return Dalc.Food().SearchFoodItems(searchTerm,zipCode, isApproved);
     }
 
     public List<FoodItem> getFoodItemsByUser(int userID) throws InvalidUserException {

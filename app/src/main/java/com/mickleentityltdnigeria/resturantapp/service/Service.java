@@ -15,5 +15,10 @@ public class Service {
     public static UserService user(){
         return new UserService();
     }
+
+    public static ResturantService resturant(){
+        return new ResturantService();
+    }
+
 }
 

@@ -25,7 +25,7 @@ public class FoodService {
         this.food.DeleteFoodItem(foodID);
     }
 
-    public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode){
+    public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode, boolean b){
         return this.food.SearchFoodItems(searchTerm, zipCode);
     }
 

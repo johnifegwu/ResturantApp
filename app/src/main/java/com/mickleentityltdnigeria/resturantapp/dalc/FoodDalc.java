@@ -10,6 +10,7 @@ public class FoodDalc {
     public FoodDalc() {
     }
 
+
     public void AddFoodItem(FoodItem foodItem){
         //TODO update database here.
 
@@ -25,7 +26,7 @@ public class FoodDalc {
 
     }
 
-    public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode){
+    public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode, boolean isApproved){
         //TODO update database here.
         List<FoodItem> foodItems =  new ArrayList<FoodItem>();
 

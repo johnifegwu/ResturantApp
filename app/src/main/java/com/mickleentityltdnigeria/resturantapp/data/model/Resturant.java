@@ -6,15 +6,17 @@ import java.util.Date;
 public class Resturant implements Serializable {
 
     private int resturantID;
+    private int userID;
     private String resturantName;
     private String resturantType;
+    private String resturantDescription;
     private String resturantLongitude;
     private String resturantLatitude;
     private byte[] resturantImg;
     private String resturantImgUrl;
     private String address;
     private String city;
-    private String zipCode;
+    private String zipCodes;
     private String state;
     private String country;
     private String contactPerson;
@@ -22,24 +24,28 @@ public class Resturant implements Serializable {
     private String email;
     private String websiteUrl;
     private boolean paid;
+    private boolean approved;
     private Date lastPaidDate;
     private double amountPaid;
     private String paymentChannel;
     private Date nextPaymentDueDate;
 
+
     public Resturant(){}
 
-    public Resturant(int resturantID, String resturantName, String resturantType, String resturantLongitude, String resturantLatitude, byte[] resturantImg, String resturantImgUrl, String address, String city, String zipCode, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
+    public Resturant(int resturantID,int userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, byte[] resturantImg, String resturantImgUrl, String address, String city, String zipCodes, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
         this.resturantID = resturantID;
+        this.userID = userID;
         this.resturantName = resturantName;
         this.resturantType = resturantType;
+        this.resturantDescription = resturantDescription;
         this.resturantLongitude = resturantLongitude;
         this.resturantLatitude = resturantLatitude;
         this.resturantImg = resturantImg;
         this.resturantImgUrl = resturantImgUrl;
         this.address = address;
         this.city = city;
-        this.zipCode = zipCode;
+        this.zipCodes = zipCodes;
         this.state = state;
         this.country = country;
         this.contactPerson = contactPerson;
@@ -47,6 +53,7 @@ public class Resturant implements Serializable {
         this.email = email;
         this.websiteUrl = websiteUrl;
         this.paid = paid;
+        this.approved = approved;
         this.lastPaidDate = lastPaidDate;
         this.amountPaid = amountPaid;
         this.paymentChannel = paymentChannel;
@@ -59,6 +66,14 @@ public class Resturant implements Serializable {
 
     public void setResturantID(int resturantID) {
         this.resturantID = resturantID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getResturantName() {
@@ -75,6 +90,14 @@ public class Resturant implements Serializable {
 
     public void setResturantType(String resturantType) {
         this.resturantType = resturantType;
+    }
+
+    public String getResturantDescription() {
+        return resturantDescription;
+    }
+
+    public void setResturantDescription(String resturantDescription) {
+        this.resturantDescription = resturantDescription;
     }
 
     public String getResturantLongitude() {
@@ -125,12 +148,12 @@ public class Resturant implements Serializable {
         this.city = city;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getZipCodes() {
+        return zipCodes;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZipCodes(String zipCodes) {
+        this.zipCodes = zipCodes;
     }
 
     public String getState() {
@@ -181,12 +204,20 @@ public class Resturant implements Serializable {
         this.websiteUrl = websiteUrl;
     }
 
-    public boolean isPaid() {
+    public boolean getPaid() {
         return paid;
     }
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public Date getLastPaidDate() {

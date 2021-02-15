@@ -20,13 +20,6 @@ public class UserDalc {
        //TODO add user to the database.
     }
 
-    public User getUserByName(String userName){
-        User user = new User();
-        //TODO get the user from database
-
-        return user;
-    }
-
     public void UpdateUser(User user){
         //TODO do the updates here
 
@@ -35,6 +28,20 @@ public class UserDalc {
     public void DeleteUser(int userID){
         //TODO do the delete here.
 
+    }
+
+    public User getUserByName(String userName){
+        User user = new User();
+        //TODO get the user from database
+
+        return user;
+    }
+
+    public User getUserByID(int userID){
+        User user = new User();
+        //TODO get the user from database
+
+        return user;
     }
 
 }

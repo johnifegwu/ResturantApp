@@ -45,7 +45,7 @@ class FirstFragment : Fragment() {
         btnSearch.setOnClickListener(View.OnClickListener {
             try {
                 if(txtsearchString.text.toString() != "" && txtsearchZipCode.text.toString() != "" ){
-                    foodItems = Service.food().SearchFoodItems(txtsearchString.text.toString(), txtsearchZipCode.text.toString())
+                    foodItems = Service.food().SearchFoodItems(txtsearchString.text.toString(), txtsearchZipCode.text.toString(), true)
                     //Reference of RecyclerView
                     val mRecyclerView:RecyclerView =  view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
 
