@@ -20,5 +20,9 @@ public class Service {
         return new ResturantService();
     }
 
+    public static AddressService address(){
+        return new AddressService();
+    }
+
 }
 

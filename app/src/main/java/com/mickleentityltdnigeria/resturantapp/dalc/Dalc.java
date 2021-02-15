@@ -8,6 +8,12 @@ public class Dalc {
         //
     }
 
+    public static AddressDalc Address() {
+        //
+        return new AddressDalc();
+        //
+    }
+
     public static CartDalc Cart() {
         //
         return new CartDalc();

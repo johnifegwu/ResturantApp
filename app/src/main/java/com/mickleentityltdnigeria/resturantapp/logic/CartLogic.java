@@ -2,11 +2,11 @@ package com.mickleentityltdnigeria.resturantapp.logic;
 
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
+import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserException;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CartLogic {
@@ -16,8 +16,10 @@ public class CartLogic {
     public CartLogic() {
     }
 
-    public void AddCartItem(CartItem cartItem, String userName)
-    {
+    public void AddCartItem(CartItem cartItem, String userName) throws InvalidUserException {
+        if(module.isLoggedIn = false){
+            throw new InvalidUserException();
+        }
         //
         Dalc.Cart().AddCartItem(cartItem);
         //
@@ -26,8 +28,10 @@ public class CartLogic {
         }
     }
 
-    public void UpdateCartItem(int cartID, int Qty, String userName)
-    {
+    public void UpdateCartItem(int cartID, int Qty, String userName) throws InvalidUserException {
+        if(module.isLoggedIn = false){
+            throw new InvalidUserException();
+        }
         if(Qty > 0) {
             CartItem cartItem = Dalc.Cart().getCartItemByID(cartID);
             cartItem.setCartQty(Qty);
@@ -40,8 +44,10 @@ public class CartLogic {
         }
     }
 
-    public void DeleteCartItem(int cartID, String userName)
-    {
+    public void DeleteCartItem(int cartID, String userName) throws InvalidUserException {
+        if(module.isLoggedIn = false){
+            throw new InvalidUserException();
+        }
         Dalc.Cart().DeleteCart(cartID);
         for (CartItemChangedHandler listener : cartItemChanged.listeners())
         {

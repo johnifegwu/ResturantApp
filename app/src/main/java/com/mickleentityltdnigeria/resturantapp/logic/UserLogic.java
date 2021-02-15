@@ -5,9 +5,11 @@ import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.DuplicateUserException;
 import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserCredentialsException;
+import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserException;
 import com.mickleentityltdnigeria.resturantapp.exceptions.RequiredFiledException;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +40,17 @@ public class UserLogic {
         }
     }
 
-    public void UpdateUser(User user) {
+    public void UpdateUser(User user) throws InvalidUserException {
+        if(module.isLoggedIn = false){
+            throw new InvalidUserException();
+        }
         Dalc.User().UpdateUser(user);
     }
 
-    public void DeleteUser(int userID){
+    public void DeleteUser(int userID) throws InvalidUserException {
+        if((!module.userType.equals(module.UserTypeSUPPER)) || (module.isLoggedIn = false)){
+            throw new InvalidUserException();
+        }
         Dalc.User().DeleteUser(userID);
     }
 
