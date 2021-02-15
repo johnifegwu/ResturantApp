@@ -2,11 +2,21 @@ package com.mickleentityltdnigeria.resturantapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Scanner;
+
+import static com.mickleentityltdnigeria.resturantapp.utils.PasswordValidator.ValidatePassword;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,12 +25,10 @@ import android.view.ViewGroup;
  */
 public class RegisterUserFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -60,5 +68,32 @@ public class RegisterUserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register_user, container, false);
+    }
+
+    EditText txtPassword;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.btnRegisterCustomerUser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               txtPassword = view.findViewById(R.id.txtCustomerPassword);
+               try {
+                   if (!ValidatePassword(txtPassword.getText().toString(), 8, 20))
+                   {
+                      throw new Exception("Password must be between 8 to 20 characters, \n have at leaton Capital Letter and one special character.");
+                   }
+
+               } catch (Exception e) {
+                   Snackbar.make(view , e.getMessage(), Snackbar.LENGTH_LONG)
+                           .setAction("Action", null).show();
+               }
+
+                NavHostFragment.findNavController(new RegisterUserFragment())
+                        .navigate(R.id.action_registerUserFragment_to_LoginFragment);
+            }
+        });
+
     }
 }

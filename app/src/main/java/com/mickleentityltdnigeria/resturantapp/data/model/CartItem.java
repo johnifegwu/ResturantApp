@@ -10,6 +10,7 @@ public class CartItem implements Serializable {
     private int userID;
     private byte[] foodImg;
     private Double foodPrice;
+    private String currency;
     private String foodDesc;
     private String foodImgUrl;
     private int cartQty;
@@ -18,16 +19,25 @@ public class CartItem implements Serializable {
 
     }
 
-    public CartItem(int cartID, int foodID, int resturantID, int userID, byte[] foodImg, Double foodPrice, String foodDesc, String foodImgUrl, int cartQty) {
+    public CartItem(int cartID, int foodID, int resturantID, int userID, byte[] foodImg, Double foodPrice, String currency, String foodDesc, String foodImgUrl, int cartQty) {
         this.cartID = cartID;
         this.foodID = foodID;
         this.resturantID = resturantID;
         this.userID = userID;
         this.foodImg = foodImg;
         this.foodPrice = foodPrice;
+        this.currency = currency;
         this.foodDesc = foodDesc;
         this.foodImgUrl = foodImgUrl;
         this.cartQty = cartQty;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public int getResturantID() {

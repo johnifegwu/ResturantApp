@@ -39,4 +39,16 @@
     <string name="SearchHint">What would you like to eat?</string>
     <string name="zip_code">Zip Code</string>
     <string name="search">Search</string>
+    <string name="sing_up">Sing Up</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_e_mail_address">Enter your E-mail address</string>
+    <string name="first_name">First name</string>
+    <string name="middle_name">Middle name</string>
+    <string name="last_name">Last name</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="state_resgion">State / Resgion</string>
+    <string name="country">Country</string>
 </resources>

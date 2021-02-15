@@ -21,6 +21,52 @@ public class UserLogic {
     private List<User> users = new ArrayList<User>();
     private boolean isLoggedIn = false;
 
+    public void Add_SELLER_User(User user) throws RequiredFiledException, DuplicateUserException, InvalidUserException {
+        if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
+            throw new InvalidUserException();
+        }
+        //check required fields
+        if (user.getUserName() == "" || user.getPassWord() == "") {
+            throw new RequiredFiledException("Please complete all required fields.");
+        }
+        //check if user data already exists.
+        User user2 = Dalc.User().getUserByName(user.getUserName());
+        //
+        if (checkDuplicateUser(user, user2)) {
+            throw new DuplicateUserException("User " + user.getUserName() + " already exists in the system.");
+        }
+        //add new user
+        user.setUserType(module.UserTypeSELLER);
+        Dalc.User().AddUser(user);
+        //raise event
+        for (UserUpdatedHandler listener : userDataChanged.listeners()) {
+            listener.invoke(user.getUserName());
+        }
+    }
+
+    public void Add_SUPPER_User(User user) throws RequiredFiledException, DuplicateUserException, InvalidUserException {
+        if((!module.userType.equals(module.UserTypeSUPPER)) || (module.isLoggedIn = false)){
+            throw new InvalidUserException();
+        }
+        //check required fields
+        if (user.getUserName() == "" || user.getPassWord() == "") {
+            throw new RequiredFiledException("Please complete all required fields.");
+        }
+        //check if user data already exists.
+        User user2 = Dalc.User().getUserByName(user.getUserName());
+        //
+        if (checkDuplicateUser(user, user2)) {
+            throw new DuplicateUserException("User " + user.getUserName() + " already exists in the system.");
+        }
+        //add new user
+        user.setUserType(module.UserTypeSUPPER);
+        Dalc.User().AddUser(user);
+        //raise event
+        for (UserUpdatedHandler listener : userDataChanged.listeners()) {
+            listener.invoke(user.getUserName());
+        }
+    }
+
     public void AddUser(User user) throws RequiredFiledException, DuplicateUserException {
         //check required fields
         if (user.getUserName() == "" || user.getPassWord() == "") {

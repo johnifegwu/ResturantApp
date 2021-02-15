@@ -52,7 +52,7 @@ public class Show_Pic_Activity extends AppCompatActivity {
                 Drawable d = Drawable.createFromStream(ims, null);
                 this.foodImg.setImageDrawable(d);
                 this.foodText.setText(foodItem.getFoodDesc());
-                this.foodPrice.setText("$"+foodItem.getFoodPrice());
+                this.foodPrice.setText(foodItem.getCurrency()+foodItem.getFoodPrice());
             }catch (Exception e){
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }

@@ -32,4 +32,8 @@ public class Dalc {
         //
     }
 
+    public static FoodOrderDalc Order(){
+        return new FoodOrderDalc();
+    }
+
 }

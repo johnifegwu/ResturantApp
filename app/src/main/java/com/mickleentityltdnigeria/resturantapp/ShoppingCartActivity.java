@@ -19,7 +19,9 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.widget.Toast.makeText;
@@ -28,6 +30,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     //private final Context myContext = ApplicationContextProvider.getContext();
     TextView status;
+    List<CartItem> cartItems = new ArrayList<CartItem>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         try {
             Service.cart().Cart.cartItemChanged.addListener(cartChanged);
 
-            List<CartItem> cartItems = Service.cart().getCartItems(module.userName);
+            this.cartItems = Service.cart().getCartItems(module.userName);
 
             //Reference of RecyclerView
             RecyclerView mRecyclerView = this.findViewById(R.id.shoppingCartRecyclerView);
@@ -71,7 +74,9 @@ public class ShoppingCartActivity extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }finally {
-            SetStatus();
+            String currency = "$";
+            if(this.cartItems.size()>0) currency = this.cartItems.get(0).getCurrency();
+            SetStatus(currency);
         }
 
     }
@@ -82,7 +87,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
             RecyclerView mRecyclerView = this.findViewById(R.id.shoppingCartRecyclerView);
 
             //Create adapter
-            ShoppingCartAdapter adapter = new ShoppingCartAdapter(Service.cart().Cart.getCartItems(module.userName), new CartRecyclerViewItemClickListener() {
+            this.cartItems = Service.cart().Cart.getCartItems(module.userName);
+            ShoppingCartAdapter adapter = new ShoppingCartAdapter(cartItems, new CartRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClicked(@NotNull CartItem cartItem) {
 
@@ -97,16 +103,20 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     }
 
-    private void SetStatus(){
+    private void SetStatus(String currency){
         DecimalFormat dc = new DecimalFormat("#,###,##0.00");
-        this.status.setText("Cart total: $"+ dc.format(Service.cart().Cart.getCartTotal(module.userName)));
+        this.status.setText("Cart total: "+ currency +  dc.format(Service.cart().Cart.getCartTotal(module.userName)));
     }
 
     public void displayCartQty(int Qty, View v) {
         Snackbar.make(v, "" + Qty + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         updateAdapter();
-        SetStatus();
+        String currency = "$";
+        if(this.cartItems.size()>0){
+            currency = this.cartItems.get(0).getCurrency();
+        }
+        SetStatus(currency);
         //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
     }
 }

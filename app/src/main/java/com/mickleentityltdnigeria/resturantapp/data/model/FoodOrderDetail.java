@@ -7,34 +7,46 @@ public class FoodOrderDetail implements Serializable {
 
     private int ID;
     private int oderID;
+    private int userID;
     private int foodID;
     private int resturantID;
     private double foodPrice;
     private String currency;
     private double foodQty;
     private boolean isPaid;
+    private double amountPaid;
+    private double changeGiven;
+    private String paymentDescription;
     private boolean isShipped;
     private Date dateShipped;
     private String shippedBy;
     private boolean isDelivered;
     private Date dateDelivered;
     private String deliveredBy;
+    private String collectedBy;
+    private boolean isCanceled;
 
-    public FoodOrderDetail(int ID, int oderID, int foodID, int resturantID, double foodPrice, String currency, double foodQty, boolean isPaid, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy) {
+    public FoodOrderDetail(int ID, int oderID, int userID, int foodID, int resturantID, double foodPrice, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled) {
         this.ID = ID;
         this.oderID = oderID;
+        this.userID = userID;
         this.foodID = foodID;
         this.resturantID = resturantID;
         this.foodPrice = foodPrice;
         this.currency = currency;
         this.foodQty = foodQty;
         this.isPaid = isPaid;
+        this.amountPaid = amountPaid;
+        this.changeGiven = changeGiven;
+        this.paymentDescription = paymentDescription;
         this.isShipped = isShipped;
         this.dateShipped = dateShipped;
         this.shippedBy = shippedBy;
         this.isDelivered = isDelivered;
         this.dateDelivered = dateDelivered;
         this.deliveredBy = deliveredBy;
+        this.collectedBy = collectedBy;
+        this.isCanceled = isCanceled;
     }
 
     public int getID() {
@@ -51,6 +63,14 @@ public class FoodOrderDetail implements Serializable {
 
     public void setOderID(int oderID) {
         this.oderID = oderID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public int getFoodID() {
@@ -101,6 +121,30 @@ public class FoodOrderDetail implements Serializable {
         isPaid = paid;
     }
 
+    public double getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(double amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    public double getChangeGiven() {
+        return changeGiven;
+    }
+
+    public void setChangeGiven(double changeGiven) {
+        this.changeGiven = changeGiven;
+    }
+
+    public String getPaymentDescription() {
+        return paymentDescription;
+    }
+
+    public void setPaymentDescription(String paymentDescription) {
+        this.paymentDescription = paymentDescription;
+    }
+
     public boolean isShipped() {
         return isShipped;
     }
@@ -147,6 +191,22 @@ public class FoodOrderDetail implements Serializable {
 
     public void setDeliveredBy(String deliveredBy) {
         this.deliveredBy = deliveredBy;
+    }
+
+    public String getCollectedBy() {
+        return collectedBy;
+    }
+
+    public void setCollectedBy(String collectedBy) {
+        this.collectedBy = collectedBy;
+    }
+
+    public boolean isCanceled() {
+        return isCanceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        isCanceled = canceled;
     }
 
 }
