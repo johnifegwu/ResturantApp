@@ -26,7 +26,7 @@ public class FoodService {
     }
 
     public List<FoodItem> SearchFoodItems(String searchTerm, String zipCode, boolean b){
-        return this.food.SearchFoodItems(searchTerm, zipCode);
+        return this.food.SearchFoodItems(searchTerm, zipCode,b);
     }
 
     public List<FoodItem> getFoodItemsByUser(int userID) throws InvalidUserException {

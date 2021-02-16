@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
@@ -54,14 +55,15 @@ class FoodItemAdapter(
         })
 
         myViewHolder.itemView.findViewById<ImageView>(R.id.imgFood).setOnClickListener(View.OnClickListener {
-            val intent = module.genIntentForShowPic(it.context)
+            //
             try {
                val fooditem = foodItems.get(myViewHolder.getLayoutPosition())
                Toast.makeText(it.context, fooditem.foodDesc, Toast.LENGTH_SHORT).show()
-               intent.putExtra("payLoad",fooditem)
-               startActivity(it.context,intent,null)
+                NavHostFragment.findNavController(ShowPictureFragment(fooditem))
+                    .navigate(R.id.action_FirstFragment_to_showPictureFragment)
+               /*intent.putExtra("payLoad",fooditem)
+               startActivity(it.context,intent,null)*/
            }finally {
-               getActivity(it.context,intent.hashCode(),intent,intent.flags).cancel()
            }
 
         })
@@ -118,5 +120,5 @@ class FoodItemAdapter(
 
 //RecyclerView Click Listener
 interface MyRecyclerViewItemClickListener {
-    fun onItemClicked(fooditem: FoodItem)
+    fun onItemClicked(f: FoodItem)
 }

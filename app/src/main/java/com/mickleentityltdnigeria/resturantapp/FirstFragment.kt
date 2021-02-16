@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,7 @@ class FirstFragment : Fragment() {
     lateinit var txtsearchString:EditText
     lateinit var txtsearchZipCode:EditText
     lateinit var btnSearch:Button
+    lateinit var progress:ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,11 +40,15 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        this.progress = view.findViewById<ProgressBar>(R.id.progressBarSearch)
+        this.progress.visibility = View.VISIBLE
+        //
         this.btnSearch = view.findViewById<Button>(R.id.btnSearch)
         this.txtsearchString = view.findViewById<EditText>(R.id.txtSearchString)
         this.txtsearchZipCode = view.findViewById<EditText>(R.id.txtSearchZipCode)
         this.txtsearchZipCode.setText(module.zipCode)
         btnSearch.setOnClickListener(View.OnClickListener {
+            this.progress.visibility = View.VISIBLE
             try {
                 if(txtsearchString.text.toString() != "" && txtsearchZipCode.text.toString() != "" ){
                     foodItems = Service.food().SearchFoodItems(txtsearchString.text.toString(), txtsearchZipCode.text.toString(), true)
@@ -51,7 +57,7 @@ class FirstFragment : Fragment() {
 
                     //Create adapter
                     val adapter = FoodItemAdapter(foodItems,object : MyRecyclerViewItemClickListener {
-                        override fun onItemClicked(foodItem: FoodItem) {
+                        override fun onItemClicked(f: FoodItem) {
 
                         }
                     })
@@ -67,6 +73,7 @@ class FirstFragment : Fragment() {
             } catch (e: java.lang.Exception) {
                 Toast.makeText(this.context, e.message, Toast.LENGTH_LONG).show()
             }
+            this.progress.visibility = View.GONE
         })
         // Register interest in the CartItem Change.
         val cartChanged = CartItemChangedHandler { qty -> displayCartQty(qty, view) }
@@ -84,7 +91,7 @@ class FirstFragment : Fragment() {
         //Create adapter
         val adapter = FoodItemAdapter(foodItems, object : MyRecyclerViewItemClickListener {
             //Handling clicks
-            override fun onItemClicked(foodItem: FoodItem) {
+            override fun onItemClicked(f: FoodItem) {
                 //do something here.
             }
 
@@ -92,7 +99,7 @@ class FirstFragment : Fragment() {
 
         //Set adapter to RecyclerView
         mRecyclerView.adapter = adapter
-
+        this.progress.visibility = View.GONE
     }
 
     private fun displayCartQty(Qty: Int, v: View?) {

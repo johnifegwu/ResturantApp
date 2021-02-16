@@ -38,18 +38,11 @@
         tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.mickleentityltdnigeria.resturantapp.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+            android:id="@+id/action_FirstFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment" />
         <action
-            android:id="@+id/action_SecondFragment_to_HomeFragment"
-            app:destination="@id/HomeFragment" />
+            android:id="@+id/action_FirstFragment_to_showPictureFragment"
+            app:destination="@id/showPictureFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerUserFragment"
@@ -62,5 +55,44 @@
         <action
             android:id="@+id/action_registerUserFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.ShoppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart" >
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_checkOutFragment"
+            app:destination="@id/checkOutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkOutFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.CheckOutFragment"
+        android:label="fragment_check_out"
+        tools:layout="@layout/fragment_check_out" >
+        <action
+            android:id="@+id/action_checkOutFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_checkOutFragment_to_newShippingAddressFragment"
+            app:destination="@id/newShippingAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newShippingAddressFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.NewShippingAddressFragment"
+        android:label="fragment_new_shipping_address"
+        tools:layout="@layout/fragment_new_shipping_address" >
+        <action
+            android:id="@+id/action_newShippingAddressFragment_to_checkOutFragment"
+            app:destination="@id/checkOutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showPictureFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.ShowPictureFragment"
+        android:label="fragment_show_picture"
+        tools:layout="@layout/fragment_show_picture" >
+        <action
+            android:id="@+id/action_showPictureFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

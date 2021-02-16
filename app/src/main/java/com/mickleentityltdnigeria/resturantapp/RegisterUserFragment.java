@@ -1,5 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,14 +8,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Scanner;
+import com.mickleentityltdnigeria.resturantapp.data.model.User;
+import com.mickleentityltdnigeria.resturantapp.service.Service;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import static com.mickleentityltdnigeria.resturantapp.utils.PasswordValidator.ValidatePassword;
 
@@ -70,30 +74,67 @@ public class RegisterUserFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register_user, container, false);
     }
 
-    EditText txtPassword;
-
+    EditText txtPassword, txtFirstName, txtMiddleName, txtLastName, txtEmail, txtPhone, txtConfirm, txtAddress, txtCity, txtZipCode, txtState, txtCountry;
+    ProgressBar progress;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progress = view.findViewById(R.id.progressBarRegister);
+        this.progress.setVisibility( View.VISIBLE);
+        txtPassword = view.findViewById(R.id.txtCustomerPassword);
+        txtFirstName = view.findViewById(R.id.txtCustomerFirstName);
+        txtMiddleName = view.findViewById(R.id.txtCustomerMiddleName);
+        txtLastName = view.findViewById(R.id.txtCustomerLastName);
+        txtEmail = view.findViewById(R.id.txtCustomerEmail);
+        txtPhone = view.findViewById(R.id.txtCustomerPhone);
+        txtConfirm = view.findViewById(R.id.txtConfirmCustomerPassword);
+        txtAddress = view.findViewById(R.id.txtCustomerAddress);
+        txtCity = view.findViewById(R.id.txtCustomerCity);
+        txtZipCode = view.findViewById(R.id.txtCustomerZipCode);
+        txtState = view.findViewById(R.id.txtCustomerState);
+        txtCountry = view.findViewById(R.id.txtCustomerCountry);
         view.findViewById(R.id.btnRegisterCustomerUser).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               txtPassword = view.findViewById(R.id.txtCustomerPassword);
+                //
+                progress.setVisibility( View.VISIBLE);
                try {
                    if (!ValidatePassword(txtPassword.getText().toString(), 8, 20))
                    {
-                      throw new Exception("Password must be between 8 to 20 characters, \n have at leaton Capital Letter and one special character.");
+                       txtPassword.requestFocus();
+                      throw new Exception("Password must be between 8 to 20 characters, \n have at least one Capital Letter and one special character.");
                    }
-
+                   if(!txtPassword.getText().equals(txtConfirm.getText())){
+                       txtConfirm.requestFocus();
+                       throw new Exception("Password did not match.");
+                   }
+                   if(txtEmail.getText().toString() == ""){
+                       txtEmail.requestFocus();
+                       throw new Exception("Fill all required fields.");
+                   }
+                   if(txtZipCode.getText().toString() == ""){
+                       txtZipCode.requestFocus();
+                       throw new Exception("Fill all required fields.");
+                   }
+                   String deviceID = Settings.Secure.getString(view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                   User user = new User(-1,txtEmail.getText().toString(),txtPassword.getText().toString(),
+                           txtFirstName.getText().toString(),txtMiddleName.getText().toString(),txtLastName.getText().toString(),
+                           txtEmail.getText().toString(),txtPhone.getText().toString(),txtAddress.getText().toString(), txtCity.getText().toString(),
+                           txtZipCode.getText().toString(),txtState.getText().toString(),txtCountry.getText().toString(),deviceID, module.UserTypeCUSTOMER);
+                   //Save new User to the system.
+                   Service.user().User.AddUser(user);
+                   //
+                   Snackbar.make(view , "Sign Up successful. \n You can now login.", Snackbar.LENGTH_LONG)
+                           .setAction("Action", null).show();
+                   NavHostFragment.findNavController(new RegisterUserFragment())
+                           .navigate(R.id.action_registerUserFragment_to_LoginFragment);
                } catch (Exception e) {
                    Snackbar.make(view , e.getMessage(), Snackbar.LENGTH_LONG)
                            .setAction("Action", null).show();
                }
-
-                NavHostFragment.findNavController(new RegisterUserFragment())
-                        .navigate(R.id.action_registerUserFragment_to_LoginFragment);
+                progress.setVisibility( View.GONE);
             }
         });
-
+        this.progress.setVisibility( View.GONE);
     }
 }

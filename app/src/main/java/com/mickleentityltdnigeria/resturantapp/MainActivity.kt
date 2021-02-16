@@ -7,10 +7,10 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
-import com.mickleentityltdnigeria.resturantapp.service.CartService
 import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
@@ -31,8 +31,10 @@ class MainActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
             try {
                 if(module.isLoggedIn){
-                    val intent = module.genIntentForShoppingCart(AppGlobals.getAppContext())
-                    AppGlobals.StartActivity(intent)
+                    NavHostFragment.findNavController(ShoppingCartFragment())
+                        .navigate(R.id.action_FirstFragment_to_shoppingCartFragment)
+                    /*val intent = module.genIntentForShoppingCart(AppGlobals.getAppContext())
+                    AppGlobals.StartActivity(intent)*/
                 }
             }catch (e: Exception) {
                 Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()

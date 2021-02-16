@@ -51,4 +51,7 @@
     <string name="city">City</string>
     <string name="state_resgion">State / Resgion</string>
     <string name="country">Country</string>
+    <string name="mobile_phone_number">Mobile phone number</string>
+    <string name="checkout">Checkout</string>
+    <string name="select">Select</string>
 </resources>
