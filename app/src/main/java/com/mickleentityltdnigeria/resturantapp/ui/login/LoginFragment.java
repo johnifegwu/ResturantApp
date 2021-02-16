@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mickleentityltdnigeria.resturantapp.R;
+import com.mickleentityltdnigeria.resturantapp.data.LoginDataSource;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 public class LoginFragment extends Fragment {
@@ -46,6 +47,7 @@ public class LoginFragment extends Fragment {
         final EditText usernameEditText = view.findViewById(R.id.username);
         final EditText passwordEditText = view.findViewById(R.id.password);
         final Button loginButton = view.findViewById(R.id.login);
+        final Button registerButton = view.findViewById(R.id.btnLoginRegister);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this.getViewLifecycleOwner(), new Observer<LoginFormState>() {
@@ -55,6 +57,7 @@ public class LoginFragment extends Fragment {
                     return;
                 }
                 loginButton.setEnabled(loginFormState.isDataValid());
+                registerButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
@@ -121,6 +124,13 @@ public class LoginFragment extends Fragment {
                     Navigation.findNavController(view)
                             .navigate(R.id.action_LoginFragment_to_FirstFragment);
                 }
+            }
+        });
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view)
+                            .navigate(R.id.action_LoginFragment_to_registerUserFragment);
             }
         });
     }

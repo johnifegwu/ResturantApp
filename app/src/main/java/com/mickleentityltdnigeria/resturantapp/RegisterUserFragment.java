@@ -138,6 +138,7 @@ public class RegisterUserFragment extends Fragment {
                 progress.setVisibility( View.GONE);
             }
         });
+        txtEmail.requestFocus();
         this.progress.setVisibility( View.GONE);
     }
 }

@@ -115,9 +115,9 @@ public class ShoppingCartFragment extends Fragment {
             }
         };
 
+        Service.cart().Cart.cartItemChanged.addListener(cartChanged);
 
         try {
-            Service.cart().Cart.cartItemChanged.addListener(cartChanged);
 
             this.cartItems = Service.cart().getCartItems(module.userName);
 
@@ -141,12 +141,12 @@ public class ShoppingCartFragment extends Fragment {
             //Set adapter to RecyclerView
             mRecyclerView.setAdapter(adapter);
             //
-        }catch (Exception e){
-            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }finally {
             String currency = "$";
             if(this.cartItems.size()>0) currency = this.cartItems.get(0).getCurrency();
             SetStatus(currency);
+            //
+        }catch (Exception e){
+            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
         this.progress.setVisibility( View.GONE);
     }

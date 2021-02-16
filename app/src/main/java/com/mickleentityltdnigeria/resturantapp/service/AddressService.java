@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AddressService {
 
-    AddressLogic address = new AddressLogic();
+    public AddressLogic address = new AddressLogic();
 
     public AddressService() {
     }

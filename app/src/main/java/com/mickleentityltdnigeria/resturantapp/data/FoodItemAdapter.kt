@@ -7,10 +7,7 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
@@ -28,6 +25,7 @@ class FoodItemAdapter(
     itemClickListener: MyRecyclerViewItemClickListener
 ) : RecyclerView.Adapter<FoodItemAdapter.ViewHolder>() {
 
+    private lateinit var progress: ProgressBar
     private val myContext:Context = ApplicationContextProvider.getContext()
     private val assetManager: AssetManager = myContext.getAssets()
     private val mItemClickListener: MyRecyclerViewItemClickListener = itemClickListener
@@ -45,18 +43,21 @@ class FoodItemAdapter(
                 foodItems.get(myViewHolder.getLayoutPosition())
             )
         })
+        progress = myViewHolder.itemView.findViewById<ProgressBar>(R.id.progressBarFoodRow)
 
         myViewHolder.itemView.findViewById<Button>(R.id.btnAdd).setOnClickListener(View.OnClickListener {
+            progress.visibility = View.VISIBLE
             try {
                 addToCart(1, foodItems.get(myViewHolder.getLayoutPosition()))
             }catch (e: Exception){
-                //Toast.makeText(it.context, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(it.context, e.message, Toast.LENGTH_LONG).show()
             }
-
+            progress.visibility = View.GONE
         })
 
         myViewHolder.itemView.findViewById<ImageView>(R.id.imgFood).setOnClickListener(View.OnClickListener {
             //
+            progress.visibility = View.VISIBLE
             try {
                val fooditem = foodItems.get(myViewHolder.getLayoutPosition())
                Toast.makeText(it.context, fooditem.foodDesc, Toast.LENGTH_SHORT).show()
@@ -65,7 +66,7 @@ class FoodItemAdapter(
                     .navigate(R.id.action_FirstFragment_to_showPictureFragment)
            }finally {
            }
-
+            progress.visibility = View.GONE
         })
 
         return myViewHolder

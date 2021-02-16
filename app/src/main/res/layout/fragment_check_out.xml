@@ -17,10 +17,10 @@
         android:ems="10"
         android:hint="@string/city"
         android:inputType="textPersonName"
-        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/txtPlaceOrderZipCode"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderAddress"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/txtPlaceOrderState"
@@ -32,10 +32,10 @@
         android:ems="10"
         android:hint="@string/state_resgion"
         android:inputType="textPersonName"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderCity" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderCity"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/txtPlaceOrderCountry"
@@ -47,11 +47,11 @@
         android:ems="10"
         android:hint="@string/country"
         android:inputType="textPersonName"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderState" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderState"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/txtPlaceOrderZipCode"
@@ -62,9 +62,9 @@
         android:ems="10"
         android:hint="@string/zip_code"
         android:inputType="textPersonName"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderAddress"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/txtCartStatus3"
@@ -73,7 +73,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="#DCD6E3"
-        android:text="Shipping Address"
+        android:text="@string/shipping_address"
         android:textAlignment="textStart"
         android:textColor="@color/purple_700"
         android:textSize="20sp"
@@ -82,8 +82,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
+    <Spinner
+        android:id="@+id/spinerPlaceOderAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:drawSelectorOnTop="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCartStatus3"
+        tools:ignore="InvalidId" />
+
     <TextView
-        android:id="@+id/txtCartStatus4"
+        android:id="@+id/txtOrderCartStatus"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
@@ -107,7 +120,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="#DCD6E3"
-        android:text="Payment Address"
+        android:text="@string/payment_address"
         android:textAlignment="textStart"
         android:textColor="@color/purple_700"
         android:textSize="20sp"
@@ -137,10 +150,10 @@
         android:ems="10"
         android:hint="@string/address"
         android:inputType="textPersonName"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCartStatus2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCartStatus2"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/btnPlaceOrder"
@@ -149,26 +162,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Place Order"
-        android:textSize="20sp"
+        android:text="@string/place_order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtCartStatus4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCartStatus3" />
 
     <Button
         android:id="@+id/btnAddShippingAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="@+id/txtCartStatus3"
         app:layout_constraintEnd_toEndOf="@+id/txtCartStatus3"
         app:layout_constraintTop_toTopOf="@+id/txtCartStatus3" />
@@ -179,9 +182,87 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/txtCartStatus4"
+        app:layout_constraintBottom_toBottomOf="@+id/txtOrderCartStatus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtCartStatus2" />
+
+    <EditText
+        android:id="@+id/txtPlaceOrderShiipingAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/address"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinerPlaceOderAddress"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtPlaceOrderShiipingCity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/city"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/txtPlaceOrderShiipingZipCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingAddress"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtPlaceOrderShiipingZipCode"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/zip_code"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingAddress"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtPlaceOrderShiipingState"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/state_resgion"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingCity"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtPlaceOrderShiipingCountry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/country"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingState" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

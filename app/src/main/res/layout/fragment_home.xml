@@ -29,7 +29,6 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/Register"
         android:text="@string/Register"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnLoginMain"
         app:layout_constraintStart_toStartOf="parent" />
@@ -42,7 +41,6 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/login"
         android:text="@string/login"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnResgisterMain" />

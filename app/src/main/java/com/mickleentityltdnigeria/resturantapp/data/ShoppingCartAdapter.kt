@@ -20,6 +20,7 @@ class ShoppingCartAdapter(
     itemClickListener: CartRecyclerViewItemClickListener
 ) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
 
+    private lateinit var progress: ProgressBar
     private val myContext: Context = ApplicationContextProvider.getContext()
     private val assetManager: AssetManager = myContext.getAssets()
     private val mItemClickListener: CartRecyclerViewItemClickListener = itemClickListener
@@ -34,6 +35,7 @@ class ShoppingCartAdapter(
         AppGlobals.setAppContext(parent.context)
         //Create View Holder
         val myViewHolder = ViewHolder(view, AppGlobals.getAppContext(), assetManager)
+        progress = myViewHolder.itemView.findViewById<ProgressBar>(R.id.progressBarCartRow)
 
         //Item Clicks
         myViewHolder.itemView.setOnClickListener {
@@ -43,6 +45,7 @@ class ShoppingCartAdapter(
         }
 
         myViewHolder.itemView.findViewById<Button>(R.id.btnUpdateCart).setOnClickListener {
+            progress.visibility = View.VISIBLE
             try {
                 var qty: String =
                     myViewHolder.itemView.findViewById<EditText>(R.id.txtQty).text.toString()
@@ -58,6 +61,7 @@ class ShoppingCartAdapter(
             } catch (e: Exception) {
                 Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show();
             }
+            progress.visibility = View.GONE
         }
 
 

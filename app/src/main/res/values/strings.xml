@@ -54,4 +54,9 @@
     <string name="mobile_phone_number">Mobile phone number</string>
     <string name="checkout">Checkout</string>
     <string name="select">Select</string>
+    <string name="sign_in">Sign In</string>
+    <string name="shipping_address">Shipping Address</string>
+    <string name="payment_address">Payment Address</string>
+    <string name="place_order">Place Order</string>
+    <string name="add">Add</string>
 </resources>

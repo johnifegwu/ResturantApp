@@ -13,6 +13,10 @@ public class Address implements Serializable {
     private String state;
     private String country;
 
+
+    public Address() {
+    }
+
     public Address(int addressID, int userID, String addressType, String contactAddress, String city, String zipCode, String state, String country) {
         this.addressID = addressID;
         this.userID = userID;
