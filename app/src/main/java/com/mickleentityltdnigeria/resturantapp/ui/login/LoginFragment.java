@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mickleentityltdnigeria.resturantapp.R;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 public class LoginFragment extends Fragment {
 
@@ -115,6 +117,10 @@ public class LoginFragment extends Fragment {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+                if(module.isLoggedIn){
+                    Navigation.findNavController(view)
+                            .navigate(R.id.action_LoginFragment_to_FirstFragment);
+                }
             }
         });
     }

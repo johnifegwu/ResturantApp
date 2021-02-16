@@ -2,12 +2,17 @@ package com.mickleentityltdnigeria.resturantapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 
 import java.util.ArrayList;
@@ -20,7 +25,7 @@ import java.util.List;
  */
 public class CheckOutFragment extends Fragment {
 
-    public List<CartItem> cartItems = new ArrayList<CartItem>();
+    ProgressBar progress;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,10 +36,6 @@ public class CheckOutFragment extends Fragment {
 
     public CheckOutFragment() {
         // Required empty public constructor
-    }
-
-    public CheckOutFragment(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
     }
 
     /**
@@ -69,5 +70,29 @@ public class CheckOutFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_check_out, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        progress = view.findViewById(R.id.progressBarRegister);
+        this.progress.setVisibility(View.VISIBLE);
+        view.findViewById(R.id.btnRegisterCustomerUser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //
+                progress.setVisibility(View.VISIBLE);
+                try {
+                    //TODO perform checkout here
+                    Navigation.findNavController(view)
+                            .navigate(R.id.action_checkOutFragment_to_FirstFragment);
+                } catch (Exception e) {
+                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                progress.setVisibility(View.GONE);
+            }
+        });
+        progress.setVisibility(View.GONE);
     }
 }

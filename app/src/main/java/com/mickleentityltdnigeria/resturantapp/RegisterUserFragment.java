@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.provider.Settings;
@@ -28,6 +29,10 @@ import static com.mickleentityltdnigeria.resturantapp.utils.PasswordValidator.Va
  * create an instance of this fragment.
  */
 public class RegisterUserFragment extends Fragment {
+
+
+    EditText txtPassword, txtFirstName, txtMiddleName, txtLastName, txtEmail, txtPhone, txtConfirm, txtAddress, txtCity, txtZipCode, txtState, txtCountry;
+    ProgressBar progress;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -74,8 +79,6 @@ public class RegisterUserFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_register_user, container, false);
     }
 
-    EditText txtPassword, txtFirstName, txtMiddleName, txtLastName, txtEmail, txtPhone, txtConfirm, txtAddress, txtCity, txtZipCode, txtState, txtCountry;
-    ProgressBar progress;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -126,7 +129,7 @@ public class RegisterUserFragment extends Fragment {
                    //
                    Snackbar.make(view , "Sign Up successful. \n You can now login.", Snackbar.LENGTH_LONG)
                            .setAction("Action", null).show();
-                   NavHostFragment.findNavController(new RegisterUserFragment())
+                   Navigation.findNavController(view)
                            .navigate(R.id.action_registerUserFragment_to_LoginFragment);
                } catch (Exception e) {
                    Snackbar.make(view , e.getMessage(), Snackbar.LENGTH_LONG)

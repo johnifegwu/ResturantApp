@@ -3,7 +3,16 @@ package com.mickleentityltdnigeria.resturantapp.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class module {
+
+    public static List<CartItem> cartItems = new ArrayList<CartItem>();
+    public static FoodItem foodItem;
 
     public static final String UserTypeSELLER = "SELLER";
     public static final String UserTypeCUSTOMER = "CUSTOMER";

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -101,7 +102,8 @@ public class ShoppingCartFragment extends Fragment {
         view.findViewById(R.id.btnCheckOut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(new CheckOutFragment(cartItems))
+                module.cartItems = cartItems;
+                Navigation.findNavController(view)
                         .navigate(R.id.action_shoppingCartFragment_to_checkOutFragment);
             }
         });

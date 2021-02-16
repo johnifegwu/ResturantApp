@@ -37,7 +37,6 @@ public class ShowPictureFragment extends Fragment {
     ImageView foodImg;
     TextView foodText, foodPrice;
     Button btnAdd;
-    public FoodItem foodItem;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,10 +47,6 @@ public class ShowPictureFragment extends Fragment {
 
     public ShowPictureFragment() {
         // Required empty public constructor
-    }
-
-    public ShowPictureFragment(FoodItem foodItem) {
-        this.foodItem = foodItem;
     }
 
     /**
@@ -96,18 +91,18 @@ public class ShowPictureFragment extends Fragment {
         this.progress = (ProgressBar) view.findViewById(R.id.progressBarShowPic);
         this.progress.setVisibility( View.VISIBLE);
         //
-        if (foodItem != null) {
+        if (module.foodItem != null) {
             this.foodImg = (ImageView) view.findViewById(R.id.imgFood);
             this.foodText = (TextView) view.findViewById(R.id.txtFoodDesc);
             this.foodPrice = (TextView) view.findViewById(R.id.txtPrice);
             this.btnAdd = (Button) view.findViewById(R.id.btnAdd);
             //
             try {
-                InputStream ims = new ByteArrayInputStream(foodItem.getFoodImg()); //assetManager.open(this.foodItem.getFoodUrl());
+                InputStream ims = new ByteArrayInputStream(module.foodItem.getFoodImg()); //assetManager.open(this.foodItem.getFoodUrl());
                 Drawable d = Drawable.createFromStream(ims, null);
                 this.foodImg.setImageDrawable(d);
-                this.foodText.setText(foodItem.getFoodDesc());
-                this.foodPrice.setText(foodItem.getCurrency()+foodItem.getFoodPrice());
+                this.foodText.setText(module.foodItem.getFoodDesc());
+                this.foodPrice.setText(module.foodItem.getCurrency()+module.foodItem.getFoodPrice());
             }catch (Exception e){
                 Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -136,11 +131,11 @@ public class ShowPictureFragment extends Fragment {
         CartItem cartItem = new CartItem();
         cartItem.setCartQty(Qty);
         cartItem.setCartID(-1);
-        cartItem.setFoodDesc(foodItem.getFoodDesc());
-        cartItem.setFoodID(foodItem.getFoodID());
-        cartItem.setFoodImg(foodItem.getFoodImg());
-        cartItem.setFoodImgUrl(foodItem.getFoodImgUrl());
-        cartItem.setFoodPrice(foodItem.getFoodPrice());
+        cartItem.setFoodDesc(module.foodItem.getFoodDesc());
+        cartItem.setFoodID(module.foodItem.getFoodID());
+        cartItem.setFoodImg(module.foodItem.getFoodImg());
+        cartItem.setFoodImgUrl(module.foodItem.getFoodImgUrl());
+        cartItem.setFoodPrice(module.foodItem.getFoodPrice());
         cartItem.setUserID(module.userID);
         try {
             Service.cart().addCartItem(cartItem, module.userName);

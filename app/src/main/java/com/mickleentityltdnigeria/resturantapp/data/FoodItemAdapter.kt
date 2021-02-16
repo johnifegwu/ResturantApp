@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
@@ -59,10 +60,9 @@ class FoodItemAdapter(
             try {
                val fooditem = foodItems.get(myViewHolder.getLayoutPosition())
                Toast.makeText(it.context, fooditem.foodDesc, Toast.LENGTH_SHORT).show()
-                NavHostFragment.findNavController(ShowPictureFragment(fooditem))
+                module.foodItem = fooditem
+                Navigation.findNavController(view)
                     .navigate(R.id.action_FirstFragment_to_showPictureFragment)
-               /*intent.putExtra("payLoad",fooditem)
-               startActivity(it.context,intent,null)*/
            }finally {
            }
 
