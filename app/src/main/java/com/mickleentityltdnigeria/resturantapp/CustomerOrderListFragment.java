@@ -2,11 +2,30 @@ package com.mickleentityltdnigeria.resturantapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.mickleentityltdnigeria.resturantapp.data.CustomerOrderListAdapter;
+import com.mickleentityltdnigeria.resturantapp.data.CustomerOrderListRecyclerViewItemClickListener;
+import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
+import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.OrderDetailChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.service.Service;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,12 +34,12 @@ import android.view.ViewGroup;
  */
 public class CustomerOrderListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
+    ProgressBar progress;
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -36,7 +55,6 @@ public class CustomerOrderListFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment CustomerOrderListFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static CustomerOrderListFragment newInstance(String param1, String param2) {
         CustomerOrderListFragment fragment = new CustomerOrderListFragment();
         Bundle args = new Bundle();
@@ -61,4 +79,75 @@ public class CustomerOrderListFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_customer_order_list, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.progress = (ProgressBar) view.findViewById(R.id.progressBarCustomerOrderList);
+        this.progress.setVisibility(View.VISIBLE);
+
+        // Register interest in the Order Change.
+        OrderDetailChangedHandler orderDetailChanged = new OrderDetailChangedHandler() {
+            public void invoke(int orderDetailID) {
+                updateAdapter(view);
+            }
+        };
+        Service.foodOder().Food.orderDetailChanged.addListener(orderDetailChanged);
+        //
+        view.findViewById(R.id.btnContinueShopping).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view)
+                        .navigate(R.id.action_customerOrderListFragment_to_FirstFragment);
+            }
+        });
+        //
+        try {
+
+            //Reference of RecyclerView
+            RecyclerView mRecyclerView = view.findViewById(R.id.customerOrderListRecyclerView);
+
+            //Linear Layout Manager
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AppGlobals.getAppContext(), RecyclerView.VERTICAL, false);
+
+            //Set Layout Manager to RecyclerView
+            mRecyclerView.setLayoutManager(linearLayoutManager);
+
+            //Create adapter
+            CustomerOrderListAdapter adapter = new CustomerOrderListAdapter(Service.foodOder().getUnProcessedFoodOrderDetailsByUserID(module.userID,false,false), new CustomerOrderListRecyclerViewItemClickListener() {
+                @Override
+                public void onItemClicked(@NotNull FoodOrderDetail foodOrderDetail) {
+
+                }
+            });
+            //Set adapter to RecyclerView
+            mRecyclerView.setAdapter(adapter);
+            //
+        }catch (Exception e){
+            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        this.progress.setVisibility( View.GONE);
+    }
+
+    private void updateAdapter(View view){
+        this.progress.setVisibility(View.VISIBLE);
+        try {
+            //Reference of RecyclerView
+            RecyclerView mRecyclerView = view.findViewById(R.id.customerOrderListRecyclerView);
+
+            //Create adapter
+            CustomerOrderListAdapter adapter = new CustomerOrderListAdapter(Service.foodOder().getUnProcessedFoodOrderDetailsByUserID(module.userID,false,false), new CustomerOrderListRecyclerViewItemClickListener() {
+                @Override
+                public void onItemClicked(@NotNull FoodOrderDetail foodOrderDetail) {
+
+                }
+            });
+            //Set adapter to RecyclerView
+            mRecyclerView.swapAdapter(adapter,false);
+        }catch (Exception e){
+            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        this.progress.setVisibility(View.GONE);
+    }
+
 }

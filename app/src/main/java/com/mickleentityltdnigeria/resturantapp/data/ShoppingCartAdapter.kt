@@ -1,7 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +8,15 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
-import com.mickleentityltdnigeria.resturantapp.service.CartService
 import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
-class ShoppingCartAdapter(
-    private var cartItems: List<CartItem>,
-    itemClickListener: CartRecyclerViewItemClickListener
-) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
+class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListener: CartRecyclerViewItemClickListener) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
 
     private lateinit var progress: ProgressBar
     private val myContext: Context = ApplicationContextProvider.getContext()
-    private val assetManager: AssetManager = myContext.getAssets()
     private val mItemClickListener: CartRecyclerViewItemClickListener = itemClickListener
 
     public fun setCartItems(cartItems: List<CartItem>) {
@@ -34,7 +28,7 @@ class ShoppingCartAdapter(
             .inflate(R.layout.a_single_cart_row, parent, false)
         AppGlobals.setAppContext(parent.context)
         //Create View Holder
-        val myViewHolder = ViewHolder(view, AppGlobals.getAppContext(), assetManager)
+        val myViewHolder = ViewHolder(view, AppGlobals.getAppContext())
         progress = myViewHolder.itemView.findViewById<ProgressBar>(R.id.progressBarCartRow)
 
         //Item Clicks
@@ -81,11 +75,7 @@ class ShoppingCartAdapter(
 
 
 
-    class ViewHolder(
-        view: View,
-        private val myContext: Context,
-        private val assetManager: AssetManager
-    ) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val myContext: Context) : RecyclerView.ViewHolder(view) {
         fun bind(cartItem: CartItem) {
             try
             {

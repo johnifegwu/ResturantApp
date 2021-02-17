@@ -68,4 +68,11 @@ public class FoodLogic {
         }
         return Dalc.Food().getFoodItemsByResturant(resturantID);
     }
+
+    public FoodItem getFoodItemByFoodID(int foodID) throws InvalidUserException {
+        if((module.isLoggedIn = false)){
+            throw new InvalidUserException();
+        }
+        return Dalc.Food().getFoodItemByFoodID(foodID);
+    }
 }

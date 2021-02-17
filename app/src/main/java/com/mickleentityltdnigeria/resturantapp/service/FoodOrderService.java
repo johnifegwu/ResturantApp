@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FoodOrderService {
 
-    FoodOrderLogic Food = new FoodOrderLogic();
+    public FoodOrderLogic Food = new FoodOrderLogic();
 
     public FoodOrderService() {
     }
@@ -21,8 +21,8 @@ public class FoodOrderService {
         return Food.PlaceOrder(cart, paymentAddress, shippingAddress);
     }
 
-    public void CancelOrder(List<Integer> orderDetailIDs) throws InvalidUserException {
-        Food.CancelOrder(orderDetailIDs);
+    public void CancelOrder(FoodOrderDetail orderDetail) throws InvalidUserException {
+        Food.CancelOrder(orderDetail);
     }
 
     public void ShipOrder(List<Integer> orderDetailIDs) throws InvalidUserException {
@@ -51,6 +51,10 @@ public class FoodOrderService {
 
     public List<FoodOrderDetail> getFoodOrderDetailsByUserID(int userID) throws InvalidUserException {
         return Food.getFoodOrderDetailsByUserID(userID);
+    }
+
+    public List<FoodOrderDetail> getUnProcessedFoodOrderDetailsByUserID(int userID, boolean canceled, boolean delivered) throws InvalidUserException {
+        return Food.getUnProcessedFoodOrderDetailsByUserID(userID,canceled,delivered);
     }
 
 }

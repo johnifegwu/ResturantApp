@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "303553502162",
+    "project_id": "resturantapp-28ff0",
+    "storage_bucket": "resturantapp-28ff0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303553502162:android:ff6d8722a8e2eb02de860b",
+        "android_client_info": {
+          "package_name": "com.mickleentityltdnigeria.resturantapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303553502162-qm850e9p15jlobn8bf33jsldet8e99pn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mickleentityltdnigeria.resturantapp",
+            "certificate_hash": "541aea1293b3f3d7c55321e16eea74e70508712d"
+          }
+        },
+        {
+          "client_id": "303553502162-hen1i7dk3scuf896std97h6jcr18vj5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD03KHF53uU1clhvcK6IiM4RCBYKXBBr2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303553502162-hen1i7dk3scuf896std97h6jcr18vj5t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -47,4 +47,11 @@ public class FoodDalc {
         return foodItems;
     }
 
+    public FoodItem getFoodItemByFoodID(int foodID){
+        //TODO update database here.
+        FoodItem foodItem = null;
+
+        return foodItem;
+    }
+
 }

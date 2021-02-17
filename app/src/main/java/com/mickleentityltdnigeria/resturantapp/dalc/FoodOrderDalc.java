@@ -45,13 +45,11 @@ public class FoodOrderDalc {
 
     }
 
-    public void CancelOrder(List<Integer> orderDetailIDs){
-        for (Integer f:orderDetailIDs) {
-
+    public void CancelOrder(FoodOrderDetail orderDetail){
+        FoodOrderDetail f = orderDetail;
             //TODO save f to the
-            String query = "UPDATE FoodOrderDetail SET (isCanceled = true) WHERE ((ID = " + f + ") && (isPaid = false) && (isShipped = false) && (isDelivered = false))";
+            String query = "UPDATE FoodOrderDetail SET (isCanceled = true) WHERE ((ID = " + f.getID() + ") && (isPaid = false) && (isShipped = false) && (isDelivered = false))";
             //database.Save()
-        }
     }
 
     public void ShipOrder(List<Integer> orderDetailIDs){
@@ -103,6 +101,14 @@ public class FoodOrderDalc {
     public List<FoodOrderDetail> getFoodOrderDetailsByUserID(int userID){
         List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
         //TODO get order details from the system here
+
+        return result;
+    }
+
+    public List<FoodOrderDetail> getUnProcessedFoodOrderDetailsByUserID(int userID, boolean canceled, boolean delivered){
+        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+        //TODO get order details from the system here
+        String query = "SELECT * FROM FoodOrderDetail WHERE (userID = " + userID + " && isCanceled = " + canceled + " isDelivered = " + delivered + ")";
 
         return result;
     }

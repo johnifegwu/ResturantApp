@@ -39,7 +39,7 @@
     <string name="SearchHint">What would you like to eat?</string>
     <string name="zip_code">Zip Code</string>
     <string name="search">Search</string>
-    <string name="sing_up">Sing Up</string>
+    <string name="sing_up">Sign Up</string>
     <string name="sign_up">Sign Up</string>
     <string name="confirm_password">Confirm password</string>
     <string name="enter_your_password">Enter your password</string>
@@ -66,4 +66,12 @@
     <string name="shipped">Shipped</string>
     <string name="delivered">Delivered</string>
     <string name="cancel_order">Cancel Order</string>
+    <string name="email_merchant">Email Merchant</string>
+    <string name="phone_merchant">Call Merchant</string>
+    <string name="quantity">Quantity:</string>
+    <string name="ZeroValue">0</string>
+    <string name="ZeroAmount">$0,0</string>
+    <string name="price">Price:</string>
+    <string name="total">Total:</string>
+    <string name="continue_shopping">Continue Shopping</string>
 </resources>

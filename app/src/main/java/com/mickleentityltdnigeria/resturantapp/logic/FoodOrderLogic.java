@@ -6,11 +6,16 @@ import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrder;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserException;
+import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.Event;
+import com.mickleentityltdnigeria.resturantapp.extensions.OrderDetailChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.List;
 
 public class FoodOrderLogic {
+
+    public Event<OrderDetailChangedHandler> orderDetailChanged = new Event<OrderDetailChangedHandler>();
 
     public FoodOrderLogic() {
     }
@@ -24,11 +29,15 @@ public class FoodOrderLogic {
         //
     }
 
-    public void CancelOrder(List<Integer> orderDetailIDs) throws InvalidUserException {
+    public void CancelOrder(FoodOrderDetail orderDetail) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }
-        Dalc.Order().CancelOrder(orderDetailIDs);
+        Dalc.Order().CancelOrder(orderDetail);
+        //
+        for (OrderDetailChangedHandler listener : orderDetailChanged.listeners()) {
+            listener.invoke(orderDetail.getID());
+        }
     }
 
     public void ShipOrder(List<Integer> orderDetailIDs) throws InvalidUserException {
@@ -78,6 +87,13 @@ public class FoodOrderLogic {
             throw new InvalidUserException();
         }
         return Dalc.Order().getFoodOrderDetailsByUserID(userID);
+    }
+
+    public List<FoodOrderDetail> getUnProcessedFoodOrderDetailsByUserID(int userID, boolean canceled, boolean delivered) throws InvalidUserException {
+        if(module.isLoggedIn = false){
+            throw new InvalidUserException();
+        }
+        return Dalc.Order().getUnProcessedFoodOrderDetailsByUserID(userID,canceled,delivered);
     }
 
 }

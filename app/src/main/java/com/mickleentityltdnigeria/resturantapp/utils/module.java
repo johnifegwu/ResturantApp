@@ -6,12 +6,14 @@ import android.content.Intent;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class module {
 
+    public static List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
     public static List<CartItem> cartItems = new ArrayList<CartItem>();
     public static FoodItem foodItem;
 

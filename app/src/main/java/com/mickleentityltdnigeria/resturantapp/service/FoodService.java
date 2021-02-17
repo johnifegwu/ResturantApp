@@ -37,4 +37,8 @@ public class FoodService {
         return this.food.getFoodItemsByResturant(resturantID);
     }
 
+    public FoodItem getFoodItemByFoodID(int foodID) throws InvalidUserException {
+        return this.food.getFoodItemByFoodID(foodID);
+    }
+
 }

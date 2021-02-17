@@ -105,9 +105,9 @@ public class RegisterUserFragment extends Fragment {
                    if (!ValidatePassword(txtPassword.getText().toString(), 8, 20))
                    {
                        txtPassword.requestFocus();
-                      throw new Exception("Password must be between 8 to 20 characters, \n have at least one Capital Letter and one special character.");
+                      throw new Exception("Password must be between 8 to 20 characters and have at least one Capital Letter and one special character.");
                    }
-                   if(!txtPassword.getText().equals(txtConfirm.getText())){
+                   if(!txtPassword.getText().toString().equals(txtConfirm.getText().toString())){
                        txtConfirm.requestFocus();
                        throw new Exception("Password did not match.");
                    }
