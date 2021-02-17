@@ -62,4 +62,8 @@
     <string name="Terms_and_Condition">By selecting the switch below and placing this Order you agree to the terms and condition of the SELLER in addition to the term of paying for this order in full at the point of delivery.</string>
     <string name="new_shipping_address">New Shipping Address</string>
     <string name="save">Save</string>
+    <string name="CustomerOder">Customer Order</string>
+    <string name="shipped">Shipped</string>
+    <string name="delivered">Delivered</string>
+    <string name="cancel_order">Cancel Order</string>
 </resources>

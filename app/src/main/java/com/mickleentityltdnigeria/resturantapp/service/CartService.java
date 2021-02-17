@@ -34,8 +34,4 @@ public class CartService {
         return this.Cart.countCartItemsQty(userName);
     }
 
-    public double getCartTotal(String userName){
-        return this.Cart.getCartTotal(userName);
-    }
-
 }
