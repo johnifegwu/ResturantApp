@@ -40,7 +40,7 @@ public class FoodLogic {
         }
     }
 
-    public void DeleteFoodItem(int foodID) throws InvalidUserException {
+    public void DeleteFoodItem(String foodID) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
@@ -55,21 +55,21 @@ public class FoodLogic {
         return Dalc.Food().SearchFoodItems(searchTerm,zipCode, isApproved);
     }
 
-    public List<FoodItem> getFoodItemsByUser(int userID) throws InvalidUserException {
+    public List<FoodItem> getFoodItemsByUser(String userID) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
         return Dalc.Food().getFoodItemsByUser(userID);
     }
 
-    public List<FoodItem> getFoodItemsByResturant(int resturantID) throws InvalidUserException  {
+    public List<FoodItem> getFoodItemsByResturant(String resturantID) throws InvalidUserException  {
         if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
         return Dalc.Food().getFoodItemsByResturant(resturantID);
     }
 
-    public FoodItem getFoodItemByFoodID(int foodID) throws InvalidUserException {
+    public FoodItem getFoodItemByFoodID(String foodID) throws InvalidUserException {
         if((module.isLoggedIn = false)){
             throw new InvalidUserException();
         }

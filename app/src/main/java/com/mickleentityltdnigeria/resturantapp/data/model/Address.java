@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Address implements Serializable {
 
-    private int addressID;
-    private int userID;
+    private String addressID;
+    private String userID;
     private String addressType;
     private String contactAddress;
     private String city;
@@ -17,7 +17,7 @@ public class Address implements Serializable {
     public Address() {
     }
 
-    public Address(int addressID, int userID, String addressType, String contactAddress, String city, String zipCode, String state, String country) {
+    public Address(String addressID, String userID, String addressType, String contactAddress, String city, String zipCode, String state, String country) {
         this.addressID = addressID;
         this.userID = userID;
         this.addressType = addressType;
@@ -28,19 +28,19 @@ public class Address implements Serializable {
         this.country = country;
     }
 
-    public int getAddressID() {
+    public String getAddressID() {
         return addressID;
     }
 
-    public void setAddressID(int addressID) {
+    public void setAddressID(String addressID) {
         this.addressID = addressID;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

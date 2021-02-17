@@ -21,7 +21,7 @@ public class FoodService {
         this.food.UpdateFoodItem(foodItem);
     }
 
-    public void DeleteFoodItem(int foodID) throws InvalidUserException {
+    public void DeleteFoodItem(String foodID) throws InvalidUserException {
         this.food.DeleteFoodItem(foodID);
     }
 
@@ -29,15 +29,15 @@ public class FoodService {
         return this.food.SearchFoodItems(searchTerm, zipCode,b);
     }
 
-    public List<FoodItem> getFoodItemsByUser(int userID) throws InvalidUserException {
+    public List<FoodItem> getFoodItemsByUser(String userID) throws InvalidUserException {
         return this.food.getFoodItemsByUser(userID);
     }
 
-    public List<FoodItem> getFoodItemsByResturant(int resturantID) throws InvalidUserException  {
+    public List<FoodItem> getFoodItemsByResturant(String resturantID) throws InvalidUserException  {
         return this.food.getFoodItemsByResturant(resturantID);
     }
 
-    public FoodItem getFoodItemByFoodID(int foodID) throws InvalidUserException {
+    public FoodItem getFoodItemByFoodID(String foodID) throws InvalidUserException {
         return this.food.getFoodItemByFoodID(foodID);
     }
 

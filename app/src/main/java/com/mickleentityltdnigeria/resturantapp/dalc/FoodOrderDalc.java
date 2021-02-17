@@ -20,17 +20,18 @@ public class FoodOrderDalc {
     public String PlaceOrder(List<CartItem> cart, Address paymentAddress, Address shippingAddress){
         //
         String guid = UUID.randomUUID().toString();
-        FoodOrder order = new FoodOrder(-1, module.userID,new Date(),guid,paymentAddress.getContactAddress(),
+        String orderID = "";
+        FoodOrder order = new FoodOrder(orderID, module.userID,new Date(),guid,paymentAddress.getContactAddress(),
                 paymentAddress.getCity(),paymentAddress.getZipCode(),paymentAddress.getState(),paymentAddress.getCountry(),shippingAddress.getContactAddress(),
                 shippingAddress.getCity(), shippingAddress.getZipCode(),shippingAddress.getState(),shippingAddress.getCountry());
         //save order and return the Order ID
         //TODO save order to the system here.
         //Save Order here.
 
-        int orderID = getFoodOrderByTrackCode(guid).getOrderID();
+        String ID = "";
         //
         for (CartItem c:cart) {
-            FoodOrderDetail orderDetail = new FoodOrderDetail(-1,orderID,c.getUserID(),c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
+            FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,c.getUserID(),c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
                     c.getCartQty(),false,0.0,0.0,"",false,new Date(),"",false,
                     new Date(),"", "",false);
             //
@@ -52,16 +53,16 @@ public class FoodOrderDalc {
             //database.Save()
     }
 
-    public void ShipOrder(List<Integer> orderDetailIDs){
-        for (Integer f:orderDetailIDs) {
+    public void ShipOrder(List<String> orderDetailIDs){
+        for (String f:orderDetailIDs) {
 
             //TODO save f to the
             String query = "UPDATE FoodOrderDetail SET (isShipped = true, dateShipped = " + new Date() + ", shippedBy = " + module.userName +") WHERE (ID = " + f + ")";
         }
     }
 
-    public void DeliverOrder(List<Integer> orderDetailIDs, double amountCollected, double changeGiven, String paymentDescription, String collectedBy){
-        for (Integer f:orderDetailIDs) {
+    public void DeliverOrder(List<String> orderDetailIDs, double amountCollected, double changeGiven, String paymentDescription, String collectedBy){
+        for (String f:orderDetailIDs) {
 
             //TODO save f to the
             String query = "UPDATE FoodOrderDetail SET (isDelivered = true, dateDelivered = " + new Date() + ", deliveredBy = " + module.userName +"," +
@@ -77,35 +78,35 @@ public class FoodOrderDalc {
         return result;
     }
 
-    public FoodOrder getFoodOrderByOderID(int orderID){
+    public FoodOrder getFoodOrderByOderID(String orderID){
         FoodOrder result = null;
         //TODO get order from the system here
 
         return result;
     }
 
-    public List<FoodOrderDetail> getUndeliveredFoodOrderDetailsByResturant(int resturantID, boolean isDelivered){
+    public List<FoodOrderDetail> getUndeliveredFoodOrderDetailsByResturant(String resturantID, boolean isDelivered){
         List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
         //TODO get order details from the system here
 
         return result;
     }
 
-    public List<FoodOrderDetail> getShippedFoodOrderDetailsByResturant(int resturantID, boolean isShipped){
+    public List<FoodOrderDetail> getShippedFoodOrderDetailsByResturant(String resturantID, boolean isShipped){
         List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
         //TODO get order details from the system here
 
         return result;
     }
 
-    public List<FoodOrderDetail> getFoodOrderDetailsByUserID(int userID){
+    public List<FoodOrderDetail> getFoodOrderDetailsByUserID(String userID){
         List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
         //TODO get order details from the system here
 
         return result;
     }
 
-    public List<FoodOrderDetail> getUnProcessedFoodOrderDetailsByUserID(int userID, boolean canceled, boolean delivered){
+    public List<FoodOrderDetail> getUnProcessedFoodOrderDetailsByUserID(String userID, boolean canceled, boolean delivered){
         List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
         //TODO get order details from the system here
         String query = "SELECT * FROM FoodOrderDetail WHERE (userID = " + userID + " && isCanceled = " + canceled + " isDelivered = " + delivered + ")";

@@ -1,6 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
+import com.mickleentityltdnigeria.resturantapp.data.model.ResturantZipCodes;
 
 import java.io.Serializable;
 
@@ -20,19 +21,25 @@ public class ResturantDalc {
 
     }
 
-    public void DeleteResturant(int resturantID){
+    public void DeleteResturant(String resturantID){
         //TODO update database here.
 
     }
 
-    public Resturant getResturantByUserID(int userID){
+    public Resturant getResturantByUserID(String userID){
         Resturant result = new Resturant();
 
         return result;
     }
 
-    public Resturant getResturantByResturantID(int resturantID){
+    public Resturant getResturantByResturantID(String resturantID){
         Resturant result = new Resturant();
+
+        return result;
+    }
+
+    public ResturantZipCodes getResturantZipCodes(String resturantID){
+        ResturantZipCodes result = new ResturantZipCodes();
 
         return result;
     }

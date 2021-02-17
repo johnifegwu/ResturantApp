@@ -21,7 +21,7 @@ public class FoodDalc {
 
     }
 
-    public void DeleteFoodItem(int foodID){
+    public void DeleteFoodItem(String foodID){
         //TODO update database here.
 
     }
@@ -33,21 +33,21 @@ public class FoodDalc {
         return foodItems;
     }
 
-    public List<FoodItem> getFoodItemsByUser(int userID){
+    public List<FoodItem> getFoodItemsByUser(String userID){
         //TODO update database here.
         List<FoodItem> foodItems =  new ArrayList<FoodItem>();
 
         return foodItems;
     }
 
-    public List<FoodItem> getFoodItemsByResturant(int resturantID){
+    public List<FoodItem> getFoodItemsByResturant(String resturantID){
         //TODO update database here.
         List<FoodItem> foodItems =  new ArrayList<FoodItem>();
 
         return foodItems;
     }
 
-    public FoodItem getFoodItemByFoodID(int foodID){
+    public FoodItem getFoodItemByFoodID(String foodID){
         //TODO update database here.
         FoodItem foodItem = null;
 

@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class CartItem implements Serializable {
 
-    private int cartID;
-    private int foodID;
-    private int resturantID;
-    private int userID;
+    private String cartID;
+    private String foodID;
+    private String resturantID;
+    private String userID;
     private byte[] foodImg;
     private Double foodPrice;
     private String currency;
@@ -19,7 +19,7 @@ public class CartItem implements Serializable {
 
     }
 
-    public CartItem(int cartID, int foodID, int resturantID, int userID, byte[] foodImg, Double foodPrice, String currency, String foodDesc, String foodImgUrl, int cartQty) {
+    public CartItem(String cartID, String foodID, String resturantID, String userID, byte[] foodImg, Double foodPrice, String currency, String foodDesc, String foodImgUrl, int cartQty) {
         this.cartID = cartID;
         this.foodID = foodID;
         this.resturantID = resturantID;
@@ -32,44 +32,36 @@ public class CartItem implements Serializable {
         this.cartQty = cartQty;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public int getResturantID() {
-        return resturantID;
-    }
-
-    public void setResturantID(int resturantID) {
-        this.resturantID = resturantID;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public int getCartID() {
+    public String getCartID() {
         return cartID;
     }
 
-    public void setCartID(int cartID) {
+    public void setCartID(String cartID) {
         this.cartID = cartID;
     }
 
-    public int getFoodID() {
+    public String getFoodID() {
         return foodID;
     }
 
-    public void setFoodID(int foodID) {
+    public void setFoodID(String foodID) {
         this.foodID = foodID;
+    }
+
+    public String getResturantID() {
+        return resturantID;
+    }
+
+    public void setResturantID(String resturantID) {
+        this.resturantID = resturantID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public byte[] getFoodImg() {
@@ -86,6 +78,14 @@ public class CartItem implements Serializable {
 
     public void setFoodPrice(Double foodPrice) {
         this.foodPrice = foodPrice;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getFoodDesc() {

@@ -4,5 +4,5 @@ import java.util.*;
 
 @FunctionalInterface
 public interface OrderDetailChangedHandler {
-    void invoke(int orderDetailID);
+    void invoke(String orderDetailID);
 }

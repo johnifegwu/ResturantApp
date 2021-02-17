@@ -28,7 +28,7 @@ public class CartLogic {
         }
     }
 
-    public void UpdateCartItem(int cartID, int Qty, String userName) throws InvalidUserException {
+    public void UpdateCartItem(String cartID, int Qty, String userName) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }
@@ -44,7 +44,7 @@ public class CartLogic {
         }
     }
 
-    public void DeleteCartItem(int cartID, String userName) throws InvalidUserException {
+    public void DeleteCartItem(String cartID, String userName) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }

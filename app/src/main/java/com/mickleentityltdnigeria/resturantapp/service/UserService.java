@@ -32,7 +32,7 @@ public class UserService {
     }
 
     //Deletes the user from the system.
-    public void DeleteUser(int userID) throws InvalidUserException {
+    public void DeleteUser(String userID) throws InvalidUserException {
         this.User.DeleteUser(userID);
     }
 

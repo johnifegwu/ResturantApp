@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class Resturant implements Serializable {
 
-    private int resturantID;
-    private int userID;
+    private String resturantID;
+    private String userID;
     private String resturantName;
     private String resturantType;
     private String resturantDescription;
@@ -33,7 +33,7 @@ public class Resturant implements Serializable {
 
     public Resturant(){}
 
-    public Resturant(int resturantID,int userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, byte[] resturantImg, String resturantImgUrl, String address, String city, String zipCodes, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
+    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, byte[] resturantImg, String resturantImgUrl, String address, String city, String zipCodes, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
         this.resturantID = resturantID;
         this.userID = userID;
         this.resturantName = resturantName;
@@ -60,19 +60,19 @@ public class Resturant implements Serializable {
         this.nextPaymentDueDate = nextPaymentDueDate;
     }
 
-    public int getResturantID() {
+    public String getResturantID() {
         return resturantID;
     }
 
-    public void setResturantID(int resturantID) {
+    public void setResturantID(String resturantID) {
         this.resturantID = resturantID;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
@@ -204,7 +204,7 @@ public class Resturant implements Serializable {
         this.websiteUrl = websiteUrl;
     }
 
-    public boolean getPaid() {
+    public boolean isPaid() {
         return paid;
     }
 
@@ -212,7 +212,7 @@ public class Resturant implements Serializable {
         this.paid = paid;
     }
 
-    public boolean getApproved() {
+    public boolean isApproved() {
         return approved;
     }
 

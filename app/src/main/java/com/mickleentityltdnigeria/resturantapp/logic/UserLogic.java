@@ -93,7 +93,7 @@ public class UserLogic {
         Dalc.User().UpdateUser(user);
     }
 
-    public void DeleteUser(int userID) throws InvalidUserException {
+    public void DeleteUser(String userID) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSUPPER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }

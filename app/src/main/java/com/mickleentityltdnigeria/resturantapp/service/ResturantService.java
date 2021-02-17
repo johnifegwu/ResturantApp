@@ -20,16 +20,16 @@ public class ResturantService {
     }
 
     //Approves a Resturant and all Food Items in the system.
-    public void approveResturant(int resturantID) throws InvalidUserException {
+    public void approveResturant(String resturantID) throws InvalidUserException {
         this.resturant.approveResturant(resturantID);
     }
 
     //Rolls back the Approval process.
-    public void disApproveResturant(int resturantID) throws InvalidUserException {
+    public void disApproveResturant(String resturantID) throws InvalidUserException {
         this.resturant.disApproveResturant(resturantID);
     }
 
-    public Resturant getResturantByResturantID(int resturantID){
+    public Resturant getResturantByResturantID(String resturantID){
         return this.resturant.getResturantByResturantID(resturantID);
     }
 

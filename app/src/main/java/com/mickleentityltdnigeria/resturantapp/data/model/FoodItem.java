@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class FoodItem implements Serializable {
 
-    private int foodID;
-    private int resturantID;
+    private String foodID;
+    private String resturantID;
     private String  foodImgUrl;
     private String foodDesc;
     private Double foodPrice;
     private String currency;
     private byte[] foodImg;
-    private int userID;
+    private String userID;
     private boolean approved;
     private String zipCodes; //Zip Codes derived from Resturant separated by spaces
 
@@ -19,8 +19,7 @@ public class FoodItem implements Serializable {
 
     }
 
-
-    public FoodItem(int foodID, int resturantID, String foodImgUrl, String foodDesc, Double foodPrice, String currency, byte[] foodImg, int userID,boolean approved, String zipCodes) {
+    public FoodItem(String foodID, String resturantID, String foodImgUrl, String foodDesc, Double foodPrice, String currency, byte[] foodImg, String userID, boolean approved, String zipCodes) {
         this.foodID = foodID;
         this.resturantID = resturantID;
         this.foodImgUrl = foodImgUrl;
@@ -33,51 +32,19 @@ public class FoodItem implements Serializable {
         this.zipCodes = zipCodes;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public boolean getApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
-
-    public String getZipCodes() {
-        return zipCodes;
-    }
-
-    public void setZipCodes(String zipCodes) {
-        this.zipCodes = zipCodes;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public int getFoodID() {
+    public String getFoodID() {
         return foodID;
     }
 
-    public void setFoodID(int foodID) {
+    public void setFoodID(String foodID) {
         this.foodID = foodID;
     }
 
-    public int getResturantID() {
+    public String getResturantID() {
         return resturantID;
     }
 
-    public void setResturantID(int resturantID) {
+    public void setResturantID(String resturantID) {
         this.resturantID = resturantID;
     }
 
@@ -105,6 +72,14 @@ public class FoodItem implements Serializable {
         this.foodPrice = foodPrice;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     public byte[] getFoodImg() {
         return foodImg;
     }
@@ -113,16 +88,27 @@ public class FoodItem implements Serializable {
         this.foodImg = foodImg;
     }
 
-    @Override
-    public String toString() {
-        return "FoodItem{" +
-                "foodID=" + foodID +
-                ", resturantID=" + resturantID +
-                ", foodImgUrl='" + foodImgUrl + '\'' +
-                ", foodDesc='" + foodDesc + '\'' +
-                ", foodPrice=" + foodPrice +
-                '}';
+    public String getUserID() {
+        return userID;
     }
 
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public String getZipCodes() {
+        return zipCodes;
+    }
+
+    public void setZipCodes(String zipCodes) {
+        this.zipCodes = zipCodes;
+    }
 }

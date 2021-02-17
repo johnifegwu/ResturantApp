@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class FoodOrder implements Serializable {
 
-    private int orderID;
-    private int userID;
+    private String orderID;
+    private String userID;
     private Date oderDate;
     private String trackCode;
     private String paymentAddress;
@@ -20,7 +20,10 @@ public class FoodOrder implements Serializable {
     private String shippingState;
     private String shippingCountry;
 
-    public FoodOrder(int orderID, int userID, Date oderDate, String trackCode, String paymentAddress, String paymentCity, String paymentZipCode, String paymentState, String paymentCountry, String shippingAddress, String shippingCity, String shippingZipCode, String shippingState, String shippingCountry) {
+    public FoodOrder() {
+    }
+
+    public FoodOrder(String orderID, String userID, Date oderDate, String trackCode, String paymentAddress, String paymentCity, String paymentZipCode, String paymentState, String paymentCountry, String shippingAddress, String shippingCity, String shippingZipCode, String shippingState, String shippingCountry) {
         this.orderID = orderID;
         this.userID = userID;
         this.oderDate = oderDate;
@@ -37,19 +40,19 @@ public class FoodOrder implements Serializable {
         this.shippingCountry = shippingCountry;
     }
 
-    public int getOrderID() {
+    public String getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
@@ -148,5 +151,4 @@ public class FoodOrder implements Serializable {
     public void setShippingCountry(String shippingCountry) {
         this.shippingCountry = shippingCountry;
     }
-
 }

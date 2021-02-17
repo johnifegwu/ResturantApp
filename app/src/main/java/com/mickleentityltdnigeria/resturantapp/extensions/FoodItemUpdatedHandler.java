@@ -5,5 +5,5 @@ import java.util.*;
 @FunctionalInterface
 public interface FoodItemUpdatedHandler
 {
-        void invoke(int foodID);
+        void invoke(String foodID);
 }

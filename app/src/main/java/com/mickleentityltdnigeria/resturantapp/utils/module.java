@@ -24,7 +24,7 @@ public class module {
     public static final String UserTypeCUSTOMER = "CUSTOMER";
     public static final String UserTypeSUPPER = "SUPPER";
 
-    public static int userID = -1;
+    public static String userID = "";
     public static String userName = "";
     public static boolean isLoggedIn = false;
     public static String userType = "";

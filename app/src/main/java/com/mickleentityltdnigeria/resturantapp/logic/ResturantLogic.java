@@ -30,7 +30,7 @@ public class ResturantLogic {
     }
 
     //Approves a Resturant and all Food Items in the system.
-    public void approveResturant(int resturantID) throws InvalidUserException {
+    public void approveResturant(String resturantID) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSUPPER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
@@ -56,7 +56,7 @@ public class ResturantLogic {
     }
 
     //Rolls back the Approval process.
-    public void disApproveResturant(int resturantID) throws InvalidUserException {
+    public void disApproveResturant(String resturantID) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSUPPER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
@@ -81,7 +81,7 @@ public class ResturantLogic {
         }
     }
 
-    public Resturant getResturantByResturantID(int resturantID){
+    public Resturant getResturantByResturantID(String resturantID){
         return Dalc.Resturant().getResturantByResturantID(resturantID);
     }
 

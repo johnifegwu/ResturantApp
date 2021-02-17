@@ -39,21 +39,21 @@ public class AddressLogic {
         }
     }
 
-    public void DeleteAddress(int addressID) throws InvalidUserException {
+    public void DeleteAddress(String addressID) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }
         Dalc.Address().DeleteAddress(addressID);
     }
 
-    public List<Address> getAddresses(int userID) throws InvalidUserException {
+    public List<Address> getAddresses(String userID) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }
         return Dalc.Address().getAddresses(userID);
     }
 
-    public List<Address> getAddressesByType(int userID, String addressType) throws InvalidUserException {
+    public List<Address> getAddressesByType(String userID, String addressType) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }

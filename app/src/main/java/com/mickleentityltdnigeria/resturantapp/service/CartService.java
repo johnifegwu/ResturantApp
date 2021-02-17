@@ -18,11 +18,11 @@ public class CartService {
         this.Cart.AddCartItem(cartItem, userName);
     }
 
-    public void UpdateCartItem(int cartID, int Qty, String userName) throws InvalidUserException {
+    public void UpdateCartItem(String cartID, int Qty, String userName) throws InvalidUserException {
         this.Cart.UpdateCartItem(cartID, Qty, userName);
     }
 
-    public void DeleteCartItem(int cartID, String userName) throws InvalidUserException {
+    public void DeleteCartItem(String cartID, String userName) throws InvalidUserException {
         this.Cart.DeleteCartItem(cartID, userName);
     }
 

@@ -5,11 +5,11 @@ import java.util.Date;
 
 public class FoodOrderDetail implements Serializable {
 
-    private int ID;
-    private int oderID;
-    private int userID;
-    private int foodID;
-    private int resturantID;
+    private String ID;
+    private String oderID;
+    private String userID;
+    private String foodID;
+    private String resturantID;
     private double foodPrice;
     private String currency;
     private double foodQty;
@@ -26,7 +26,10 @@ public class FoodOrderDetail implements Serializable {
     private String collectedBy;
     private boolean isCanceled;
 
-    public FoodOrderDetail(int ID, int oderID, int userID, int foodID, int resturantID, double foodPrice, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled) {
+    public FoodOrderDetail() {
+    }
+
+    public FoodOrderDetail(String ID, String oderID, String userID, String foodID, String resturantID, double foodPrice, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled) {
         this.ID = ID;
         this.oderID = oderID;
         this.userID = userID;
@@ -49,43 +52,43 @@ public class FoodOrderDetail implements Serializable {
         this.isCanceled = isCanceled;
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 
-    public int getOderID() {
+    public String getOderID() {
         return oderID;
     }
 
-    public void setOderID(int oderID) {
+    public void setOderID(String oderID) {
         this.oderID = oderID;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
-    public int getFoodID() {
+    public String getFoodID() {
         return foodID;
     }
 
-    public void setFoodID(int foodID) {
+    public void setFoodID(String foodID) {
         this.foodID = foodID;
     }
 
-    public int getResturantID() {
+    public String getResturantID() {
         return resturantID;
     }
 
-    public void setResturantID(int resturantID) {
+    public void setResturantID(String resturantID) {
         this.resturantID = resturantID;
     }
 
@@ -208,5 +211,4 @@ public class FoodOrderDetail implements Serializable {
     public void setCanceled(boolean canceled) {
         isCanceled = canceled;
     }
-
 }

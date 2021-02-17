@@ -25,7 +25,7 @@ public class UserDalc {
 
     }
 
-    public void DeleteUser(int userID){
+    public void DeleteUser(String userID){
         //TODO do the delete here.
 
     }
@@ -37,7 +37,7 @@ public class UserDalc {
         return user;
     }
 
-    public User getUserByID(int userID){
+    public User getUserByID(String userID){
         User user = new User();
         //TODO get the user from database
 

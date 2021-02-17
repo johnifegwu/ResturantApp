@@ -20,19 +20,19 @@ public class AddressDalc {
 
     }
 
-    public void DeleteAddress(int addressID){
+    public void DeleteAddress(String addressID){
         //TODO do the updates here
 
     }
 
-    public List<Address> getAddresses(int userID){
+    public List<Address> getAddresses(String userID){
         List<Address> result = new ArrayList<Address>();
         //TODO do the updates here
 
         return result;
     }
 
-    public List<Address> getAddressesByType(int userID, String addressType){
+    public List<Address> getAddressesByType(String userID, String addressType){
         List<Address> result = new ArrayList<Address>();
         //TODO do the updates here
 

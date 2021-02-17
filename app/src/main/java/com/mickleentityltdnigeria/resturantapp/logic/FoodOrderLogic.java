@@ -40,14 +40,14 @@ public class FoodOrderLogic {
         }
     }
 
-    public void ShipOrder(List<Integer> orderDetailIDs) throws InvalidUserException {
+    public void ShipOrder(List<String> orderDetailIDs) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
         Dalc.Order().ShipOrder(orderDetailIDs);
     }
 
-    public void DeliverOrder(List<Integer> orderDetailIDs, double amountCollected, double changeGiven, String paymentDescription, String collectedBy) throws InvalidUserException {
+    public void DeliverOrder(List<String> orderDetailIDs, double amountCollected, double changeGiven, String paymentDescription, String collectedBy) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
@@ -61,35 +61,35 @@ public class FoodOrderLogic {
         return Dalc.Order().getFoodOrderByTrackCode(trackCode);
     }
 
-    public FoodOrder getFoodOrderByOderID(int orderID) throws InvalidUserException {
+    public FoodOrder getFoodOrderByOderID(String orderID) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }
         return Dalc.Order().getFoodOrderByOderID(orderID);
     }
 
-    public List<FoodOrderDetail> getUndeliveredFoodOrderDetailsByResturant(int resturantID, boolean isDelivered) throws InvalidUserException {
+    public List<FoodOrderDetail> getUndeliveredFoodOrderDetailsByResturant(String resturantID, boolean isDelivered) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
         return Dalc.Order().getUndeliveredFoodOrderDetailsByResturant(resturantID, isDelivered);
     }
 
-    public List<FoodOrderDetail> getShippedFoodOrderDetailsByResturant(int resturantID, boolean isShipped) throws InvalidUserException {
+    public List<FoodOrderDetail> getShippedFoodOrderDetailsByResturant(String resturantID, boolean isShipped) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSELLER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
         return Dalc.Order().getShippedFoodOrderDetailsByResturant(resturantID, isShipped);
     }
 
-    public List<FoodOrderDetail> getFoodOrderDetailsByUserID(int userID) throws InvalidUserException {
+    public List<FoodOrderDetail> getFoodOrderDetailsByUserID(String userID) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }
         return Dalc.Order().getFoodOrderDetailsByUserID(userID);
     }
 
-    public List<FoodOrderDetail> getUnProcessedFoodOrderDetailsByUserID(int userID, boolean canceled, boolean delivered) throws InvalidUserException {
+    public List<FoodOrderDetail> getUnProcessedFoodOrderDetailsByUserID(String userID, boolean canceled, boolean delivered) throws InvalidUserException {
         if(module.isLoggedIn = false){
             throw new InvalidUserException();
         }

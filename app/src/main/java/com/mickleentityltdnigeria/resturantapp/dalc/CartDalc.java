@@ -25,7 +25,7 @@ public class CartDalc
 
     }
 
-    public void DeleteCart(int cartID){
+    public void DeleteCart(String cartID){
         //TODO do database updates here.
 
     }
@@ -38,7 +38,7 @@ public class CartDalc
         return cartItems;
     }
 
-    public CartItem getCartItemByID(int cartID){
+    public CartItem getCartItemByID(String cartID){
         //TODO do database updates here.
         CartItem cartItem = new CartItem();
 

@@ -21,14 +21,14 @@ public class AddressService {
         this.address.UpdateAddress(address);
     }
 
-    public void DeleteAddress(int addressID) throws InvalidUserException {
+    public void DeleteAddress(String addressID) throws InvalidUserException {
         this.address.DeleteAddress(addressID);
     }
-    public List<Address> getAddresses(int userID) throws InvalidUserException {
+    public List<Address> getAddresses(String userID) throws InvalidUserException {
         return this.address.getAddresses(userID);
     }
 
-    public List<Address> getAddressesByType(int userID, String addressType) throws InvalidUserException {
+    public List<Address> getAddressesByType(String userID, String addressType) throws InvalidUserException {
         return this.address.getAddressesByType(userID, addressType);
     }
 
