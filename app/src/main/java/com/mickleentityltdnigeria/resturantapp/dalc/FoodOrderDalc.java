@@ -25,6 +25,8 @@ public class FoodOrderDalc {
                 shippingAddress.getCity(), shippingAddress.getZipCode(),shippingAddress.getState(),shippingAddress.getCountry());
         //save order and return the Order ID
         //TODO save order to the system here.
+        //Save Order here.
+
         int orderID = getFoodOrderByTrackCode(guid).getOrderID();
         //
         for (CartItem c:cart) {

@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,14 +21,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.service.Service;
-import com.mickleentityltdnigeria.resturantapp.ui.login.LoginFragment;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +35,6 @@ import java.util.List;
  */
 public class ShoppingCartFragment extends Fragment {
 
-    public List<CartItem> cartItems = new ArrayList<CartItem>();
     TextView status;
     Button btnCheckOut;
     ProgressBar progress;
@@ -53,10 +49,6 @@ public class ShoppingCartFragment extends Fragment {
 
     public ShoppingCartFragment() {
         // Required empty public constructor
-    }
-
-    public ShoppingCartFragment(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
     }
 
     /**
@@ -98,11 +90,12 @@ public class ShoppingCartFragment extends Fragment {
         this.status = (TextView) view.findViewById(R.id.txtCartStatus);
         this.progress = (ProgressBar) view.findViewById(R.id.progressBarCheckOut);
         this.progress.setVisibility( View.VISIBLE);
-
+        //
+        SetStatus();
+        //
         view.findViewById(R.id.btnCheckOut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                module.cartItems = cartItems;
                 Navigation.findNavController(view)
                         .navigate(R.id.action_shoppingCartFragment_to_checkOutFragment);
             }
@@ -119,8 +112,6 @@ public class ShoppingCartFragment extends Fragment {
 
         try {
 
-            this.cartItems = Service.cart().getCartItems(module.userName);
-
             //Reference of RecyclerView
             RecyclerView mRecyclerView = view.findViewById(R.id.shoppingCartRecyclerView);
 
@@ -131,7 +122,7 @@ public class ShoppingCartFragment extends Fragment {
             mRecyclerView.setLayoutManager(linearLayoutManager);
 
             //Create adapter
-            ShoppingCartAdapter adapter = new ShoppingCartAdapter(cartItems, new CartRecyclerViewItemClickListener() {
+            ShoppingCartAdapter adapter = new ShoppingCartAdapter(module.cartItems, new CartRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClicked(@NotNull CartItem cartItem) {
 
@@ -140,10 +131,6 @@ public class ShoppingCartFragment extends Fragment {
 
             //Set adapter to RecyclerView
             mRecyclerView.setAdapter(adapter);
-            //
-            String currency = "$";
-            if(this.cartItems.size()>0) currency = this.cartItems.get(0).getCurrency();
-            SetStatus(currency);
             //
         }catch (Exception e){
             Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -157,8 +144,7 @@ public class ShoppingCartFragment extends Fragment {
             RecyclerView mRecyclerView = view.findViewById(R.id.shoppingCartRecyclerView);
 
             //Create adapter
-            this.cartItems = Service.cart().Cart.getCartItems(module.userName);
-            ShoppingCartAdapter adapter = new ShoppingCartAdapter(cartItems, new CartRecyclerViewItemClickListener() {
+            ShoppingCartAdapter adapter = new ShoppingCartAdapter(module.cartItems, new CartRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClicked(@NotNull CartItem cartItem) {
 
@@ -172,21 +158,30 @@ public class ShoppingCartFragment extends Fragment {
         }
     }
 
-    private void SetStatus(String currency){
-        DecimalFormat dc = new DecimalFormat("#,###,##0.00");
-        this.status.setText("Cart total: "+ currency +  dc.format(Service.cart().Cart.getCartTotal(module.userName)));
+    private void SetStatus(){
+        this.progress.setVisibility( View.VISIBLE);
+        try {
+            DecimalFormat dc = new DecimalFormat("#,###,##0.00");
+            double t = module.getCartTotal(module.userName);
+            //
+            String currency = "$";
+            if(module.cartItems.size()>0){
+                currency = module.cartItems.get(0).getCurrency();
+            }
+            //
+            this.status.setText("Cart total: "+ currency +  dc.format(t));
+        }catch (Exception e){
+            Toast.makeText(this.getContext(),e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        this.progress.setVisibility( View.GONE);
     }
 
     public void displayCartQty(int Qty, View v) {
         this.progress.setVisibility( View.VISIBLE);
         Snackbar.make(v, "" + Qty + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+        SetStatus();
         updateAdapter(v);
-        String currency = "$";
-        if(this.cartItems.size()>0){
-            currency = this.cartItems.get(0).getCurrency();
-        }
-        SetStatus(currency);
         //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
         this.progress.setVisibility( View.GONE);
     }

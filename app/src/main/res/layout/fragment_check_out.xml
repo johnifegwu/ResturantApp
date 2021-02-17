@@ -162,6 +162,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:enabled="false"
         android:text="@string/place_order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -170,7 +171,7 @@
     <Button
         android:id="@+id/btnAddShippingAddress"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="@+id/txtCartStatus3"
         app:layout_constraintEnd_toEndOf="@+id/txtCartStatus3"
@@ -195,7 +196,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/address"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -211,7 +211,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/city"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/txtPlaceOrderShiipingZipCode"
@@ -226,7 +225,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/zip_code"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -241,7 +239,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/state_resgion"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -258,11 +255,34 @@
         android:layout_marginEnd="8dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/country"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingState" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchOrderAgreement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="  "
+        app:layout_constraintBottom_toTopOf="@+id/txtOrderCartStatus"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/Terms_and_Condition"
+        app:layout_constraintBottom_toTopOf="@+id/switchOrderAgreement"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingCountry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

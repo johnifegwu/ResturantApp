@@ -8,6 +8,10 @@ public class Service {
         return new FoodService();
     }
 
+    public static FoodOrderService foodOder(){
+        return new FoodOrderService();
+    }
+
     public static CartService cart(){
         return new CartService();
     }

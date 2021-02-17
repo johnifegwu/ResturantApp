@@ -71,11 +71,11 @@
         android:label="fragment_check_out"
         tools:layout="@layout/fragment_check_out" >
         <action
-            android:id="@+id/action_checkOutFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-        <action
             android:id="@+id/action_checkOutFragment_to_newShippingAddressFragment"
             app:destination="@id/newShippingAddressFragment" />
+        <action
+            android:id="@+id/action_checkOutFragment_to_customerOrderListFragment"
+            app:destination="@id/customerOrderListFragment" />
     </fragment>
     <fragment
         android:id="@+id/newShippingAddressFragment"
@@ -93,6 +93,15 @@
         tools:layout="@layout/fragment_show_picture" >
         <action
             android:id="@+id/action_showPictureFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customerOrderListFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.CustomerOrderListFragment"
+        android:label="fragment_customer_order_list"
+        tools:layout="@layout/fragment_customer_order_list" >
+        <action
+            android:id="@+id/action_customerOrderListFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

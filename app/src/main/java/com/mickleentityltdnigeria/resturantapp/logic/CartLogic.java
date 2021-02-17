@@ -71,16 +71,5 @@ public class CartLogic {
         return result;
     }
 
-    public double getCartTotal(String userName)
-    {
-        double tP = 0.0;
-        List<CartItem> cartItems = Dalc.Cart().getCartItems(userName);
-        for (int i = 0; i < cartItems.size(); i++)
-        {
-            tP += (cartItems.get(i).getFoodPrice()*cartItems.get(i).getCartQty());
-        }
-
-        return (tP);
-    }
 
 }
