@@ -22,6 +22,7 @@ import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.service.Service;
+import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.io.ByteArrayInputStream;
@@ -98,7 +99,7 @@ public class ShowPictureFragment extends Fragment {
             this.btnAdd = (Button) view.findViewById(R.id.btnAdd);
             //
             try {
-                InputStream ims = new ByteArrayInputStream(module.foodItem.getFoodImg()); //assetManager.open(this.foodItem.getFoodUrl());
+                InputStream ims = new ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(module.foodItem.getFoodImg())); //assetManager.open(this.foodItem.getFoodUrl());
                 Drawable d = Drawable.createFromStream(ims, null);
                 this.foodImg.setImageDrawable(d);
                 this.foodText.setText(module.foodItem.getFoodDesc());
@@ -130,7 +131,7 @@ public class ShowPictureFragment extends Fragment {
         this.progress.setVisibility( View.VISIBLE);
         CartItem cartItem = new CartItem();
         cartItem.setCartQty(Qty);
-        cartItem.setCartID(-1);
+        cartItem.setCartID("");
         cartItem.setFoodDesc(module.foodItem.getFoodDesc());
         cartItem.setFoodID(module.foodItem.getFoodID());
         cartItem.setFoodImg(module.foodItem.getFoodImg());

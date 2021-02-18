@@ -1,6 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Shopping Cart", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             try {
+                val intent = Intent(this,SampleFolderActivity::class.java)
+                startActivity(intent)
                 if(module.isLoggedIn){
                     Navigation.findNavController(view)
                         .navigate(R.id.action_FirstFragment_to_shoppingCartFragment)

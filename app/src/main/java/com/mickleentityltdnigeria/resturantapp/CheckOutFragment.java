@@ -188,10 +188,10 @@ public class CheckOutFragment extends Fragment {
                         throw new Exception("Please provide a Shipping Address.");
                     }
                     //
-                    Address shipping = new Address(-1,module.userID,module.AddressTYPE_SHIPPING,txtShippingAddress.getText().toString(),txtShippingCity.getText().toString(),
+                    Address shipping = new Address("",module.userID,module.AddressTYPE_SHIPPING,txtShippingAddress.getText().toString(),txtShippingCity.getText().toString(),
                             txtShippingZipCode.getText().toString(),txtShippingState.getText().toString(),txtShippingCountry.getText().toString());
 
-                    Address billing = new Address(-1,module.userID,module.AddressTYPE_BILLING,txtBillingAddress.getText().toString(),txtBillingCity.getText().toString(),
+                    Address billing = new Address("",module.userID,module.AddressTYPE_BILLING,txtBillingAddress.getText().toString(),txtBillingCity.getText().toString(),
                             txtBillingZipCode.getText().toString(),txtBillingState.getText().toString(),txtBillingCountry.getText().toString());
                     //
                     module.orderTrackCode = Service.foodOder().PlaceOrder(module.cartItems,billing,shipping);

@@ -48,7 +48,7 @@
         android:id="@+id/registerUserFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.RegisterUserFragment"
         android:label="fragment_register_user"
-        tools:layout="@layout/fragment_register_user" >
+        tools:layout="@layout/fragment_register_user">
         <action
             android:id="@+id/action_registerUserFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
@@ -60,7 +60,7 @@
         android:id="@+id/shoppingCartFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.ShoppingCartFragment"
         android:label="fragment_shopping_cart"
-        tools:layout="@layout/fragment_shopping_cart" >
+        tools:layout="@layout/fragment_shopping_cart">
         <action
             android:id="@+id/action_shoppingCartFragment_to_checkOutFragment"
             app:destination="@id/checkOutFragment" />
@@ -69,7 +69,7 @@
         android:id="@+id/checkOutFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.CheckOutFragment"
         android:label="fragment_check_out"
-        tools:layout="@layout/fragment_check_out" >
+        tools:layout="@layout/fragment_check_out">
         <action
             android:id="@+id/action_checkOutFragment_to_newShippingAddressFragment"
             app:destination="@id/newShippingAddressFragment" />
@@ -81,7 +81,7 @@
         android:id="@+id/newShippingAddressFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.NewShippingAddressFragment"
         android:label="fragment_new_shipping_address"
-        tools:layout="@layout/fragment_new_shipping_address" >
+        tools:layout="@layout/fragment_new_shipping_address">
         <action
             android:id="@+id/action_newShippingAddressFragment_to_checkOutFragment"
             app:destination="@id/checkOutFragment" />
@@ -90,7 +90,7 @@
         android:id="@+id/showPictureFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.ShowPictureFragment"
         android:label="fragment_show_picture"
-        tools:layout="@layout/fragment_show_picture" >
+        tools:layout="@layout/fragment_show_picture">
         <action
             android:id="@+id/action_showPictureFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
@@ -99,9 +99,29 @@
         android:id="@+id/customerOrderListFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.CustomerOrderListFragment"
         android:label="fragment_customer_order_list"
-        tools:layout="@layout/fragment_customer_order_list" >
+        tools:layout="@layout/fragment_customer_order_list">
         <action
             android:id="@+id/action_customerOrderListFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/First2Fragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.First2Fragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first2">
+
+        <action
+            android:id="@+id/action_First2Fragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.SecondFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_second">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_First2Fragment"
+            app:destination="@id/First2Fragment" />
     </fragment>
 </navigation>

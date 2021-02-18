@@ -88,7 +88,7 @@ public class CustomerOrderListFragment extends Fragment {
 
         // Register interest in the Order Change.
         OrderDetailChangedHandler orderDetailChanged = new OrderDetailChangedHandler() {
-            public void invoke(int orderDetailID) {
+            public void invoke(String orderDetailID) {
                 updateAdapter(view);
             }
         };

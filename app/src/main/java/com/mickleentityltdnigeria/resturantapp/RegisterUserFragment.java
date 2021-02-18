@@ -120,7 +120,7 @@ public class RegisterUserFragment extends Fragment {
                        throw new Exception("Fill all required fields.");
                    }
                    String deviceID = Settings.Secure.getString(view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-                   User user = new User(-1,txtEmail.getText().toString(),txtPassword.getText().toString(),
+                   User user = new User("",txtEmail.getText().toString(),txtPassword.getText().toString(),
                            txtFirstName.getText().toString(),txtMiddleName.getText().toString(),txtLastName.getText().toString(),
                            txtEmail.getText().toString(),txtPhone.getText().toString(),txtAddress.getText().toString(), txtCity.getText().toString(),
                            txtZipCode.getText().toString(),txtState.getText().toString(),txtCountry.getText().toString(),deviceID, module.UserTypeCUSTOMER);

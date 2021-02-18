@@ -101,7 +101,7 @@ public class NewShippingAddressFragment extends Fragment {
                         throw new Exception("All fields are required.");
                     }
                     //
-                    Address address = new Address(-1, module.userID,module.AddressTYPE_SHIPPING,txtShippingAddress.getText().toString()
+                    Address address = new Address("", module.userID,module.AddressTYPE_SHIPPING,txtShippingAddress.getText().toString()
                     , txtShippingCity.getText().toString(),txtShippingZipCode.getText().toString(),txtShippingState.getText().toString(),txtShippingCountry.getText().toString());
                     Service.address().AddAddress(address);
                     //
