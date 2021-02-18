@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.service.Service
+import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.ByteArrayInputStream
 import java.io.InputStream
@@ -82,7 +83,7 @@ class FoodItemAdapter(
     private fun addToCart(Qty: Int, foodItem: FoodItem) {
         val cartItem:CartItem = CartItem()
         cartItem.cartQty = Qty
-        cartItem.cartID = -1
+        cartItem.cartID = ""
         cartItem.foodDesc = foodItem.foodDesc
         cartItem.foodID = foodItem.foodID
         cartItem.foodImg = foodItem.foodImg
@@ -102,7 +103,7 @@ class FoodItemAdapter(
         fun bind(fooditem: FoodItem) {
             try
             {
-                val ims: InputStream =  ByteArrayInputStream(fooditem.foodImg)  //assetManager.open(fooditem.foodUrl)
+                val ims: InputStream =  ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(fooditem.foodImg))  //assetManager.open(fooditem.foodUrl)
                 val d: Drawable = Drawable.createFromStream(ims, null)
 
                 itemView.findViewById<ImageView>(R.id.imgFood).setImageDrawable(d)

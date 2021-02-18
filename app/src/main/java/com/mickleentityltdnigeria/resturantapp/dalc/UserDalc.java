@@ -1,5 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.DuplicateUserException;
 import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserCredentialsException;
@@ -12,12 +14,17 @@ import java.util.List;
 
 public class UserDalc {
 
+    DatabaseReference userDB;
+
     public UserDalc(){
+        userDB = FirebaseDatabase.getInstance().getReference("User");
     }
 
     public void AddUser(User user) throws RequiredFiledException, DuplicateUserException {
         //check required fields
-       //TODO add user to the database.
+      String userID = userDB.push().getKey();
+      user.setUserID(userID);
+      userDB.child(userID).setValue(user);
     }
 
     public void UpdateUser(User user){

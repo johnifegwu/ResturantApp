@@ -15,6 +15,7 @@ import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant
 import com.mickleentityltdnigeria.resturantapp.service.Service
+import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.text.DecimalFormat
@@ -119,7 +120,7 @@ public class CustomerOrderListAdapter(
                 val cu:String = orderDetail.currency
                 //
                 val foodItem:FoodItem = Service.food().getFoodItemByFoodID(orderDetail.foodID)
-                val ims: InputStream = ByteArrayInputStream(foodItem.foodImg) //assetManager.open(cartItem.foodImgUrl)
+                val ims: InputStream = ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(foodItem.foodImg)) //assetManager.open(cartItem.foodImgUrl)
                 val d: Drawable = Drawable.createFromStream(ims, null)
                //
                 itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(d)

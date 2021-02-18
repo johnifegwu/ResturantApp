@@ -10,7 +10,7 @@ public class FoodItem implements Serializable {
     private String foodDesc;
     private Double foodPrice;
     private String currency;
-    private byte[] foodImg;
+    private String foodImg;
     private String userID;
     private boolean approved;
     private String zipCodes; //Zip Codes derived from Resturant separated by spaces
@@ -19,7 +19,7 @@ public class FoodItem implements Serializable {
 
     }
 
-    public FoodItem(String foodID, String resturantID, String foodImgUrl, String foodDesc, Double foodPrice, String currency, byte[] foodImg, String userID, boolean approved, String zipCodes) {
+    public FoodItem(String foodID, String resturantID, String foodImgUrl, String foodDesc, Double foodPrice, String currency, String foodImg, String userID, boolean approved, String zipCodes) {
         this.foodID = foodID;
         this.resturantID = resturantID;
         this.foodImgUrl = foodImgUrl;
@@ -80,11 +80,11 @@ public class FoodItem implements Serializable {
         this.currency = currency;
     }
 
-    public byte[] getFoodImg() {
+    public String getFoodImg() {
         return foodImg;
     }
 
-    public void setFoodImg(byte[] foodImg) {
+    public void setFoodImg(String foodImg) {
         this.foodImg = foodImg;
     }
 

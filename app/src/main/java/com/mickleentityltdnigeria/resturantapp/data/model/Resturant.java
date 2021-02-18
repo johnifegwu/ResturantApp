@@ -12,7 +12,7 @@ public class Resturant implements Serializable {
     private String resturantDescription;
     private String resturantLongitude;
     private String resturantLatitude;
-    private byte[] resturantImg;
+    private String resturantImg;
     private String resturantImgUrl;
     private String address;
     private String city;
@@ -33,7 +33,7 @@ public class Resturant implements Serializable {
 
     public Resturant(){}
 
-    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, byte[] resturantImg, String resturantImgUrl, String address, String city, String zipCodes, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
+    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCodes, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
         this.resturantID = resturantID;
         this.userID = userID;
         this.resturantName = resturantName;
@@ -116,11 +116,11 @@ public class Resturant implements Serializable {
         this.resturantLatitude = resturantLatitude;
     }
 
-    public byte[] getResturantImg() {
+    public String getResturantImg() {
         return resturantImg;
     }
 
-    public void setResturantImg(byte[] resturantImg) {
+    public void setResturantImg(String resturantImg) {
         this.resturantImg = resturantImg;
     }
 

@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.service.Service
+import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.ByteArrayInputStream
 import java.io.InputStream
@@ -79,7 +80,7 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
         fun bind(cartItem: CartItem) {
             try
             {
-                val ims: InputStream = ByteArrayInputStream(cartItem.foodImg) //assetManager.open(cartItem.foodImgUrl)
+                val ims: InputStream = ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(cartItem.foodImg)) //assetManager.open(cartItem.foodImgUrl)
                 val d: Drawable = Drawable.createFromStream(ims, null)
 
                 itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(d)
