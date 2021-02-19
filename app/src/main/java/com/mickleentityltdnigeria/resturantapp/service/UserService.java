@@ -37,13 +37,10 @@ public class UserService {
     }
 
     //Gets the given user from the system.
-    public User getUserByName(String userName){
-        return this.User.getUserByName(userName);
+    public void getUserByName(String userName){
+         this.User.getUserByName(userName);
     }
 
-    public boolean LogIn(String userName, String passWord) throws InvalidUserCredentialsException {
-        return this.User.LogIn(userName, passWord);
-    }
 
     public void LogOut(){
         this.User.LogOut();

@@ -1,7 +1,12 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.DuplicateUserException;
 import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserCredentialsException;
@@ -10,45 +15,123 @@ import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserDalc {
 
-    DatabaseReference userDB;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference userDB = database.getReference("users");
 
-    public UserDalc(){
-        userDB = FirebaseDatabase.getInstance().getReference("User");
+    public Event<UserUpdatedHandler> userDataFetched = new Event<UserUpdatedHandler>();
+    public Event<UserUpdatedHandler> newUserAdded = new Event<UserUpdatedHandler>();
+    public Event<UserUpdatedHandler> userDataUpdated = new Event<UserUpdatedHandler>();
+    public Event<UserUpdatedHandler> userDataDeleted = new Event<UserUpdatedHandler>();
+    public Event<UserUpdatedHandler> userNotFound = new Event<UserUpdatedHandler>();
+
+    private List<User> users = new ArrayList<User>();
+
+    public UserDalc() {
+        // Write a message to the database
     }
 
-    public void AddUser(User user) throws RequiredFiledException, DuplicateUserException {
-        //check required fields
-      String userID = userDB.push().getKey();
-      user.setUserID(userID);
-      userDB.child(userID).setValue(user);
+    public void AddUser(User user)  {
+        //Get ID from the system.
+        String userID = userDB.push().getKey().trim();
+        //Update model with acquired data.
+        user.setUserID(userID);
+        //save user to the system.
+        userDB.child(userID).setValue(user);
+        //raise event
+        for (UserUpdatedHandler listener : newUserAdded.listeners()) {
+            List<User> result = new ArrayList<User>();
+            result.add(user);
+            listener.invoke(result);
+        }
     }
 
-    public void UpdateUser(User user){
-        //TODO do the updates here
-
+    public void UpdateUser(User user) {
+        //Get ID from the system.
+        String userID = user.getUserID();
+        //save user to the system.
+        userDB.child(userID).setValue(user);
+        //raise event
+        for (UserUpdatedHandler listener : userDataUpdated.listeners()) {
+            List<User> result = new ArrayList<User>();
+            result.add(user);
+            listener.invoke(result);
+        }
     }
 
-    public void DeleteUser(String userID){
-        //TODO do the delete here.
-
+    public void DeleteUser(String userID) {
+        //save user to the system.
+        userDB.child(userID).setValue(null);
+        //raise event
+        for (UserUpdatedHandler listener : userDataDeleted.listeners()) {
+            List<User> result = new ArrayList<User>();
+            result.add(null);
+            listener.invoke(result);
+        }
     }
 
-    public User getUserByName(String userName){
-        User user = new User();
-        //TODO get the user from database
+    public void getUserByName(String userName) {
+        userDB.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    User user = snapshot.getValue(User.class);
+                    //raise event
+                    for (UserUpdatedHandler listener : userDataFetched.listeners()) {
+                        List<User> result = new ArrayList<User>();
+                        result.add(user);
+                        listener.invoke(result);
+                    }
+                }
+            }
 
-        return user;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (UserUpdatedHandler listener : userNotFound.listeners()) {
+                    List<User> result = new ArrayList<User>();
+                    result.add(null);
+                    listener.invoke(result);
+                }
+            }
+        });
+        //
+        userDB.orderByChild("userName").equalTo(userName);
+        //
     }
 
-    public User getUserByID(String userID){
-        User user = new User();
-        //TODO get the user from database
+    public void getUserByID(String userID) {
+        userDB.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    User user = snapshot.getValue(User.class);
+                    //raise event
+                    for (UserUpdatedHandler listener : userDataFetched.listeners()) {
+                        List<User> result = new ArrayList<User>();
+                        result.add(user);
+                        listener.invoke(result);
+                    }
+                }
+            }
 
-        return user;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (UserUpdatedHandler listener : userNotFound.listeners()) {
+                    List<User> result = new ArrayList<User>();
+                    result.add(null);
+                    listener.invoke(result);
+                }
+            }
+        });
+        //
+        userDB.orderByChild("userID").equalTo(userID);
+        //
     }
 
 }

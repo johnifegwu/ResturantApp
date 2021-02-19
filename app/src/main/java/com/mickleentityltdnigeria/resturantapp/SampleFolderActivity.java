@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.File;
 
-public class SampleFolderActivity extends Activity implements IFolderItemListener {
+public class SampleFolderActivity extends AppCompatActivity implements IFolderItemListener {
 
     FolderLayout localFolders;
 

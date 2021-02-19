@@ -2,16 +2,30 @@ package com.mickleentityltdnigeria.resturantapp.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 
+import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
+import com.mickleentityltdnigeria.resturantapp.exceptions.NoNetworkException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class module {
+
+    public static String Wifi_ENABLED = "Wifi enabled";
+    public static String Mobile_Data_ENABLED = "Mobile data enabled";
+    public static String No_Network = "No internet enabled";
+
+    public static void checkNetwork() throws NoNetworkException {
+        String status = NetworkHelper.getNetworkStatus(AppGlobals.getAppContext());
+        if(status == null || status == module.No_Network){
+            throw new NoNetworkException();
+        }
+    }
 
     public static List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
     public static List<CartItem> cartItems = new ArrayList<CartItem>();

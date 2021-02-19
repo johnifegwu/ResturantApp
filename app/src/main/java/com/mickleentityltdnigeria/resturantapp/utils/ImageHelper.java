@@ -24,10 +24,9 @@ public class ImageHelper {
         }
 
         public String byteArrayToString(byte[] byteArray){
-            String imageB64 = Base64.encodeToString(byteArray, Base64.URL_SAFE);
-            //  store & retrieve this string which is URL safe(can be used to store in FBDB) to firebase
-            // Use either Realtime Database or Firestore.
-            return imageB64;
+            return  Base64.encodeToString(byteArray, Base64.URL_SAFE);
+            //  store & retrieve this string which is URL safe(can be used to store in FB DB) to firebase
+            // Use either Realtime Database or Firebase.
         }
 
         public byte[] base64StringToByteArray(String base64String){

@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,20 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
+import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.service.Service;
+import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mickleentityltdnigeria.resturantapp.utils.PasswordValidator.ValidatePassword;
 
@@ -31,6 +43,8 @@ import static com.mickleentityltdnigeria.resturantapp.utils.PasswordValidator.Va
 public class RegisterUserFragment extends Fragment {
 
 
+    DatabaseReference userDB;
+    FirebaseDatabase fireInstance;
     EditText txtPassword, txtFirstName, txtMiddleName, txtLastName, txtEmail, txtPhone, txtConfirm, txtAddress, txtCity, txtZipCode, txtState, txtCountry;
     ProgressBar progress;
 
@@ -53,7 +67,6 @@ public class RegisterUserFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment RegisterUserFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static RegisterUserFragment newInstance(String param1, String param2) {
         RegisterUserFragment fragment = new RegisterUserFragment();
         Bundle args = new Bundle();
@@ -82,6 +95,8 @@ public class RegisterUserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fireInstance = FirebaseDatabase.getInstance();
+        userDB = fireInstance.getReference("User");
         progress = view.findViewById(R.id.progressBarRegister);
         this.progress.setVisibility( View.VISIBLE);
         txtPassword = view.findViewById(R.id.txtCustomerPassword);
@@ -107,38 +122,55 @@ public class RegisterUserFragment extends Fragment {
                        txtPassword.requestFocus();
                       throw new Exception("Password must be between 8 to 20 characters and have at least one Capital Letter and one special character.");
                    }
-                   if(!txtPassword.getText().toString().equals(txtConfirm.getText().toString())){
+                   if(!txtPassword.getText().toString().trim().equals(txtConfirm.getText().toString().trim())){
                        txtConfirm.requestFocus();
                        throw new Exception("Password did not match.");
                    }
-                   if(txtEmail.getText().toString() == ""){
+                   if(TextUtils.isEmpty(txtEmail.getText().toString())){
                        txtEmail.requestFocus();
                        throw new Exception("Fill all required fields.");
                    }
-                   if(txtZipCode.getText().toString() == ""){
+                   if(TextUtils.isEmpty(txtZipCode.getText().toString())){
                        txtZipCode.requestFocus();
                        throw new Exception("Fill all required fields.");
                    }
                    String deviceID = Settings.Secure.getString(view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-                   User user = new User("",txtEmail.getText().toString(),txtPassword.getText().toString(),
+                   deviceID = ImageHelper.getInstant().byteArrayToString(deviceID.getBytes());
+                   User user = new User("",txtEmail.getText().toString().trim(),txtPassword.getText().toString(),
                            txtFirstName.getText().toString(),txtMiddleName.getText().toString(),txtLastName.getText().toString(),
                            txtEmail.getText().toString(),txtPhone.getText().toString(),txtAddress.getText().toString(), txtCity.getText().toString(),
                            txtZipCode.getText().toString(),txtState.getText().toString(),txtCountry.getText().toString(),deviceID, module.UserTypeCUSTOMER);
                    //Save new User to the system.
+                   // Register interest in the user.
+                   UserUpdatedHandler duplicateUserEvent = new UserUpdatedHandler() {
+                       public void invoke(List<User> users) {
+                           progress.setVisibility( View.GONE);
+                           Snackbar.make(view , txtEmail.getText().toString() + " already exist in the system.", Snackbar.LENGTH_LONG)
+                                   .setAction("Action", null).show();
+                       }
+                   };
+                   UserUpdatedHandler newUserAdded = new UserUpdatedHandler() {
+                       public void invoke(List<User> users) {
+                           progress.setVisibility( View.GONE);
+                           Snackbar.make(view , "Sign Up successful. You can now login.", Snackbar.LENGTH_LONG)
+                                   .setAction("Action", null).show();
+                           Navigation.findNavController(view)
+                                   .navigate(R.id.action_registerUserFragment_to_LoginFragment);
+                       }
+                   };
+                   Dalc.User().newUserAdded.addListener(newUserAdded);
+                   Service.user().User.duplicateUserEvent.addListener(duplicateUserEvent);
+                   //Try to save new user data.
                    Service.user().User.AddUser(user);
                    //
-                   Snackbar.make(view , "Sign Up successful. \n You can now login.", Snackbar.LENGTH_LONG)
-                           .setAction("Action", null).show();
-                   Navigation.findNavController(view)
-                           .navigate(R.id.action_registerUserFragment_to_LoginFragment);
                } catch (Exception e) {
                    Snackbar.make(view , e.getMessage(), Snackbar.LENGTH_LONG)
                            .setAction("Action", null).show();
                }
-                progress.setVisibility( View.GONE);
             }
         });
         txtEmail.requestFocus();
         this.progress.setVisibility( View.GONE);
     }
+
 }

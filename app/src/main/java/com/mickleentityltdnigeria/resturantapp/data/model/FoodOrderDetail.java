@@ -1,30 +1,34 @@
 package com.mickleentityltdnigeria.resturantapp.data.model;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@IgnoreExtraProperties
 public class FoodOrderDetail implements Serializable {
 
-    private String ID;
-    private String oderID;
-    private String userID;
-    private String foodID;
-    private String resturantID;
-    private double foodPrice;
-    private String currency;
-    private double foodQty;
-    private boolean isPaid;
-    private double amountPaid;
-    private double changeGiven;
-    private String paymentDescription;
-    private boolean isShipped;
-    private Date dateShipped;
-    private String shippedBy;
-    private boolean isDelivered;
-    private Date dateDelivered;
-    private String deliveredBy;
-    private String collectedBy;
-    private boolean isCanceled;
+    public String ID;
+    public String oderID;
+    public String userID;
+    public String foodID;
+    public String resturantID;
+    public double foodPrice;
+    public String currency;
+    public double foodQty;
+    public boolean isPaid;
+    public double amountPaid;
+    public double changeGiven;
+    public String paymentDescription;
+    public boolean isShipped;
+    public Date dateShipped;
+    public String shippedBy;
+    public boolean isDelivered;
+    public Date dateDelivered;
+    public String deliveredBy;
+    public String collectedBy;
+    public boolean isCanceled;
 
     public FoodOrderDetail() {
     }
@@ -52,162 +56,202 @@ public class FoodOrderDetail implements Serializable {
         this.isCanceled = isCanceled;
     }
 
+    @Exclude
     public String getID() {
         return ID;
     }
 
+    @Exclude
     public void setID(String ID) {
         this.ID = ID;
     }
 
+    @Exclude
     public String getOderID() {
         return oderID;
     }
 
+    @Exclude
     public void setOderID(String oderID) {
         this.oderID = oderID;
     }
 
+    @Exclude
     public String getUserID() {
         return userID;
     }
 
+    @Exclude
     public void setUserID(String userID) {
         this.userID = userID;
     }
 
+    @Exclude
     public String getFoodID() {
         return foodID;
     }
 
+    @Exclude
     public void setFoodID(String foodID) {
         this.foodID = foodID;
     }
 
+    @Exclude
     public String getResturantID() {
         return resturantID;
     }
 
+    @Exclude
     public void setResturantID(String resturantID) {
         this.resturantID = resturantID;
     }
 
+    @Exclude
     public double getFoodPrice() {
         return foodPrice;
     }
 
+    @Exclude
     public void setFoodPrice(double foodPrice) {
         this.foodPrice = foodPrice;
     }
 
+    @Exclude
     public String getCurrency() {
         return currency;
     }
 
+    @Exclude
     public void setCurrency(String currency) {
         this.currency = currency;
     }
 
+    @Exclude
     public double getFoodQty() {
         return foodQty;
     }
 
+    @Exclude
     public void setFoodQty(double foodQty) {
         this.foodQty = foodQty;
     }
 
+    @Exclude
     public boolean isPaid() {
         return isPaid;
     }
 
+    @Exclude
     public void setPaid(boolean paid) {
         isPaid = paid;
     }
 
+    @Exclude
     public double getAmountPaid() {
         return amountPaid;
     }
 
+    @Exclude
     public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
 
+    @Exclude
     public double getChangeGiven() {
         return changeGiven;
     }
 
+    @Exclude
     public void setChangeGiven(double changeGiven) {
         this.changeGiven = changeGiven;
     }
 
+    @Exclude
     public String getPaymentDescription() {
         return paymentDescription;
     }
 
+    @Exclude
     public void setPaymentDescription(String paymentDescription) {
         this.paymentDescription = paymentDescription;
     }
 
+    @Exclude
     public boolean isShipped() {
         return isShipped;
     }
 
+    @Exclude
     public void setShipped(boolean shipped) {
         isShipped = shipped;
     }
 
+    @Exclude
     public Date getDateShipped() {
         return dateShipped;
     }
 
+    @Exclude
     public void setDateShipped(Date dateShipped) {
         this.dateShipped = dateShipped;
     }
 
+    @Exclude
     public String getShippedBy() {
         return shippedBy;
     }
 
+    @Exclude
     public void setShippedBy(String shippedBy) {
         this.shippedBy = shippedBy;
     }
 
+    @Exclude
     public boolean isDelivered() {
         return isDelivered;
     }
 
+    @Exclude
     public void setDelivered(boolean delivered) {
         isDelivered = delivered;
     }
 
+    @Exclude
     public Date getDateDelivered() {
         return dateDelivered;
     }
 
+    @Exclude
     public void setDateDelivered(Date dateDelivered) {
         this.dateDelivered = dateDelivered;
     }
 
+    @Exclude
     public String getDeliveredBy() {
         return deliveredBy;
     }
 
+    @Exclude
     public void setDeliveredBy(String deliveredBy) {
         this.deliveredBy = deliveredBy;
     }
 
+    @Exclude
     public String getCollectedBy() {
         return collectedBy;
     }
 
+    @Exclude
     public void setCollectedBy(String collectedBy) {
         this.collectedBy = collectedBy;
     }
 
+    @Exclude
     public boolean isCanceled() {
         return isCanceled;
     }
 
+    @Exclude
     public void setCanceled(boolean canceled) {
         isCanceled = canceled;
     }

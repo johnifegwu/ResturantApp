@@ -30,22 +30,21 @@ public class ResturantLogic {
     }
 
     //Approves a Resturant and all Food Items in the system.
-    public void approveResturant(String resturantID) throws InvalidUserException {
+    public void approveResturant(Resturant resturant, User user) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSUPPER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
-        Resturant resturant = getResturantByResturantID(resturantID);
+        //
         if (resturant.getResturantName() != ""){
             //Update resturant
             resturant.setApproved(true);
             Dalc.Resturant().UpdateResturant(resturant);
             //Update User
-            User user = Dalc.User().getUserByID(resturant.getUserID());
             user.setUserType(module.UserTypeSELLER);
             Dalc.User().UpdateUser(user);
             //Update food items
             List<FoodItem> food = new ArrayList<FoodItem>();
-            food = Dalc.Food().getFoodItemsByResturant(resturantID);
+            food = Dalc.Food().getFoodItemsByResturant(resturant.getResturantID());
             for (FoodItem f:food) {
                 f.setApproved(true);
                 f.setZipCodes(resturant.getZipCodes());
@@ -56,22 +55,20 @@ public class ResturantLogic {
     }
 
     //Rolls back the Approval process.
-    public void disApproveResturant(String resturantID) throws InvalidUserException {
+    public void disApproveResturant(Resturant resturant, User user) throws InvalidUserException {
         if((!module.userType.equals(module.UserTypeSUPPER)) || (module.isLoggedIn = false)){
             throw new InvalidUserException();
         }
-        Resturant resturant = getResturantByResturantID(resturantID);
         if (resturant.getResturantName() != ""){
             //Update resturant
             resturant.setApproved(false);
             Dalc.Resturant().UpdateResturant(resturant);
             //Update User
-            User user = Dalc.User().getUserByID(resturant.getUserID());
             user.setUserType(module.UserTypeCUSTOMER);
             Dalc.User().UpdateUser(user);
             //Update food items
             List<FoodItem> food = new ArrayList<FoodItem>();
-            food = Dalc.Food().getFoodItemsByResturant(resturantID);
+            food = Dalc.Food().getFoodItemsByResturant(resturant.getResturantID());
             for (FoodItem f:food) {
                 f.setApproved(false);
                 f.setZipCodes(resturant.getZipCodes());

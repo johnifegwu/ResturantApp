@@ -1,6 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp.service;
 
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
+import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserException;
 import com.mickleentityltdnigeria.resturantapp.logic.ResturantLogic;
 
@@ -20,13 +21,13 @@ public class ResturantService {
     }
 
     //Approves a Resturant and all Food Items in the system.
-    public void approveResturant(String resturantID) throws InvalidUserException {
-        this.resturant.approveResturant(resturantID);
+    public void approveResturant(Resturant resturant, User user) throws InvalidUserException {
+        this.resturant.approveResturant(resturant, user);
     }
 
     //Rolls back the Approval process.
-    public void disApproveResturant(String resturantID) throws InvalidUserException {
-        this.resturant.disApproveResturant(resturantID);
+    public void disApproveResturant(Resturant resturant, User user) throws InvalidUserException {
+        this.resturant.disApproveResturant(resturant, user);
     }
 
     public Resturant getResturantByResturantID(String resturantID){

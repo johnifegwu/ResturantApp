@@ -21,11 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.Address;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.extensions.AddressChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.service.Service;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
@@ -229,7 +231,13 @@ public class CheckOutFragment extends Fragment {
     }
 
     private void setBillingAddress() {
-        this.user = Service.user().getUserByName(module.userName);
+        UserUpdatedHandler userDataFetched = new UserUpdatedHandler() {
+            public void invoke(List<User> users) {
+                user = users.get(0);
+            }
+        };
+        Dalc.User().userDataFetched.addListener(userDataFetched);
+        Service.user().getUserByName(module.userName);
         this.txtBillingAddress.setText(user.getContactAddress());
         this.txtBillingCity.setText(user.getCity());
         this.txtBillingZipCode.setText(user.getZipCode());

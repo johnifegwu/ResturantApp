@@ -1,6 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,8 +51,8 @@ class FirstFragment : Fragment() {
         btnSearch.setOnClickListener(View.OnClickListener {
             this.progress.visibility = View.VISIBLE
             try {
-                if(txtsearchString.text.toString() != "" && txtsearchZipCode.text.toString() != "" ){
-                    foodItems = Service.food().SearchFoodItems(txtsearchString.text.toString(), txtsearchZipCode.text.toString(), true)
+                if(!TextUtils.isEmpty(txtsearchString.text.toString().trim()) && !TextUtils.isEmpty(txtsearchZipCode.text.toString().trim() ) ){
+                    foodItems = Service.food().SearchFoodItems(txtsearchString.text.toString().trim(), txtsearchZipCode.text.toString().trim(), true)
                     //Reference of RecyclerView
                     val mRecyclerView:RecyclerView =  view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
 
@@ -61,7 +62,6 @@ class FirstFragment : Fragment() {
 
                         }
                     })
-
                     //Set adapter to RecyclerView
                     mRecyclerView.swapAdapter(adapter, false)
                     //
