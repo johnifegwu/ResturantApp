@@ -29,7 +29,7 @@ public class PasswordValidator
             }
         }
 
-        //Check special characters
+       /* //Check special characters
         char[] spChars = {'!', '@', '#', '$', '%', '^', '&', '*', '~', '<', '>', '?', '+', '×', '÷', '=', '/', '_', '€', '£', '¥', '₩', '\\', '|'};
         for (char x : spChars)
         {
@@ -38,7 +38,9 @@ public class PasswordValidator
                 HasSpcChar = true;
                 break;
             }
-        }
+        }*/
+
+        HasSpcChar = true;
 
         //Check white spaces
         if (!pw.contains(" "))

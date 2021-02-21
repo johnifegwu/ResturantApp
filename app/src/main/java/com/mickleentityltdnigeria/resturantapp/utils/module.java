@@ -1,9 +1,5 @@
 package com.mickleentityltdnigeria.resturantapp.utils;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-
 import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
@@ -13,6 +9,7 @@ import com.mickleentityltdnigeria.resturantapp.exceptions.NoNetworkException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class module {
 
@@ -64,5 +61,5 @@ public class module {
         return (tP);
     }
 
-
 }
+

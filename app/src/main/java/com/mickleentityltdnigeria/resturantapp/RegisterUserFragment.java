@@ -1,38 +1,39 @@
 package com.mickleentityltdnigeria.resturantapp;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.mickleentityltdnigeria.resturantapp.dalc.UserDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
-import com.mickleentityltdnigeria.resturantapp.service.Service;
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static com.mickleentityltdnigeria.resturantapp.utils.PasswordValidator.ValidatePassword;
 
 /**
@@ -43,8 +44,8 @@ import static com.mickleentityltdnigeria.resturantapp.utils.PasswordValidator.Va
 public class RegisterUserFragment extends Fragment {
 
 
-    DatabaseReference userDB;
-    FirebaseDatabase fireInstance;
+    private FirebaseAuth mAuth;
+    UserDalc userData;
     EditText txtPassword, txtFirstName, txtMiddleName, txtLastName, txtEmail, txtPhone, txtConfirm, txtAddress, txtCity, txtZipCode, txtState, txtCountry;
     ProgressBar progress;
 
@@ -77,6 +78,18 @@ public class RegisterUserFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -95,8 +108,7 @@ public class RegisterUserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fireInstance = FirebaseDatabase.getInstance();
-        userDB = fireInstance.getReference("User");
+        userData = new UserDalc();
         progress = view.findViewById(R.id.progressBarRegister);
         this.progress.setVisibility( View.VISIBLE);
         txtPassword = view.findViewById(R.id.txtCustomerPassword);
@@ -117,10 +129,11 @@ public class RegisterUserFragment extends Fragment {
                 //
                 progress.setVisibility( View.VISIBLE);
                try {
+                   module.checkNetwork();
                    if (!ValidatePassword(txtPassword.getText().toString(), 8, 20))
                    {
                        txtPassword.requestFocus();
-                      throw new Exception("Password must be between 8 to 20 characters and have at least one Capital Letter and one special character.");
+                      throw new Exception("Password must be between 8 to 20 characters and have at least one Capital Letter and one numeric character.");
                    }
                    if(!txtPassword.getText().toString().trim().equals(txtConfirm.getText().toString().trim())){
                        txtConfirm.requestFocus();
@@ -136,15 +149,19 @@ public class RegisterUserFragment extends Fragment {
                    }
                    String deviceID = Settings.Secure.getString(view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
                    deviceID = ImageHelper.getInstant().byteArrayToString(deviceID.getBytes());
-                   User user = new User("",txtEmail.getText().toString().trim(),txtPassword.getText().toString(),
-                           txtFirstName.getText().toString(),txtMiddleName.getText().toString(),txtLastName.getText().toString(),
-                           txtEmail.getText().toString(),txtPhone.getText().toString(),txtAddress.getText().toString(), txtCity.getText().toString(),
-                           txtZipCode.getText().toString(),txtState.getText().toString(),txtCountry.getText().toString(),deviceID, module.UserTypeCUSTOMER);
+                   User user = new User("",txtEmail.getText().toString().trim(),txtPassword.getText().toString().trim(),
+                           txtFirstName.getText().toString().trim(),txtMiddleName.getText().toString().trim(),txtLastName.getText().toString().trim(),
+                           txtEmail.getText().toString().trim(),txtPhone.getText().toString().trim(),txtAddress.getText().toString().trim(), txtCity.getText().toString().trim(),
+                           txtZipCode.getText().toString().trim(),txtState.getText().toString().trim(),txtCountry.getText().toString().trim(),deviceID.trim(), module.UserTypeCUSTOMER);
                    //Save new User to the system.
                    // Register interest in the user.
                    UserUpdatedHandler duplicateUserEvent = new UserUpdatedHandler() {
                        public void invoke(List<User> users) {
                            progress.setVisibility( View.GONE);
+                           //
+                           userData.newUserAdded.removeListener("RegnewUserAdded");
+                           userData.duplicateUserEvent.removeListener("RegduplicateUserEvent");
+                           //
                            Snackbar.make(view , txtEmail.getText().toString() + " already exist in the system.", Snackbar.LENGTH_LONG)
                                    .setAction("Action", null).show();
                        }
@@ -152,18 +169,57 @@ public class RegisterUserFragment extends Fragment {
                    UserUpdatedHandler newUserAdded = new UserUpdatedHandler() {
                        public void invoke(List<User> users) {
                            progress.setVisibility( View.GONE);
-                           Snackbar.make(view , "Sign Up successful. You can now login.", Snackbar.LENGTH_LONG)
-                                   .setAction("Action", null).show();
+                           User u = users.get(0);
+                           module.userID = u.getUserID().toString();
+                           module.userName = u.getUserName().toString();
+                           module.userType = u.getUserType().toString();
+                           module.isLoggedIn = true;
+                           //
+                           userData.newUserAdded.removeListener("RegnewUserAdded");
+                           userData.duplicateUserEvent.removeListener("RegduplicateUserEvent");
+                           //
                            Navigation.findNavController(view)
-                                   .navigate(R.id.action_registerUserFragment_to_LoginFragment);
+                                   .navigate(R.id.action_registerUserFragment_to_FirstFragment);
                        }
                    };
-                   Dalc.User().newUserAdded.addListener(newUserAdded);
-                   Service.user().User.duplicateUserEvent.addListener(duplicateUserEvent);
-                   //Try to save new user data.
-                   Service.user().User.AddUser(user);
                    //
+                   userData.newUserAdded.addListener("RegnewUserAdded",newUserAdded);
+                   userData.duplicateUserEvent.addListener("RegduplicateUserEvent",duplicateUserEvent);
+                   //
+                   mAuth.createUserWithEmailAndPassword(txtEmail.getText().toString().trim(), txtPassword.getText().toString())
+                           .addOnCompleteListener((Activity) view.getContext(), new OnCompleteListener<AuthResult>() {
+                               @Override
+                               public void onComplete(@NonNull Task<AuthResult> task) {
+                                   if (task.isSuccessful()) {
+                                       //
+                                       Toast.makeText(view.getContext(), "First level authentication successful.", Toast.LENGTH_SHORT).show();
+                                       //Try to save new user data.
+                                       userData.AddUser(user);
+                                       //
+                                       // Sign in success, update UI with the signed-in user's information
+                                      Log.d(TAG, "createUserWithEmail:success");
+                                       FirebaseUser user = mAuth.getCurrentUser();
+                                       updateUI(user);
+                                   } else {
+                                       // If sign in fails, display a message to the user.
+                                       Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                       Toast.makeText(view.getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                       updateUI(null);
+                                       //
+                                       userData.newUserAdded.removeListener("RegnewUserAdded");
+                                       userData.duplicateUserEvent.removeListener("RegduplicateUserEvent");
+                                       progress.setVisibility( View.GONE);
+                                       //
+                                   }
+                                   // ...
+                               }
+                           });
                } catch (Exception e) {
+                   //
+                   userData.newUserAdded.removeListener("RegnewUserAdded");
+                   userData.duplicateUserEvent.removeListener("RegduplicateUserEvent");
+                   progress.setVisibility( View.GONE);
+                   //
                    Snackbar.make(view , e.getMessage(), Snackbar.LENGTH_LONG)
                            .setAction("Action", null).show();
                }
@@ -172,5 +228,9 @@ public class RegisterUserFragment extends Fragment {
         txtEmail.requestFocus();
         this.progress.setVisibility( View.GONE);
     }
+
+    private void updateUI(@Nullable FirebaseUser user) {
+    }
+
 
 }

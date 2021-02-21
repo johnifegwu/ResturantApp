@@ -13,6 +13,7 @@ import com.mickleentityltdnigeria.resturantapp.exceptions.InvalidUserCredentials
 import com.mickleentityltdnigeria.resturantapp.exceptions.RequiredFiledException;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
+import com.mickleentityltdnigeria.resturantapp.utils.idGen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class UserDalc {
     public Event<UserUpdatedHandler> userDataUpdated = new Event<UserUpdatedHandler>();
     public Event<UserUpdatedHandler> userDataDeleted = new Event<UserUpdatedHandler>();
     public Event<UserUpdatedHandler> userNotFound = new Event<UserUpdatedHandler>();
+    public Event<UserUpdatedHandler> duplicateUserEvent = new Event<UserUpdatedHandler>();
 
     private List<User> users = new ArrayList<User>();
 
@@ -37,7 +39,7 @@ public class UserDalc {
 
     public void AddUser(User user)  {
         //Get ID from the system.
-        String userID = userDB.push().getKey().trim();
+        String userID = userDB.push().getKey();//idGen.getInstance().getUUID();
         //Update model with acquired data.
         user.setUserID(userID);
         //save user to the system.
@@ -75,7 +77,7 @@ public class UserDalc {
     }
 
     public void getUserByName(String userName) {
-        userDB.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -98,14 +100,17 @@ public class UserDalc {
                     listener.invoke(result);
                 }
             }
-        });
+        };
         //
+        userDB.addListenerForSingleValueEvent(onDataChangedListener);
         userDB.orderByChild("userName").equalTo(userName);
+        //remove Listener
+        removeListener(onDataChangedListener);
         //
     }
 
     public void getUserByID(String userID) {
-        userDB.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener onDataChangedListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -128,10 +133,17 @@ public class UserDalc {
                     listener.invoke(result);
                 }
             }
-        });
+        };
         //
+        userDB.addListenerForSingleValueEvent(onDataChangedListener);
         userDB.orderByChild("userID").equalTo(userID);
+        //remove Listener
+        removeListener(onDataChangedListener);
         //
+    }
+
+    private void removeListener(ValueEventListener l){
+        userDB.removeEventListener(l);
     }
 
 }

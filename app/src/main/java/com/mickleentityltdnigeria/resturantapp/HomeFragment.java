@@ -5,7 +5,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,8 +73,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
-                    Navigation.findNavController(view)
-                            .navigate(R.id.action_HomeFragment_to_registerUserFragment);
+                    //
+                    NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                    NavController navController = navHostFragment.getNavController();
+                    navController.navigate(R.id.action_HomeFragment_to_registerUserFragment);
+                    //
                 }catch (Exception e){
                     Toast.makeText(view.getContext(),e.getMessage(), Toast.LENGTH_LONG);
                 }
@@ -80,8 +86,11 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.btnLoginMain).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view)
-                        .navigate(R.id.action_HomeFragment_to_LoginFragment);
+                //
+                NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.action_HomeFragment_to_LoginFragment);
+                //
             }
         });
 

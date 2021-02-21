@@ -1,38 +1,23 @@
 <resources>
-    <string name="app_name">ResturantApp</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="app_Title">Bon Appétit</string>
     <string name="home_slogan">Order your favorite food; And Pay only when the food is delivered.</string>
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="img_desc">Special Meal</string>
     <string name="btnText">Add to Cart</string>
     <string name="foodDesc">Italian Pancake with tomatoes source</string>
     <string name="Price">$0.00</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="cartQty">Cart: 0</string>
     <string name="todo">TODO</string>
-    <string name="UserTypeSeller">SELLER</string>
-    <string name="UserTypeCustomer">CUSTOMER</string>
     <string name="Cart">0</string>
     <string name="btnUpdate">Update</string>
-    <string name="txtCartQty">1</string>
     <string name="cart_total">Cart Total: $0.00</string>
     <string name="btnCheckOutText">Check Out</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="foodhubLogo">Food Hub</string>
     <string name="Register">Register</string>
     <string name="login">Login</string>
@@ -52,8 +37,6 @@
     <string name="state_resgion">State / Resgion</string>
     <string name="country">Country</string>
     <string name="mobile_phone_number">Mobile phone number</string>
-    <string name="checkout">Checkout</string>
-    <string name="select">Select</string>
     <string name="sign_in">Sign In</string>
     <string name="shipping_address">Shipping Address</string>
     <string name="payment_address">Payment Address</string>
@@ -75,4 +58,10 @@
     <string name="total">Total:</string>
     <string name="continue_shopping">Continue Shopping</string>
     <string name="title_activity_folder">folder</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

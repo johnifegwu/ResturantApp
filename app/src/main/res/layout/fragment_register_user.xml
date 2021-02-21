@@ -11,9 +11,9 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="8dp"
         android:background="@color/Background"
         android:text="@string/sing_up"
@@ -25,152 +25,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar
-        android:id="@+id/progressBarRegister"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/txtCustomerCountry"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
-
-
-    <EditText
-        android:id="@+id/txtCustomerCountry"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="3dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/country"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegisterCustomerUser"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerState" />
-
-
-    <EditText
-        android:id="@+id/txtCustomerZipCode"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="3dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/zip_code"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerState"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtCustomerCity"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerAddress" />
-
-    <EditText
-        android:id="@+id/txtCustomerAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="3dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/address"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerCity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerPhone" />
-
-    <EditText
-        android:id="@+id/txtCustomerCity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="3dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/city"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerState"
-        app:layout_constraintEnd_toStartOf="@+id/txtCustomerZipCode"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerAddress" />
-
-    <EditText
-        android:id="@+id/txtCustomerState"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="3dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/state_resgion"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerCountry"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerCity" />
-
-    <EditText
-        android:id="@+id/txtCustomerLastName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="3dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/last_name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerPhone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerMiddleName" />
-
-    <EditText
-        android:id="@+id/txtCustomerMiddleName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="3dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/middle_name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerLastName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerFirstName" />
-
 
     <EditText
         android:id="@+id/txtCustomerEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
@@ -182,13 +44,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
+
+
     <EditText
         android:id="@+id/txtCustomerPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
@@ -203,9 +67,9 @@
         android:id="@+id/txtConfirmCustomerPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
@@ -217,29 +81,64 @@
         app:layout_constraintTop_toBottomOf="@+id/txtCustomerPassword" />
 
     <EditText
-        android:id="@+id/txtCustomerFirstName"
-        android:layout_width="match_parent"
+        android:id="@+id/txtCustomerLastName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/last_name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtCustomerPhone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtCustomerMiddleName"
+        app:layout_constraintTop_toBottomOf="@+id/txtConfirmCustomerPassword" />
+
+    <EditText
+        android:id="@+id/txtCustomerMiddleName"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/middle_name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtCustomerPhone"
+        app:layout_constraintEnd_toStartOf="@+id/txtCustomerLastName"
+        app:layout_constraintStart_toEndOf="@+id/txtCustomerFirstName"
+        app:layout_constraintTop_toBottomOf="@+id/txtConfirmCustomerPassword" />
+
+    <EditText
+        android:id="@+id/txtCustomerFirstName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/first_name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerMiddleName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/txtCustomerPhone"
+        app:layout_constraintEnd_toStartOf="@+id/txtCustomerMiddleName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtConfirmCustomerPassword" />
+
 
     <EditText
         android:id="@+id/txtCustomerPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
@@ -250,13 +149,107 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCustomerLastName" />
 
+    <EditText
+        android:id="@+id/txtCustomerAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/address"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtCustomerCity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCustomerPhone" />
+
+    <EditText
+        android:id="@+id/txtCustomerZipCode"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/zip_code"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtCustomerState"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtCustomerCity"
+        app:layout_constraintTop_toBottomOf="@+id/txtCustomerAddress" />
+
+    <EditText
+        android:id="@+id/txtCustomerCity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/city"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtCustomerState"
+        app:layout_constraintEnd_toStartOf="@+id/txtCustomerZipCode"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCustomerAddress" />
+
+    <ProgressBar
+        android:id="@+id/progressBarRegister"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/txtCustomerCountry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/txtCustomerState"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/state_resgion"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/txtCustomerCountry"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCustomerCity" />
+
+    <EditText
+        android:id="@+id/txtCustomerCountry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/country"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtCustomerState"
+        app:layout_constraintTop_toBottomOf="@+id/txtCustomerCity" />
+
 
     <Button
         android:id="@+id/btnRegisterCustomerUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="8dp"
         android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"

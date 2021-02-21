@@ -4,6 +4,7 @@ import com.mickleentityltdnigeria.resturantapp.data.model.Address;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrder;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
+import com.mickleentityltdnigeria.resturantapp.utils.idGen;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class FoodOrderDalc {
     //Adds new order to the system and returns the order tracking Code.
     public String PlaceOrder(List<CartItem> cart, Address paymentAddress, Address shippingAddress){
         //
-        String guid = UUID.randomUUID().toString();
+        String guid = idGen.getInstance().getUUID();
         String orderID = "";
         FoodOrder order = new FoodOrder(orderID, module.userID,new Date(),guid,paymentAddress.getContactAddress(),
                 paymentAddress.getCity(),paymentAddress.getZipCode(),paymentAddress.getState(),paymentAddress.getCountry(),shippingAddress.getContactAddress(),
