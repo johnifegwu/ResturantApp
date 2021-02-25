@@ -1,5 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp.utils;
 
+import android.app.Activity;
+
 import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
@@ -12,6 +14,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class module {
+
+    public static Activity activity;
 
     public static String Wifi_ENABLED = "Wifi enabled";
     public static String Mobile_Data_ENABLED = "Mobile data enabled";
@@ -40,6 +44,8 @@ public class module {
     public static boolean isLoggedIn = false;
     public static String userType = "";
     public static String zipCode = "";
+    public static  String country = "";
+    public static  String state = "";
 
     //For customer Order
     public static String orderTrackCode = "";

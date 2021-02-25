@@ -81,12 +81,23 @@ public class UserDalc {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    User user = snapshot.getValue(User.class);
-                    //raise event
-                    for (UserUpdatedHandler listener : userDataFetched.listeners()) {
+                    if (snapshot.exists()) {
+                        //
                         List<User> result = new ArrayList<User>();
-                        result.add(user);
-                        listener.invoke(result);
+                        //
+                        if (snapshot.getChildrenCount() > 1){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                User user = userSnapshot.getValue(User.class);
+                                result.add(user);
+                            }
+                        }else{
+                            User user = snapshot.getValue(User.class);
+                            result.add(user);
+                        }
+                        //raise event
+                        for (UserUpdatedHandler listener : userDataFetched.listeners()) {
+                            listener.invoke(result);
+                        }
                     }
                 }
             }
@@ -102,10 +113,9 @@ public class UserDalc {
             }
         };
         //
+        //removeListener(onDataChangedListener);
         userDB.addListenerForSingleValueEvent(onDataChangedListener);
         userDB.orderByChild("userName").equalTo(userName);
-        //remove Listener
-        removeListener(onDataChangedListener);
         //
     }
 
@@ -114,11 +124,20 @@ public class UserDalc {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    User user = snapshot.getValue(User.class);
+                    //
+                    List<User> result = new ArrayList<User>();
+                   //
+                    if (snapshot.getChildrenCount() > 1){
+                        for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                            User user = userSnapshot.getValue(User.class);
+                            result.add(user);
+                        }
+                    }else{
+                        User user = snapshot.getValue(User.class);
+                        result.add(user);
+                    }
                     //raise event
                     for (UserUpdatedHandler listener : userDataFetched.listeners()) {
-                        List<User> result = new ArrayList<User>();
-                        result.add(user);
                         listener.invoke(result);
                     }
                 }
@@ -135,15 +154,19 @@ public class UserDalc {
             }
         };
         //
+        removeListener(onDataChangedListener);
         userDB.addListenerForSingleValueEvent(onDataChangedListener);
         userDB.orderByChild("userID").equalTo(userID);
-        //remove Listener
-        removeListener(onDataChangedListener);
         //
     }
 
     private void removeListener(ValueEventListener l){
-        userDB.removeEventListener(l);
+        try{
+            userDB.removeEventListener(l);
+        }catch (Exception e){
+
+        }
+
     }
 
 }

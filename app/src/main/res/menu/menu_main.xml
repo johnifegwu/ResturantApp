@@ -2,6 +2,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mickleentityltdnigeria.resturantapp.MainActivity">
+
+
+    <item
+        android:id="@+id/menu_cart"
+        android:icon="@drawable/ic_cart"
+        app:showAsAction="ifRoom"
+        android:title="@string/shopping_cart" />
+    <item
+        android:id="@+id/menu_login"
+        android:icon="@drawable/ic_baseline_login_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/login_logout" />
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="never"
+        android:title="@string/what_would_you_like_to_eat" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

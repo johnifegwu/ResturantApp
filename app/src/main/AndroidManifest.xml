@@ -8,9 +8,9 @@
     <application
         android:name=".ApplicationContextProvider"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_icon2"
         android:label="@string/app_Title"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app_icon2"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResturantApp">
         <activity

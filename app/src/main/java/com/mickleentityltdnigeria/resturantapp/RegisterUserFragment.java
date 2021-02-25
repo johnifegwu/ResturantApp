@@ -6,7 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -19,8 +21,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +36,7 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static android.content.ContentValues.TAG;
 import static com.mickleentityltdnigeria.resturantapp.utils.PasswordValidator.ValidatePassword;
@@ -48,7 +53,11 @@ public class RegisterUserFragment extends Fragment {
     UserDalc userData;
     EditText txtPassword, txtFirstName, txtMiddleName, txtLastName, txtEmail, txtPhone, txtConfirm, txtAddress, txtCity, txtZipCode, txtState, txtCountry;
     ProgressBar progress;
-
+    /*//
+    NavHostFragment navHostFragment;
+    //
+    NavController navController;
+*/
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -80,8 +89,6 @@ public class RegisterUserFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
@@ -96,6 +103,9 @@ public class RegisterUserFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        FirebaseApp.initializeApp(requireContext());
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -123,6 +133,12 @@ public class RegisterUserFragment extends Fragment {
         txtZipCode = view.findViewById(R.id.txtCustomerZipCode);
         txtState = view.findViewById(R.id.txtCustomerState);
         txtCountry = view.findViewById(R.id.txtCustomerCountry);
+        /*//
+        navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        //
+        assert navHostFragment != null;
+        navController = navHostFragment.getNavController();
+        //*/
         view.findViewById(R.id.btnRegisterCustomerUser).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,7 +149,7 @@ public class RegisterUserFragment extends Fragment {
                    if (!ValidatePassword(txtPassword.getText().toString(), 8, 20))
                    {
                        txtPassword.requestFocus();
-                      throw new Exception("Password must be between 8 to 20 characters and have at least one Capital Letter and one numeric character.");
+                       throw new Exception("Password must be between 8 to 20 characters and have at least one Capital Letter and one numeric character.");
                    }
                    if(!txtPassword.getText().toString().trim().equals(txtConfirm.getText().toString().trim())){
                        txtConfirm.requestFocus();
@@ -149,45 +165,21 @@ public class RegisterUserFragment extends Fragment {
                    }
                    String deviceID = Settings.Secure.getString(view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
                    deviceID = ImageHelper.getInstant().byteArrayToString(deviceID.getBytes());
-                   User user = new User("",txtEmail.getText().toString().trim(),txtPassword.getText().toString().trim(),
+                   User user = new User("",txtEmail.getText().toString().trim(),"xxxxxxxx",
                            txtFirstName.getText().toString().trim(),txtMiddleName.getText().toString().trim(),txtLastName.getText().toString().trim(),
                            txtEmail.getText().toString().trim(),txtPhone.getText().toString().trim(),txtAddress.getText().toString().trim(), txtCity.getText().toString().trim(),
                            txtZipCode.getText().toString().trim(),txtState.getText().toString().trim(),txtCountry.getText().toString().trim(),deviceID.trim(), module.UserTypeCUSTOMER);
-                   //Save new User to the system.
-                   // Register interest in the user.
-                   UserUpdatedHandler duplicateUserEvent = new UserUpdatedHandler() {
-                       public void invoke(List<User> users) {
-                           progress.setVisibility( View.GONE);
-                           //
-                           userData.newUserAdded.removeListener("RegnewUserAdded");
-                           userData.duplicateUserEvent.removeListener("RegduplicateUserEvent");
-                           //
-                           Snackbar.make(view , txtEmail.getText().toString() + " already exist in the system.", Snackbar.LENGTH_LONG)
-                                   .setAction("Action", null).show();
-                       }
-                   };
-                   UserUpdatedHandler newUserAdded = new UserUpdatedHandler() {
-                       public void invoke(List<User> users) {
-                           progress.setVisibility( View.GONE);
-                           User u = users.get(0);
-                           module.userID = u.getUserID().toString();
-                           module.userName = u.getUserName().toString();
-                           module.userType = u.getUserType().toString();
-                           module.isLoggedIn = true;
-                           //
-                           userData.newUserAdded.removeListener("RegnewUserAdded");
-                           userData.duplicateUserEvent.removeListener("RegduplicateUserEvent");
-                           //
-                           Navigation.findNavController(view)
-                                   .navigate(R.id.action_registerUserFragment_to_FirstFragment);
-                       }
-                   };
-                   //
-                   userData.newUserAdded.addListener("RegnewUserAdded",newUserAdded);
-                   userData.duplicateUserEvent.addListener("RegduplicateUserEvent",duplicateUserEvent);
-                   //
+                   //Try to create new user login credentials first and Save the new User to the system.
                    mAuth.createUserWithEmailAndPassword(txtEmail.getText().toString().trim(), txtPassword.getText().toString())
-                           .addOnCompleteListener((Activity) view.getContext(), new OnCompleteListener<AuthResult>() {
+                           .addOnFailureListener(((MainActivity) requireActivity()), new OnFailureListener() {
+                               @Override
+                               public void onFailure(@NonNull Exception e) {
+                                   //
+                                   Snackbar.make(view, Objects.requireNonNull(e.getMessage()), Snackbar.LENGTH_LONG)
+                                           .setAction("Action", null).show();
+                               }
+                           })
+                           .addOnCompleteListener(((MainActivity) requireActivity()), new OnCompleteListener<AuthResult>() {
                                @Override
                                public void onComplete(@NonNull Task<AuthResult> task) {
                                    if (task.isSuccessful()) {
@@ -217,17 +209,38 @@ public class RegisterUserFragment extends Fragment {
                } catch (Exception e) {
                    //
                    userData.newUserAdded.removeListener("RegnewUserAdded");
-                   userData.duplicateUserEvent.removeListener("RegduplicateUserEvent");
                    progress.setVisibility( View.GONE);
                    //
-                   Snackbar.make(view , e.getMessage(), Snackbar.LENGTH_LONG)
+                   Snackbar.make(view , Objects.requireNonNull(e.getMessage()), Snackbar.LENGTH_LONG)
                            .setAction("Action", null).show();
                }
             }
         });
+        UserUpdatedHandler newUserAdded = new UserUpdatedHandler() {
+            public void invoke(List<User> users) {
+                progress.setVisibility( View.GONE);
+                User u = users.get(0);
+                module.userID = u.getUserID().toString();
+                module.userName = u.getUserName().toString();
+                module.userType = u.getUserType().toString();
+                module.zipCode = u.getZipCode().toString();
+                module.country = u.getCountry().toString();
+                module.state = u.getState().toString();
+                module.isLoggedIn = true;
+                //
+                userData.newUserAdded.removeListener("RegnewUserAdded");
+                //
+                NavHostFragment.findNavController(RegisterUserFragment.this)
+                        .navigate(R.id.action_registerUserFragment_to_FirstFragment);
+            }
+        };
+        //
+        userData.newUserAdded.addListener("RegnewUserAdded",newUserAdded);
+        //
         txtEmail.requestFocus();
         this.progress.setVisibility( View.GONE);
     }
+
 
     private void updateUI(@Nullable FirebaseUser user) {
     }

@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //
         AppGlobals.setAppContext(this)
+        module.activity = this;
         //
         try{
             setContentView(R.layout.activity_main)
@@ -89,5 +90,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayCartQty(qty: Int) {
         txtCart.text = qty.toString()
+    }
+    public fun getCartTotal(){
+        Toast.makeText(this,txtCart.text.toString(),Toast.LENGTH_LONG).show()
     }
 }

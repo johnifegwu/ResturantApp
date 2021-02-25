@@ -13,8 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.mickleentityltdnigeria.resturantapp.dalc.UserDalc
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
+import com.mickleentityltdnigeria.resturantapp.data.model.User
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
+import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler
 import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
@@ -24,11 +28,23 @@ import com.mickleentityltdnigeria.resturantapp.utils.module
  */
 class FirstFragment : Fragment() {
 
-    lateinit var foodItems:List<FoodItem>
+    var foodItems:List<FoodItem> = ArrayList<FoodItem>()
     lateinit var txtsearchString:EditText
     lateinit var txtsearchZipCode:EditText
     lateinit var btnSearch:Button
     lateinit var progress:ProgressBar
+    //lateinit var mAuth: FirebaseAuth
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        //mAuth.currentUser?.reload()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+       // mAuth = FirebaseAuth.getInstance()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +54,11 @@ class FirstFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_first, container, false)
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+       //
         this.progress = view.findViewById<ProgressBar>(R.id.progressBarSearch)
         this.progress.visibility = View.VISIBLE
         //
@@ -48,25 +66,41 @@ class FirstFragment : Fragment() {
         this.txtsearchString = view.findViewById<EditText>(R.id.txtSearchString)
         this.txtsearchZipCode = view.findViewById<EditText>(R.id.txtSearchZipCode)
         this.txtsearchZipCode.setText(module.zipCode)
+        //
         btnSearch.setOnClickListener(View.OnClickListener {
             this.progress.visibility = View.VISIBLE
             try {
-                if(!TextUtils.isEmpty(txtsearchString.text.toString().trim()) && !TextUtils.isEmpty(txtsearchZipCode.text.toString().trim() ) ){
-                    foodItems = Service.food().SearchFoodItems(txtsearchString.text.toString().trim(), txtsearchZipCode.text.toString().trim(), true)
+                if (!TextUtils.isEmpty(
+                        txtsearchString.text.toString().trim()
+                    ) && !TextUtils.isEmpty(
+                        txtsearchZipCode.text.toString().trim()
+                    )
+                ) {
+                    foodItems = Service.food().SearchFoodItems(
+                        txtsearchString.text.toString().trim(),
+                        txtsearchZipCode.text.toString().trim(),
+                        true
+                    )
                     //Reference of RecyclerView
-                    val mRecyclerView:RecyclerView =  view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
+                    val mRecyclerView: RecyclerView =
+                        view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
 
                     //Create adapter
-                    val adapter = FoodItemAdapter(foodItems,object : MyRecyclerViewItemClickListener {
-                        override fun onItemClicked(f: FoodItem) {
+                    val adapter = FoodItemAdapter(foodItems,
+                        object : MyRecyclerViewItemClickListener {
+                            override fun onItemClicked(f: FoodItem) {
 
-                        }
-                    })
+                            }
+                        })
                     //Set adapter to RecyclerView
                     mRecyclerView.swapAdapter(adapter, false)
                     //
-                }else{
-                    Snackbar.make(view, "Please enter a valid Zip-Code and the kind of food you would want to eat.", Snackbar.LENGTH_LONG)
+                } else {
+                    Snackbar.make(
+                        view,
+                        "Please enter a valid Zip-Code and the kind of food you would want to eat.",
+                        Snackbar.LENGTH_LONG
+                    )
                         .setAction("Action", null).show()
                 }
 

@@ -29,6 +29,13 @@ public class FoodOrderDetail implements Serializable {
     public String deliveredBy;
     public String collectedBy;
     public boolean isCanceled;
+    public double markUp = 0.01;
+    public double markUpValue = 0.0;
+    public boolean isMarkUpPaid = false;
+    public double markUpValuePaid = 0.0;
+    public Date datePaid = new Date(-10000);
+    public String paymentMedium = "";
+    public String paymentNote = "";
 
     public FoodOrderDetail() {
     }
@@ -54,6 +61,82 @@ public class FoodOrderDetail implements Serializable {
         this.deliveredBy = deliveredBy;
         this.collectedBy = collectedBy;
         this.isCanceled = isCanceled;
+        this.markUpValue = ((foodPrice * foodQty) * this.markUp);
+    }
+
+    @Exclude
+    public double getSubTotal(){
+        return ((this.foodPrice * this.foodQty) + ((this.foodPrice * this.foodQty) * this.markUp));
+    }
+
+    @Exclude
+    public boolean isMarkUpPaid() {
+        return isMarkUpPaid;
+    }
+
+    @Exclude
+    public void setMarkUpPaid(boolean markUpPaid) {
+        isMarkUpPaid = markUpPaid;
+    }
+
+    @Exclude
+    public double getMarkUpValuePaid() {
+        return markUpValuePaid;
+    }
+
+    @Exclude
+    public void setMarkUpValuePaid(double markUpValuePaid) {
+        this.markUpValuePaid = markUpValuePaid;
+    }
+
+    @Exclude
+    public Date getDatePaid() {
+        return datePaid;
+    }
+
+    @Exclude
+    public void setDatePaid(Date datePaid) {
+        this.datePaid = datePaid;
+    }
+
+    @Exclude
+    public String getPaymentMedium() {
+        return paymentMedium;
+    }
+
+    @Exclude
+    public void setPaymentMedium(String paymentMedium) {
+        this.paymentMedium = paymentMedium;
+    }
+
+    @Exclude
+    public String getPaymentNote() {
+        return paymentNote;
+    }
+
+    @Exclude
+    public void setPaymentNote(String paymentNote) {
+        this.paymentNote = paymentNote;
+    }
+
+    @Exclude
+    public double getMarkUp() {
+        return markUp;
+    }
+
+    @Exclude
+    public void setMarkUp(double markUp) {
+        this.markUp = markUp;
+    }
+
+    @Exclude
+    public double getMarkUpValue() {
+        return markUpValue;
+    }
+
+    @Exclude
+    public void setMarkUpValue(double markUpValue) {
+        this.markUpValue = markUpValue;
     }
 
     @Exclude
