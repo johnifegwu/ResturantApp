@@ -9,13 +9,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
-import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
-import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CartDalc
@@ -100,7 +97,7 @@ public class CartDalc
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 //raise event
-                for (CartItemChangedHandler listener : cartItemsFetched.listeners()) {
+                for (CartItemChangedHandler listener : cartItemsNotFound.listeners()) {
                     List<CartItem> result = new ArrayList<CartItem>();
                     listener.invoke(result);
                 }

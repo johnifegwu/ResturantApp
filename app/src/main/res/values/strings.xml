@@ -70,4 +70,5 @@
     <string name="shopping_cart">Shopping Cart</string>
     <string name="login_logout">Login / Logout</string>
     <string name="what_would_you_like_to_eat">What would you like to eat!</string>
+    <string name="location">Location</string>
 </resources>

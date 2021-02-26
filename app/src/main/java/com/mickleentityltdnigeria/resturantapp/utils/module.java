@@ -4,8 +4,10 @@ import android.app.Activity;
 
 import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc;
+import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 import com.mickleentityltdnigeria.resturantapp.exceptions.NoNetworkException;
@@ -47,6 +49,7 @@ public class module {
     public static String zipCode = "";
     public static  String country = "";
     public static  String state = "";
+    public static String city = "";
 
     //For customer Order
     public static String orderTrackCode = "";
@@ -56,6 +59,7 @@ public class module {
     public String Resturant_zipCodes = "";
     //Zip Codes derived from Resturant separated by spaces
 
+    public static CurrentLocationDalc MyCurrentLocation;
     public static CartDalc MyShoppingCart;
 
     //Calculates the total quantity of items in the provided Shopping Cart.

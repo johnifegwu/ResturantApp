@@ -5,20 +5,20 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc
+import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.FoodDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.UserDalc
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
+import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
+import com.mickleentityltdnigeria.resturantapp.extensions.CurrentLocationChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
@@ -30,7 +30,7 @@ class FirstFragment : Fragment() {
 
     var foodItems:List<FoodItem> = ArrayList<FoodItem>()
     lateinit var txtsearchString:EditText
-    lateinit var txtsearchZipCode:EditText
+    lateinit var txtsearchZipCode:TextView
     lateinit var btnSearch:Button
     lateinit var progress:ProgressBar
     lateinit var foodData: FoodDalc
@@ -61,14 +61,40 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
        //Initialise ShoppingCart
         module.MyShoppingCart = CartDalc()
+        module.MyCurrentLocation = CurrentLocationDalc()
         foodData = FoodDalc()
         this.progress = view.findViewById<ProgressBar>(R.id.progressBarSearch)
         this.progress.visibility = View.VISIBLE
         //
         this.btnSearch = view.findViewById<Button>(R.id.btnSearch)
         this.txtsearchString = view.findViewById<EditText>(R.id.txtSearchString)
-        this.txtsearchZipCode = view.findViewById<EditText>(R.id.txtSearchZipCode)
-        this.txtsearchZipCode.setText(module.zipCode)
+        this.txtsearchZipCode = view.findViewById<TextView>(R.id.txtSearchZipCode)
+        // Register interest in the CurrentLocation.
+        val locationsFetched = CurrentLocationChangedHandler { locations ->
+            val l = locations.get(0)
+            module.country = l.getCountry()
+            module.state = l.getState()
+            module.city = l.city
+            module.zipCode = l.zipCode
+            this.txtsearchZipCode.text = module.zipCode
+        }
+        val locationsNotFound = CurrentLocationChangedHandler { locations ->
+            val lc = CurrentLocation("",module.userID,module.country,module.state,module.city,module.zipCode)
+            module.MyCurrentLocation.AddCurrentLocation(lc)
+        }
+        val locationsAdded = CurrentLocationChangedHandler { locations ->
+            val l = locations.get(0)
+            module.country = l.getCountry()
+            module.state = l.getState()
+            module.city = l.city
+            module.zipCode = l.zipCode
+            this.txtsearchZipCode.text = module.zipCode
+        }
+        module.MyCurrentLocation.locationsFetched.addListener(locationsFetched)
+        module.MyCurrentLocation.locationsNotFound.addListener(locationsNotFound)
+        module.MyCurrentLocation.locationsAdded.addListener(locationsAdded)
+        module.MyCurrentLocation.GetCurrentLocation(module.userID)
+        //
         // Register interest in the FoodItemsFetched.
         val foodItemsFetched = FoodItemUpdatedHandler { foodItems -> getSearchResults(foodItems, view) }
         foodData.foodItemsFetched.addListener(foodItemsFetched)
