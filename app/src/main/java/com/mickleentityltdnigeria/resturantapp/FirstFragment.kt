@@ -13,13 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
+import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.UserDalc
+import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
-import com.mickleentityltdnigeria.resturantapp.data.model.User
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
-import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler
-import com.mickleentityltdnigeria.resturantapp.service.Service
+import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
 
@@ -33,6 +33,7 @@ class FirstFragment : Fragment() {
     lateinit var txtsearchZipCode:EditText
     lateinit var btnSearch:Button
     lateinit var progress:ProgressBar
+    lateinit var foodData: FoodDalc
     //lateinit var mAuth: FirebaseAuth
 
     override fun onStart() {
@@ -58,7 +59,9 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       //
+       //Initialise ShoppingCart
+        module.MyShoppingCart = CartDalc()
+        foodData = FoodDalc()
         this.progress = view.findViewById<ProgressBar>(R.id.progressBarSearch)
         this.progress.visibility = View.VISIBLE
         //
@@ -66,41 +69,22 @@ class FirstFragment : Fragment() {
         this.txtsearchString = view.findViewById<EditText>(R.id.txtSearchString)
         this.txtsearchZipCode = view.findViewById<EditText>(R.id.txtSearchZipCode)
         this.txtsearchZipCode.setText(module.zipCode)
+        // Register interest in the FoodItemsFetched.
+        val foodItemsFetched = FoodItemUpdatedHandler { foodItems -> getSearchResults(foodItems, view) }
+        foodData.foodItemsFetched.addListener(foodItemsFetched)
         //
         btnSearch.setOnClickListener(View.OnClickListener {
             this.progress.visibility = View.VISIBLE
             try {
                 if (!TextUtils.isEmpty(
-                        txtsearchString.text.toString().trim()
-                    ) && !TextUtils.isEmpty(
-                        txtsearchZipCode.text.toString().trim()
-                    )
-                ) {
-                    foodItems = Service.food().SearchFoodItems(
+                        txtsearchString.text.toString().trim()) && !TextUtils.isEmpty(
+                        txtsearchZipCode.text.toString().trim())) {
+                    foodData.SearchFoodItems(
                         txtsearchString.text.toString().trim(),
-                        txtsearchZipCode.text.toString().trim(),
-                        true
-                    )
-                    //Reference of RecyclerView
-                    val mRecyclerView: RecyclerView =
-                        view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
+                       module.country + "-" + txtsearchZipCode.text.toString().trim())
 
-                    //Create adapter
-                    val adapter = FoodItemAdapter(foodItems,
-                        object : MyRecyclerViewItemClickListener {
-                            override fun onItemClicked(f: FoodItem) {
-
-                            }
-                        })
-                    //Set adapter to RecyclerView
-                    mRecyclerView.swapAdapter(adapter, false)
-                    //
                 } else {
-                    Snackbar.make(
-                        view,
-                        "Please enter a valid Zip-Code and the kind of food you would want to eat.",
-                        Snackbar.LENGTH_LONG
-                    )
+                    Snackbar.make(view, "Please enter a valid Zip-Code and the kind of food you would want to eat.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
                 }
 
@@ -110,8 +94,9 @@ class FirstFragment : Fragment() {
             this.progress.visibility = View.GONE
         })
         // Register interest in the CartItem Change.
-        val cartChanged = CartItemChangedHandler { qty -> displayCartQty(qty, view) }
-        Service.cart().Cart.cartItemChanged.addListener(cartChanged)
+        val cartChanged = CartItemChangedHandler { cartItems -> displayCartQty(cartItems, view) }
+        module.MyShoppingCart.cartItemsFetched.addListener(cartChanged)
+        module.MyShoppingCart.getCartItems(module.userName)
 
         //Reference of RecyclerView
        val mRecyclerView:RecyclerView = view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
@@ -136,8 +121,25 @@ class FirstFragment : Fragment() {
         this.progress.visibility = View.GONE
     }
 
-    private fun displayCartQty(Qty: Int, v: View?) {
-        Snackbar.make(v!!, "$Qty item(s) added to Cart.", Snackbar.LENGTH_LONG)
+    private fun getSearchResults(foodItems:List<FoodItem>, view:View){
+        //Reference of RecyclerView
+        val mRecyclerView: RecyclerView =
+            view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
+
+        //Create adapter
+        val adapter = FoodItemAdapter(foodItems,
+            object : MyRecyclerViewItemClickListener {
+                override fun onItemClicked(f: FoodItem) {
+
+                }
+            })
+        //Set adapter to RecyclerView
+        mRecyclerView.swapAdapter(adapter, false)
+        //
+    }
+
+    private fun displayCartQty(cartItems: List<CartItem>, v: View?) {
+        Snackbar.make(v!!, "${module.getCartTotalQty(cartItems)} item(s) added to Cart.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
         //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
     }

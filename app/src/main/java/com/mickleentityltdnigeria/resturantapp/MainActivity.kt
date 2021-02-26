@@ -10,13 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.FirebaseDatabase
+import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
-import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.module
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //
         AppGlobals.setAppContext(this)
-        module.activity = this;
+        module.activity = this
         //
         try{
             setContentView(R.layout.activity_main)
@@ -65,10 +63,10 @@ class MainActivity : AppCompatActivity() {
         this.txtCart = findViewById<TextView>(R.id.txtCartQty)
 
         // Register interest in the completed report
-        var cartChanged = CartItemChangedHandler {
+        val cartChanged = CartItemChangedHandler {
             displayCartQty(it)
         }
-        Service.cart().Cart.cartItemChanged.addListener(cartChanged)
+        module.MyShoppingCart.cartItemsFetched.addListener(cartChanged)
 
     }
 
@@ -88,10 +86,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayCartQty(qty: Int) {
-        txtCart.text = qty.toString()
+    private fun displayCartQty(cartItems: List<CartItem>) {
+        txtCart.text = module.getCartTotalQty(cartItems).toString()
     }
-    public fun getCartTotal(){
+    fun getCartTotal(){
         Toast.makeText(this,txtCart.text.toString(),Toast.LENGTH_LONG).show()
     }
 }

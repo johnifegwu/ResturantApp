@@ -1,6 +1,5 @@
 package com.mickleentityltdnigeria.resturantapp
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.drawable.Drawable
@@ -8,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
-import com.mickleentityltdnigeria.resturantapp.service.Service
+import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.ByteArrayInputStream
@@ -34,9 +31,12 @@ class FoodItemAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.a_single_resturant_row, parent, false)
-
+        // Register interest in the CartItems Added.
+        val cartItemAdded = CartItemChangedHandler { cartItems -> callGetCartItems(cartItems, view) }
+        module.MyShoppingCart.cartItemsAdded.addListener("foodItemAdapterCartItemsAdded",cartItemAdded)
+        //
         //Create View Holder
-        val myViewHolder = ViewHolder(view, myContext, assetManager)
+        val myViewHolder = ViewHolder(view, myContext)
 
         //Item Clicks
        myViewHolder.itemView.setOnClickListener(View.OnClickListener {
@@ -81,24 +81,21 @@ class FoodItemAdapter(
     }
 
     private fun addToCart(Qty: Int, foodItem: FoodItem) {
-        val cartItem:CartItem = CartItem()
-        cartItem.cartQty = Qty
-        cartItem.cartID = ""
-        cartItem.foodDesc = foodItem.foodDesc
-        cartItem.foodID = foodItem.foodID
-        cartItem.foodImg = foodItem.foodImg
-        cartItem.foodImgUrl = foodItem.foodImgUrl
-        cartItem.foodPrice = foodItem.foodPrice
-        cartItem.userID = module.userID
-        Service.cart().addCartItem(cartItem, module.userName)
+        progress.visibility = View.VISIBLE
+        val cartItem:CartItem = CartItem("",foodItem.foodID, foodItem.resturantID,module.userID,foodItem.foodImg,foodItem.foodPrice
+        ,foodItem.currency,foodItem.foodDesc,foodItem.foodImgUrl,Qty)
+        module.MyShoppingCart.AddCartItem(cartItem)
+    }
 
+    private fun callGetCartItems(cartItems:List<CartItem>, view:View){
+        progress.visibility = View.GONE
+        module.MyShoppingCart.getCartItems(module.userName)
     }
 
 
     class ViewHolder(
         view: View,
-        private val myContext: Context,
-        private val assetManager: AssetManager
+        private val myContext: Context
     ) : RecyclerView.ViewHolder(view) {
         fun bind(fooditem: FoodItem) {
             try

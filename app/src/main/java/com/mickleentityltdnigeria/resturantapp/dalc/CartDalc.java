@@ -1,9 +1,18 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
+import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,38 +21,96 @@ import java.util.List;
 public class CartDalc
 {
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference shoppingCartDB = database.getReference("shoppingCarts");
+
+    public Event<CartItemChangedHandler> cartItemsFetched = new Event<CartItemChangedHandler>();
+    public Event<CartItemChangedHandler> cartItemsNotFound = new Event<CartItemChangedHandler>();
+    public Event<CartItemChangedHandler> cartItemsAdded = new Event<CartItemChangedHandler>();
+    public Event<CartItemChangedHandler> cartItemsUpdated = new Event<CartItemChangedHandler>();
+    public Event<CartItemChangedHandler> cartItemsDeleted = new Event<CartItemChangedHandler>();
+
     public CartDalc() {
     }
 
     public void AddCartItem(CartItem cartItem){
-        //TODO do database updates here.
-
+        //Get ID from the system.
+        String cartID = shoppingCartDB.push().getKey();
+        //Update model with acquired data.
+        cartItem.setCartID(cartID);
+        //save cart to the system.
+        shoppingCartDB.child(cartID).setValue(cartItem);
+        //raise event
+        for (CartItemChangedHandler listener : cartItemsAdded.listeners()) {
+            List<CartItem> result = new ArrayList<CartItem>();
+            result.add(cartItem);
+            listener.invoke(result);
+        }
     }
 
     public void UpdateCart(CartItem cartItem){
-        //TODO do database updates here.
-
+        //Get ID from the system.
+        String cartID = cartItem.getCartID();
+        //save cart to the system.
+        shoppingCartDB.child(cartID).setValue(cartItem);
+        //raise event
+        for (CartItemChangedHandler listener : cartItemsUpdated.listeners()) {
+            List<CartItem> result = new ArrayList<CartItem>();
+            result.add(cartItem);
+            listener.invoke(result);
+        }
     }
 
     public void DeleteCart(String cartID){
-        //TODO do database updates here.
-
+        //save cart to the system.
+        shoppingCartDB.child(cartID).setValue(null);
+        //raise event
+        for (CartItemChangedHandler listener : cartItemsDeleted.listeners()) {
+            List<CartItem> result = new ArrayList<CartItem>();
+            listener.invoke(result);
+        }
     }
 
-    public List<CartItem> getCartItems(String userName){
-        //TODO do database updates here.
-        List<CartItem> cartItems = new ArrayList<CartItem>();
+    public void getCartItems(String userName){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<CartItem> result = new ArrayList<CartItem>();
+                        //
+                        if (snapshot.getChildrenCount() > 1){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                CartItem cartItem = userSnapshot.getValue(CartItem.class);
+                                result.add(cartItem);
+                            }
+                        }else{
+                            CartItem cartItem = snapshot.getValue(CartItem.class);
+                            result.add(cartItem);
+                        }
+                        //raise event
+                        for (CartItemChangedHandler listener : cartItemsFetched.listeners()) {
+                            listener.invoke(result);
+                        }
+                    }
+                }
+            }
 
-
-        return cartItems;
-    }
-
-    public CartItem getCartItemByID(String cartID){
-        //TODO do database updates here.
-        CartItem cartItem = new CartItem();
-
-
-        return cartItem;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (CartItemChangedHandler listener : cartItemsFetched.listeners()) {
+                    List<CartItem> result = new ArrayList<CartItem>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        //removeListener(onDataChangedListener);
+        shoppingCartDB.addListenerForSingleValueEvent(onDataChangedListener);
+        shoppingCartDB.orderByChild("userName").equalTo(userName);
+        //
     }
 
 }

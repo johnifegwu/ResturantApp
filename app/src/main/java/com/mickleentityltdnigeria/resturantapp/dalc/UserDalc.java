@@ -71,7 +71,6 @@ public class UserDalc {
         //raise event
         for (UserUpdatedHandler listener : userDataDeleted.listeners()) {
             List<User> result = new ArrayList<User>();
-            result.add(null);
             listener.invoke(result);
         }
     }
@@ -107,7 +106,6 @@ public class UserDalc {
                 //raise event
                 for (UserUpdatedHandler listener : userNotFound.listeners()) {
                     List<User> result = new ArrayList<User>();
-                    result.add(null);
                     listener.invoke(result);
                 }
             }
@@ -148,7 +146,6 @@ public class UserDalc {
                 //raise event
                 for (UserUpdatedHandler listener : userNotFound.listeners()) {
                     List<User> result = new ArrayList<User>();
-                    result.add(null);
                     listener.invoke(result);
                 }
             }

@@ -3,6 +3,7 @@ package com.mickleentityltdnigeria.resturantapp.utils;
 import android.app.Activity;
 
 import com.mickleentityltdnigeria.resturantapp.AppGlobals;
+import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
@@ -55,16 +56,24 @@ public class module {
     public String Resturant_zipCodes = "";
     //Zip Codes derived from Resturant separated by spaces
 
-    public static double getCartTotal(String userName)
-    {
-        double tP = 0.0;
-         cartItems = Dalc.Cart().getCartItems(userName);
-        for (int i = 0; i < cartItems.size(); i++)
-        {
-            tP += (cartItems.get(i).getFoodPrice()*cartItems.get(i).getCartQty());
-        }
+    public static CartDalc MyShoppingCart;
 
-        return (tP);
+    //Calculates the total quantity of items in the provided Shopping Cart.
+    public static int getCartTotalQty(List<CartItem> cartItems){
+        int total = 0;
+        for(CartItem c:cartItems){
+            total += c.foodQty;
+        }
+        return total;
+    }
+
+    //Calculates the total quantity of items in the provided Shopping Cart.
+    public static double getCartTotalValue(List<CartItem> cartItems){
+        double total = 0;
+        for(CartItem c:cartItems){
+            total += c.getSubTotal();
+        }
+        return total;
     }
 
 }

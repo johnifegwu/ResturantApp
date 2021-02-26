@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
-import com.mickleentityltdnigeria.resturantapp.service.Service
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.ByteArrayInputStream
@@ -17,10 +16,9 @@ import java.io.InputStream
 class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListener: CartRecyclerViewItemClickListener) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
 
     private lateinit var progress: ProgressBar
-    private val myContext: Context = ApplicationContextProvider.getContext()
     private val mItemClickListener: CartRecyclerViewItemClickListener = itemClickListener
 
-    public fun setCartItems(cartItems: List<CartItem>) {
+    fun setCartItems(cartItems: List<CartItem>) {
         this.cartItems = cartItems
     }
 
@@ -54,7 +52,7 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
                 updateCartItem(qty.toInt(), cartItems.get(myViewHolder.getLayoutPosition()))
                 //update data adapter.
             } catch (e: Exception) {
-                Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show();
+                Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
             }
             progress.visibility = View.GONE
         }
@@ -64,7 +62,9 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
     }
 
     private fun updateCartItem(qty:Int, cartItem: CartItem) {
-        Service.cart().Cart.UpdateCartItem(cartItem.cartID,qty,module.userName)
+        cartItem.foodQty = qty
+        module.MyShoppingCart.UpdateCart(cartItem)
+        module.MyShoppingCart.getCartItems(module.userName)
     }
 
     override fun getItemCount() = cartItems.size
@@ -85,8 +85,8 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
 
                 itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(d)
                 itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.foodDesc
-                itemView.findViewById<TextView>(R.id.txtPrice).text = "$"+ cartItem.foodPrice
-                itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.cartQty)
+                itemView.findViewById<TextView>(R.id.txtPrice).text = cartItem.currency+ cartItem.foodPrice
+                itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.foodQty)
             }catch (e: Exception)
             {
                 Toast.makeText(myContext, e.message, Toast.LENGTH_LONG).show()

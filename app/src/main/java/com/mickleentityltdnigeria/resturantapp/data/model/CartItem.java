@@ -17,13 +17,15 @@ public class CartItem implements Serializable {
     public String currency;
     public String foodDesc;
     public String foodImgUrl;
-    public int cartQty;
+    public int foodQty;
+    public double markUp = 0.01;
+    public double markUpValue = 0.0;
 
     public CartItem() {
 
     }
 
-    public CartItem(String cartID, String foodID, String resturantID, String userID, String foodImg, Double foodPrice, String currency, String foodDesc, String foodImgUrl, int cartQty) {
+    public CartItem(String cartID, String foodID, String resturantID, String userID, String foodImg, Double foodPrice, String currency, String foodDesc, String foodImgUrl, int foodQty) {
         this.cartID = cartID;
         this.foodID = foodID;
         this.resturantID = resturantID;
@@ -33,7 +35,33 @@ public class CartItem implements Serializable {
         this.currency = currency;
         this.foodDesc = foodDesc;
         this.foodImgUrl = foodImgUrl;
-        this.cartQty = cartQty;
+        this.foodQty = foodQty;
+        this.markUpValue = ((foodPrice * foodQty) * this.markUp);
+    }
+
+    @Exclude
+    public double getSubTotal(){
+        return ((this.foodPrice * this.foodQty) + ((this.foodPrice * this.foodQty) * this.markUp));
+    }
+
+    @Exclude
+    public double getMarkUp() {
+        return markUp;
+    }
+
+    @Exclude
+    public void setMarkUp(double markUp) {
+        this.markUp = markUp;
+    }
+
+    @Exclude
+    public double getMarkUpValue() {
+        return markUpValue;
+    }
+
+    @Exclude
+    public void setMarkUpValue(double markUpValue) {
+        this.markUpValue = markUpValue;
     }
 
     @Exclude
@@ -98,7 +126,7 @@ public class CartItem implements Serializable {
 
     @Exclude
     public String getCurrency() {
-        return currency;
+        return this.currency;
     }
 
     @Exclude
@@ -127,12 +155,12 @@ public class CartItem implements Serializable {
     }
 
     @Exclude
-    public int getCartQty() {
-        return cartQty;
+    public int getFoodQty() {
+        return this.foodQty;
     }
 
     @Exclude
-    public void setCartQty(int cartQty) {
-        this.cartQty = cartQty;
+    public void setFoodQty(int foodQty) {
+        this.foodQty = foodQty;
     }
 }

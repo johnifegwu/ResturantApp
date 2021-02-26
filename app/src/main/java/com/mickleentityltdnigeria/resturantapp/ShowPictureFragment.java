@@ -1,6 +1,5 @@
 package com.mickleentityltdnigeria.resturantapp;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -17,16 +16,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
-import com.mickleentityltdnigeria.resturantapp.service.Service;
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,45 +110,35 @@ public class ShowPictureFragment extends Fragment {
                 public void onClick(View v)
                 {
                     vw[0] = v;
-                    addToCart(1);
+                    addToCart(1, module.foodItem);
                 }
             });
             // Register interest in the completed report
-            CartItemChangedHandler cartChanged = new CartItemChangedHandler() {
-                public void invoke(int qty) {
-                    displayCartQty(qty, vw[0]);
+            CartItemChangedHandler cartItemAdded = new CartItemChangedHandler() {
+                public void invoke(List<CartItem> cartItems) {
+                    callGetCartItems(cartItems, vw[0]);
                 }
             };
 
-            Service.cart().Cart.cartItemChanged.addListener(cartChanged);
+            module.MyShoppingCart.cartItemsAdded.addListener("showPictureCartItemAdded",cartItemAdded);
             this.progress.setVisibility( View.GONE);
         }
     }
 
-    public void addToCart(int Qty){
-        this.progress.setVisibility( View.VISIBLE);
-        CartItem cartItem = new CartItem();
-        cartItem.setCartQty(Qty);
-        cartItem.setCartID("");
-        cartItem.setFoodDesc(module.foodItem.getFoodDesc());
-        cartItem.setFoodID(module.foodItem.getFoodID());
-        cartItem.setFoodImg(module.foodItem.getFoodImg());
-        cartItem.setFoodImgUrl(module.foodItem.getFoodImgUrl());
-        cartItem.setFoodPrice(module.foodItem.getFoodPrice());
-        cartItem.setUserID(module.userID);
-        try {
-            Service.cart().addCartItem(cartItem, module.userName);
-        }catch (Exception e){
-            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-        this.progress.setVisibility( View.GONE);
+    private void addToCart(int Qty, FoodItem foodItem) {
+        progress.setVisibility(View.VISIBLE);
+        CartItem cartItem = new CartItem("",foodItem.foodID, foodItem.resturantID,module.userID,foodItem.foodImg,foodItem.foodPrice
+                ,foodItem.currency,foodItem.foodDesc,foodItem.foodImgUrl,Qty);
+        module.MyShoppingCart.AddCartItem(cartItem);
     }
 
-    public void displayCartQty(int Qty, View v) {
-        Snackbar.make(v , ""+ Qty + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-        //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
+    private void callGetCartItems(List<CartItem> cartItems, View view){
+        progress.setVisibility(View.GONE);
+        module.MyShoppingCart.getCartItems(module.userName);
     }
+
+   /* private void displayCartQty(List<CartItem> cartItems) {
+        module.MyShoppingCart.getCartItems(module.userName);
+    }*/
 
 }

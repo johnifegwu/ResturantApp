@@ -1,9 +1,11 @@
 package com.mickleentityltdnigeria.resturantapp.extensions;
 
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
+
 import java.util.*;
 
 @FunctionalInterface
 public interface FoodItemUpdatedHandler
 {
-        void invoke(String foodID);
+        void invoke(List<FoodItem> foodID);
 }
