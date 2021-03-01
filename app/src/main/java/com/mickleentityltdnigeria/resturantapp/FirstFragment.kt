@@ -76,6 +76,8 @@ class FirstFragment : Fragment() {
         this.txtsearchString = view.findViewById<EditText>(R.id.txtSearchString)
         this.txtsearchZipCode = view.findViewById<TextView>(R.id.txtSearchZipCode)
         //
+        this.txtsearchZipCode.text = module.zipCode
+        //
         val countriesFetched = CountryChangedHandler { countries ->
            module.myCountries = countries
         }

@@ -80,6 +80,12 @@ public class CurrentLocationDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (CurrentLocationChangedHandler listener : locationsNotFound.listeners()) {
+                        List<CurrentLocation> result = new ArrayList<CurrentLocation>();
+                        listener.invoke(result);
+                    }
                 }
             }
 

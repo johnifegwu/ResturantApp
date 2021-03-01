@@ -131,6 +131,12 @@ public class FoodOrderDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (FoodOrderEventHandler listener : foodOrdersNotFound.listeners()) {
+                        List<FoodOrder> result = new ArrayList<FoodOrder>();
+                        listener.invoke(result);
+                    }
                 }
             }
 
@@ -171,6 +177,12 @@ public class FoodOrderDalc {
                         for (FoodOrderDetailsEventHandler listener : foodOrderDetailsFetched.listeners()) {
                             listener.invoke(result);
                         }
+                    }
+                }else{
+                    //raise event
+                    for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
+                        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                        listener.invoke(result);
                     }
                 }
             }
@@ -213,6 +225,12 @@ public class FoodOrderDalc {
                         for (FoodOrderDetailsEventHandler listener : foodOrderDetailsFetched.listeners()) {
                             listener.invoke(result);
                         }
+                    }
+                }else{
+                    //raise event
+                    for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
+                        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                        listener.invoke(result);
                     }
                 }
             }

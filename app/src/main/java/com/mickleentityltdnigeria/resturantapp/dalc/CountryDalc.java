@@ -329,6 +329,9 @@ public class CountryDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //Add countries and raise the countries fetched event.
+                    AddCountry();
                 }
             }
 

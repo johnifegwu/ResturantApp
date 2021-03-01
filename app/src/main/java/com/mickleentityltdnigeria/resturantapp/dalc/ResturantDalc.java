@@ -94,6 +94,12 @@ public class ResturantDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (ResturantUpdatedHandler listener : resturantNotFound.listeners()) {
+                        List<Resturant> result = new ArrayList<Resturant>();
+                        listener.invoke(result);
+                    }
                 }
             }
 
@@ -135,6 +141,12 @@ public class ResturantDalc {
                         for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
                             listener.invoke(result);
                         }
+                    }
+                }else{
+                    //raise event
+                    for (ResturantUpdatedHandler listener : resturantNotFound.listeners()) {
+                        List<Resturant> result = new ArrayList<Resturant>();
+                        listener.invoke(result);
                     }
                 }
             }

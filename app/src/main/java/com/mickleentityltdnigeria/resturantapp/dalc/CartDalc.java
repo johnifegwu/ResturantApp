@@ -91,6 +91,12 @@ public class CartDalc
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (CartItemChangedHandler listener : cartItemsNotFound.listeners()) {
+                        List<CartItem> result = new ArrayList<CartItem>();
+                        listener.invoke(result);
+                    }
                 }
             }
 

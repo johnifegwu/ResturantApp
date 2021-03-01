@@ -98,6 +98,12 @@ public class UserDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (UserUpdatedHandler listener : userNotFound.listeners()) {
+                        List<User> result = new ArrayList<User>();
+                        listener.invoke(result);
+                    }
                 }
             }
 
@@ -136,6 +142,12 @@ public class UserDalc {
                     }
                     //raise event
                     for (UserUpdatedHandler listener : userDataFetched.listeners()) {
+                        listener.invoke(result);
+                    }
+                }else {
+                    //raise event
+                    for (UserUpdatedHandler listener : userNotFound.listeners()) {
+                        List<User> result = new ArrayList<User>();
                         listener.invoke(result);
                     }
                 }

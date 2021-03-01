@@ -91,6 +91,12 @@ public class AddressDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (AddressChangedHandler listener : addressNotFound.listeners()) {
+                        List<Address> result = new ArrayList<Address>();
+                        listener.invoke(result);
+                    }
                 }
             }
 

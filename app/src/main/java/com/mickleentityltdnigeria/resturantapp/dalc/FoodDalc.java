@@ -96,6 +96,13 @@ public class FoodDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (FoodItemUpdatedHandler listener : foodItemsNotFound.listeners()) {
+                        List<FoodItem> result = new ArrayList<FoodItem>();
+                        result.add(null);
+                        listener.invoke(result);
+                    }
                 }
             }
 
@@ -138,6 +145,13 @@ public class FoodDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (FoodItemUpdatedHandler listener : foodItemsNotFound.listeners()) {
+                        List<FoodItem> result = new ArrayList<FoodItem>();
+                        result.add(null);
+                        listener.invoke(result);
+                    }
                 }
             }
 
@@ -179,6 +193,13 @@ public class FoodDalc {
                             listener.invoke(result);
                         }
                     }
+                }else{
+                    //raise event
+                    for (FoodItemUpdatedHandler listener : foodItemsNotFound.listeners()) {
+                        List<FoodItem> result = new ArrayList<FoodItem>();
+                        result.add(null);
+                        listener.invoke(result);
+                    }
                 }
             }
 
@@ -219,6 +240,13 @@ public class FoodDalc {
                         for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
                             listener.invoke(result);
                         }
+                    }
+                }else{
+                    //raise event
+                    for (FoodItemUpdatedHandler listener : foodItemsNotFound.listeners()) {
+                        List<FoodItem> result = new ArrayList<FoodItem>();
+                        result.add(null);
+                        listener.invoke(result);
                     }
                 }
             }
