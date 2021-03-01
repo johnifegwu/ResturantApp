@@ -8,5 +8,5 @@ import java.util.*;
 @FunctionalInterface
 public interface CartItemChangedHandler
 {
-    void invoke(List<CartItem> cartItem);
+    void invoke(List<CartItem> cartItems);
 }

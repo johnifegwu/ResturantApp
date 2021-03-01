@@ -7,17 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc
+import com.mickleentityltdnigeria.resturantapp.dalc.CountryDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.FoodDalc
-import com.mickleentityltdnigeria.resturantapp.dalc.UserDalc
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
+import com.mickleentityltdnigeria.resturantapp.extensions.CountryChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.CurrentLocationChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.module
@@ -32,8 +34,10 @@ class FirstFragment : Fragment() {
     lateinit var txtsearchString:EditText
     lateinit var txtsearchZipCode:TextView
     lateinit var btnSearch:Button
+    lateinit var btnChangeLocation:TextView
     lateinit var progress:ProgressBar
     lateinit var foodData: FoodDalc
+    lateinit var countryData: CountryDalc;
     //lateinit var mAuth: FirebaseAuth
 
     override fun onStart() {
@@ -62,16 +66,29 @@ class FirstFragment : Fragment() {
        //Initialise ShoppingCart
         module.MyShoppingCart = CartDalc()
         module.MyCurrentLocation = CurrentLocationDalc()
+        this.countryData = CountryDalc()
         foodData = FoodDalc()
         this.progress = view.findViewById<ProgressBar>(R.id.progressBarSearch)
         this.progress.visibility = View.VISIBLE
         //
         this.btnSearch = view.findViewById<Button>(R.id.btnSearch)
+        this.btnChangeLocation = view.findViewById<EditText>(R.id.btnChangeLocation)
         this.txtsearchString = view.findViewById<EditText>(R.id.txtSearchString)
         this.txtsearchZipCode = view.findViewById<TextView>(R.id.txtSearchZipCode)
+        //
+        val countriesFetched = CountryChangedHandler { countries ->
+           module.myCountries = countries
+        }
+        this.countryData.countriesFetched.addListener(countriesFetched)
+        try{
+            this.countryData.getCountries()
+        }catch (e:Exception){
+            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG)
+        }
         // Register interest in the CurrentLocation.
         val locationsFetched = CurrentLocationChangedHandler { locations ->
             val l = locations.get(0)
+            module.locationID = l.locationID
             module.country = l.getCountry()
             module.state = l.getState()
             module.city = l.city
@@ -79,11 +96,19 @@ class FirstFragment : Fragment() {
             this.txtsearchZipCode.text = module.zipCode
         }
         val locationsNotFound = CurrentLocationChangedHandler { locations ->
-            val lc = CurrentLocation("",module.userID,module.country,module.state,module.city,module.zipCode)
+            val lc = CurrentLocation(
+                "",
+                module.userID,
+                module.country,
+                module.state,
+                module.city,
+                module.zipCode
+            )
             module.MyCurrentLocation.AddCurrentLocation(lc)
         }
         val locationsAdded = CurrentLocationChangedHandler { locations ->
             val l = locations.get(0)
+            module.locationID = l.locationID
             module.country = l.getCountry()
             module.state = l.getState()
             module.city = l.city
@@ -93,24 +118,39 @@ class FirstFragment : Fragment() {
         module.MyCurrentLocation.locationsFetched.addListener(locationsFetched)
         module.MyCurrentLocation.locationsNotFound.addListener(locationsNotFound)
         module.MyCurrentLocation.locationsAdded.addListener(locationsAdded)
-        module.MyCurrentLocation.GetCurrentLocation(module.userID)
+        try{
+            module.MyCurrentLocation.GetCurrentLocation(module.userID)
+        }catch (e:Exception){
+            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG)
+        }
         //
         // Register interest in the FoodItemsFetched.
-        val foodItemsFetched = FoodItemUpdatedHandler { foodItems -> getSearchResults(foodItems, view) }
+        val foodItemsFetched = FoodItemUpdatedHandler { foodItems -> getSearchResults(
+            foodItems,
+            view
+        ) }
         foodData.foodItemsFetched.addListener(foodItemsFetched)
         //
         btnSearch.setOnClickListener(View.OnClickListener {
             this.progress.visibility = View.VISIBLE
             try {
                 if (!TextUtils.isEmpty(
-                        txtsearchString.text.toString().trim()) && !TextUtils.isEmpty(
-                        txtsearchZipCode.text.toString().trim())) {
+                        txtsearchString.text.toString().trim()
+                    ) && !TextUtils.isEmpty(
+                        txtsearchZipCode.text.toString().trim()
+                    )
+                ) {
                     foodData.SearchFoodItems(
                         txtsearchString.text.toString().trim(),
-                       module.country + "-" + txtsearchZipCode.text.toString().trim())
+                        module.country + "-" + txtsearchZipCode.text.toString().trim()
+                    )
 
                 } else {
-                    Snackbar.make(view, "Please enter a valid Zip-Code and the kind of food you would want to eat.", Snackbar.LENGTH_LONG)
+                    Snackbar.make(
+                        view,
+                        "Please enter a valid Zip-Code and the kind of food you would want to eat.",
+                        Snackbar.LENGTH_LONG
+                    )
                         .setAction("Action", null).show()
                 }
 
@@ -119,11 +159,20 @@ class FirstFragment : Fragment() {
             }
             this.progress.visibility = View.GONE
         })
+        //
+        btnChangeLocation.setOnClickListener(View.OnClickListener {
+            this.progress.visibility = View.GONE
+                NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_FirstFragment_to_changeLocationFragment)
+        })
         // Register interest in the CartItem Change.
         val cartChanged = CartItemChangedHandler { cartItems -> displayCartQty(cartItems, view) }
         module.MyShoppingCart.cartItemsFetched.addListener(cartChanged)
-        module.MyShoppingCart.getCartItems(module.userName)
-
+        try{
+            module.MyShoppingCart.getCartItems(module.userName)
+        }catch (e:Exception){
+            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG)
+        }
         //Reference of RecyclerView
        val mRecyclerView:RecyclerView = view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
 
@@ -147,7 +196,7 @@ class FirstFragment : Fragment() {
         this.progress.visibility = View.GONE
     }
 
-    private fun getSearchResults(foodItems:List<FoodItem>, view:View){
+    private fun getSearchResults(foodItems: List<FoodItem>, view: View){
         //Reference of RecyclerView
         val mRecyclerView: RecyclerView =
             view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
@@ -165,7 +214,11 @@ class FirstFragment : Fragment() {
     }
 
     private fun displayCartQty(cartItems: List<CartItem>, v: View?) {
-        Snackbar.make(v!!, "${module.getCartTotalQty(cartItems)} item(s) added to Cart.", Snackbar.LENGTH_LONG)
+        Snackbar.make(
+            v!!,
+            "${module.getCartTotalQty(cartItems)} item(s) added to Cart.",
+            Snackbar.LENGTH_LONG
+        )
             .setAction("Action", null).show()
         //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
     }

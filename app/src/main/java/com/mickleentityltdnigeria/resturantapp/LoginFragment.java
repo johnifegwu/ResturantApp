@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,7 +52,8 @@ public class LoginFragment extends Fragment {
 
 
     FirebaseAuth mAuth;
-    Button btnLogin, btnRegister;
+    Button btnLogin;
+    TextView btnRegister, btnResetPassword;
     EditText txtUserName, txtPassword;
     ProgressBar progress;
     UserDalc userData;
@@ -135,6 +137,7 @@ public class LoginFragment extends Fragment {
         btnLogin = view.findViewById(R.id.login);
         btnLogin.setEnabled(true);
         btnRegister = view.findViewById(R.id.btnLoginRegister);
+        btnResetPassword = view.findViewById(R.id.btnLoginForgotPassword);
         //
         setGetUserData();
         // Register interest in the user.
@@ -197,6 +200,14 @@ public class LoginFragment extends Fragment {
                 progress.setVisibility(View.GONE);
                 NavHostFragment.findNavController(LoginFragment.this)
                         .navigate(R.id.action_LoginFragment_to_registerUserFragment);
+            }
+        });
+        view.findViewById(R.id.btnLoginForgotPassword).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progress.setVisibility(View.GONE);
+                NavHostFragment.findNavController(LoginFragment.this)
+                        .navigate(R.id.action_LoginFragment_to_passwordResetFragment);
             }
         });
     }

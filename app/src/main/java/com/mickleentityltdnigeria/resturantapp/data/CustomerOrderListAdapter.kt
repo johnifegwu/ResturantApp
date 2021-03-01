@@ -8,14 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.*
 import com.mickleentityltdnigeria.resturantapp.AppGlobals.StartActivity
+import com.mickleentityltdnigeria.resturantapp.AppGlobals.getAppContext
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodDalc
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodOrderDalc
+import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant
-import com.mickleentityltdnigeria.resturantapp.service.Service
+import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler
+import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
+import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.text.DecimalFormat
@@ -26,6 +33,9 @@ public class CustomerOrderListAdapter(
 ) :
     RecyclerView.Adapter<CustomerOrderListAdapter.ViewHolder>() {
 
+    private lateinit var foodOrderDalc: FoodOrderDalc
+    private lateinit var resturantDalc: ResturantDalc
+    private lateinit var foodDalc:FoodDalc
     private lateinit var progress: ProgressBar
     private val mItemClickListener: CustomerOrderListRecyclerViewItemClickListener = itemClickListener
 
@@ -33,8 +43,12 @@ public class CustomerOrderListAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.a_single_customer_order_row, parent, false)
         AppGlobals.setAppContext(parent.context)
+        //
+        foodOrderDalc = FoodOrderDalc()
+        resturantDalc = ResturantDalc()
+        foodDalc = FoodDalc()
         //Create View Holder
-        val myViewHolder = CustomerOrderListAdapter.ViewHolder(view, AppGlobals.getAppContext())
+        val myViewHolder = CustomerOrderListAdapter.ViewHolder(view, AppGlobals.getAppContext(), foodDalc)
         //
         progress = myViewHolder.itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus)
         //Item Clicks
@@ -84,27 +98,50 @@ public class CustomerOrderListAdapter(
 
     //Cancels Order
     private fun cancelOrder(orderDetail: FoodOrderDetail) {
-        Service.foodOder().CancelOrder(orderDetail)
+        if(!orderDetail.isShipped || !orderDetail.isDelivered){
+            orderDetail.isCanceled = true
+            foodOrderDalc.updateFoodOrderDetails(orderDetail)
+        }
     }
 
     //puts a call through to the Merchant
     private fun callMerchant(orderDetail: FoodOrderDetail) {
-        val merchant:Resturant = Service.resturant().getResturantByResturantID(orderDetail.resturantID)
-        val phone:String = merchant.phone
-        val number:Uri = Uri.parse(phone)
-        val callIntent:Intent = Intent(Intent.ACTION_DIAL,number)
-        StartActivity(callIntent)
+        //
+        val resturantFetched = ResturantUpdatedHandler { merchant ->
+            val phone:String = merchant.get(0).phone
+            val number:Uri = Uri.parse(phone)
+            val callIntent:Intent = Intent(Intent.ACTION_DIAL,number)
+            StartActivity(callIntent)
+            this.resturantDalc.resturantDataFetched.removeListener("cusOrderresturantFetched")
+        }
+        this.resturantDalc.resturantDataFetched.addListener("cusOrderresturantFetched",resturantFetched)
+        try{
+            resturantDalc.getResturantByResturantID(orderDetail.resturantID)
+        }catch (e:Exception){
+            Toast.makeText(getAppContext(),e.message,Toast.LENGTH_LONG)
+        }
+        //
     }
 
     //puts a email through to the Merchant
     private fun emailMerchant(orderDetail: FoodOrderDetail) {
-        val merchant:Resturant = Service.resturant().getResturantByResturantID(orderDetail.resturantID)
-        val em:String = merchant.email
-        val str:Uri = Uri.parse("mailto:" + em)
-        var emailIntent:Intent = Intent(Intent.ACTION_VIEW,str)
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Order Number: " + orderDetail.oderID)
-        emailIntent.putExtra(Intent.EXTRA_TEXT,"")
-        StartActivity(emailIntent)
+       //
+        val resturantFetched = ResturantUpdatedHandler { merchant ->
+            val em:String = merchant.get(0).email
+            val str:Uri = Uri.parse("mailto:" + em)
+            var emailIntent:Intent = Intent(Intent.ACTION_VIEW,str)
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Order Number: " + orderDetail.oderID)
+            emailIntent.putExtra(Intent.EXTRA_TEXT,"")
+            StartActivity(emailIntent)
+            this.resturantDalc.resturantDataFetched.removeListener("cusOrderresturantFetched")
+        }
+        this.resturantDalc.resturantDataFetched.addListener("cusOrderresturantFetched",resturantFetched)
+        try{
+            resturantDalc.getResturantByResturantID(orderDetail.resturantID)
+        }catch (e:Exception){
+            Toast.makeText(getAppContext(),e.message,Toast.LENGTH_LONG)
+        }
+        //
     }
 
     override fun getItemCount(): Int {
@@ -112,21 +149,35 @@ public class CustomerOrderListAdapter(
     }
 
 
-    class ViewHolder(view: View, private val myContext: Context) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val myContext: Context, private var foodDalc:FoodDalc) : RecyclerView.ViewHolder(view) {
+        //
         fun bind(orderDetail: FoodOrderDetail) {
+            lateinit var foodItem:FoodItem
+            //
             try
             {
                 val dc = DecimalFormat("#,###,##0.00")
                 val cu:String = orderDetail.currency
                 //
-                val foodItem:FoodItem = Service.food().getFoodItemByFoodID(orderDetail.foodID)
+                val foodItemsFetched = FoodItemUpdatedHandler { fooditems ->
+                    foodItem = fooditems.get(0)
+                }
+                this.foodDalc.foodItemsFetched.addListener(foodItemsFetched)
+                try{
+                    //
+                    this.foodDalc.getFoodItemByFoodID(orderDetail.foodID)
+                    //
+                }catch (e:Exception){
+                    Toast.makeText(getAppContext(),e.message,Toast.LENGTH_LONG)
+                }
+                //
                 val ims: InputStream = ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(foodItem.foodImg)) //assetManager.open(cartItem.foodImgUrl)
                 val d: Drawable = Drawable.createFromStream(ims, null)
                //
                 itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(d)
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderFoodItemName).text = foodItem.foodDesc
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderPrice).text = cu+ orderDetail.foodPrice
-                itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text = cu+ dc.format((orderDetail.foodPrice * orderDetail.foodQty))
+                itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text = cu+ dc.format((orderDetail.subTotal))
                 itemView.findViewById<EditText>(R.id.txtCustomerOrderQty).setText(orderDetail.foodQty.toInt())
                 if(!orderDetail.isCanceled && orderDetail.isShipped){
                     itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 50

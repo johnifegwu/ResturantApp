@@ -1,15 +1,16 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
-import com.mickleentityltdnigeria.resturantapp.data.model.ResturantZipCodes;
-import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
-import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,23 +71,87 @@ public class ResturantDalc {
         }
     }
 
-    public Resturant getResturantByUserID(String userID){
-        Resturant result = new Resturant();
+    public void getResturantByUserID(String userID){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<Resturant> result = new ArrayList<Resturant>();
+                        //
+                        if (snapshot.getChildrenCount() > 1){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                Resturant resturant = userSnapshot.getValue(Resturant.class);
+                                result.add(resturant);
+                            }
+                        }else{
+                            Resturant resturant = snapshot.getValue(Resturant.class);
+                            result.add(resturant);
+                        }
+                        //raise event
+                        for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
+                            listener.invoke(result);
+                        }
+                    }
+                }
+            }
 
-        return result;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (ResturantUpdatedHandler listener : resturantNotFound.listeners()) {
+                    List<Resturant> result = new ArrayList<Resturant>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        //removeListener(onDataChangedListener);
+        resturantDB.addListenerForSingleValueEvent(onDataChangedListener);
+        resturantDB.orderByChild("userID").equalTo(userID);
+        //
     }
 
-    public Resturant getResturantByResturantID(String resturantID){
-        Resturant result = new Resturant();
+    public void getResturantByResturantID(String resturantID){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<Resturant> result = new ArrayList<Resturant>();
+                        //
+                        if (snapshot.getChildrenCount() > 1){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                Resturant resturant = userSnapshot.getValue(Resturant.class);
+                                result.add(resturant);
+                            }
+                        }else{
+                            Resturant resturant = snapshot.getValue(Resturant.class);
+                            result.add(resturant);
+                        }
+                        //raise event
+                        for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
+                            listener.invoke(result);
+                        }
+                    }
+                }
+            }
 
-        return result;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (ResturantUpdatedHandler listener : resturantNotFound.listeners()) {
+                    List<Resturant> result = new ArrayList<Resturant>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        resturantDB.addListenerForSingleValueEvent(onDataChangedListener);
+        resturantDB.orderByChild("resturantID").equalTo(resturantID);
+        //
     }
-
-    public ResturantZipCodes getResturantZipCodes(String resturantID){
-        ResturantZipCodes result = new ResturantZipCodes();
-
-        return result;
-    }
-
 
 }

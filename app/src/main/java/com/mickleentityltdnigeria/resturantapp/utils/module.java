@@ -7,6 +7,7 @@ import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.Country;
 import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
@@ -31,6 +32,11 @@ public class module {
         }
     }
 
+    public static String getQueryString(String resturantID, boolean isCanceled, boolean isShipped, boolean isDelivered){
+        return "resturantID=" + resturantID + "+isCanceled=" + isCanceled + "+isShipped=" + isShipped
+                + "isDelivered=" + isDelivered;
+    }
+
     public static List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
     public static List<CartItem> cartItems = new ArrayList<CartItem>();
     public static FoodItem foodItem;
@@ -50,6 +56,7 @@ public class module {
     public static  String country = "";
     public static  String state = "";
     public static String city = "";
+    public static String locationID = "";
 
     //For customer Order
     public static String orderTrackCode = "";
@@ -58,6 +65,8 @@ public class module {
     public boolean Resturant_Approved = false;
     public String Resturant_zipCodes = "";
     //Zip Codes derived from Resturant separated by spaces
+
+    public static List<Country> myCountries = new ArrayList<Country>();
 
     public static CurrentLocationDalc MyCurrentLocation;
     public static CartDalc MyShoppingCart;

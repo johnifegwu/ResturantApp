@@ -1,9 +1,21 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.Address;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrder;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
+import com.mickleentityltdnigeria.resturantapp.extensions.Event;
+import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.FoodOrderDetailsEventHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.FoodOrderEventHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.idGen;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
@@ -14,106 +26,205 @@ import java.util.UUID;
 
 public class FoodOrderDalc {
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference foodOrderDB = database.getReference("foodorders");
+    DatabaseReference foodOrderDetailDB = database.getReference("foodorderdetails");
+
+    public Event<FoodOrderEventHandler> foodOrdersFetched = new Event<FoodOrderEventHandler>();
+    public Event<FoodOrderEventHandler> foodOrdersNotFound = new Event<FoodOrderEventHandler>();
+    public Event<FoodOrderEventHandler> foodOrdersAdded = new Event<FoodOrderEventHandler>();
+    public Event<FoodOrderEventHandler> foodOrdersUpdated = new Event<FoodOrderEventHandler>();
+
+    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsFetched = new Event<FoodOrderDetailsEventHandler>();
+    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsNotFound = new Event<FoodOrderDetailsEventHandler>();
+    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsAdded = new Event<FoodOrderDetailsEventHandler>();
+    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsUpdated = new Event<FoodOrderDetailsEventHandler>();
+
     public FoodOrderDalc() {
     }
 
     //Adds new order to the system and returns the order tracking Code.
-    public String PlaceOrder(List<CartItem> cart, Address paymentAddress, Address shippingAddress){
+    public void PlaceOrder(List<CartItem> cart, Address paymentAddress, Address shippingAddress) throws Exception {
         //
+        if(shippingAddress.city != module.city || shippingAddress.country != module.country){
+            throw new Exception("Shipping address Country and City must be the same with your current location.");
+        }
         String guid = idGen.getInstance().getUUID();
-        String orderID = "";
+        String orderID = foodOrderDB.push().getKey();
+        //
         FoodOrder order = new FoodOrder(orderID, module.userID,new Date(),guid,paymentAddress.getContactAddress(),
                 paymentAddress.getCity(),paymentAddress.getZipCode(),paymentAddress.getState(),paymentAddress.getCountry(),shippingAddress.getContactAddress(),
                 shippingAddress.getCity(), shippingAddress.getZipCode(),shippingAddress.getState(),shippingAddress.getCountry());
-        //save order and return the Order ID
-        //TODO save order to the system here.
-        //Save Order here.
-
-        String ID = "";
-        //
+        //save cart to the system.
+        foodOrderDB.child(orderID).setValue(order);
+        //Save Order details here.
+        List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
         for (CartItem c:cart) {
+            String ID = foodOrderDetailDB.push().getKey();
+            //
             FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,c.getUserID(),c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
-                    c.getCartQty(),false,0.0,0.0,"",false,new Date(),"",false,
+                    c.getFoodQty(),false,0.0,0.0,"",false,new Date(),"",false,
                     new Date(),"", "",false);
             //
-            addOrderDetails(orderDetail);
+            foodOrderDetailDB.child(ID).setValue(orderDetail);
+            orderDetails.add(orderDetail);
             //
         }
-        return guid;
-    }
-
-    private void addOrderDetails(FoodOrderDetail orderDetail){
-        //TODO save order detail to the system here.
-
-    }
-
-    public void CancelOrder(FoodOrderDetail orderDetail){
-        FoodOrderDetail f = orderDetail;
-            //TODO save f to the
-            String query = "UPDATE FoodOrderDetail SET (isCanceled = true) WHERE ((ID = " + f.getID() + ") && (isPaid = false) && (isShipped = false) && (isDelivered = false))";
-            //database.Save()
-    }
-
-    public void ShipOrder(List<String> orderDetailIDs){
-        for (String f:orderDetailIDs) {
-
-            //TODO save f to the
-            String query = "UPDATE FoodOrderDetail SET (isShipped = true, dateShipped = " + new Date() + ", shippedBy = " + module.userName +") WHERE (ID = " + f + ")";
+        //raise event
+        for (FoodOrderEventHandler listener : foodOrdersAdded.listeners()) {
+            List<FoodOrder> result = new ArrayList<FoodOrder>();
+            result.add(order);
+            listener.invoke(result);
+        }
+        //raise event
+        for (FoodOrderDetailsEventHandler listener : foodOrderDetailsAdded.listeners()) {
+            listener.invoke(orderDetails);
         }
     }
 
-    public void DeliverOrder(List<String> orderDetailIDs, double amountCollected, double changeGiven, String paymentDescription, String collectedBy){
-        for (String f:orderDetailIDs) {
-
-            //TODO save f to the
-            String query = "UPDATE FoodOrderDetail SET (isDelivered = true, dateDelivered = " + new Date() + ", deliveredBy = " + module.userName +"," +
-                    "amountPaid = "+ amountCollected +", changeGiven = "+ changeGiven +", paymentDescription = "+ paymentDescription + ", collectedBy = "+ collectedBy + ") WHERE (ID = " + f + ")";
-            //database.Save(f);
+    public void updateFoodOrder(FoodOrder order){
+        //save cart to the system.
+        foodOrderDB.child(order.orderID).setValue(order);
+        //raise event
+        for (FoodOrderEventHandler listener : foodOrdersUpdated.listeners()) {
+            List<FoodOrder> result = new ArrayList<FoodOrder>();
+            result.add(order);
+            listener.invoke(result);
         }
     }
 
-    public FoodOrder getFoodOrderByTrackCode(String trackCode){
-        FoodOrder result = null;
-        //TODO get order from the system here
-
-        return result;
+    public void updateFoodOrderDetails(FoodOrderDetail orderDetail){
+        //
+        foodOrderDetailDB.child(orderDetail.ID).setValue(orderDetail);
+        //raise event
+        for (FoodOrderDetailsEventHandler listener : foodOrderDetailsAdded.listeners()) {
+            List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+            result.add(orderDetail);
+            listener.invoke(result);
+        }
     }
 
-    public FoodOrder getFoodOrderByOderID(String orderID){
-        FoodOrder result = null;
-        //TODO get order from the system here
+    public void getFoodOrderByOrderID(String orderID){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<FoodOrder> result = new ArrayList<FoodOrder>();
+                        //
+                        if (snapshot.getChildrenCount() > 1){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                FoodOrder foodOrder = userSnapshot.getValue(FoodOrder.class);
+                                result.add(foodOrder);
+                            }
+                        }else{
+                            FoodOrder foodOrder = snapshot.getValue(FoodOrder.class);
+                            result.add(foodOrder);
+                        }
+                        //raise event
+                        for (FoodOrderEventHandler listener : foodOrdersFetched.listeners()) {
+                            listener.invoke(result);
+                        }
+                    }
+                }
+            }
 
-        return result;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (FoodOrderEventHandler listener : foodOrdersNotFound.listeners()) {
+                    List<FoodOrder> result = new ArrayList<FoodOrder>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        foodOrderDB.addListenerForSingleValueEvent(onDataChangedListener);
+        foodOrderDB.orderByChild("orderID").equalTo(orderID);
+        //
     }
 
-    public List<FoodOrderDetail> getUndeliveredFoodOrderDetailsByResturant(String resturantID, boolean isDelivered){
-        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
-        //TODO get order details from the system here
+    public void getFoodOrderDetailsByUserID(String userID){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                        //
+                        if (snapshot.getChildrenCount() > 1){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                FoodOrderDetail foodOrderDetail = userSnapshot.getValue(FoodOrderDetail.class);
+                                result.add(foodOrderDetail);
+                            }
+                        }else{
+                            FoodOrderDetail foodOrderDetail = snapshot.getValue(FoodOrderDetail.class);
+                            result.add(foodOrderDetail);
+                        }
+                        //raise event
+                        for (FoodOrderDetailsEventHandler listener : foodOrderDetailsFetched.listeners()) {
+                            listener.invoke(result);
+                        }
+                    }
+                }
+            }
 
-        return result;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
+                    List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        foodOrderDB.addListenerForSingleValueEvent(onDataChangedListener);
+        foodOrderDB.orderByChild("userID").equalTo(userID);
+        //
     }
 
-    public List<FoodOrderDetail> getShippedFoodOrderDetailsByResturant(String resturantID, boolean isShipped){
-        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
-        //TODO get order details from the system here
+    public void getFoodOrderDetailsByQueryString(String resturantID, boolean isCanceled, boolean isShipped, boolean isDelivered){
+        String queryString = module.getQueryString(resturantID, isCanceled, isShipped, isDelivered);
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                        //
+                        if (snapshot.getChildrenCount() > 1){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                FoodOrderDetail foodOrderDetail = userSnapshot.getValue(FoodOrderDetail.class);
+                                result.add(foodOrderDetail);
+                            }
+                        }else{
+                            FoodOrderDetail foodOrderDetail = snapshot.getValue(FoodOrderDetail.class);
+                            result.add(foodOrderDetail);
+                        }
+                        //raise event
+                        for (FoodOrderDetailsEventHandler listener : foodOrderDetailsFetched.listeners()) {
+                            listener.invoke(result);
+                        }
+                    }
+                }
+            }
 
-        return result;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
+                    List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        foodOrderDB.addListenerForSingleValueEvent(onDataChangedListener);
+        foodOrderDB.orderByChild("queryString").equalTo(queryString);
+        //
     }
-
-    public List<FoodOrderDetail> getFoodOrderDetailsByUserID(String userID){
-        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
-        //TODO get order details from the system here
-
-        return result;
-    }
-
-    public List<FoodOrderDetail> getUnProcessedFoodOrderDetailsByUserID(String userID, boolean canceled, boolean delivered){
-        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
-        //TODO get order details from the system here
-        String query = "SELECT * FROM FoodOrderDetail WHERE (userID = " + userID + " && isCanceled = " + canceled + " isDelivered = " + delivered + ")";
-
-        return result;
-    }
-
-
 }

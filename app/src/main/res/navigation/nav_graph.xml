@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_LoginFragment_to_registerUserFragment"
             app:destination="@id/registerUserFragment" />
+        <action
+            android:id="@+id/action_LoginFragment_to_passwordResetFragment"
+            app:destination="@id/passwordResetFragment" />
     </fragment>
     <fragment
         android:id="@+id/FirstFragment"
@@ -42,6 +45,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_showPictureFragment"
             app:destination="@id/showPictureFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_changeLocationFragment"
+            app:destination="@id/changeLocationFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerUserFragment"
@@ -101,6 +107,24 @@
         tools:layout="@layout/fragment_customer_order_list">
         <action
             android:id="@+id/action_customerOrderListFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordResetFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.PasswordResetFragment"
+        android:label="fragment_password_reset"
+        tools:layout="@layout/fragment_password_reset" >
+        <action
+            android:id="@+id/action_passwordResetFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeLocationFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.ChangeLocationFragment"
+        android:label="fragment_change_location"
+        tools:layout="@layout/fragment_change_location" >
+        <action
+            android:id="@+id/action_changeLocationFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

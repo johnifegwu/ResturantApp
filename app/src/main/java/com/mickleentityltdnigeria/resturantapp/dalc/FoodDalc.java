@@ -197,5 +197,46 @@ public class FoodDalc {
         //
     }
 
+    public void getFoodItemByFoodID(String foodID){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<FoodItem> result = new ArrayList<FoodItem>();
+                        //
+                        if (snapshot.getChildrenCount() > 1){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                FoodItem foodItem = userSnapshot.getValue(FoodItem.class);
+                                result.add(foodItem);
+                            }
+                        }else{
+                            FoodItem foodItem = snapshot.getValue(FoodItem.class);
+                            result.add(foodItem);
+                        }
+                        //raise event
+                        for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
+                            listener.invoke(result);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (FoodItemUpdatedHandler listener : foodItemsNotFound.listeners()) {
+                    List<FoodItem> result = new ArrayList<FoodItem>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        foodItemDB.addListenerForSingleValueEvent(onDataChangedListener);
+        foodItemDB.orderByChild("foodID").equalTo(foodID);
+        //
+    }
+
 
 }
