@@ -20,6 +20,7 @@
         android:textAlignment="textEnd"
         android:textColor="@color/purple_700"
         android:textSize="20sp"
+        android:nextFocusDown="@id/txtCustomerPassword"
         app:layout_constraintBottom_toTopOf="@+id/txtCustomerEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +57,7 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
+        android:nextFocusDown="@id/txtConfirmCustomerPassword"
         android:hint="@string/enter_your_password"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/txtConfirmCustomerPassword"
@@ -74,6 +76,7 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/confirm_password"
+        android:nextFocusDown="@id/txtCustomerFirstName"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/txtCustomerFirstName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,12 +90,11 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/last_name"
+        android:nextFocusDown="@id/spinnerCustomerCountry"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtCustomerMiddleName"
         app:layout_constraintTop_toBottomOf="@+id/txtConfirmCustomerPassword" />
@@ -104,12 +106,11 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/middle_name"
+        android:nextFocusRight="@id/txtCustomerLastName"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerPhone"
         app:layout_constraintEnd_toStartOf="@+id/txtCustomerLastName"
         app:layout_constraintStart_toEndOf="@+id/txtCustomerFirstName"
         app:layout_constraintTop_toBottomOf="@+id/txtConfirmCustomerPassword" />
@@ -121,12 +122,11 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/first_name"
+        android:nextFocusRight="@id/txtCustomerMiddleName"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerPhone"
         app:layout_constraintEnd_toStartOf="@+id/txtCustomerMiddleName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtConfirmCustomerPassword" />
@@ -134,20 +134,19 @@
 
     <EditText
         android:id="@+id/txtCustomerPhone"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/mobile_phone_number"
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/txtCustomerAddress"
+        android:nextFocusDown="@id/txtCustomerAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerLastName" />
+        app:layout_constraintStart_toEndOf="@+id/txtCustomerRegisterIDD"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCustomerCountry" />
 
     <EditText
         android:id="@+id/txtCustomerAddress"
@@ -160,6 +159,7 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/address"
+        android:nextFocusDown="@id/txtCustomerCity"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/txtCustomerCity"
         app:layout_constraintEnd_toEndOf="parent"
@@ -178,6 +178,7 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/zip_code"
+        android:nextFocusDown="@id/txtCustomerState"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/txtCustomerState"
         app:layout_constraintEnd_toEndOf="parent"
@@ -196,6 +197,7 @@
         android:ems="10"
         android:hint="@string/city"
         android:inputType="textPersonName"
+        android:nextFocusRight="@id/txtCustomerZipCode"
         app:layout_constraintBottom_toTopOf="@+id/txtCustomerState"
         app:layout_constraintEnd_toStartOf="@+id/txtCustomerZipCode"
         app:layout_constraintHorizontal_bias="0.0"
@@ -208,41 +210,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/txtCustomerCountry"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerCustomerCountry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
+
 
     <EditText
         android:id="@+id/txtCustomerState"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="3dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/state_resgion"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/txtCustomerCountry"
+        android:nextFocusDown="@id/btnRegisterCustomerUser"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCustomerCity" />
 
-    <EditText
-        android:id="@+id/txtCustomerCountry"
+    <Spinner
+        android:id="@+id/spinnerCustomerCountry"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
-        android:autofillHints=""
+        android:autofillHints="@string/country"
         android:ems="10"
         android:hint="@string/country"
         android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtCustomerPhone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtCustomerState"
-        app:layout_constraintTop_toBottomOf="@+id/txtCustomerCity" />
-
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCustomerMiddleName" />
 
     <Button
         android:id="@+id/btnRegisterCustomerUser"
@@ -255,5 +258,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtCustomerRegisterIDD"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:hint="@string/IDD"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCustomerCountry"
+        android:autofillHints="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

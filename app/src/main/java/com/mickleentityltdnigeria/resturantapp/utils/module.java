@@ -3,6 +3,7 @@ package com.mickleentityltdnigeria.resturantapp.utils;
 import android.app.Activity;
 
 import com.mickleentityltdnigeria.resturantapp.AppGlobals;
+import com.mickleentityltdnigeria.resturantapp.dalc.AddressDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
@@ -40,6 +41,7 @@ public class module {
     public static List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
     public static List<CartItem> cartItems = new ArrayList<CartItem>();
     public static FoodItem foodItem;
+    public static AddressDalc addressDalc;
 
     public static final String AddressTYPE_SHIPPING = "SHIPPING";
     public static final String AddressTYPE_BILLING = "BILLING";

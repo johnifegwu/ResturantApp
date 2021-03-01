@@ -21,14 +21,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
+import com.mickleentityltdnigeria.resturantapp.dalc.AddressDalc;
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodOrderDalc;
+import com.mickleentityltdnigeria.resturantapp.dalc.UserDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.Address;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.extensions.AddressChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.FoodOrderDetailsEventHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
-import com.mickleentityltdnigeria.resturantapp.service.Service;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.text.DecimalFormat;
@@ -45,6 +48,8 @@ public class CheckOutFragment extends Fragment {
     ProgressBar progress;
     private List<Address> shippingAddresses = new ArrayList<Address>();
     private User user;
+    private UserDalc userDalc;
+    private FoodOrderDalc orderDalc;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -122,32 +127,37 @@ public class CheckOutFragment extends Fragment {
         btnNewAddress =  view.findViewById(R.id.btnAddShippingAddress);
         //
         this.progress.setVisibility(View.VISIBLE);
+        module.addressDalc = new AddressDalc();
+        userDalc = new UserDalc();
+        orderDalc = new FoodOrderDalc();
         //
         try {
             setBillingAddress();
-            getBillingAddresses(view);
-            SetStatus();
+            getShippingAddresses(view);
         } catch (Exception e) {
             Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
         // Register interest in the CartItem Change.
-        CartItemChangedHandler cartChanged = new CartItemChangedHandler() {
-            public void invoke(int qty) {
-                setCartTotal(qty, view.findViewById(R.id.shoppingCartView));
+        CartItemChangedHandler cartItemsFetched = new CartItemChangedHandler() {
+            public void invoke(List<CartItem> cartItems) {
+                setCartTotal(cartItems, view.findViewById(R.id.shoppingCartView));
+                SetStatus(cartItems);
             }
         };
         //
-        Service.cart().Cart.cartItemChanged.addListener(cartChanged);
+        module.MyShoppingCart.cartItemsFetched.addListener(cartItemsFetched);
+        module.MyShoppingCart.getCartItems(module.userName);
         //
         // Register interest in the Address Change.
-        AddressChangedHandler addressChanged = new AddressChangedHandler() {
-            public void invoke(String add) {
-                getBillingAddresses(view);
+        AddressChangedHandler addressAdded = new AddressChangedHandler() {
+            public void invoke(List<Address> addresses) {
+                shippingAddresses.addAll(addresses);
+               notifyAll();
             }
         };
         //
-        Service.address().address.addressChanged.addListener(addressChanged);
+        module.addressDalc.addressAdded.addListener(addressAdded);
         //
         view.findViewById(R.id.btnAddShippingAddress).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +187,7 @@ public class CheckOutFragment extends Fragment {
                 //
                 progress.setVisibility(View.VISIBLE);
                 try {
-                    //TODO perform checkout here
+                    module.checkNetwork();
                     if((txtBillingAddress.getText().toString() == "" || txtBillingCity.getText().toString() == ""
                     || txtBillingZipCode.getText().toString() == "" || txtBillingCountry.getText().toString() == "")){
                         txtBillingAddress.requestFocus();
@@ -190,19 +200,29 @@ public class CheckOutFragment extends Fragment {
                         throw new Exception("Please provide a Shipping Address.");
                     }
                     //
+                    FoodOrderDetailsEventHandler foodOrderDetailAdded = new FoodOrderDetailsEventHandler() {
+                        public void invoke(List<FoodOrderDetail> orderDetails) {
+                            //
+                            Snackbar.make(view, "Order placed successfully.", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            //
+                            Navigation.findNavController(view)
+                                    .navigate(R.id.action_checkOutFragment_to_customerOrderListFragment);
+                        }
+                    };
+                    //
                     Address shipping = new Address("",module.userID,module.AddressTYPE_SHIPPING,txtShippingAddress.getText().toString(),txtShippingCity.getText().toString(),
                             txtShippingZipCode.getText().toString(),txtShippingState.getText().toString(),txtShippingCountry.getText().toString());
 
                     Address billing = new Address("",module.userID,module.AddressTYPE_BILLING,txtBillingAddress.getText().toString(),txtBillingCity.getText().toString(),
                             txtBillingZipCode.getText().toString(),txtBillingState.getText().toString(),txtBillingCountry.getText().toString());
                     //
-                    module.orderTrackCode = Service.foodOder().PlaceOrder(module.cartItems,billing,shipping);
                     //
-                    Snackbar.make(view, "Oder placed successfully.\n Your tracking code is:\n"+module.orderTrackCode, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    //
-                    Navigation.findNavController(view)
-                            .navigate(R.id.action_checkOutFragment_to_customerOrderListFragment);
+                    if(shipping.city != module.city || shipping.country != module.country || shipping.zipCode != module.zipCode){
+                        throw new Exception("Shipping address Country, City and ZipCode must be the same with your current location.");
+                    }
+                    orderDalc.foodOrderDetailsAdded.addListener(foodOrderDetailAdded);
+                    orderDalc.PlaceOrder(module.cartItems,billing,shipping);
                     //
                 } catch (Exception e) {
                     Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG)
@@ -234,43 +254,48 @@ public class CheckOutFragment extends Fragment {
         UserUpdatedHandler userDataFetched = new UserUpdatedHandler() {
             public void invoke(List<User> users) {
                 user = users.get(0);
+                txtBillingAddress.setText(user.getContactAddress());
+                txtBillingCity.setText(user.getCity());
+                txtBillingZipCode.setText(user.getZipCode());
+                txtBillingState.setText(user.getState());
+                txtShippingCountry.setText(user.getCountry());
             }
         };
-        Dalc.User().userDataFetched.addListener(userDataFetched);
-        Service.user().getUserByName(module.userName);
-        this.txtBillingAddress.setText(user.getContactAddress());
-        this.txtBillingCity.setText(user.getCity());
-        this.txtBillingZipCode.setText(user.getZipCode());
-        this.txtBillingState.setText(user.getState());
-        this.txtShippingCountry.setText(user.getCountry());
+        userDalc.userDataFetched.addListener(userDataFetched);
+        userDalc.getUserByName(module.userName);
     }
 
-    private void getBillingAddresses(View v){
+    private void getShippingAddresses(View v){
         this.progress.setVisibility( View.VISIBLE);
         try {
-            this.shippingAddresses = Service.address().getAddresses(module.userID);
-            //
-            ArrayAdapter<Address> adapter = new ArrayAdapter<Address>(v.getContext(), android.R.layout.simple_spinner_item, shippingAddresses);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            countryList.setAdapter(adapter);
-            countryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                    Address d = shippingAddresses.get(position);
+            AddressChangedHandler addressFetched = new AddressChangedHandler() {
+                public void invoke(List<Address> addresses) {
+                    shippingAddresses = addresses;
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, module.addressDalc.getAddressList(shippingAddresses));
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    countryList.setAdapter(adapter);
+                    countryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        public void onItemSelected(AdapterView<?> parent, View view,
+                                                   int position, long id) {
+                            Address d = shippingAddresses.get(position);
 
-                    //Get selected value of key
-                    String value = d.getContactAddress();
-                    String key = d.getContactAddress();
-                    txtShippingAddress.setText(d.getContactAddress());
-                    txtShippingCity.setText(d.getCity());
-                    txtShippingZipCode.setText(d.getZipCode());
-                    txtShippingState.setText(d.getState());
-                    txtShippingCountry.setText(d.getCountry());
-                }
+                            //Get selected value of key
+                            String value = d.getContactAddress();
+                            String key = d.getContactAddress();
+                            txtShippingAddress.setText(d.getContactAddress());
+                            txtShippingCity.setText(d.getCity());
+                            txtShippingZipCode.setText(d.getZipCode());
+                            txtShippingState.setText(d.getState());
+                            txtShippingCountry.setText(d.getCountry());
+                        }
 
-                public void onNothingSelected(AdapterView<?> parent) {
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
                 }
-            });
+            };
+            module.addressDalc.addressesFetched.addListener(addressFetched);
+            module.addressDalc.getAddresses(module.userID);
             //
         }catch (Exception e){
             Snackbar.make(v, e.getMessage(), Snackbar.LENGTH_LONG)
@@ -280,28 +305,28 @@ public class CheckOutFragment extends Fragment {
         this.progress.setVisibility( View.GONE);
     }
 
-    private void setCartTotal(int Qty, View v) {
+    private void setCartTotal(List<CartItem> cartItems, View v) {
             this.progress.setVisibility( View.VISIBLE);
-            Snackbar.make(v, "" + Qty + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
+            Snackbar.make(v, "" + module.getCartTotalQty(cartItems) + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-            SetStatus();
+            SetStatus(cartItems);
             //
             //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
             this.progress.setVisibility( View.GONE);
     }
 
-    private void SetStatus(){
+    private void SetStatus(List<CartItem> cartItems){
         this.progress.setVisibility( View.VISIBLE);
         try {
             DecimalFormat dc = new DecimalFormat("#,###,##0.00");
-            double t = module.getCartTotal(module.userName);
+            double t = module.getCartTotalValue(cartItems);
             //
             String currency = "$";
             if(module.cartItems.size()>0){
                 currency = module.cartItems.get(0).getCurrency();
             }
             //
-            this.txtStatus.setText("Cart total: "+ currency +  dc.format(t));
+            this.txtStatus.setText("Order total (+ 1% markup): "+ currency +  dc.format(t));
         }catch (Exception e){
             Toast.makeText(this.getContext(),e.getMessage(), Toast.LENGTH_LONG).show();
         }

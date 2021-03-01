@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,19 +14,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodOrderDalc;
 import com.mickleentityltdnigeria.resturantapp.data.CustomerOrderListAdapter;
 import com.mickleentityltdnigeria.resturantapp.data.CustomerOrderListRecyclerViewItemClickListener;
-import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
-import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.FoodOrderDetailsEventHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.OrderDetailChangedHandler;
-import com.mickleentityltdnigeria.resturantapp.service.Service;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +37,8 @@ import org.jetbrains.annotations.NotNull;
 public class CustomerOrderListFragment extends Fragment {
 
     ProgressBar progress;
+    FoodOrderDalc orderDalc;
+    List<FoodOrderDetail> foodOrderDetails = new ArrayList<FoodOrderDetail>();
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -86,15 +88,18 @@ public class CustomerOrderListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.progress = (ProgressBar) view.findViewById(R.id.progressBarCustomerOrderList);
+        orderDalc = new FoodOrderDalc();
         this.progress.setVisibility(View.VISIBLE);
 
         // Register interest in the Order Change.
-        OrderDetailChangedHandler orderDetailChanged = new OrderDetailChangedHandler() {
-            public void invoke(String orderDetailID) {
-                updateAdapter(view);
+        FoodOrderDetailsEventHandler orderDetailsFetched = new FoodOrderDetailsEventHandler() {
+            public void invoke(List<FoodOrderDetail> orderDetails) {
+                foodOrderDetails = orderDetails;
+                updateAdapter(foodOrderDetails, view);
             }
         };
-        Service.foodOder().Food.orderDetailChanged.addListener(orderDetailChanged);
+        orderDalc.foodOrderDetailsFetched.addListener(orderDetailsFetched);
+        orderDalc.getFoodOrderDetailsByUserID(module.userID);
         //
         view.findViewById(R.id.btnContinueShopping).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +124,7 @@ public class CustomerOrderListFragment extends Fragment {
             mRecyclerView.setLayoutManager(linearLayoutManager);
 
             //Create adapter
-            CustomerOrderListAdapter adapter = new CustomerOrderListAdapter(Service.foodOder().getUnProcessedFoodOrderDetailsByUserID(module.userID,false,false), new CustomerOrderListRecyclerViewItemClickListener() {
+            CustomerOrderListAdapter adapter = new CustomerOrderListAdapter(foodOrderDetails, new CustomerOrderListRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClicked(@NotNull FoodOrderDetail foodOrderDetail) {
 
@@ -134,14 +139,14 @@ public class CustomerOrderListFragment extends Fragment {
         this.progress.setVisibility( View.GONE);
     }
 
-    private void updateAdapter(View view){
+    private void updateAdapter(List<FoodOrderDetail> orderDetails, View view){
         this.progress.setVisibility(View.VISIBLE);
         try {
             //Reference of RecyclerView
             RecyclerView mRecyclerView = view.findViewById(R.id.customerOrderListRecyclerView);
 
             //Create adapter
-            CustomerOrderListAdapter adapter = new CustomerOrderListAdapter(Service.foodOder().getUnProcessedFoodOrderDetailsByUserID(module.userID,false,false), new CustomerOrderListRecyclerViewItemClickListener() {
+            CustomerOrderListAdapter adapter = new CustomerOrderListAdapter(orderDetails, new CustomerOrderListRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClicked(@NotNull FoodOrderDetail foodOrderDetail) {
 

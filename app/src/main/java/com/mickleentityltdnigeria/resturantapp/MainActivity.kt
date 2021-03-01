@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.FirebaseDatabase
+import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.module
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
             }
         }
+        module.MyShoppingCart = CartDalc()
         this.txtCart = findViewById<TextView>(R.id.txtCartQty)
 
         // Register interest in the completed report

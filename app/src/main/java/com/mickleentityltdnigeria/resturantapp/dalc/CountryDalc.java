@@ -34,6 +34,19 @@ public class CountryDalc {
     }
 
     private void AddCountry(){
+        List<Country> countries = getMemCountries();
+        //
+        for(Country c:countries){
+            //save cart to the system.
+            countryDB.child(String.valueOf(c.countryID)).setValue(c);
+            //raise event
+        }
+        for (CountryChangedHandler listener : countriesFetched.listeners()) {
+            listener.invoke(countries);
+        }
+    }
+
+    public List<Country> getMemCountries(){
         List<Country> countries = new ArrayList<Country>();
         //We will populate countries here:
         countries.add( new Country(genID(),"971","93","AFN","AFGHANISTAN"));
@@ -282,17 +295,15 @@ public class CountryDalc {
         countries.add(new Country(genID(), "967", "260", "ZMW", "ZAMBIA"));
         countries.add(new Country(genID(), "932", "263", "ZWL", "ZIMBABWE"));
         countries.add(new Country(genID(), "978", "358", "EUR", "ALAND ISLANDS"));
+        return countries;
+    }
 
-
-        //
-        for(Country c:countries){
-            //save cart to the system.
-            countryDB.child(String.valueOf(c.countryID)).setValue(c);
-            //raise event
+    public List<String> getCountryNamesList(List<Country> countries){
+        List<String> result = new ArrayList<String>();
+        for (Country c: countries) {
+            result.add(c.countryName);
         }
-        for (CountryChangedHandler listener : countriesFetched.listeners()) {
-            listener.invoke(countries);
-        }
+        return result;
     }
 
     public void getCountries(){

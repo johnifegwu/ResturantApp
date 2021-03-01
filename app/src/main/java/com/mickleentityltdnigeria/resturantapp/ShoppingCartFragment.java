@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,12 +21,12 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
-import com.mickleentityltdnigeria.resturantapp.service.Service;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 
 /**
@@ -93,8 +92,6 @@ public class ShoppingCartFragment extends Fragment {
         this.progress = (ProgressBar) view.findViewById(R.id.progressBarCheckOut);
         this.progress.setVisibility( View.VISIBLE);
         //
-        SetStatus();
-        //
         view.findViewById(R.id.btnCheckOut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,16 +102,14 @@ public class ShoppingCartFragment extends Fragment {
                 //
             }
         });
-
         // Register interest in the CartItem Change.
-        CartItemChangedHandler cartChanged = new CartItemChangedHandler() {
-            public void invoke(int qty) {
-                displayCartQty(qty, view.findViewById(R.id.shoppingCartView));
+        CartItemChangedHandler cartItemsFetched = new CartItemChangedHandler() {
+            public void invoke(List<CartItem> cartItems) {
+                displayCartQty(cartItems, view.findViewById(R.id.shoppingCartView));
             }
         };
-
-        Service.cart().Cart.cartItemChanged.addListener(cartChanged);
-
+       module.MyShoppingCart.cartItemsFetched.addListener(cartItemsFetched);
+       module.MyShoppingCart.getCartItems(module.userName);
         try {
 
             //Reference of RecyclerView
@@ -163,29 +158,30 @@ public class ShoppingCartFragment extends Fragment {
         }
     }
 
-    private void SetStatus(){
+
+    private void SetStatus(List<CartItem> cartItems){
         this.progress.setVisibility( View.VISIBLE);
         try {
             DecimalFormat dc = new DecimalFormat("#,###,##0.00");
-            double t = module.getCartTotal(module.userName);
+            double t = module.getCartTotalValue(cartItems);
             //
             String currency = "$";
             if(module.cartItems.size()>0){
                 currency = module.cartItems.get(0).getCurrency();
             }
             //
-            this.status.setText("Cart total: "+ currency +  dc.format(t));
+            this.status.setText("Cart total (+ 1% markup): "+ currency +  dc.format(t));
         }catch (Exception e){
             Toast.makeText(this.getContext(),e.getMessage(), Toast.LENGTH_LONG).show();
         }
         this.progress.setVisibility( View.GONE);
     }
 
-    public void displayCartQty(int Qty, View v) {
+    public void displayCartQty(List<CartItem> cartItems, View v) {
         this.progress.setVisibility( View.VISIBLE);
-        Snackbar.make(v, "" + Qty + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
+        Snackbar.make(v, "" + module.getCartTotalQty(cartItems) + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-        SetStatus();
+        SetStatus(cartItems);
         updateAdapter(v);
         //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
         this.progress.setVisibility( View.GONE);

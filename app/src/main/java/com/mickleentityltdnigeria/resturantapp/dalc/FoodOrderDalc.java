@@ -46,8 +46,8 @@ public class FoodOrderDalc {
     //Adds new order to the system and returns the order tracking Code.
     public void PlaceOrder(List<CartItem> cart, Address paymentAddress, Address shippingAddress) throws Exception {
         //
-        if(shippingAddress.city != module.city || shippingAddress.country != module.country){
-            throw new Exception("Shipping address Country and City must be the same with your current location.");
+        if(shippingAddress.city != module.city || shippingAddress.country != module.country || shippingAddress.zipCode != module.zipCode){
+            throw new Exception("Shipping address Country, City and ZipCode must be the same with your current location.");
         }
         String guid = idGen.getInstance().getUUID();
         String orderID = foodOrderDB.push().getKey();
@@ -59,6 +59,8 @@ public class FoodOrderDalc {
         foodOrderDB.child(orderID).setValue(order);
         //Save Order details here.
         List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
+        //Initialise CartDalc
+        CartDalc cartX = new CartDalc();
         for (CartItem c:cart) {
             String ID = foodOrderDetailDB.push().getKey();
             //
@@ -68,6 +70,8 @@ public class FoodOrderDalc {
             //
             foodOrderDetailDB.child(ID).setValue(orderDetail);
             orderDetails.add(orderDetail);
+            //delete cartItem
+            cartX.DeleteCart(c.getCartID());
             //
         }
         //raise event

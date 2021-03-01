@@ -5,9 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +16,10 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.mickleentityltdnigeria.resturantapp.data.model.Address;
-import com.mickleentityltdnigeria.resturantapp.service.Service;
+import com.mickleentityltdnigeria.resturantapp.extensions.AddressChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,13 +103,22 @@ public class NewShippingAddressFragment extends Fragment {
                         throw new Exception("All fields are required.");
                     }
                     //
+                    AddressChangedHandler addresssAdded = new AddressChangedHandler() {
+                        public void invoke(List<Address> addresses) {
+                            //
+                            Snackbar.make(view, "Shipping successfully.", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            //
+                            Navigation.findNavController(view)
+                                    .navigate(R.id.action_newShippingAddressFragment_to_checkOutFragment);
+                        }
+                    };
+                    //
                     Address address = new Address("", module.userID,module.AddressTYPE_SHIPPING,txtShippingAddress.getText().toString()
                     , txtShippingCity.getText().toString(),txtShippingZipCode.getText().toString(),txtShippingState.getText().toString(),txtShippingCountry.getText().toString());
-                    Service.address().AddAddress(address);
                     //
-                    NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                    NavController navController = navHostFragment.getNavController();
-                    navController.navigate(R.id.action_newShippingAddressFragment_to_checkOutFragment);
+                    module.addressDalc.addressAdded.addListener(addresssAdded);
+                    module.addressDalc.AddAddress(address);
                     //
                 }catch (Exception e){
                     Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG)
