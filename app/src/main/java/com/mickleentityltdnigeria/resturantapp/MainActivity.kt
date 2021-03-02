@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
         //
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        FirebaseDatabase.getInstance().setPersistenceEnabled(false)
         //
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             AppGlobals.setAppContext(this)

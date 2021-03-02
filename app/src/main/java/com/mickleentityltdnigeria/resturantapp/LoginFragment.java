@@ -241,13 +241,13 @@ public class LoginFragment extends Fragment {
                     progress.setVisibility( View.GONE);
                     try {
                     User u = users.get(0);
-                    module.userID = u.getUserID();
-                    module.userName = u.getUserName();
-                    module.userType = u.getUserType();
-                    module.zipCode = u.getZipCode();
-                    module.country = u.getCountry();
-                    module.state = u.getState();
-                    module.city = u.getCity();
+                    module.userID = u.getUserID().toString();
+                    module.userName = u.getUserName().toString();
+                    module.userType = u.getUserType().toString();
+                    module.zipCode = u.getZipCode().toString();
+                    module.country = u.getCountry().toString();
+                    module.state = u.getState().toString();
+                    module.city = u.getCity().toString();
                     module.isLoggedIn = true;
                     //
                     userData.newUserAdded.removeListener("LoginuserNotFound");
