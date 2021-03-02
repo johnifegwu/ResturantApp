@@ -205,6 +205,20 @@ public class RegisterUserFragment extends Fragment {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
+                                        user.sendEmailVerification()
+                                                .addOnCompleteListener(((MainActivity) requireActivity()), new OnCompleteListener() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task task) {
+                                                        if (task.isSuccessful()) {
+                                                            //
+                                                            Snackbar.make(view, "Verification email has been sent to " + user.getEmail(), Snackbar.LENGTH_LONG)
+                                                                    .setAction("Action", null).show();
+                                                            Log.e(TAG, "Verification email sent to " + user.getEmail());
+                                                        } else {
+                                                            Log.e(TAG, "sendEmailVerification failed!", task.getException());
+                                                        }
+                                                    }
+                                                });
                                         updateUI(user);
                                     } else {
                                         // If sign in fails, display a message to the user.
@@ -279,6 +293,7 @@ public class RegisterUserFragment extends Fragment {
 
 
     private void updateUI(@Nullable FirebaseUser user) {
+
     }
 
 
