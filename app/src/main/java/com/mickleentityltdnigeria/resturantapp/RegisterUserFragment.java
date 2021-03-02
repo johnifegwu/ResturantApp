@@ -189,8 +189,8 @@ public class RegisterUserFragment extends Fragment {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     //
-                                    Snackbar.make(view, Objects.requireNonNull(e.getMessage()), Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
+                                    Toast.makeText(view.getContext(), Objects.requireNonNull(e.getMessage()),
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnCompleteListener(((MainActivity) requireActivity()), new OnCompleteListener<AuthResult>() {
@@ -211,8 +211,8 @@ public class RegisterUserFragment extends Fragment {
                                                     public void onComplete(@NonNull Task task) {
                                                         if (task.isSuccessful()) {
                                                             //
-                                                            Snackbar.make(view, "Verification email has been sent to " + user.getEmail(), Snackbar.LENGTH_LONG)
-                                                                    .setAction("Action", null).show();
+                                                            Toast.makeText(view.getContext(), "Verification email has been sent to " + user.getEmail(),
+                                                                    Toast.LENGTH_SHORT).show();
                                                             Log.e(TAG, "Verification email sent to " + user.getEmail());
                                                         } else {
                                                             Log.e(TAG, "sendEmailVerification failed!", task.getException());
@@ -239,8 +239,8 @@ public class RegisterUserFragment extends Fragment {
                     userData.newUserAdded.removeListener("RegnewUserAdded");
                     progress.setVisibility(View.GONE);
                     //
-                    Snackbar.make(view, Objects.requireNonNull(e.getMessage()), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Toast.makeText(view.getContext(), Objects.requireNonNull(e.getMessage()),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -104,24 +105,24 @@ public class PasswordResetFragment extends Fragment {
                                     if (task.isSuccessful()) {
                                         // do something when mail was sent successfully.
                                         progress.setVisibility(View.GONE);
-                                        Snackbar.make(btnResetPassword, "A password reset link has been sent to " + txtEmail.getText().toString(), Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
+                                        Toast.makeText(view.getContext(), "A password reset link has been sent to " + txtEmail.getText().toString(),
+                                                Toast.LENGTH_SHORT).show();
                                         //
                                         NavHostFragment.findNavController(PasswordResetFragment.this)
                                                 .navigate(R.id.action_passwordResetFragment_to_LoginFragment);
                                     } else {
                                         // ...
                                         progress.setVisibility(View.GONE);
-                                        Snackbar.make(btnResetPassword, "Password reset failed. Provide a valid Email address.", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
+                                        Toast.makeText(view.getContext(), "Password reset failed. Provide a valid Email address.",
+                                                Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
                 }catch (Exception e){
                     //
                     progress.setVisibility(View.GONE);
-                    Snackbar.make(view, Objects.requireNonNull(e.getMessage()), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Toast.makeText(view.getContext(), Objects.requireNonNull(e.getMessage()),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
