@@ -168,8 +168,8 @@ class FirstFragment : Fragment() {
                     .navigate(R.id.action_FirstFragment_to_changeLocationFragment)
         })
         // Register interest in the CartItem Change.
-        val cartChanged = CartItemChangedHandler { cartItems -> displayCartQty(cartItems, view) }
-        module.MyShoppingCart.cartItemsFetched.addListener(cartChanged)
+        val cartItemsFetched = CartItemChangedHandler { cartItems -> displayCartQty(cartItems, view) }
+        module.MyShoppingCart.cartItemsFetched.addListener(cartItemsFetched)
         try{
             module.MyShoppingCart.getCartItems(module.userName)
         }catch (e:Exception){
@@ -216,9 +216,17 @@ class FirstFragment : Fragment() {
     }
 
     private fun displayCartQty(cartItems: List<CartItem>, v: View?) {
+        val cartTotalQty = module.getCartTotalQty(cartItems)
+        if(cartTotalQty > 0){
+            this.btnChangeLocation.isClickable = false
+            this.btnChangeLocation.isEnabled = false
+        }else{
+            this.btnChangeLocation.isClickable = true
+            this.btnChangeLocation.isEnabled = true
+        }
         Snackbar.make(
             v!!,
-            "${module.getCartTotalQty(cartItems)} item(s) added to Cart.",
+            "$cartTotalQty item(s) added to Cart.",
             Snackbar.LENGTH_LONG
         )
             .setAction("Action", null).show()

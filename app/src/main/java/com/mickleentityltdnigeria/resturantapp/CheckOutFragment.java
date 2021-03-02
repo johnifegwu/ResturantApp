@@ -203,6 +203,8 @@ public class CheckOutFragment extends Fragment {
                     FoodOrderDetailsEventHandler foodOrderDetailAdded = new FoodOrderDetailsEventHandler() {
                         public void invoke(List<FoodOrderDetail> orderDetails) {
                             //
+                            module.MyShoppingCart.getCartItems(module.userName);
+                            //
                             Snackbar.make(view, "Order placed successfully.", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             //

@@ -63,7 +63,11 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
 
     private fun updateCartItem(qty:Int, cartItem: CartItem) {
         cartItem.foodQty = qty
-        module.MyShoppingCart.UpdateCart(cartItem)
+        if(qty > 0){
+            module.MyShoppingCart.UpdateCart(cartItem)
+        }else{
+            module.MyShoppingCart.DeleteCart(cartItem.getCartID().toString())
+        }
         module.MyShoppingCart.getCartItems(module.userName)
     }
 
