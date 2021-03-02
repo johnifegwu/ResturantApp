@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
@@ -77,18 +78,15 @@ public class CartDalc
                         //
                         List<CartItem> result = new ArrayList<CartItem>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 CartItem cartItem = userSnapshot.getValue(CartItem.class);
                                 result.add(cartItem);
                             }
-                        }else{
-                            CartItem cartItem = snapshot.getValue(CartItem.class);
-                            result.add(cartItem);
-                        }
-                        //raise event
-                        for (CartItemChangedHandler listener : cartItemsFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (CartItemChangedHandler listener : cartItemsFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -110,9 +108,10 @@ public class CartDalc
             }
         };
         //
-        //removeListener(onDataChangedListener);
-        shoppingCartDB.addListenerForSingleValueEvent(onDataChangedListener);
-        shoppingCartDB.orderByChild("userName").equalTo(userName);
+        Query query = FirebaseDatabase.getInstance().getReference("shoppingCarts")
+                .orderByChild("userName")
+                .equalTo(userName);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 

@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.DuplicateUserException;
@@ -84,18 +85,15 @@ public class UserDalc {
                         //
                         List<User> result = new ArrayList<User>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 User user = userSnapshot.getValue(User.class);
                                 result.add(user);
                             }
-                        }else{
-                            User user = snapshot.getValue(User.class);
-                            result.add(user);
-                        }
-                        //raise event
-                        for (UserUpdatedHandler listener : userDataFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (UserUpdatedHandler listener : userDataFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -117,9 +115,10 @@ public class UserDalc {
             }
         };
         //
-        //removeListener(onDataChangedListener);
-        userDB.addListenerForSingleValueEvent(onDataChangedListener);
-        userDB.orderByChild("userName").equalTo(userName);
+        Query query = FirebaseDatabase.getInstance().getReference("users")
+                .orderByChild("userName")
+                .equalTo(userName);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 
@@ -131,18 +130,15 @@ public class UserDalc {
                     //
                     List<User> result = new ArrayList<User>();
                    //
-                    if (snapshot.getChildrenCount() > 1){
+                    if (snapshot.hasChildren()){
                         for(DataSnapshot userSnapshot:snapshot.getChildren()){
                             User user = userSnapshot.getValue(User.class);
                             result.add(user);
                         }
-                    }else{
-                        User user = snapshot.getValue(User.class);
-                        result.add(user);
-                    }
-                    //raise event
-                    for (UserUpdatedHandler listener : userDataFetched.listeners()) {
-                        listener.invoke(result);
+                        //raise event
+                        for (UserUpdatedHandler listener : userDataFetched.listeners()) {
+                            listener.invoke(result);
+                        }
                     }
                 }else {
                     //raise event
@@ -163,9 +159,10 @@ public class UserDalc {
             }
         };
         //
-        removeListener(onDataChangedListener);
-        userDB.addListenerForSingleValueEvent(onDataChangedListener);
-        userDB.orderByChild("userID").equalTo(userID);
+        Query query = FirebaseDatabase.getInstance().getReference("users")
+                .orderByChild("userID")
+                .equalTo(userID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 

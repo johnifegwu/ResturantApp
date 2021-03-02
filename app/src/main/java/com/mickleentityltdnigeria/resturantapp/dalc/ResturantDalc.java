@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
@@ -80,18 +81,15 @@ public class ResturantDalc {
                         //
                         List<Resturant> result = new ArrayList<Resturant>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 Resturant resturant = userSnapshot.getValue(Resturant.class);
                                 result.add(resturant);
                             }
-                        }else{
-                            Resturant resturant = snapshot.getValue(Resturant.class);
-                            result.add(resturant);
-                        }
-                        //raise event
-                        for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -113,9 +111,10 @@ public class ResturantDalc {
             }
         };
         //
-        //removeListener(onDataChangedListener);
-        resturantDB.addListenerForSingleValueEvent(onDataChangedListener);
-        resturantDB.orderByChild("userID").equalTo(userID);
+        Query query = FirebaseDatabase.getInstance().getReference("Resturants")
+                .orderByChild("userID")
+                .equalTo(userID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 
@@ -128,18 +127,15 @@ public class ResturantDalc {
                         //
                         List<Resturant> result = new ArrayList<Resturant>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 Resturant resturant = userSnapshot.getValue(Resturant.class);
                                 result.add(resturant);
                             }
-                        }else{
-                            Resturant resturant = snapshot.getValue(Resturant.class);
-                            result.add(resturant);
-                        }
-                        //raise event
-                        for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -161,8 +157,10 @@ public class ResturantDalc {
             }
         };
         //
-        resturantDB.addListenerForSingleValueEvent(onDataChangedListener);
-        resturantDB.orderByChild("resturantID").equalTo(resturantID);
+        Query query = FirebaseDatabase.getInstance().getReference("Resturants")
+                .orderByChild("resturantID")
+                .equalTo(resturantID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 

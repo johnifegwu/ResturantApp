@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.Country;
@@ -315,18 +316,15 @@ public class CountryDalc {
                         //
                         List<Country> result = new ArrayList<Country>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 Country country = userSnapshot.getValue(Country.class);
                                 result.add(country);
                             }
-                        }else{
-                            Country country = snapshot.getValue(Country.class);
-                            result.add(country);
-                        }
-                        //raise event
-                        for (CountryChangedHandler listener : countriesFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (CountryChangedHandler listener : countriesFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -342,8 +340,9 @@ public class CountryDalc {
             }
         };
         //
-        countryDB.addListenerForSingleValueEvent(onDataChangedListener);
-        countryDB.orderByChild("countryName");
+        Query query = FirebaseDatabase.getInstance().getReference("countries")
+                .orderByChild("countries");
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 

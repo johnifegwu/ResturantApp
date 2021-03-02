@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.Address;
 import com.mickleentityltdnigeria.resturantapp.data.model.Country;
@@ -77,7 +78,7 @@ public class AddressDalc {
                         //
                         List<Address> result = new ArrayList<Address>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 Address address = userSnapshot.getValue(Address.class);
                                 result.add(address);
@@ -110,8 +111,10 @@ public class AddressDalc {
             }
         };
         //
-        addressDB.addListenerForSingleValueEvent(onDataChangedListener);
-        addressDB.orderByChild("userID").equalTo(userID);
+        Query query = FirebaseDatabase.getInstance().getReference("addresses")
+                .orderByChild("userID")
+                .equalTo(userID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 

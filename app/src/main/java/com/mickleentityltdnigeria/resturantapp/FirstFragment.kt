@@ -72,7 +72,7 @@ class FirstFragment : Fragment() {
         this.progress.visibility = View.VISIBLE
         //
         this.btnSearch = view.findViewById<Button>(R.id.btnSearch)
-        this.btnChangeLocation = view.findViewById<EditText>(R.id.btnChangeLocation)
+        this.btnChangeLocation = view.findViewById<TextView>(R.id.btnChangeLocation)
         this.txtsearchString = view.findViewById<EditText>(R.id.txtSearchString)
         this.txtsearchZipCode = view.findViewById<TextView>(R.id.txtSearchZipCode)
         //
@@ -89,12 +89,12 @@ class FirstFragment : Fragment() {
         }
         // Register interest in the CurrentLocation.
         val locationsFetched = CurrentLocationChangedHandler { locations ->
-            val l = locations.get(0)
-            module.locationID = l.locationID
-            module.country = l.getCountry()
-            module.state = l.getState()
-            module.city = l.city
-            module.zipCode = l.zipCode
+            val l:CurrentLocation = locations.get(0)
+            module.locationID = l.getLocationID().toString()
+            module.country = l.getCountry().toString()
+            module.state = l.getState().toString()
+            module.city = l.getCity().toString()
+            module.zipCode = l.getZipCode().toString()
             this.txtsearchZipCode.text = module.zipCode
         }
         val locationsNotFound = CurrentLocationChangedHandler { locations ->
@@ -110,11 +110,11 @@ class FirstFragment : Fragment() {
         }
         val locationsAdded = CurrentLocationChangedHandler { locations ->
             val l = locations.get(0)
-            module.locationID = l.locationID
-            module.country = l.getCountry()
-            module.state = l.getState()
-            module.city = l.city
-            module.zipCode = l.zipCode
+            module.locationID = l.getLocationID().toString()
+            module.country = l.getCountry().toString()
+            module.state = l.getState().toString()
+            module.city = l.getCity().toString()
+            module.zipCode = l.getZipCode().toString()
             this.txtsearchZipCode.text = module.zipCode
         }
         module.MyCurrentLocation.locationsFetched.addListener(locationsFetched)

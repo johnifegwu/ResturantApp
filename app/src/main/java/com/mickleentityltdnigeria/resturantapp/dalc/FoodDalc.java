@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
@@ -78,22 +79,17 @@ public class FoodDalc {
                         //
                         List<FoodItem> result = new ArrayList<FoodItem>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 FoodItem foodItem = userSnapshot.getValue(FoodItem.class);
                                 if(foodItem.foodDesc.toString().contains(searchTerm)){
                                     result.add(foodItem);
                                 }
                             }
-                        }else{
-                            FoodItem foodItem = snapshot.getValue(FoodItem.class);
-                            if(foodItem.foodDesc.toString().contains(searchTerm)){
-                                result.add(foodItem);
+                            //raise event
+                            for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
+                                listener.invoke(result);
                             }
-                        }
-                        //raise event
-                        for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
-                            listener.invoke(result);
                         }
                     }
                 }else{
@@ -117,8 +113,11 @@ public class FoodDalc {
             }
         };
         //
-        foodItemDB.addListenerForSingleValueEvent(onDataChangedListener);
-        foodItemDB.orderByChild("zipCodes").startAt(zipCode).endAt(zipCode+"\uF7FF");
+        Query query = FirebaseDatabase.getInstance().getReference("fooditems")
+                .orderByChild("zipCodes")
+                .startAt(zipCode)
+                .endAt(zipCode);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 
@@ -131,18 +130,15 @@ public class FoodDalc {
                         //
                         List<FoodItem> result = new ArrayList<FoodItem>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 FoodItem foodItem = userSnapshot.getValue(FoodItem.class);
                                 result.add(foodItem);
                             }
-                        }else{
-                            FoodItem foodItem = snapshot.getValue(FoodItem.class);
-                            result.add(foodItem);
-                        }
-                        //raise event
-                        for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -165,8 +161,10 @@ public class FoodDalc {
             }
         };
         //
-        foodItemDB.addListenerForSingleValueEvent(onDataChangedListener);
-        foodItemDB.orderByChild("userID").equalTo(userID);
+        Query query = FirebaseDatabase.getInstance().getReference("fooditems")
+                .orderByChild("userID")
+                .equalTo(userID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 
@@ -179,18 +177,15 @@ public class FoodDalc {
                         //
                         List<FoodItem> result = new ArrayList<FoodItem>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 FoodItem foodItem = userSnapshot.getValue(FoodItem.class);
                                 result.add(foodItem);
                             }
-                        }else{
-                            FoodItem foodItem = snapshot.getValue(FoodItem.class);
-                            result.add(foodItem);
-                        }
-                        //raise event
-                        for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -213,8 +208,10 @@ public class FoodDalc {
             }
         };
         //
-        foodItemDB.addListenerForSingleValueEvent(onDataChangedListener);
-        foodItemDB.orderByChild("resturantID").equalTo(resturantID);
+        Query query = FirebaseDatabase.getInstance().getReference("fooditems")
+                .orderByChild("resturantID")
+                .equalTo(resturantID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 
@@ -227,18 +224,15 @@ public class FoodDalc {
                         //
                         List<FoodItem> result = new ArrayList<FoodItem>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 FoodItem foodItem = userSnapshot.getValue(FoodItem.class);
                                 result.add(foodItem);
                             }
-                        }else{
-                            FoodItem foodItem = snapshot.getValue(FoodItem.class);
-                            result.add(foodItem);
-                        }
-                        //raise event
-                        for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -261,8 +255,10 @@ public class FoodDalc {
             }
         };
         //
-        foodItemDB.addListenerForSingleValueEvent(onDataChangedListener);
-        foodItemDB.orderByChild("foodID").equalTo(foodID);
+        Query query = FirebaseDatabase.getInstance().getReference("fooditems")
+                .orderByChild("foodID")
+                .equalTo(foodID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 

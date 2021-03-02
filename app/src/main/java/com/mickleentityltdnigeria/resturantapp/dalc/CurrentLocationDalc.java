@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation;
@@ -66,18 +67,15 @@ public class CurrentLocationDalc {
                         //
                         List<CurrentLocation> result = new ArrayList<CurrentLocation>();
                         //
-                        if (snapshot.getChildrenCount() > 1){
+                        if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 CurrentLocation location = userSnapshot.getValue(CurrentLocation.class);
                                 result.add(location);
                             }
-                        }else{
-                            CurrentLocation location = snapshot.getValue(CurrentLocation.class);
-                            result.add(location);
-                        }
-                        //raise event
-                        for (CurrentLocationChangedHandler listener : locationsFetched.listeners()) {
-                            listener.invoke(result);
+                            //raise event
+                            for (CurrentLocationChangedHandler listener : locationsFetched.listeners()) {
+                                listener.invoke(result);
+                            }
                         }
                     }
                 }else{
@@ -99,8 +97,10 @@ public class CurrentLocationDalc {
             }
         };
         //
-        currentLocationDB.addListenerForSingleValueEvent(onDataChangedListener);
-        currentLocationDB.orderByChild("userID").equalTo(userID);
+        Query query = FirebaseDatabase.getInstance().getReference("currentLocations")
+                .orderByChild("userID")
+                .equalTo(userID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }
 
