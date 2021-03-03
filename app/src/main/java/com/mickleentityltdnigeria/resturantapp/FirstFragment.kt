@@ -117,6 +117,16 @@ class FirstFragment : Fragment() {
             module.zipCode = l.getZipCode().toString()
             this.txtsearchZipCode.text = module.zipCode
         }
+        val locationUpdated = CurrentLocationChangedHandler { locations ->
+            val l = locations.get(0)
+            module.locationID = l.getLocationID().toString()
+            module.country = l.getCountry().toString()
+            module.state = l.getState().toString()
+            module.city = l.getCity().toString()
+            module.zipCode = l.getZipCode().toString()
+            this.txtsearchZipCode.text = module.zipCode
+        }
+        module.MyCurrentLocation.locationsUpdated.addListener(locationUpdated)
         module.MyCurrentLocation.locationsFetched.addListener(locationsFetched)
         module.MyCurrentLocation.locationsNotFound.addListener(locationsNotFound)
         module.MyCurrentLocation.locationsAdded.addListener(locationsAdded)
