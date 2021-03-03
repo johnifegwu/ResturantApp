@@ -7,6 +7,39 @@
     tools:context=".NewShippingAddressFragment">
 
     <EditText
+        android:id="@+id/txtShippingPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/mobile_phone_number"
+        android:inputType="phone"
+        android:nextFocusDown="@id/txtShippingContact"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtShippingIDD"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerNewShippingCountry" />
+
+    <Spinner
+        android:id="@+id/spinnerNewShippingCountry"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints="@string/country"
+        android:ems="10"
+        android:hint="@string/country"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtShippingIDD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewShippingState" />
+
+    <EditText
         android:id="@+id/txtNewShippingAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +50,7 @@
         android:ems="10"
         android:hint="@string/address"
         android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtNewShippingCity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNewShippingAddressPanel" />
@@ -32,6 +66,7 @@
         android:ems="10"
         android:hint="@string/city"
         android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtNewShippingZipCode"
         app:layout_constraintEnd_toStartOf="@+id/txtNewShippingZipCode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNewShippingAddress" />
@@ -46,6 +81,7 @@
         android:ems="10"
         android:hint="@string/zip_code"
         android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtNewShippingState"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNewShippingAddress" />
 
@@ -60,24 +96,10 @@
         android:ems="10"
         android:hint="@string/state_resgion"
         android:inputType="textPersonName"
+        android:nextFocusDown="@id/spinnerNewShippingCountry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNewShippingCity" />
-
-    <EditText
-        android:id="@+id/txtNewShippingCountry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/country"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewShippingState" />
 
     <Button
         android:id="@+id/btnSaveNewShippingAddress"
@@ -116,4 +138,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtNewShippingAddressPanel" />
+
+    <EditText
+        android:id="@+id/txtShippingIDD"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:hint="@string/IDD"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtShippingPhone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerNewShippingCountry" />
+
+    <EditText
+        android:id="@+id/txtShippingContact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:hint="@string/contact"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/btnSaveNewShippingAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtShippingPhone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

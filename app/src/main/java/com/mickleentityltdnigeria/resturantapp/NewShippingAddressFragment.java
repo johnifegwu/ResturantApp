@@ -10,12 +10,18 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.mickleentityltdnigeria.resturantapp.dalc.CountryDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.Address;
+import com.mickleentityltdnigeria.resturantapp.data.model.Country;
 import com.mickleentityltdnigeria.resturantapp.extensions.AddressChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
@@ -75,7 +81,8 @@ public class NewShippingAddressFragment extends Fragment {
 
     ProgressBar progress;
     Button btnSave;
-    EditText txtShippingAddress, txtShippingCity, txtShippingZipCode, txtShippingState, txtShippingCountry;
+    EditText txtShippingAddress, txtShippingCity, txtShippingZipCode, txtShippingState, txtShippingContact, txtShippingPhone, txtShippingIDD;
+    Spinner spinnerShippingCountry;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -87,9 +94,29 @@ public class NewShippingAddressFragment extends Fragment {
         txtShippingCity = view.findViewById(R.id.txtNewShippingCity);
         txtShippingZipCode = view.findViewById(R.id.txtNewShippingZipCode);
         txtShippingState = view.findViewById(R.id.txtNewShippingState);
-        txtShippingCountry = view.findViewById(R.id.txtNewShippingCountry);
+        spinnerShippingCountry = view.findViewById(R.id.spinnerNewShippingCountry);
+        txtShippingContact = view.findViewById(R.id.txtShippingContact);
+        txtShippingPhone = view.findViewById(R.id.txtShippingPhone);
+        txtShippingIDD = view.findViewById(R.id.txtShippingIDD);
         //
         btnSave =  view.findViewById(R.id.btnSaveNewShippingAddress);
+        //
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, CountryDalc.getCountryNamesList(module.myCountries));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerShippingCountry.setAdapter(adapter);
+        spinnerShippingCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                Country d = module.myCountries.get(position);
+                //Get selected value of key
+                String value = d.getCountryName().toString();
+                String key = d.getCountryName().toString();
+                txtShippingIDD.setText("+" + d.getDialCode().toString());
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         //
         view.findViewById(R.id.btnSaveNewShippingAddress).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,8 +124,8 @@ public class NewShippingAddressFragment extends Fragment {
                 progress.setVisibility(View.VISIBLE);
                 try {
                     //
-                    if(txtShippingAddress.getText().toString() == "" || txtShippingCity.getText().toString() == "" || txtShippingZipCode.getText().toString() == "" ||
-                            txtShippingCountry.getText().toString() == ""){
+                    if(txtShippingAddress.getText().toString().isEmpty() || txtShippingCity.getText().toString().isEmpty() || txtShippingZipCode.getText().toString().isEmpty() ||
+                            spinnerShippingCountry.getSelectedItem().toString().isEmpty() || txtShippingContact.getText().toString().isEmpty() || txtShippingPhone.getText().toString().isEmpty()){
                         txtShippingAddress.requestFocus();
                         throw new Exception("All fields are required.");
                     }
@@ -115,14 +142,13 @@ public class NewShippingAddressFragment extends Fragment {
                     };
                     //
                     Address address = new Address("", module.userID,module.AddressTYPE_SHIPPING,txtShippingAddress.getText().toString()
-                    , txtShippingCity.getText().toString(),txtShippingZipCode.getText().toString(),txtShippingState.getText().toString(),txtShippingCountry.getText().toString());
+                    , txtShippingCity.getText().toString(),txtShippingZipCode.getText().toString(),txtShippingState.getText().toString(),spinnerShippingCountry.getSelectedItem().toString(),txtShippingContact.getText().toString(),txtShippingIDD.getText().toString().trim() + txtShippingPhone.getText().toString().trim());
                     //
                     module.addressDalc.addressAdded.addListener(addresssAdded);
                     module.addressDalc.AddAddress(address);
                     //
                 }catch (Exception e){
-                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 progress.setVisibility(View.GONE);
             }

@@ -16,12 +16,14 @@ public class Address implements Serializable {
     public String zipCode;
     public String state;
     public String country;
+    public String contactPerson;
+    public String contactPhone;
 
 
     public Address() {
     }
 
-    public Address(String addressID, String userID, String addressType, String contactAddress, String city, String zipCode, String state, String country) {
+    public Address(String addressID, String userID, String addressType, String contactAddress, String city, String zipCode, String state, String country, String contactPerson, String contactPhone) {
         this.addressID = addressID;
         this.userID = userID;
         this.addressType = addressType;
@@ -30,6 +32,8 @@ public class Address implements Serializable {
         this.zipCode = zipCode;
         this.state = state;
         this.country = country;
+        this.contactPerson = contactPerson;
+        this.contactPhone = contactPhone;
     }
 
     @Exclude
@@ -110,5 +114,25 @@ public class Address implements Serializable {
     @Exclude
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Exclude
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    @Exclude
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    @Exclude
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    @Exclude
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
     }
 }

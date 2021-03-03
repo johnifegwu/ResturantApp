@@ -181,7 +181,7 @@ public class RegisterUserFragment extends Fragment {
                     deviceID = ImageHelper.getInstant().byteArrayToString(deviceID.getBytes());
                     User user = new User("", txtEmail.getText().toString().trim(), "xxxxxxxx",
                             txtFirstName.getText().toString().trim(), txtMiddleName.getText().toString().trim(), txtLastName.getText().toString().trim(),
-                            txtEmail.getText().toString().trim(), txtPhone.getText().toString().trim(), txtAddress.getText().toString().trim(), txtCity.getText().toString().trim(),
+                            txtEmail.getText().toString().trim(), txtIDD.getText().toString().trim() + txtPhone.getText().toString().trim(), txtAddress.getText().toString().trim(), txtCity.getText().toString().trim(),
                             txtZipCode.getText().toString().trim(), txtState.getText().toString().trim(), txtCountry.getSelectedItem().toString().trim(), deviceID.trim(), module.UserTypeCUSTOMER);
                     //Try to create new user login credentials first and Save the new User to the system.
                     mAuth.createUserWithEmailAndPassword(txtEmail.getText().toString().trim(), txtPassword.getText().toString())
@@ -246,7 +246,7 @@ public class RegisterUserFragment extends Fragment {
         });
         progress.setVisibility(View.GONE);
         module.myCountries = countryDalc.getMemCountries();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, countryDalc.getCountryNamesList(module.myCountries));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, CountryDalc.getCountryNamesList(module.myCountries));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         txtCountry.setAdapter(adapter);
         txtCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

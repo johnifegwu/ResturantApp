@@ -42,8 +42,9 @@
     <string name="resetpwd">Reset Password</string>
     <string name="state_resgion">State / Region</string>
     <string name="country">Country</string>
-    <string name="mobile_phone_number">Mobile phone number</string>
+    <string name="mobile_phone_number">Mobile number, exclude leading zero</string>
     <string name="sign_in">Sign In</string>
+    <string name="contact">Contact person</string>
     <string name="shipping_address">Shipping Address</string>
     <string name="payment_address">Billing Address</string>
     <string name="place_order">Place Order</string>

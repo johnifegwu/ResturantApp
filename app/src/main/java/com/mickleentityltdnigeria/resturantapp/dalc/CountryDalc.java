@@ -299,7 +299,7 @@ public class CountryDalc {
         return countries;
     }
 
-    public List<String> getCountryNamesList(List<Country> countries){
+    public static List<String> getCountryNamesList(List<Country> countries){
         List<String> result = new ArrayList<String>();
         for (Country c: countries) {
             result.add(c.countryName);
