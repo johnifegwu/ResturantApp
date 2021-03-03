@@ -133,8 +133,7 @@ public class NewShippingAddressFragment extends Fragment {
                     AddressChangedHandler addresssAdded = new AddressChangedHandler() {
                         public void invoke(List<Address> addresses) {
                             //
-                            Snackbar.make(view, "Shipping successfully.", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+                            Toast.makeText(view.getContext(), "Shipping successfully.", Toast.LENGTH_LONG).show();
                             //
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_newShippingAddressFragment_to_checkOutFragment);

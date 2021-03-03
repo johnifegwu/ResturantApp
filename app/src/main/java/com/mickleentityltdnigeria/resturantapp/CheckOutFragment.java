@@ -48,6 +48,7 @@ public class CheckOutFragment extends Fragment {
     ProgressBar progress;
     private List<Address> shippingAddresses = new ArrayList<Address>();
     private User user;
+    Address shippingAddress;
     private UserDalc userDalc;
     private FoodOrderDalc orderDalc;
 
@@ -213,18 +214,16 @@ public class CheckOutFragment extends Fragment {
                         }
                     };
                     //
-                    Address shipping = new Address("",module.userID,module.AddressTYPE_SHIPPING,txtShippingAddress.getText().toString(),txtShippingCity.getText().toString(),
-                            txtShippingZipCode.getText().toString(),txtShippingState.getText().toString(),txtShippingCountry.getText().toString());
+                    Address billing = new Address("",module.userID,module.AddressTYPE_SHIPPING,user.getContactAddress(),user.getCity(),
+                            user.getZipCode(),user.getState(),user.getCountry(), user.getFirstName() + " " + user.getLastName(),user.getMobilePhone());
 
-                    Address billing = new Address("",module.userID,module.AddressTYPE_BILLING,txtBillingAddress.getText().toString(),txtBillingCity.getText().toString(),
-                            txtBillingZipCode.getText().toString(),txtBillingState.getText().toString(),txtBillingCountry.getText().toString());
                     //
                     //
-                    if(shipping.city != module.city || shipping.country != module.country || shipping.zipCode != module.zipCode){
+                    if(shippingAddress.city != module.city || shippingAddress.country != module.country || shippingAddress.zipCode != module.zipCode){
                         throw new Exception("Shipping address Country, City and ZipCode must be the same with your current location.");
                     }
                     orderDalc.foodOrderDetailsAdded.addListener(foodOrderDetailAdded);
-                    orderDalc.PlaceOrder(module.cartItems,billing,shipping);
+                    orderDalc.PlaceOrder(module.cartItems,billing,shippingAddress);
                     //
                 } catch (Exception e) {
                     Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG)
@@ -259,43 +258,54 @@ public class CheckOutFragment extends Fragment {
                 txtBillingAddress.setText(user.getContactAddress());
                 txtBillingCity.setText(user.getCity());
                 txtBillingZipCode.setText(user.getZipCode());
-                txtBillingState.setText(user.getState());
-                txtShippingCountry.setText(user.getCountry());
+                txtBillingState.setText(user.getFirstName() + " " + user.getLastName());
+                txtShippingCountry.setText(user.getMobilePhone());
             }
         };
         userDalc.userDataFetched.addListener(userDataFetched);
         userDalc.getUserByName(module.userName);
     }
 
+
     private void getShippingAddresses(View v){
         this.progress.setVisibility( View.VISIBLE);
         try {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, module.addressDalc.getAddressList(shippingAddresses));
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            countryList.setAdapter(adapter);
+            countryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    shippingAddress  = shippingAddresses.get(position);
+
+                    //Get selected value of key
+                    String value = shippingAddress.getContactAddress();
+                    String key = shippingAddress.getContactAddress();
+                    txtShippingAddress.setText(shippingAddress.getContactAddress());
+                    txtShippingCity.setText(shippingAddress.getCity());
+                    txtShippingZipCode.setText(shippingAddress.getZipCode());
+                    txtShippingState.setText(shippingAddress.getContactPerson());
+                    txtShippingCountry.setText(shippingAddress.getContactPhone());
+                }
+
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
             AddressChangedHandler addressFetched = new AddressChangedHandler() {
                 public void invoke(List<Address> addresses) {
                     shippingAddresses = addresses;
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, module.addressDalc.getAddressList(shippingAddresses));
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    countryList.setAdapter(adapter);
-                    countryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        public void onItemSelected(AdapterView<?> parent, View view,
-                                                   int position, long id) {
-                            Address d = shippingAddresses.get(position);
-
-                            //Get selected value of key
-                            String value = d.getContactAddress();
-                            String key = d.getContactAddress();
-                            txtShippingAddress.setText(d.getContactAddress());
-                            txtShippingCity.setText(d.getCity());
-                            txtShippingZipCode.setText(d.getZipCode());
-                            txtShippingState.setText(d.getState());
-                            txtShippingCountry.setText(d.getCountry());
-                        }
-
-                        public void onNothingSelected(AdapterView<?> parent) {
-                        }
-                    });
+                    countryList.notifyAll();
                 }
             };
+            //
+            AddressChangedHandler addressAdded = new AddressChangedHandler() {
+                public void invoke(List<Address> addresses) {
+                    shippingAddresses.add(addresses.get(0));
+                    countryList.notifyAll();
+                }
+            };
+            //
+            module.addressDalc.addressAdded.addListener(addressAdded);
             module.addressDalc.addressesFetched.addListener(addressFetched);
             module.addressDalc.getAddresses(module.userID);
             //
