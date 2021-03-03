@@ -98,7 +98,7 @@ public class ChangeLocationFragment extends Fragment {
         progress = view.findViewById(R.id.progressBarNewLocation);
         spinnerCountry = view.findViewById(R.id.spinnerNewLocationCountry);
         //
-        btnSave =  view.findViewById(R.id.btnSaveNewShippingAddress);
+        btnSave =  view.findViewById(R.id.btnSaveNewLocation);
         //
         try {
             progress.setVisibility(View.VISIBLE);
@@ -122,14 +122,16 @@ public class ChangeLocationFragment extends Fragment {
             progress.setVisibility(View.GONE);
             Toast.makeText(view.getContext(),e.getMessage().toString(),Toast.LENGTH_LONG).show();
         }
-        view.findViewById(R.id.btnSaveNewShippingAddress).setOnClickListener(new View.OnClickListener() {
+        progress.setVisibility(View.GONE);
+        //
+        view.findViewById(R.id.btnSaveNewLocation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progress.setVisibility(View.VISIBLE);
                 try {
                     //
                     module.checkNetwork();
-                    if(!spinnerCountry.isSelected() || txtCity.getText().toString().isEmpty() || txtZipCode.getText().toString().isEmpty()){
+                    if(spinnerCountry.getSelectedItem().toString().isEmpty() || txtCity.getText().toString().isEmpty() || txtZipCode.getText().toString().isEmpty()){
                         spinnerCountry.requestFocus();
                         throw new Exception("Country, City and ZipCode are required fields.");
                     }
@@ -149,6 +151,7 @@ public class ChangeLocationFragment extends Fragment {
                     module.MyCurrentLocation.UpdateCurrentLocation(cl);
                     //
                 }catch (Exception e){
+                    progress.setVisibility(View.GONE);
                     Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 progress.setVisibility(View.GONE);
