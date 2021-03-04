@@ -67,7 +67,7 @@ public class FoodOrderDalc {
             //
             FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,c.getUserID(),c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
                     c.getFoodQty(),false,0.0,0.0,"",false,new Date(),"",false,
-                    new Date(),"", "",false);
+                    new Date(),"", "",false,false);
             //
             foodOrderDetailDB.child(ID).setValue(orderDetail);
             orderDetails.add(orderDetail);
@@ -201,8 +201,8 @@ public class FoodOrderDalc {
         //
     }
 
-    public void getFoodOrderDetailsByQueryString(String resturantID, boolean isCanceled, boolean isShipped, boolean isDelivered){
-        String queryString = module.getQueryString(resturantID, isCanceled, isShipped, isDelivered);
+    public void getFoodOrderDetailsByQueryString(String resturantID, boolean isCanceled,boolean isPrinted, boolean isShipped, boolean isDelivered){
+        String queryString = FoodOrderDetail.getQueryString(resturantID, isCanceled,isPrinted, isShipped, isDelivered);
         ValueEventListener onDataChangedListener =  new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -33,11 +33,6 @@ public class module {
         }
     }
 
-    public static String getQueryString(String resturantID, boolean isCanceled, boolean isShipped, boolean isDelivered){
-        return "resturantID=" + resturantID + "+isCanceled=" + isCanceled + "+isShipped=" + isShipped
-                + "isDelivered=" + isDelivered;
-    }
-
     public static List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
     public static List<CartItem> cartItems = new ArrayList<CartItem>();
     public static FoodItem foodItem;

@@ -37,11 +37,12 @@ public class FoodOrderDetail implements Serializable {
     public String paymentMedium = "";
     public String paymentNote = "";
     public String queryString;
+    public boolean isPrinted;
 
     public FoodOrderDetail() {
     }
 
-    public FoodOrderDetail(String ID, String oderID, String userID, String foodID, String resturantID, double foodPrice, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled) {
+    public FoodOrderDetail(String ID, String oderID, String userID, String foodID, String resturantID, double foodPrice, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled, boolean isPrinted) {
         this.ID = ID;
         this.oderID = oderID;
         this.userID = userID;
@@ -63,12 +64,12 @@ public class FoodOrderDetail implements Serializable {
         this.collectedBy = collectedBy;
         this.isCanceled = isCanceled;
         this.markUpValue = ((foodPrice * foodQty) * this.markUp);
-        this.queryString = this.getQueryString(this.resturantID,this.isCanceled,this.isShipped,this.isDelivered);
+        this.queryString = getQueryString(this.resturantID,this.isCanceled, this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
-    public String getQueryString(String resturantID, boolean isCanceled, boolean isShipped, boolean isDelivered){
-        return "resturantID=" + resturantID + "+isCanceled=" + isCanceled + "+isShipped=" + isShipped
+    public static String getQueryString(String resturantID, boolean isCanceled, boolean isPrinted, boolean isShipped, boolean isDelivered){
+        return "resturantID=" + resturantID + "+isCanceled=" + isCanceled + "+isPrinted=" + isPrinted +"+isShipped=" + isShipped
                 + "isDelivered=" + isDelivered;
     }
 
@@ -275,7 +276,7 @@ public class FoodOrderDetail implements Serializable {
     @Exclude
     public void setShipped(boolean shipped) {
         this.isShipped = shipped;
-        this.queryString = this.getQueryString(this.resturantID,this.isCanceled,this.isShipped,this.isDelivered);
+        this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
@@ -306,7 +307,7 @@ public class FoodOrderDetail implements Serializable {
     @Exclude
     public void setDelivered(boolean delivered) {
         isDelivered = delivered;
-        this.queryString = this.getQueryString(this.resturantID,this.isCanceled,this.isShipped,this.isDelivered);
+        this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
@@ -347,6 +348,23 @@ public class FoodOrderDetail implements Serializable {
     @Exclude
     public void setCanceled(boolean canceled) {
         isCanceled = canceled;
-        this.queryString = this.getQueryString(this.resturantID,this.isCanceled,this.isShipped,this.isDelivered);
+        this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+    }
+
+    public String getQueryString() {
+        return queryString;
+    }
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
+
+    public boolean isPrinted() {
+        return isPrinted;
+    }
+
+    public void setPrinted(boolean printed) {
+        isPrinted = printed;
+        this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 }
