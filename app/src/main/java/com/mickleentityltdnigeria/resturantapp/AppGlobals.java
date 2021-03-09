@@ -20,4 +20,6 @@ public class AppGlobals extends Activity {
         appContext.startActivity(intent);
     }
 
+
+
 }

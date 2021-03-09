@@ -57,7 +57,7 @@ public class LoginFragment extends Fragment {
     EditText txtUserName, txtPassword;
     ProgressBar progress;
     UserDalc userData;
-    public Event<LoginSuccessHandler> loginSuccessHandlerEvent = new Event<LoginSuccessHandler>();
+
    /* //
     NavHostFragment navHostFragment;
     //
@@ -216,6 +216,7 @@ public class LoginFragment extends Fragment {
         if(user != null){
             progress.setVisibility(View.VISIBLE);
             userData.getUserByName(user.getEmail());
+            module.userSignedInSuccessfully(user);
         }
     }
 
@@ -230,7 +231,12 @@ public class LoginFragment extends Fragment {
                     module.userName = "";
                     module.userType = "";
                     module.zipCode = "";
+                    module.country = "";
+                    module.state ="";
+                    module.city ="";
                     module.isLoggedIn = false;
+                    module.firstName = "";
+                    module.lastName = "";
                     Snackbar.make(requireView(), "Invalid username and password.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -241,14 +247,16 @@ public class LoginFragment extends Fragment {
                     progress.setVisibility( View.GONE);
                     try {
                     User u = users.get(0);
-                    module.userID = u.getUserID().toString();
-                    module.userName = u.getUserName().toString();
-                    module.userType = u.getUserType().toString();
-                    module.zipCode = u.getZipCode().toString();
-                    module.country = u.getCountry().toString();
-                    module.state = u.getState().toString();
-                    module.city = u.getCity().toString();
+                    module.userID = u.getUserID();
+                    module.userName = u.getUserName();
+                    module.userType = u.getUserType();
+                    module.zipCode = u.getZipCode();
+                    module.country = u.getCountry();
+                    module.state = u.getState();
+                    module.city = u.getCity();
                     module.isLoggedIn = true;
+                    module.firstName = u.getFirstName();
+                    module.lastName = u.getLastName();
                     //
                     userData.newUserAdded.removeListener("LoginuserNotFound");
                     userData.userDataFetched.removeListener("LoginuserDataFetched");

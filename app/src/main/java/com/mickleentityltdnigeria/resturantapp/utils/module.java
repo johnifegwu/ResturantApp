@@ -2,17 +2,22 @@ package com.mickleentityltdnigeria.resturantapp.utils;
 
 import android.app.Activity;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 import com.mickleentityltdnigeria.resturantapp.dalc.AddressDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
+import com.mickleentityltdnigeria.resturantapp.data.model.Address;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.Country;
 import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 import com.mickleentityltdnigeria.resturantapp.exceptions.NoNetworkException;
+import com.mickleentityltdnigeria.resturantapp.extensions.AddressChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.Event;
+import com.mickleentityltdnigeria.resturantapp.extensions.LoginSuccessHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,15 @@ public class module {
         }
     }
 
+    public static Event<LoginSuccessHandler> loginSuccessHandlerEvent = new Event<LoginSuccessHandler>();
+
+    public  static void userSignedInSuccessfully(FirebaseUser user){
+        //raise event
+        for (LoginSuccessHandler listener : loginSuccessHandlerEvent.listeners()) {
+            listener.invoke(user);
+        }
+    }
+
     public static List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
     public static List<CartItem> cartItems = new ArrayList<CartItem>();
     public static FoodItem foodItem;
@@ -47,6 +61,8 @@ public class module {
 
     public static String userID = "";
     public static String userName = "";
+    public static String firstName = "";
+    public static String lastName = "";
     public static boolean isLoggedIn = false;
     public static String userType = "";
     public static String zipCode = "";

@@ -205,6 +205,7 @@ public class RegisterUserFragment extends Fragment {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
+                                        updateUI(user);
                                         user.sendEmailVerification()
                                                 .addOnCompleteListener(((MainActivity) requireActivity()), new OnCompleteListener() {
                                                     @Override
@@ -270,13 +271,16 @@ public class RegisterUserFragment extends Fragment {
             public void invoke(List<User> users) {
                 progress.setVisibility(View.GONE);
                 User u = users.get(0);
-                module.userID = u.getUserID().toString();
-                module.userName = u.getUserName().toString();
-                module.userType = u.getUserType().toString();
-                module.zipCode = u.getZipCode().toString();
-                module.country = u.getCountry().toString();
-                module.state = u.getState().toString();
+                module.userID = u.getUserID();
+                module.userName = u.getUserName();
+                module.userType = u.getUserType();
+                module.zipCode = u.getZipCode();
+                module.country = u.getCountry();
+                module.state = u.getState();
+                module.city = u.getCity();
                 module.isLoggedIn = true;
+                module.firstName = u.getFirstName();
+                module.lastName = u.getLastName();
                 //
                 userData.newUserAdded.removeListener("RegnewUserAdded");
                 //
@@ -293,7 +297,9 @@ public class RegisterUserFragment extends Fragment {
 
 
     private void updateUI(@Nullable FirebaseUser user) {
-
+        if(user != null){
+            module.userSignedInSuccessfully(user);
+        }
     }
 
 
