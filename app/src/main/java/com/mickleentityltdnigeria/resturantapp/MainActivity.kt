@@ -85,9 +85,11 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view -> goToShoppingCart() }
         btnMenuLoginLogout.setOnClickListener { view ->
             if(btnMenuLoginLogout.text == ("Logout")){
+                drawerLayout.closeDrawer(navigationView)
                 logOut()
             }
             if(btnMenuLoginLogout.text == ("Login")){
+                drawerLayout.closeDrawer(navigationView)
                 logIn()
             }
         }
