@@ -255,12 +255,12 @@ public class RegisterUserFragment extends Fragment {
                                        int position, long id) {
                 Country d = module.myCountries.get(position);
                 //Get selected value of key
-                String value = d.getCountryName().toString();
-                String key = d.getCountryName().toString();
+                String value = d.getCountryName();
+                String key = d.getCountryName();
                 txtCity.setText("");
                 txtZipCode.setText("");
                 txtState.setText("");
-                txtIDD.setText("+" + d.getDialCode().toString());
+                txtIDD.setText(("+" + d.getDialCode()));
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -281,6 +281,8 @@ public class RegisterUserFragment extends Fragment {
                 module.isLoggedIn = true;
                 module.firstName = u.getFirstName();
                 module.lastName = u.getLastName();
+                FirebaseUser user = mAuth.getCurrentUser();
+                module.userSignedInSuccessfully(user);
                 //
                 userData.newUserAdded.removeListener("RegnewUserAdded");
                 //
@@ -298,7 +300,7 @@ public class RegisterUserFragment extends Fragment {
 
     private void updateUI(@Nullable FirebaseUser user) {
         if(user != null){
-            module.userSignedInSuccessfully(user);
+           // module.userSignedInSuccessfully(user);
         }
     }
 

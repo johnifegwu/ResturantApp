@@ -2,7 +2,9 @@ package com.mickleentityltdnigeria.resturantapp
 
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -15,8 +17,11 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc
+import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
+import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
+import com.mickleentityltdnigeria.resturantapp.extensions.CurrentLocationChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.LoginSuccessHandler
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
@@ -69,6 +74,8 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         }
         //
         FirebaseDatabase.getInstance().setPersistenceEnabled(false)
+        module.MyCurrentLocation = CurrentLocationDalc()
+        module.MyShoppingCart = CartDalc()
         //
         val header: View = navigationView.getHeaderView(0)
         btnMenuLoginLogout = header.findViewById<TextView>(R.id.btnMenuLoginLogout)
@@ -77,14 +84,13 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         //
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view -> goToShoppingCart() }
         btnMenuLoginLogout.setOnClickListener { view ->
-            if(btnMenuLoginLogout.text == R.string.menu_logout.toString()){
+            if(btnMenuLoginLogout.text == ("Logout")){
                 logOut()
             }
-            if(btnMenuLoginLogout.text == R.string.menu_login.toString()){
+            if(btnMenuLoginLogout.text == ("Login")){
                 logIn()
             }
         }
-
         val loginSuccessHandler = LoginSuccessHandler {
            updateUI()
         }
@@ -99,18 +105,34 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             displayCartQty(it)
         }
         module.MyShoppingCart.cartItemsFetched.addListener(cartChanged)
-
+        // Register interest in the CurrentLocation.
+        val locationsFetched = CurrentLocationChangedHandler { locations ->
+            val l: CurrentLocation = locations[0]
+            this.txtMenuCurrentLocation.text = ("Location: "+ l.getCountry() + ", " + l.getZipCode())
+        }
+        val locationsAdded = CurrentLocationChangedHandler { locations ->
+            val l = locations[0]
+            this.txtMenuCurrentLocation.text = ("Location: "+ l.getCountry() + ", " + l.getZipCode())
+        }
+        val locationUpdated = CurrentLocationChangedHandler { locations ->
+            val l = locations[0]
+            this.txtMenuCurrentLocation.text = ("Location: "+ l.getCountry() + ", " + l.getZipCode())
+        }
+        module.MyCurrentLocation.locationsUpdated.addListener(locationUpdated)
+        module.MyCurrentLocation.locationsFetched.addListener(locationsFetched)
+        module.MyCurrentLocation.locationsAdded.addListener(locationsAdded)
+        this.updateUI()
     }
 
     private fun updateUI(){
        if(module.isLoggedIn){
-           btnMenuLoginLogout.text = R.string.menu_logout.toString()
-           txtMenuUserName.text = module.lastName + ", " + module.firstName
-           txtMenuCurrentLocation.text = "Location: "+ module.country + ", " + module.zipCode
+           btnMenuLoginLogout.text = ("Logout")
+           txtMenuUserName.text = (module.lastName + ", " + module.firstName)
+           txtMenuCurrentLocation.text = ("Location: "+ module.country + ", " + module.zipCode)
        }else{
-           btnMenuLoginLogout.text = R.string.menu_login.toString()
-           txtMenuUserName.text = R.string.guest.toString()
-           txtMenuCurrentLocation.text = R.string.default_location.toString()
+           btnMenuLoginLogout.text = ("Login")
+           txtMenuUserName.text = ("Welcome Guest!")
+           txtMenuCurrentLocation.text = ("Location: not set")
        }
     }
 
@@ -165,6 +187,32 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         }
     }
 
+    private fun goToFirstFragment(){
+        try {
+            if(module.isLoggedIn){
+                //
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.FirstFragment)
+                //
+            }
+        }catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun goToCustomerOrderListFragment(){
+        try {
+            if(module.isLoggedIn){
+                //
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.customerOrderListFragment)
+                //
+            }
+        }catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun gotoHome(){
         try {
             //
@@ -187,11 +235,11 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if( item.itemId == R.id.menuShoppingCart){
-            goToShoppingCart()
-        }
-        if( item.itemId == R.id.menuHome){
-            gotoHome()
+        when (item.itemId) {
+            R.id.menuHome -> gotoHome()
+            R.id.menuBuyFood -> goToFirstFragment()
+            R.id.menuShoppingCart -> goToShoppingCart()
+            R.id.menuMyOrders -> goToCustomerOrderListFragment()
         }
         return true
     }

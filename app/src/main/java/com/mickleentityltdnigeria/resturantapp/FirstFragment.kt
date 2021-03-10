@@ -64,8 +64,6 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
        //Initialise ShoppingCart
-        module.MyShoppingCart = CartDalc()
-        module.MyCurrentLocation = CurrentLocationDalc()
         this.countryData = CountryDalc()
         foodData = FoodDalc()
         this.progress = view.findViewById<ProgressBar>(R.id.progressBarSearch)

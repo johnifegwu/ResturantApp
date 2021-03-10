@@ -216,7 +216,6 @@ public class LoginFragment extends Fragment {
         if(user != null){
             progress.setVisibility(View.VISIBLE);
             userData.getUserByName(user.getEmail());
-            module.userSignedInSuccessfully(user);
         }
     }
 
@@ -257,6 +256,8 @@ public class LoginFragment extends Fragment {
                     module.isLoggedIn = true;
                     module.firstName = u.getFirstName();
                     module.lastName = u.getLastName();
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    module.userSignedInSuccessfully(user);
                     //
                     userData.newUserAdded.removeListener("LoginuserNotFound");
                     userData.userDataFetched.removeListener("LoginuserDataFetched");

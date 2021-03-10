@@ -7,9 +7,17 @@
                 android:icon="@drawable/ic_baseline_home_24"
                 android:title="@string/menu_home" />
             <item
+                android:id="@+id/menuBuyFood"
+                android:icon="@drawable/ic_baseline_fastfood_24"
+                android:title="@string/menu_buy" />
+            <item
                 android:id="@+id/menuShoppingCart"
                 android:icon="@drawable/ic_cart"
                 android:title="@string/shopping_cart" />
+            <item
+                android:id="@+id/menuMyOrders"
+                android:icon="@drawable/ic_baseline_format_list_bulleted_24"
+                android:title="@string/menu_my_orders" />
         </menu>
     </item>
 </menu>
