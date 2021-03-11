@@ -83,7 +83,7 @@ class FirstFragment : Fragment() {
         try{
             this.countryData.getCountries()
         }catch (e:Exception){
-            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG)
+            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
         }
         // Register interest in the CurrentLocation.
         val locationsFetched = CurrentLocationChangedHandler { locations ->

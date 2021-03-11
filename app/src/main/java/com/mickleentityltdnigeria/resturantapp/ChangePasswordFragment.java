@@ -132,7 +132,8 @@ public class ChangePasswordFragment extends Fragment {
                                 }
                             });
                 }catch (Exception e){
-                    Toast.makeText(view.getContext(),e.getMessage().toString(),Toast.LENGTH_LONG).show();
+                    progress.setVisibility(View.GONE);
+                    Toast.makeText(view.getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         });

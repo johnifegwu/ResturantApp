@@ -204,6 +204,20 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         }
     }
 
+    private fun goToProfileFragment(){
+        try {
+            if(module.isLoggedIn){
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.customerProfileFragment)
+                //
+            }
+        }catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun goToChangePasswordFragment(){
         try {
             if(module.isLoggedIn){
@@ -261,6 +275,7 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             R.id.menuShoppingCart -> goToShoppingCart()
             R.id.menuMyOrders -> goToCustomerOrderListFragment()
             R.id.menuChangePassword -> goToChangePasswordFragment()
+            R.id.menuProfile -> goToProfileFragment()
         }
         return true
     }

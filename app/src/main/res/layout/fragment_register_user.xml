@@ -26,7 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <EditText
         android:id="@+id/txtCustomerEmail"
         android:layout_width="match_parent"
@@ -44,8 +43,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-
 
     <EditText
         android:id="@+id/txtCustomerPassword"
@@ -131,7 +128,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtConfirmCustomerPassword" />
 
-
     <EditText
         android:id="@+id/txtCustomerPhone"
         android:layout_width="0dp"
@@ -214,7 +210,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
-
 
     <EditText
         android:id="@+id/txtCustomerState"

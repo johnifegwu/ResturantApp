@@ -109,9 +109,9 @@ public class NewShippingAddressFragment extends Fragment {
                                        int position, long id) {
                 Country d = module.myCountries.get(position);
                 //Get selected value of key
-                String value = d.getCountryName().toString();
-                String key = d.getCountryName().toString();
-                txtShippingIDD.setText("+" + d.getDialCode().toString());
+                String value = d.getCountryName();
+                String key = d.getCountryName();
+                txtShippingIDD.setText(("+" + d.getDialCode()));
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -124,7 +124,7 @@ public class NewShippingAddressFragment extends Fragment {
                 progress.setVisibility(View.VISIBLE);
                 try {
                     //
-                    if(txtShippingAddress.getText().toString().isEmpty() || txtShippingCity.getText().toString().isEmpty() || txtShippingZipCode.getText().toString().isEmpty() ||
+                    if(txtShippingAddress.getText().toString().isEmpty() || txtShippingIDD.getText().toString().isEmpty() || txtShippingCity.getText().toString().isEmpty() || txtShippingZipCode.getText().toString().isEmpty() ||
                             spinnerShippingCountry.getSelectedItem().toString().isEmpty() || txtShippingContact.getText().toString().isEmpty() || txtShippingPhone.getText().toString().isEmpty()){
                         txtShippingAddress.requestFocus();
                         throw new Exception("All fields are required.");
