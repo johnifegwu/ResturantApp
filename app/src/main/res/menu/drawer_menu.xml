@@ -17,11 +17,6 @@
         android:icon="@drawable/ic_baseline_format_list_bulleted_24"
         android:title="@string/menu_my_orders" />
     <item
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#c0c0c0"
-        android:title="" />
-    <item
         android:id="@+id/menuProfile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/profile" />

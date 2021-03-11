@@ -110,15 +110,15 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         // Register interest in the CurrentLocation.
         val locationsFetched = CurrentLocationChangedHandler { locations ->
             val l: CurrentLocation = locations[0]
-            this.txtMenuCurrentLocation.text = ("Location: "+ l.getCountry() + ", " + l.getZipCode())
+            this.txtMenuCurrentLocation.text = ("Location: "+ module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
         }
         val locationsAdded = CurrentLocationChangedHandler { locations ->
             val l = locations[0]
-            this.txtMenuCurrentLocation.text = ("Location: "+ l.getCountry() + ", " + l.getZipCode())
+            this.txtMenuCurrentLocation.text = ("Location: "+ module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
         }
         val locationUpdated = CurrentLocationChangedHandler { locations ->
             val l = locations[0]
-            this.txtMenuCurrentLocation.text = ("Location: "+ l.getCountry() + ", " + l.getZipCode())
+            this.txtMenuCurrentLocation.text = ("Location: "+ module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
         }
         module.MyCurrentLocation.locationsUpdated.addListener(locationUpdated)
         module.MyCurrentLocation.locationsFetched.addListener(locationsFetched)
@@ -130,7 +130,7 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
        if(module.isLoggedIn){
            btnMenuLoginLogout.text = ("Logout")
            txtMenuUserName.text = (module.lastName + ", " + module.firstName)
-           txtMenuCurrentLocation.text = ("Location: "+ module.country + ", " + module.zipCode)
+           txtMenuCurrentLocation.text = ("Location: " + module.toLowerCase(module.country) + ", " + module.zipCode)
        }else{
            btnMenuLoginLogout.text = ("Login")
            txtMenuUserName.text = ("Welcome Guest!")
@@ -180,6 +180,7 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         try {
             if(module.isLoggedIn){
                 //
+                drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.shoppingCartFragment)
                 //
@@ -193,6 +194,7 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         try {
             if(module.isLoggedIn){
                 //
+                drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.FirstFragment)
                 //
@@ -206,6 +208,7 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         try {
             if(module.isLoggedIn){
                 //
+                drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.ChangePasswordFragment)
                 //
@@ -219,6 +222,7 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         try {
             if(module.isLoggedIn){
                 //
+                drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.customerOrderListFragment)
                 //
@@ -231,9 +235,10 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     private fun gotoHome(){
         try {
             //
-                val navController = findNavController(R.id.nav_host_fragment)
-                navController.navigate(R.id.HomeFragment)
-                //
+            drawerLayout.closeDrawer(navigationView)
+            val navController = findNavController(R.id.nav_host_fragment)
+            navController.navigate(R.id.HomeFragment)
+        //
         }catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }

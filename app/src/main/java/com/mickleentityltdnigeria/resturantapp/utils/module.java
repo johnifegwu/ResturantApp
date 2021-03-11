@@ -38,6 +38,10 @@ public class module {
         }
     }
 
+    public static String toLowerCase(String s){
+        return s.charAt(0) + s.substring(1).toLowerCase();
+    }
+
     public static Event<LoginSuccessHandler> loginSuccessHandlerEvent = new Event<LoginSuccessHandler>();
 
     public  static void userSignedInSuccessfully(FirebaseUser user){
