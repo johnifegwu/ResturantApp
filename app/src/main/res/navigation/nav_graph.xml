@@ -137,4 +137,14 @@
             android:id="@+id/action_ChangePasswordFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/customerProfileFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.CustomerProfileFragment"
+        android:label="Customer Profile fragment"
+        tools:layout="@layout/fragment_customer_profile">
+
+        <action
+            android:id="@+id/action_CustomerProfileFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
 </navigation>

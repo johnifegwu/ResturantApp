@@ -42,7 +42,7 @@
     <string name="changeLocation"><u>Location</u></string>
     <string name="login"><u><i>Login</i></u></string>
     <string name="IDD">IDD</string>
-    <string name="SearchHint">Search e.g Pizza</string>
+    <string name="SearchHint">e.g Pizza</string>
     <string name="zip_code">Zip Code</string>
     <string name="search">Search</string>
     <string name="sign_up"><u>Sign Up</u></string>
@@ -85,11 +85,7 @@
     <string name="continue_shopping">Continue Shopping</string>
     <string name="title_activity_folder">folder</string>
     <string name="title_activity_main2">MainActivity</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="shopping_cart">Shopping Cart</string>
     <string name="login_logout">Login / Logout</string>
     <string name="what_would_you_like_to_eat">What would you like to eat!</string>

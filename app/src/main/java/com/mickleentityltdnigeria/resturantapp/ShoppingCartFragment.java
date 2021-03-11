@@ -90,26 +90,33 @@ public class ShoppingCartFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.status = (TextView) view.findViewById(R.id.txtCartStatus);
         this.progress = (ProgressBar) view.findViewById(R.id.progressBarCheckOut);
-        this.progress.setVisibility( View.VISIBLE);
+        this.btnCheckOut = (Button) view.findViewById(R.id.btnCheckOut);
+        this.progress.setVisibility(View.VISIBLE);
         //
         view.findViewById(R.id.btnCheckOut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
-                NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_shoppingCartFragment_to_checkOutFragment);
-                //
+                NavHostFragment.findNavController(ShoppingCartFragment.this)
+                        .navigate(R.id.action_shoppingCartFragment_to_checkOutFragment);
             }
         });
         // Register interest in the CartItem Change.
         CartItemChangedHandler cartItemsFetched = new CartItemChangedHandler() {
             public void invoke(List<CartItem> cartItems) {
+                module.cartItems = cartItems;
                 displayCartQty(cartItems, view.findViewById(R.id.shoppingCartView));
+                btnCheckOut.setEnabled(true);
             }
         };
-       module.MyShoppingCart.cartItemsFetched.addListener(cartItemsFetched);
-       module.MyShoppingCart.getCartItems(module.userName);
+        // Register interest in the CartItem Change.
+        CartItemChangedHandler cartItemsNotFound = new CartItemChangedHandler() {
+            public void invoke(List<CartItem> cartItems) {
+                btnCheckOut.setEnabled(false);
+            }
+        };
+        module.MyShoppingCart.cartItemsNotFound.addListener(cartItemsNotFound);
+        module.MyShoppingCart.cartItemsFetched.addListener(cartItemsFetched);
+        module.MyShoppingCart.getCartItems(module.userName);
         try {
 
             //Reference of RecyclerView
@@ -132,13 +139,13 @@ public class ShoppingCartFragment extends Fragment {
             //Set adapter to RecyclerView
             mRecyclerView.setAdapter(adapter);
             //
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        this.progress.setVisibility( View.GONE);
+        this.progress.setVisibility(View.GONE);
     }
 
-    private void updateAdapter(View view){
+    private void updateAdapter(View view) {
         try {
             //Reference of RecyclerView
             RecyclerView mRecyclerView = view.findViewById(R.id.shoppingCartRecyclerView);
@@ -152,38 +159,38 @@ public class ShoppingCartFragment extends Fragment {
             });
 
             //Set adapter to RecyclerView
-            mRecyclerView.swapAdapter(adapter,false);
-        }catch (Exception e){
+            mRecyclerView.swapAdapter(adapter, false);
+        } catch (Exception e) {
             Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
 
-    private void SetStatus(List<CartItem> cartItems){
-        this.progress.setVisibility( View.VISIBLE);
+    private void SetStatus(List<CartItem> cartItems) {
+        this.progress.setVisibility(View.VISIBLE);
         try {
             DecimalFormat dc = new DecimalFormat("#,###,##0.00");
             double t = module.getCartTotalValue(cartItems);
             //
             String currency = "$";
-            if(module.cartItems.size()>0){
+            if (module.cartItems.size() > 0) {
                 currency = module.cartItems.get(0).getCurrency();
             }
             //
-            this.status.setText("Cart total (+ 1% markup): "+ currency +  dc.format(t));
-        }catch (Exception e){
-            Toast.makeText(this.getContext(),e.getMessage(), Toast.LENGTH_LONG).show();
+            this.status.setText("Cart total (+ 1% markup): " + currency + dc.format(t));
+        } catch (Exception e) {
+            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        this.progress.setVisibility( View.GONE);
+        this.progress.setVisibility(View.GONE);
     }
 
     public void displayCartQty(List<CartItem> cartItems, View v) {
-        this.progress.setVisibility( View.VISIBLE);
+        this.progress.setVisibility(View.VISIBLE);
         Snackbar.make(v, "" + module.getCartTotalQty(cartItems) + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         SetStatus(cartItems);
         updateAdapter(v);
         //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
-        this.progress.setVisibility( View.GONE);
+        this.progress.setVisibility(View.GONE);
     }
 }
