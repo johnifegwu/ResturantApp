@@ -5,11 +5,14 @@
     <string name="menu_admin">Admin</string>
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="currentPassword">Current password</string>
+    <string name="NewPassword">New password</string>
     <string name="go">go</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="previous">Previous</string>
     <string name="app_Title">Bon Appétit</string>
+    <string name="sell">Sell on Bon Appétit</string>
     <string name="home_slogan">Order your favorite food; And Pay only when the food is delivered.</string>
     <string name="img_desc">Special Meal</string>
     <string name="btnText">Add to Cart</string>

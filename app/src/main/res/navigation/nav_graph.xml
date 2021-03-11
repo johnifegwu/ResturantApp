@@ -127,4 +127,14 @@
             android:id="@+id/action_changeLocationFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/ChangePasswordFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.ChangePasswordFragment"
+        android:label="Change Password fragment"
+        tools:layout="@layout/fragment_change_password">
+
+        <action
+            android:id="@+id/action_ChangePasswordFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
 </navigation>
