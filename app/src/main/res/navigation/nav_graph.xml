@@ -147,4 +147,14 @@
             android:id="@+id/action_CustomerProfileFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/sellOnBonAppetittFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.SellOnBonAppetittFragment"
+        android:label="Sell on Bon Appetitt fragment"
+        tools:layout="@layout/fragment_sell_on_bon_appetitt">
+
+        <action
+            android:id="@+id/action_SellOnBonAppetittFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
 </navigation>

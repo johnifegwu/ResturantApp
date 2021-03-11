@@ -154,7 +154,7 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             module.firstName = ""
             module.lastName = ""
             updateUI()
-            Toast.makeText(AppGlobals.getAppContext(), "Sign out successfully.", Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), "Signed out successfully.", Toast.LENGTH_LONG).show()
             //
         }catch (e: Exception){
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
@@ -211,6 +211,20 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.customerProfileFragment)
+                //
+            }
+        }catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun goToSellOnBonAppetittFragment(){
+        try {
+            if(module.isLoggedIn){
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.sellOnBonAppetittFragment)
                 //
             }
         }catch (e: Exception) {
@@ -276,6 +290,7 @@ public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             R.id.menuMyOrders -> goToCustomerOrderListFragment()
             R.id.menuChangePassword -> goToChangePasswordFragment()
             R.id.menuProfile -> goToProfileFragment()
+            R.id.menuSell -> goToSellOnBonAppetittFragment()
         }
         return true
     }
