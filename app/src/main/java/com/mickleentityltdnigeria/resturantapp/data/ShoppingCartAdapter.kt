@@ -28,12 +28,12 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
         AppGlobals.setAppContext(parent.context)
         //Create View Holder
         val myViewHolder = ViewHolder(view, AppGlobals.getAppContext())
-        progress = myViewHolder.itemView.findViewById<ProgressBar>(R.id.progressBarCartRow)
+        progress = myViewHolder.itemView.findViewById(R.id.progressBarCartRow)
 
         //Item Clicks
         myViewHolder.itemView.setOnClickListener {
             mItemClickListener.onItemClicked(
-                cartItems.get(myViewHolder.getLayoutPosition())
+                cartItems[myViewHolder.layoutPosition]
             )
         }
 
@@ -49,7 +49,7 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
                 } catch (e: Exception) {
                     qty = "0"
                 }
-                updateCartItem(qty.toInt(), cartItems.get(myViewHolder.getLayoutPosition()))
+                updateCartItem(qty.toInt(), cartItems[myViewHolder.layoutPosition])
                 //update data adapter.
             } catch (e: Exception) {
                 Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
@@ -89,7 +89,7 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
 
                 itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(d)
                 itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.foodDesc
-                itemView.findViewById<TextView>(R.id.txtPrice).text = cartItem.currency+ cartItem.foodPrice
+                itemView.findViewById<TextView>(R.id.txtPrice).text = (cartItem.currency+ cartItem.foodPrice)
                 itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.foodQty)
             }catch (e: Exception)
             {

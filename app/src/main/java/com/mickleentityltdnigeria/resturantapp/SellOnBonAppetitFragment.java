@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SellOnBonAppetittFragment#newInstance} factory method to
+ * Use the {@link SellOnBonAppetitFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SellOnBonAppetittFragment extends Fragment {
+public class SellOnBonAppetitFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -25,7 +25,7 @@ public class SellOnBonAppetittFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SellOnBonAppetittFragment() {
+    public SellOnBonAppetitFragment() {
         // Required empty public constructor
     }
 
@@ -37,8 +37,8 @@ public class SellOnBonAppetittFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment SellOnBonAppetittFragment.
      */
-    public static SellOnBonAppetittFragment newInstance(String param1, String param2) {
-        SellOnBonAppetittFragment fragment = new SellOnBonAppetittFragment();
+    public static SellOnBonAppetitFragment newInstance(String param1, String param2) {
+        SellOnBonAppetitFragment fragment = new SellOnBonAppetitFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,7 +59,7 @@ public class SellOnBonAppetittFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sell_on_bon_appetitt, container, false);
+        return inflater.inflate(R.layout.fragment_sell_on_bon_appetit, container, false);
     }
 
     @Override

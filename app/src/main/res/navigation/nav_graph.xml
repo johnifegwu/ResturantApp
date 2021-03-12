@@ -149,12 +149,20 @@
     </fragment>
     <fragment
         android:id="@+id/sellOnBonAppetittFragment"
-        android:name="com.mickleentityltdnigeria.resturantapp.SellOnBonAppetittFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.SellOnBonAppetitFragment"
         android:label="Sell on Bon Appetitt fragment"
-        tools:layout="@layout/fragment_sell_on_bon_appetitt">
-
+        tools:layout="@layout/fragment_sell_on_bon_appetit">
         <action
-            android:id="@+id/action_SellOnBonAppetittFragment_to_FirstFragment"
+            android:id="@+id/action_sellOnBonAppetittFragment_to_sellOnBonAppetit2Fragment"
+            app:destination="@id/sellOnBonAppetit2Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellOnBonAppetit2Fragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.SellOnBonAppetit2Fragment"
+        android:label="fragment_sell_on_bon_appetit2"
+        tools:layout="@layout/fragment_sell_on_bon_appetit2" >
+        <action
+            android:id="@+id/action_sellOnBonAppetit2Fragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

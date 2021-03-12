@@ -26,7 +26,7 @@ import com.mickleentityltdnigeria.resturantapp.extensions.LoginSuccessHandler
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
 
-public class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
     lateinit var drawerLayout: DrawerLayout

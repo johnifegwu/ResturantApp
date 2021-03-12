@@ -1,7 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +24,6 @@ class FoodItemAdapter(
 
     private lateinit var progress: ProgressBar
     private val myContext:Context = ApplicationContextProvider.getContext()
-    private val assetManager: AssetManager = myContext.getAssets()
     private val mItemClickListener: MyRecyclerViewItemClickListener = itemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,15 +39,15 @@ class FoodItemAdapter(
         //Item Clicks
        myViewHolder.itemView.setOnClickListener(View.OnClickListener {
             mItemClickListener.onItemClicked(
-                foodItems.get(myViewHolder.getLayoutPosition())
+                foodItems[myViewHolder.layoutPosition]
             )
         })
-        progress = myViewHolder.itemView.findViewById<ProgressBar>(R.id.progressBarFoodRow)
+        progress = myViewHolder.itemView.findViewById(R.id.progressBarFoodRow)
 
         myViewHolder.itemView.findViewById<Button>(R.id.btnAdd).setOnClickListener(View.OnClickListener {
             progress.visibility = View.VISIBLE
             try {
-                addToCart(1, foodItems.get(myViewHolder.getLayoutPosition()))
+                addToCart(1, foodItems[myViewHolder.layoutPosition])
             }catch (e: Exception){
                 Toast.makeText(it.context, e.message, Toast.LENGTH_LONG).show()
             }
@@ -60,7 +58,7 @@ class FoodItemAdapter(
             //
             progress.visibility = View.VISIBLE
             try {
-               val fooditem = foodItems.get(myViewHolder.getLayoutPosition())
+               val fooditem = foodItems[myViewHolder.layoutPosition]
                Toast.makeText(it.context, fooditem.foodDesc, Toast.LENGTH_SHORT).show()
                 module.foodItem = fooditem
                 Navigation.findNavController(view)
@@ -105,7 +103,7 @@ class FoodItemAdapter(
 
                 itemView.findViewById<ImageView>(R.id.imgFood).setImageDrawable(d)
                 itemView.findViewById<TextView>(R.id.txtFoodDesc).text = fooditem.foodDesc
-                itemView.findViewById<TextView>(R.id.txtPrice).text = "$"+ fooditem.foodPrice
+                itemView.findViewById<TextView>(R.id.txtPrice).text = (fooditem.currency + fooditem.foodPrice)
             }catch (e: Exception)
             {
                 Toast.makeText(myContext, e.message, Toast.LENGTH_LONG).show()

@@ -23,6 +23,7 @@ public class User implements Serializable {
     public String country;
     public String deviceID;
     public String userType;
+    public String resturantID;
 
     public User(){}
 
@@ -42,6 +43,17 @@ public class User implements Serializable {
         this.country = country;
         this.deviceID = deviceID;
         this.userType = userType;
+        this.resturantID = "";
+    }
+
+    @Exclude
+    public String getResturantID() {
+        return resturantID;
+    }
+
+    @Exclude
+    public void setResturantID(String resturantID) {
+        this.resturantID = resturantID;
     }
 
     @Exclude
