@@ -88,7 +88,23 @@
     <string name="title_activity_folder">folder</string>
     <string name="title_activity_main2">MainActivity</string>
     <string name="next">Next</string>
+    <string name="back">Back</string>
     <string name="shopping_cart">Shopping Cart</string>
+    <string name="thank_you">Thank you for signing up as a <b>Merchant</b> on <i><b><u>Bon Appétit</u></b></i>; One of our agents will contact you to inform you of the next step.
+        in the meantime feel free to contact us if you need further explanation as regards to anything through any of the channels as described in About.</string>
+    <string name="desc">Describe your Restaurant to customers.</string>
+    <string name="website">Your website e.g yourrestaurant.com</string>
+    <string name="resturantImage">Restaurant Image</string>
+    <string name="restaurantName">Restaurant Name</string>
+    <string name="zipCodes">ZipCodes separated by spaces. e.g 10001 10003 10004 etc.</string>
+    <string name="phone">Phone number</string>
+    <string name="zipCode_Note"><u><b>Attention! </b></u>
+    On the next input field add all the <b>ZipCodes</b> your delivery personnel can deliver <b>food</b> to <b><u>customers. </u></b>
+        For example: If your <b>Restaurant</b> is located within <b>New York City</b> and your delivery team can deliver food to customers in every part of the city, then you might want to include in the field provided
+        all the ZipCodes in New York City separated by spaces. e.g 10001 10003 10004 10005 10006 etc.
+    </string>
+    <string name="add_image"><u>Add Image for this Restaurant</u></string>
+    <string name="pic_size"><u>Note that maximum picture size allowed is 1MB (1 mega byte).</u></string>
     <string name="login_logout">Login / Logout</string>
     <string name="what_would_you_like_to_eat">What would you like to eat!</string>
     <array name="ResturantTypes">

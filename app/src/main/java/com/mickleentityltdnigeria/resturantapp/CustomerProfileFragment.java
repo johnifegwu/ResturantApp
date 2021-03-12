@@ -145,6 +145,7 @@ public class CustomerProfileFragment extends Fragment {
                     user.setState(txtProfileState.getText().toString());
                     //
                     userData.UpdateUser(user);
+                    module.userData = user;
                     progress.setVisibility(View.GONE);
                     Toast.makeText(requireContext(),"Profile update was successful.",Toast.LENGTH_LONG).show();
                     //

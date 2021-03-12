@@ -162,7 +162,46 @@
         android:label="fragment_sell_on_bon_appetit2"
         tools:layout="@layout/fragment_sell_on_bon_appetit2" >
         <action
-            android:id="@+id/action_sellOnBonAppetit2Fragment_to_FirstFragment"
+            android:id="@+id/action_sellOnBonAppetit2Fragment_to_sellOnBonAppetittFragment"
+            app:destination="@id/sellOnBonAppetittFragment" />
+        <action
+            android:id="@+id/action_sellOnBonAppetit2Fragment_to_sellOnBonAppetit3Fragment"
+            app:destination="@id/sellOnBonAppetit3Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellOnBonAppetit3Fragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.SellOnBonAppetit3Fragment"
+        android:label="fragment_sell_on_bon_appetit3"
+        tools:layout="@layout/fragment_sell_on_bon_appetit3" >
+        <action
+            android:id="@+id/action_sellOnBonAppetit3Fragment_to_sellOnBonAppetit2Fragment"
+            app:destination="@id/sellOnBonAppetit2Fragment" />
+        <action
+            android:id="@+id/action_sellOnBonAppetit3Fragment_to_sellOnBonAppetit4Fragment"
+            app:destination="@id/sellOnBonAppetit4Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellOnBonAppetit4Fragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.SellOnBonAppetit4Fragment"
+        android:label="fragment_sell_on_bon_appetit4"
+        tools:layout="@layout/fragment_sell_on_bon_appetit4" >
+        <action
+            android:id="@+id/action_sellOnBonAppetit4Fragment_to_sellOnBonAppetit3Fragment"
+            app:destination="@id/sellOnBonAppetit3Fragment" />
+        <action
+            android:id="@+id/action_sellOnBonAppetit4Fragment_to_sellOnBonAppetit5Fragment"
+            app:destination="@id/sellOnBonAppetit5Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellOnBonAppetit5Fragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.SellOnBonAppetit5Fragment"
+        android:label="fragment_sell_on_bon_appetit5"
+        tools:layout="@layout/fragment_sell_on_bon_appetit5" >
+        <action
+            android:id="@+id/action_sellOnBonAppetit5Fragment_to_sellOnBonAppetit4Fragment"
+            app:destination="@id/sellOnBonAppetit4Fragment" />
+        <action
+            android:id="@+id/action_sellOnBonAppetit5Fragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

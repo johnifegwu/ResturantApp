@@ -1,14 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SellOnBonAppetit2Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/txtNewRestaurantEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/prompt_email"
+        android:nextFocusDown="@id/spinnerNewRestaurantCountry"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerNewRestaurantCountry"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:nextFocusDown="@id/txtNewRestaurantPhone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantEmail" />
+
+    <EditText
+        android:id="@+id/txtNewRestaurantIDD"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:hint="@string/IDD"
+        android:nextFocusDown="@id/txtNewRestaurantPhone"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerNewRestaurantCountry"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtNewRestaurantPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:hint="@string/phone"
+        android:inputType="phone"
+        android:nextFocusDown="@id/txtNewRestaurantAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtNewRestaurantIDD"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerNewRestaurantCountry"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtNewRestaurantAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:hint="@string/address"
+        android:nextFocusDown="@id/txtNewRestaurantCity"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantPhone"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtNewRestaurantZipCode"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:hint="@string/zip_code"
+        android:nextFocusDown="@id/txtNewRestaurantState"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantAddress"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtNewRestaurantCity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:hint="@string/city"
+        android:nextFocusDown="@id/txtNewRestaurantZipCode"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/txtNewRestaurantZipCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantAddress"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtNewRestaurantState"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:nextFocusDown="@id/btnNext2"
+        android:hint="@string/state_resgion"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantCity"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/btnNext2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/next"
+        android:nextFocusDown="@id/btnBack1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnBack1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

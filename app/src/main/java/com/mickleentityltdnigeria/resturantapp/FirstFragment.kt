@@ -152,7 +152,7 @@ class FirstFragment : Fragment() {
                 ) {
                     foodData.SearchFoodItems(
                         txtsearchString.text.toString().trim(),
-                        module.country + "-" + txtsearchZipCode.text.toString().trim()
+                        module.country.trim() + "-" + txtsearchZipCode.text.toString().trim()
                     )
 
                 } else {

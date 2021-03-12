@@ -219,8 +219,8 @@ public class CheckOutFragment extends Fragment {
 
                     //
                     //
-                    if(shippingAddress.city != module.city || shippingAddress.country != module.country || shippingAddress.zipCode != module.zipCode){
-                        throw new Exception("Shipping address Country, City and ZipCode must be the same with your current location.");
+                    if(shippingAddress.country != module.country || shippingAddress.zipCode != module.zipCode){
+                        throw new Exception("Shipping address Country and ZipCode must be the same with your current location.");
                     }
                     orderDalc.foodOrderDetailsAdded.addListener(foodOrderDetailAdded);
                     orderDalc.PlaceOrder(module.cartItems,billing,shippingAddress);

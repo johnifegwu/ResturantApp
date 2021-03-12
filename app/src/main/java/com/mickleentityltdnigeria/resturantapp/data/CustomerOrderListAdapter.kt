@@ -167,10 +167,7 @@ import java.text.DecimalFormat
                     Toast.makeText(getAppContext(),e.message,Toast.LENGTH_LONG).show()
                 }
                 //
-                val ims: InputStream = ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(foodItem.foodImg)) //assetManager.open(cartItem.foodImgUrl)
-                val d: Drawable = Drawable.createFromStream(ims, null)
-               //
-                itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(d)
+                itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(ImageHelper.getInstant().imageFromString(foodItem.foodImg))
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderFoodItemName).text = foodItem.foodDesc
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderPrice).text = (cu+ orderDetail.foodPrice)
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text = (cu+ dc.format((orderDetail.subTotal)))

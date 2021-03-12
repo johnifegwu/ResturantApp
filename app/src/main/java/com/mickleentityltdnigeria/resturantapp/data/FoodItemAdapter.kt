@@ -98,10 +98,7 @@ class FoodItemAdapter(
         fun bind(fooditem: FoodItem) {
             try
             {
-                val ims: InputStream =  ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(fooditem.foodImg))  //assetManager.open(fooditem.foodUrl)
-                val d: Drawable = Drawable.createFromStream(ims, null)
-
-                itemView.findViewById<ImageView>(R.id.imgFood).setImageDrawable(d)
+                itemView.findViewById<ImageView>(R.id.imgFood).setImageDrawable(ImageHelper.getInstant().imageFromString(fooditem.foodImg))
                 itemView.findViewById<TextView>(R.id.txtFoodDesc).text = fooditem.foodDesc
                 itemView.findViewById<TextView>(R.id.txtPrice).text = (fooditem.currency + fooditem.foodPrice)
             }catch (e: Exception)

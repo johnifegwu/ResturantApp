@@ -20,7 +20,9 @@ public class Resturant implements Serializable {
     public String resturantImgUrl;
     public String address;
     public String city;
+    public String zipCode;
     public String zipCodes;
+    public String zipCodesX;
     public String state;
     public String country;
     public String contactPerson;
@@ -37,7 +39,7 @@ public class Resturant implements Serializable {
 
     public Resturant(){}
 
-    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCodes, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
+    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
         this.resturantID = resturantID;
         this.userID = userID;
         this.resturantName = resturantName;
@@ -49,7 +51,9 @@ public class Resturant implements Serializable {
         this.resturantImgUrl = resturantImgUrl;
         this.address = address;
         this.city = city;
+        this.zipCode = zipCode;
         this.zipCodes = zipCodes;
+        this.zipCodesX = zipCodesX;
         this.state = state;
         this.country = country;
         this.contactPerson = contactPerson;
@@ -182,6 +186,26 @@ public class Resturant implements Serializable {
     @Exclude
     public void setZipCodes(String zipCodes) {
         this.zipCodes = zipCodes;
+    }
+
+    @Exclude
+    public String getZipCodesX() {
+        return zipCodesX;
+    }
+
+    @Exclude
+    public void setZipCodesX(String zipCodesX) {
+        this.zipCodesX = zipCodesX;
+    }
+
+    @Exclude
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    @Exclude
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     @Exclude

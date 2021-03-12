@@ -1,6 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -20,9 +21,7 @@ import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation
-import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
-import com.mickleentityltdnigeria.resturantapp.extensions.CurrentLocationChangedHandler
-import com.mickleentityltdnigeria.resturantapp.extensions.LoginSuccessHandler
+import com.mickleentityltdnigeria.resturantapp.extensions.*
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
 
@@ -154,7 +153,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             module.firstName = ""
             module.lastName = ""
             updateUI()
-            Toast.makeText(AppGlobals.getAppContext(), "Signed out successfully.", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                AppGlobals.getAppContext(),
+                "Signed out successfully.",
+                Toast.LENGTH_LONG
+            ).show()
             //
         }catch (e: Exception){
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()

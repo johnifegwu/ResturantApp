@@ -1,27 +1,22 @@
 package com.mickleentityltdnigeria.resturantapp.utils;
 
 import android.app.Activity;
-
 import com.google.firebase.auth.FirebaseUser;
 import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 import com.mickleentityltdnigeria.resturantapp.dalc.AddressDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc;
-import com.mickleentityltdnigeria.resturantapp.dalc.Dalc;
-import com.mickleentityltdnigeria.resturantapp.data.model.Address;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.Country;
-import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
+import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
+import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.NoNetworkException;
-import com.mickleentityltdnigeria.resturantapp.extensions.AddressChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.LoginSuccessHandler;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class module {
 
@@ -63,6 +58,7 @@ public class module {
     public static final String UserTypeCUSTOMER = "CUSTOMER";
     public static final String UserTypeSUPPER = "SUPPER";
 
+    public static User userData = new User();
     public static String userID = "";
     public static String userName = "";
     public static String firstName = "";
@@ -83,7 +79,7 @@ public class module {
     public String Resturant_zipCodes = "";
     //Zip Codes derived from Resturant separated by spaces
 
-    public static List<Country> myCountries = new ArrayList<Country>();
+    public static List<Country> myCountries = new ArrayList<>();
 
     public static CurrentLocationDalc MyCurrentLocation;
     public static CartDalc MyShoppingCart;
@@ -105,6 +101,10 @@ public class module {
         }
         return total;
     }
+
+    //New Restaurant fields
+    public static Resturant newResturant = new Resturant();
+    public static byte[] newRestaurantImg = null;
 
 }
 

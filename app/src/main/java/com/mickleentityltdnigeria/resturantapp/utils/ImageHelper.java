@@ -6,10 +6,17 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import androidx.exifinterface.media.ExifInterface;
-import android.util.Base64;
 
+import android.graphics.drawable.Drawable;
+import android.util.Base64;
+import android.widget.Toast;
+
+import com.mickleentityltdnigeria.resturantapp.AppGlobals;
+
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 public class ImageHelper {
@@ -34,19 +41,21 @@ public class ImageHelper {
             try{
                 value = Base64.decode(base64String.getBytes("UTF-8"),Base64.DEFAULT);
             }catch (UnsupportedEncodingException e){
-
+                Toast.makeText(AppGlobals.getAppContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
              return value;
         }
 
-        public byte[] getCompressedBitmap(String imagePath) {
+        public byte[] getCompressedBitmap(String imagePath, int maxSize) throws Exception {
             float maxHeight = 1920.0f;
             float maxWidth = 1080.0f;
             Bitmap scaledBitmap = null;
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
-
+            if(bmp.getAllocationByteCount() > maxSize){
+                throw new Exception(("Image size is greater than " + maxSize));
+            }
             int actualHeight = options.outHeight;
             int actualWidth = options.outWidth;
             float imgRatio = (float) actualWidth / (float) actualHeight;
@@ -144,4 +153,17 @@ public class ImageHelper {
             }
             return inSampleSize;
         }
+
+    //image processing
+    public Drawable imageFromString(String imgString){
+        InputStream ims = new ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(imgString));
+        Drawable d = Drawable.createFromStream(ims, null);
+        return d;
     }
+    public Drawable imageFromByteArray(byte[] imgArray){
+        InputStream ims = new ByteArrayInputStream(imgArray);
+        Drawable d = Drawable.createFromStream(ims, null);
+        return d;
+    }
+
+}

@@ -246,6 +246,7 @@ public class LoginFragment extends Fragment {
                     progress.setVisibility( View.GONE);
                     try {
                     User u = users.get(0);
+                    module.userData = u;
                     module.userID = u.getUserID();
                     module.userName = u.getUserName();
                     module.userType = u.getUserType();

@@ -271,6 +271,7 @@ public class RegisterUserFragment extends Fragment {
             public void invoke(List<User> users) {
                 progress.setVisibility(View.GONE);
                 User u = users.get(0);
+                module.userData = u;
                 module.userID = u.getUserID();
                 module.userName = u.getUserName();
                 module.userType = u.getUserType();

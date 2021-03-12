@@ -84,10 +84,7 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
         fun bind(cartItem: CartItem) {
             try
             {
-                val ims: InputStream = ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(cartItem.foodImg)) //assetManager.open(cartItem.foodImgUrl)
-                val d: Drawable = Drawable.createFromStream(ims, null)
-
-                itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(d)
+                itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(ImageHelper.getInstant().imageFromString(cartItem.foodImg))
                 itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.foodDesc
                 itemView.findViewById<TextView>(R.id.txtPrice).text = (cartItem.currency+ cartItem.foodPrice)
                 itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.foodQty)
