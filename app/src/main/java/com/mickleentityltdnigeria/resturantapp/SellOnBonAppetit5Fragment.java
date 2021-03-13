@@ -65,7 +65,7 @@ public class SellOnBonAppetit5Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btnNewRestaurantContinue).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavHostFragment.findNavController(SellOnBonAppetit5Fragment.this)

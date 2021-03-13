@@ -1,5 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp.utils;
 
+import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,6 +9,7 @@ import android.graphics.Paint;
 import androidx.exifinterface.media.ExifInterface;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -15,6 +17,9 @@ import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -46,6 +51,43 @@ public class ImageHelper {
              return value;
         }
 
+    // Decodes image and scales it to reduce memory consumption
+    public byte[] decodeFile(Uri uri){
+        try {
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream( AppGlobals.getAppContext().getContentResolver().openInputStream(uri), null, o);
+
+            // The new size we want to scale to
+            final int REQUIRED_SIZE=600;
+
+            // Find the correct scale value. It should be the power of 2.
+            int scale = 1;
+            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                    o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            // Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            Bitmap scaledBitmap = BitmapFactory.decodeStream(AppGlobals.getAppContext().getContentResolver().openInputStream(uri), null, o2);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 85, out);
+            byte[] b = out.toByteArray();
+            int size = b.length;
+            //Toast.makeText(AppGlobals.getAppContext(),String.valueOf(b.length),Toast.LENGTH_LONG).show();
+            if(size > 1000000){
+                throw new Exception("Image size:" + size + ", image size can not be above 1 mega byte,");
+            }
+            return b;
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
+
         public byte[] getCompressedBitmap(String imagePath, int maxSize) throws Exception {
             float maxHeight = 1920.0f;
             float maxWidth = 1080.0f;
@@ -53,9 +95,6 @@ public class ImageHelper {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
-            if(bmp.getAllocationByteCount() > maxSize){
-                throw new Exception(("Image size is greater than " + maxSize));
-            }
             int actualHeight = options.outHeight;
             int actualWidth = options.outWidth;
             float imgRatio = (float) actualWidth / (float) actualHeight;
@@ -88,8 +127,13 @@ public class ImageHelper {
                 bmp = BitmapFactory.decodeFile(imagePath, options);
             } catch (OutOfMemoryError exception) {
                 exception.printStackTrace();
-
             }
+            //
+           /* int size = bmp.getAllocationByteCount();
+            if( size > maxSize){
+                throw new Exception((" Actual size:" + size + ", Image size is greater than " + maxSize));
+            }*/
+            //
             try {
                 scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888);
             } catch (OutOfMemoryError exception) {
@@ -124,12 +168,13 @@ public class ImageHelper {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 75, out);
 
-            byte[] byteArray = out.toByteArray();
+            //byte[] byteArray = out.toByteArray();
 
-            return byteArray;
+            return out.toByteArray();
             //Bitmap updatedBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
             //return updatedBitmap;

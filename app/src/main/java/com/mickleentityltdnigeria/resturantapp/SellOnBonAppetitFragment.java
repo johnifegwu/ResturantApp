@@ -1,5 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,9 +22,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc;
+import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
+import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.MyLifecycleObserver;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +44,7 @@ public class SellOnBonAppetitFragment extends Fragment {
     EditText txtRestaurantName, txtContactPerson;
     AppCompatSpinner spinnerRestaurantTypes;
     ProgressBar progress;
+    ResturantDalc resturantDalc;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -95,6 +103,20 @@ public class SellOnBonAppetitFragment extends Fragment {
         txtRestaurantName = view.findViewById(R.id.txtRestaurantName);
         progress = view.findViewById(R.id.progressBarNewRestaurant);
         //
+        resturantDalc = new ResturantDalc();
+        //
+        ResturantUpdatedHandler restaurantFetched = new ResturantUpdatedHandler() {
+            @Override
+            public void invoke(List<Resturant> Resturant) {
+               btnNext1.setEnabled(false);
+               imgResturant.setEnabled(false);
+               btnAddImage.setEnabled(false);
+               Toast.makeText(requireContext(),"Your registration is pending approval, you may contact us if you have any question.",Toast.LENGTH_LONG).show();
+            }
+        };
+        resturantDalc.resturantDataFetched.addListener(restaurantFetched);
+        resturantDalc.getResturantByUserID(module.userID);
+        //
         btnAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,11 +162,11 @@ public class SellOnBonAppetitFragment extends Fragment {
                 public void onActivityResult(Uri uri) {
                     // Handle the returned Uri
                     try {
-                        module.newRestaurantImg =  ImageHelper.getInstant().getCompressedBitmap(uri.getPath(),1002000);
+                        module.newRestaurantImg =  ImageHelper.getInstant().decodeFile(uri);
                         module.newResturant.setResturantImg(ImageHelper.getInstant().byteArrayToString(module.newRestaurantImg));
                         imgResturant.setImageDrawable(ImageHelper.getInstant().imageFromByteArray(module.newRestaurantImg));
                     }catch (Exception e){
-                        Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show();
                     }
                 }
             });
