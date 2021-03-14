@@ -169,8 +169,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         try {
             if(!module.isLoggedIn){
                 //
+                drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.LoginFragment)
+                //
+            }
+        }catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun gotoAbout(){
+        try {
+            if(module.isLoggedIn){
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.aboutFragment)
                 //
             }
         }catch (e: Exception) {
@@ -294,6 +309,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menuChangePassword -> goToChangePasswordFragment()
             R.id.menuProfile -> goToProfileFragment()
             R.id.menuSell -> goToSellOnBonAppetittFragment()
+            R.id.menuAbout -> gotoAbout()
         }
         return true
     }

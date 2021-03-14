@@ -1,20 +1,19 @@
-package com.mickleentityltdnigeria.resturantapp
+package com.mickleentityltdnigeria.resturantapp.data
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.mickleentityltdnigeria.resturantapp.ApplicationContextProvider
+import com.mickleentityltdnigeria.resturantapp.R
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 
 
 class FoodItemAdapter(

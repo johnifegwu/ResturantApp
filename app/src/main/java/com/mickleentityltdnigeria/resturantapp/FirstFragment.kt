@@ -11,10 +11,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.CountryDalc
-import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.FoodDalc
+import com.mickleentityltdnigeria.resturantapp.data.FoodItemAdapter
+import com.mickleentityltdnigeria.resturantapp.data.MyRecyclerViewItemClickListener
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem

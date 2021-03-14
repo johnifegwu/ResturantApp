@@ -107,11 +107,15 @@ public class SellOnBonAppetitFragment extends Fragment {
         //
         ResturantUpdatedHandler restaurantFetched = new ResturantUpdatedHandler() {
             @Override
-            public void invoke(List<Resturant> Resturant) {
+            public void invoke(List<Resturant> resturant) {
                btnNext1.setEnabled(false);
                imgResturant.setEnabled(false);
                btnAddImage.setEnabled(false);
-               Toast.makeText(requireContext(),"Your registration is pending approval, you may contact us if you have any question.",Toast.LENGTH_LONG).show();
+               if(!resturant.get(0).isApproved()){
+                   Toast.makeText(requireContext(),"Your registration is pending approval, you may contact us if you have any question.",Toast.LENGTH_LONG).show();
+               }else{
+                   Toast.makeText(requireContext(),"Your Restaurant is already approved, proceed to Dashboard to view / add more details.",Toast.LENGTH_LONG).show();
+               }
             }
         };
         resturantDalc.resturantDataFetched.addListener(restaurantFetched);

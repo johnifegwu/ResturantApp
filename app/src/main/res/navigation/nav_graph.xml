@@ -204,4 +204,30 @@
             android:id="@+id/action_sellOnBonAppetit5Fragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/feedBackFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.FeedBackFragment"
+        android:label="fragment_feed_back"
+        tools:layout="@layout/fragment_feed_back" >
+        <action
+            android:id="@+id/action_feedBackFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedBackListFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.FeedBackListFragment"
+        android:label="fragment_feed_back_list"
+        tools:layout="@layout/fragment_feed_back_list" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" >
+        <action
+            android:id="@+id/action_aboutFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_aboutFragment_to_feedBackFragment"
+            app:destination="@id/feedBackFragment" />
+    </fragment>
 </navigation>

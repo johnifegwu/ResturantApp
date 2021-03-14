@@ -8,10 +8,18 @@
     <string name="currentPassword">Current password</string>
     <string name="NewPassword">New password</string>
     <string name="go">go</string>
+    <string name="message">Write your message here.</string>
+    <string name="send">Send</string>
+    <string name="subject">Subject</string>
+    <string name="full_name">Full name</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="previous">Previous</string>
     <string name="app_Title">Bon Appétit</string>
+    <string name="app_Version">Version 1.0</string>
+    <string name="app_FeedBack"><u>Send us a feedback</u></string>
+    <string name="app_Rating"><u>Rate us on Google Play Store</u></string>
+    <string name="app_Copyright">© 2021 MICKLE ENTITY LTD</string>
     <string name="sell">Sell on Bon Appétit</string>
     <string name="home_slogan">Order your favorite food; And Pay only when the food is delivered.</string>
     <string name="img_desc">Special Meal</string>
@@ -89,6 +97,8 @@
     <string name="title_activity_main2">MainActivity</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
+    <string name="short_date">20-MAR-2029</string>
+    <string name="resolved">Resolved</string>
     <string name="shopping_cart">Shopping Cart</string>
     <string name="thank_you">Thank you for signing up as a <b>Merchant</b> on <i><b><u>Bon Appétit</u></b></i>; One of our agents will contact you to inform you of the next step.
         in the meantime feel free to contact us if you need further explanation as regards to anything through any of the channels as described in About.</string>
@@ -121,6 +131,12 @@
         <item>Food Truck</item>
         <item>Concession Stand</item>
         <item>Virtual Restaurant</item>
+    </array>
+    <array name="FeedBackTypes">
+        <item>General Feedback</item>
+        <item>Bug Report</item>
+        <item>Suggestion</item>
+        <item>Other</item>
     </array>
     <string name="location">Location</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
