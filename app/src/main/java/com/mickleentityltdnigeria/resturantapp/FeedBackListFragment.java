@@ -2,11 +2,21 @@ package com.mickleentityltdnigeria.resturantapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.mickleentityltdnigeria.resturantapp.dalc.FeedBackDalc;
+import com.mickleentityltdnigeria.resturantapp.data.model.FeedBack;
+import com.mickleentityltdnigeria.resturantapp.extensions.FeedBackEventHandler;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,5 +69,47 @@ public class FeedBackListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_feed_back_list, container, false);
+    }
+
+    FeedBackAdapter adapter;
+    FeedBackDalc feedBackDalc;
+    RecyclerView recyclerView;
+    List<FeedBack> feedBackList;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        feedBackDalc = new FeedBackDalc();
+        FeedBackEventHandler feedBackFetched = new FeedBackEventHandler() {
+            @Override
+            public void invoke(List<FeedBack> feedBackList) {
+                adapter.updateData(feedBackList);
+            }
+        };
+        feedBackDalc.feedBackFetched.addListener(feedBackFetched);
+        //call get feedback after initialising other controls.
+
+        //Reference of RecyclerView
+        recyclerView = view.findViewById(R.id.feedBackListRecyclerView);
+
+        //Linear Layout Manager
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false);
+
+        //Set Layout Manager to RecyclerView
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        //Initialise adapter
+        adapter = new FeedBackAdapter(feedBackList, new FeedBackRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClicked(FeedBack feedBack) {
+
+            }
+        });
+
+        //Set adapter to RecyclerView
+        recyclerView.setAdapter(adapter);
+
+        //call get feedback
+        feedBackDalc.getFeedBack(false);
     }
 }

@@ -84,6 +84,8 @@ public class CustomerOrderListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_customer_order_list, container, false);
     }
 
+    CustomerOrderListAdapter adapter;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -118,13 +120,13 @@ public class CustomerOrderListFragment extends Fragment {
             RecyclerView mRecyclerView = view.findViewById(R.id.customerOrderListRecyclerView);
 
             //Linear Layout Manager
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AppGlobals.getAppContext(), RecyclerView.VERTICAL, false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
 
             //Set Layout Manager to RecyclerView
             mRecyclerView.setLayoutManager(linearLayoutManager);
 
             //Create adapter
-            CustomerOrderListAdapter adapter = new CustomerOrderListAdapter(foodOrderDetails, new CustomerOrderListRecyclerViewItemClickListener() {
+            adapter = new CustomerOrderListAdapter(foodOrderDetails, new CustomerOrderListRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClicked(@NotNull FoodOrderDetail foodOrderDetail) {
 
@@ -142,18 +144,7 @@ public class CustomerOrderListFragment extends Fragment {
     private void updateAdapter(List<FoodOrderDetail> orderDetails, View view){
         this.progress.setVisibility(View.VISIBLE);
         try {
-            //Reference of RecyclerView
-            RecyclerView mRecyclerView = view.findViewById(R.id.customerOrderListRecyclerView);
-
-            //Create adapter
-            CustomerOrderListAdapter adapter = new CustomerOrderListAdapter(orderDetails, new CustomerOrderListRecyclerViewItemClickListener() {
-                @Override
-                public void onItemClicked(@NotNull FoodOrderDetail foodOrderDetail) {
-
-                }
-            });
-            //Set adapter to RecyclerView
-            mRecyclerView.swapAdapter(adapter,false);
+            adapter.updateOrderDetails(orderDetails);
         }catch (Exception e){
             Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }

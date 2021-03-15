@@ -16,10 +16,8 @@ import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
 
-class FoodItemAdapter(
-    private val foodItems: List<FoodItem>,
-    itemClickListener: MyRecyclerViewItemClickListener
-) : RecyclerView.Adapter<FoodItemAdapter.ViewHolder>() {
+class FoodItemAdapter(private val foodItems: List<FoodItem>,
+    itemClickListener: MyRecyclerViewItemClickListener) : RecyclerView.Adapter<FoodItemAdapter.ViewHolder>() {
 
     private lateinit var progress: ProgressBar
     private val myContext:Context = ApplicationContextProvider.getContext()
@@ -90,10 +88,7 @@ class FoodItemAdapter(
     }
 
 
-    class ViewHolder(
-        view: View,
-        private val myContext: Context
-    ) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val myContext: Context) : RecyclerView.ViewHolder(view) {
         fun bind(fooditem: FoodItem) {
             try
             {

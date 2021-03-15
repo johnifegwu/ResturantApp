@@ -18,11 +18,13 @@ public class FeedBack implements Serializable {
     public Date msgDate;
     public boolean isRead;
     public boolean isResolved;
+    public String resolvedBy;
+    public Date dateResolved;
 
     public FeedBack() {
     }
 
-    public FeedBack(String feedBackID, String feedBackType, String userEmail, String userFullName, String msgSubject, String msgBody, Date msgDate, boolean isRead, boolean isResolved) {
+    public FeedBack(String feedBackID, String feedBackType, String userEmail, String userFullName, String msgSubject, String msgBody, Date msgDate, boolean isRead, boolean isResolved, String resolvedBy, Date dateResolved) {
         this.feedBackID = feedBackID;
         this.feedBackType = feedBackType;
         this.userEmail = userEmail;
@@ -32,6 +34,8 @@ public class FeedBack implements Serializable {
         this.msgDate = msgDate;
         this.isRead = isRead;
         this.isResolved = isResolved;
+        this.resolvedBy = resolvedBy;
+        this.dateResolved = dateResolved;
     }
 
     @Exclude
@@ -122,6 +126,26 @@ public class FeedBack implements Serializable {
     @Exclude
     public void setResolved(boolean resolved) {
         isResolved = resolved;
+    }
+
+    @Exclude
+    public String getResolvedBy() {
+        return resolvedBy;
+    }
+
+    @Exclude
+    public void setResolvedBy(String resolvedBy) {
+        this.resolvedBy = resolvedBy;
+    }
+
+    @Exclude
+    public Date getDateResolved() {
+        return dateResolved;
+    }
+
+    @Exclude
+    public void setDateResolved(Date dateResolved) {
+        this.dateResolved = dateResolved;
     }
 
 }

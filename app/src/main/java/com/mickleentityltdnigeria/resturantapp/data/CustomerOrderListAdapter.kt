@@ -35,6 +35,11 @@ import java.text.DecimalFormat
     private lateinit var progress: ProgressBar
     private val mItemClickListener: CustomerOrderListRecyclerViewItemClickListener = itemClickListener
 
+     fun updateOrderDetails(orderDetails: List<FoodOrderDetail>){
+         this.orderDetails = orderDetails
+         notifyDataSetChanged()
+     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.a_single_customer_order_row, parent, false)
@@ -157,6 +162,25 @@ import java.text.DecimalFormat
                 //
                 val foodItemsFetched = FoodItemUpdatedHandler { fooditems ->
                     foodItem = fooditems[0]
+                    //
+                    itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(ImageHelper.getInstant().imageFromString(foodItem.foodImg))
+                    itemView.findViewById<TextView>(R.id.txtCustomerOrderFoodItemName).text = foodItem.foodDesc
+                    itemView.findViewById<TextView>(R.id.txtCustomerOrderPrice).text = (cu+ orderDetail.foodPrice)
+                    itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text = (cu+ dc.format((orderDetail.subTotal)))
+                    itemView.findViewById<EditText>(R.id.txtCustomerOrderQty).setText(orderDetail.foodQty.toInt())
+                    if(!orderDetail.isCanceled() && orderDetail.isPrinted() && !orderDetail.isShipped() && !orderDetail.isDelivered()){
+                        itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 30
+                        itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = false
+                    }else if(!orderDetail.isCanceled() && orderDetail.isPrinted() && orderDetail.isShipped() && !orderDetail.isDelivered()){
+                        itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 50
+                        itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = false
+                    }else if(!orderDetail.isCanceled() && orderDetail.isPrinted() && orderDetail.isShipped() && orderDetail.isDelivered()){
+                        itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 100
+                        itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = false
+                    }else{
+                        itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 0
+                        itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = true
+                    }
                 }
                 this.foodDalc.foodItemsFetched.addListener(foodItemsFetched)
                 try{
@@ -166,25 +190,7 @@ import java.text.DecimalFormat
                 }catch (e:Exception){
                     Toast.makeText(getAppContext(),e.message,Toast.LENGTH_LONG).show()
                 }
-                //
-                itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(ImageHelper.getInstant().imageFromString(foodItem.foodImg))
-                itemView.findViewById<TextView>(R.id.txtCustomerOrderFoodItemName).text = foodItem.foodDesc
-                itemView.findViewById<TextView>(R.id.txtCustomerOrderPrice).text = (cu+ orderDetail.foodPrice)
-                itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text = (cu+ dc.format((orderDetail.subTotal)))
-                itemView.findViewById<EditText>(R.id.txtCustomerOrderQty).setText(orderDetail.foodQty.toInt())
-                if(!orderDetail.isCanceled() && orderDetail.isPrinted() && !orderDetail.isShipped() && !orderDetail.isDelivered()){
-                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 30
-                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = false
-                }else if(!orderDetail.isCanceled() && orderDetail.isPrinted() && orderDetail.isShipped() && !orderDetail.isDelivered()){
-                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 50
-                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = false
-                }else if(!orderDetail.isCanceled() && orderDetail.isPrinted() && orderDetail.isShipped() && orderDetail.isDelivered()){
-                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 100
-                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = false
-                }else{
-                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress = 0
-                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = true
-                }
+               //
             }catch (e: Exception)
             {
                 Toast.makeText(myContext, e.message, Toast.LENGTH_LONG).show()
