@@ -25,6 +25,7 @@ public class Resturant implements Serializable {
     public String zipCodesX;
     public String state;
     public String country;
+    public String currencyCode;
     public String contactPerson;
     public String phone;
     public String email;
@@ -39,7 +40,7 @@ public class Resturant implements Serializable {
 
     public Resturant(){}
 
-    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
+    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String currencyCode, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
         this.resturantID = resturantID;
         this.userID = userID;
         this.resturantName = resturantName;
@@ -56,6 +57,7 @@ public class Resturant implements Serializable {
         this.zipCodesX = zipCodesX;
         this.state = state;
         this.country = country;
+        this.currencyCode = currencyCode;
         this.contactPerson = contactPerson;
         this.phone = phone;
         this.email = email;
@@ -226,6 +228,16 @@ public class Resturant implements Serializable {
     @Exclude
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Exclude
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    @Exclude
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
     @Exclude

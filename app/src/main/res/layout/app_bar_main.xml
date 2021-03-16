@@ -26,7 +26,8 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="72dp"
-        android:layout_gravity="bottom|center">
+        android:layout_gravity="bottom|center"
+        android:id="@+id/frame_main">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

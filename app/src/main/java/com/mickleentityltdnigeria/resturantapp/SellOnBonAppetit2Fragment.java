@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +29,8 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
  */
 public class SellOnBonAppetit2Fragment extends Fragment {
 
-    TextView txtAddress, txtEmail, txtIDD, txtPhone, txtCity, txtZipCode, txtState;
+    EditText txtAddress, txtEmail, txtIDD, txtPhone, txtCity, txtZipCode, txtState;
+    TextView txtCurrency;
     Spinner spinnerCountry;
     Button btnNext, btnBack;
 
@@ -89,6 +91,7 @@ public class SellOnBonAppetit2Fragment extends Fragment {
         this.txtState = view.findViewById(R.id.txtNewRestaurantState);
         this.txtZipCode = view.findViewById(R.id.txtNewRestaurantZipCode);
         this.spinnerCountry = view.findViewById(R.id.spinnerNewRestaurantCountry);
+        this.txtCurrency = view.findViewById(R.id.txtNewRestaurantCurrency);
         //
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, CountryDalc.getCountryNamesList(module.myCountries));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -101,6 +104,7 @@ public class SellOnBonAppetit2Fragment extends Fragment {
                 String value = d.getCountryName();
                 String key = d.getCountryName();
                 txtIDD.setText(("+" + d.getDialCode()));
+                txtCurrency.setText(d.getCurrencyCode());
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -127,6 +131,7 @@ public class SellOnBonAppetit2Fragment extends Fragment {
                     module.newResturant.setAddress(txtAddress.getText().toString());
                     module.newResturant.setEmail(txtEmail.getText().toString().trim());
                     module.newResturant.setCountry(spinnerCountry.getSelectedItem().toString());
+                    module.newResturant.setCurrencyCode(txtCurrency.getText().toString().trim());
                     //
                     NavHostFragment.findNavController(SellOnBonAppetit2Fragment.this)
                             .navigate(R.id.action_sellOnBonAppetit2Fragment_to_sellOnBonAppetit3Fragment);

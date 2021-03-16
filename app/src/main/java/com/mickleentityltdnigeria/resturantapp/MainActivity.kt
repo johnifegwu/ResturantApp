@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -30,16 +32,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var drawerLayout: DrawerLayout
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
-    private lateinit var toolbar:Toolbar
-    lateinit var navigationView:NavigationView
+    private lateinit var toolbar: Toolbar
+    lateinit var navigationView: NavigationView
     lateinit var txtCart: TextView
-    lateinit var btnMenuLoginLogout:TextView
-    lateinit var txtMenuUserName:TextView
-    lateinit var txtMenuCurrentLocation:TextView
+    lateinit var btnMenuLoginLogout: TextView
+    lateinit var txtMenuUserName: TextView
+    lateinit var txtMenuCurrentLocation: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        try{
+        try {
             AppGlobals.setAppContext(this)
             setContentView(R.layout.activity_main)
             //
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout = findViewById(R.id.drawer)
             navigationView = findViewById(R.id.navigationView)
             navigationView.setNavigationItemSelectedListener(this)
-            actionBarDrawerToggle =  ActionBarDrawerToggle(
+            actionBarDrawerToggle = ActionBarDrawerToggle(
                 this,
                 drawerLayout,
                 toolbar,
@@ -68,7 +70,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }finally {
 
             }*/
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
         //
@@ -83,17 +85,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view -> goToShoppingCart() }
         btnMenuLoginLogout.setOnClickListener { view ->
-            if(btnMenuLoginLogout.text == ("Logout")){
+            if (btnMenuLoginLogout.text == ("Logout")) {
                 drawerLayout.closeDrawer(navigationView)
                 logOut()
             }
-            if(btnMenuLoginLogout.text == ("Login")){
+            if (btnMenuLoginLogout.text == ("Login")) {
                 drawerLayout.closeDrawer(navigationView)
                 logIn()
             }
         }
         val loginSuccessHandler = LoginSuccessHandler {
-           updateUI()
+            updateUI()
         }
         module.loginSuccessHandlerEvent.addListener(loginSuccessHandler)
         //
@@ -109,15 +111,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Register interest in the CurrentLocation.
         val locationsFetched = CurrentLocationChangedHandler { locations ->
             val l: CurrentLocation = locations[0]
-            this.txtMenuCurrentLocation.text = ("Location: "+ module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
+            this.txtMenuCurrentLocation.text =
+                ("Location: " + module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
         }
         val locationsAdded = CurrentLocationChangedHandler { locations ->
             val l = locations[0]
-            this.txtMenuCurrentLocation.text = ("Location: "+ module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
+            this.txtMenuCurrentLocation.text =
+                ("Location: " + module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
         }
         val locationUpdated = CurrentLocationChangedHandler { locations ->
             val l = locations[0]
-            this.txtMenuCurrentLocation.text = ("Location: "+ module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
+            this.txtMenuCurrentLocation.text =
+                ("Location: " + module.toLowerCase(l.getCountry()) + ", " + l.getZipCode())
         }
         module.MyCurrentLocation.locationsUpdated.addListener(locationUpdated)
         module.MyCurrentLocation.locationsFetched.addListener(locationsFetched)
@@ -125,21 +130,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.updateUI()
     }
 
-    private fun updateUI(){
-       if(module.isLoggedIn){
-           btnMenuLoginLogout.text = ("Logout")
-           txtMenuUserName.text = (module.lastName + ", " + module.firstName)
-           txtMenuCurrentLocation.text = ("Location: " + module.toLowerCase(module.country) + ", " + module.zipCode)
-       }else{
-           btnMenuLoginLogout.text = ("Login")
-           txtMenuUserName.text = ("Welcome Guest!")
-           txtMenuCurrentLocation.text = ("Location: not set")
-       }
+    private fun updateUI() {
+        if (module.isLoggedIn) {
+            btnMenuLoginLogout.text = ("Logout")
+            txtMenuUserName.text = (module.lastName + ", " + module.firstName)
+            txtMenuCurrentLocation.text =
+                ("Location: " + module.toLowerCase(module.country) + ", " + module.zipCode)
+            toolbar.isVisible = true
+            findViewById<FrameLayout>(R.id.frame_main).isVisible = true
+        } else {
+            btnMenuLoginLogout.text = ("Login")
+            txtMenuUserName.text = ("Welcome Guest!")
+            txtMenuCurrentLocation.text = ("Location: not set")
+            //hide menus
+            toolbar.isVisible = false
+            findViewById<FrameLayout>(R.id.frame_main).isVisible = false
+        }
     }
 
-    private fun logOut(){
+    private fun logOut() {
         //
-        try{
+        try {
             val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
             mAuth.signOut()
             module.userID = ""
@@ -159,133 +170,133 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.LENGTH_LONG
             ).show()
             //
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
 
     }
 
-    private fun logIn(){
+    private fun logIn() {
         try {
-            if(!module.isLoggedIn){
+            if (!module.isLoggedIn) {
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.LoginFragment)
                 //
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun gotoAbout(){
+    private fun gotoAbout() {
         try {
-            if(module.isLoggedIn){
+            if (module.isLoggedIn) {
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.aboutFragment)
                 //
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
 
-    private fun goToShoppingCart(){
+    private fun goToShoppingCart() {
         try {
-            if(module.isLoggedIn){
+            if (module.isLoggedIn) {
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.shoppingCartFragment)
                 //
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun goToFirstFragment(){
+    private fun goToFirstFragment() {
         try {
-            if(module.isLoggedIn){
+            if (module.isLoggedIn) {
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.FirstFragment)
                 //
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun goToProfileFragment(){
+    private fun goToProfileFragment() {
         try {
-            if(module.isLoggedIn){
+            if (module.isLoggedIn) {
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.customerProfileFragment)
                 //
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun goToSellOnBonAppetittFragment(){
+    private fun goToSellOnBonAppetittFragment() {
         try {
-            if(module.isLoggedIn){
+            if (module.isLoggedIn) {
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.sellOnBonAppetittFragment)
                 //
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun goToChangePasswordFragment(){
+    private fun goToChangePasswordFragment() {
         try {
-            if(module.isLoggedIn){
+            if (module.isLoggedIn) {
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.ChangePasswordFragment)
                 //
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun goToCustomerOrderListFragment(){
+    private fun goToCustomerOrderListFragment() {
         try {
-            if(module.isLoggedIn){
+            if (module.isLoggedIn) {
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
                 navController.navigate(R.id.customerOrderListFragment)
                 //
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun gotoHome(){
+    private fun gotoHome() {
         try {
             //
             drawerLayout.closeDrawer(navigationView)
             val navController = findNavController(R.id.nav_host_fragment)
             navController.navigate(R.id.HomeFragment)
-        //
-        }catch (e: Exception) {
+            //
+        } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
@@ -318,10 +329,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        if(item.itemId == R.id.menu_cart){
+        if (item.itemId == R.id.menu_cart) {
             goToShoppingCart()
         }
-        if(item.itemId == R.id.menu_home){
+        if (item.itemId == R.id.menu_home) {
             gotoHome()
         }
         return super.onOptionsItemSelected(item)

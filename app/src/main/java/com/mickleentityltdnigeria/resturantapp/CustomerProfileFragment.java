@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -37,7 +38,8 @@ import java.util.List;
  */
 public class CustomerProfileFragment extends Fragment {
 
-    EditText txtProfileEmail, txtProfileFirstName, txtProfileMiddleName, txtProfileLastName, txtProfileAddress, txtProfileCity
+    TextView txtProfileEmail, txtProfileFirstName, txtProfileMiddleName, txtProfileLastName;
+    EditText txtProfileAddress, txtProfileCity
             , txtProfileZipCode, txtProfileState, txtProfileIDD, txtProfilePhone;
     Spinner spinnerProfileCountry;
     ProgressBar progress;

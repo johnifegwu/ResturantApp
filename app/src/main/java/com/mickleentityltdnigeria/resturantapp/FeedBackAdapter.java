@@ -66,31 +66,36 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
                 StartActivity(emailIntent);
             }
         });
+        //
+        ProgressBar progress = myViewHolder.itemView.findViewById(R.id.progressBarFeedBackRow);
+        //
+        FeedBackDalc feedBackDalc = new FeedBackDalc();
+        FeedBackEventHandler feedBackUpdated = new FeedBackEventHandler() {
+            @Override
+            public void invoke(List<FeedBack> feedBackList) {
+                feedBackDalc.getFeedBack(false);
+            }
+        };
+        feedBackDalc.feedBackUpdated.addListener(feedBackUpdated);
+        //
+        FeedBackEventHandler feedBackFetched = new FeedBackEventHandler() {
+            @Override
+            public void invoke(List<FeedBack> feedBackList) {
+                progress.setVisibility(View.GONE);
+                feedBack = feedBackList;
+                notifyDataSetChanged();
+                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_LONG).show();
+            }
+        };
+        feedBackDalc.feedBackFetched.addListener(feedBackFetched);
+        //
         //create listener for btnResolved.
         myViewHolder.itemView.findViewById(R.id.btnResolved).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProgressBar progress = myViewHolder.itemView.findViewById(R.id.progressBarFeedBackRow);
-                FeedBackDalc feedBackDalc = new FeedBackDalc();
+               //
                 progress.setVisibility(View.VISIBLE);
                 try{
-                    FeedBackEventHandler feedBackUpdated = new FeedBackEventHandler() {
-                        @Override
-                        public void invoke(List<FeedBack> feedBackList) {
-                            FeedBackEventHandler feedBackFetched = new FeedBackEventHandler() {
-                                @Override
-                                public void invoke(List<FeedBack> feedBackList) {
-                                    progress.setVisibility(View.GONE);
-                                    feedBack = feedBackList;
-                                    notifyDataSetChanged();
-                                    Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_LONG).show();
-                                }
-                            };
-                            feedBackDalc.feedBackFetched.addListener(feedBackFetched);
-                        }
-                    };
-                    feedBackDalc.feedBackUpdated.addListener(feedBackUpdated);
-                    //
                     FeedBack fb = feedBack.get(myViewHolder.getLayoutPosition());
                     fb.setRead(true);
                     fb.setResolved(true);

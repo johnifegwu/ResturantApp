@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical"
     tools:context=".RegisterUserFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/textView3"
@@ -193,7 +197,7 @@
         android:ems="10"
         android:hint="@string/city"
         android:inputType="textPersonName"
-        android:nextFocusRight="@id/txtCustomerZipCode"
+        android:nextFocusDown="@id/txtCustomerZipCode"
         app:layout_constraintBottom_toTopOf="@+id/txtCustomerState"
         app:layout_constraintEnd_toStartOf="@+id/txtCustomerZipCode"
         app:layout_constraintHorizontal_bias="0.0"
@@ -242,19 +246,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCustomerMiddleName" />
 
-    <Button
-        android:id="@+id/btnRegisterCustomerUser"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/sign_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/btnRegisterCustomerUser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:text="@string/sign_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCustomerState"
+            app:layout_constraintVertical_bias="0.877" />
 
-    <EditText
+        <EditText
         android:id="@+id/txtCustomerRegisterIDD"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -268,3 +276,5 @@
         android:autofillHints="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

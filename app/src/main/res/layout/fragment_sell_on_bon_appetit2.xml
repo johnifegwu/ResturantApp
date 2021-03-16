@@ -118,14 +118,14 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
+        android:autofillHints=""
         android:ems="10"
-        android:nextFocusDown="@id/btnNext2"
         android:hint="@string/state_resgion"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:nextFocusDown="@id/btnNext2"
+        app:layout_constraintEnd_toStartOf="@+id/txtNewRestaurantCurrency"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantCity"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantCity" />
 
     <Button
         android:id="@+id/btnNext2"
@@ -147,5 +147,21 @@
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtNewRestaurantCurrency"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:hint="@string/currency_usd"
+        android:text="@string/currency_usd"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNewRestaurantState"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtNewRestaurantState"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantZipCode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
