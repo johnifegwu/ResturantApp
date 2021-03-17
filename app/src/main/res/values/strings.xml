@@ -8,6 +8,7 @@
     <string name="currentPassword">Current password</string>
     <string name="NewPassword">New password</string>
     <string name="go">go</string>
+    <string name="update">Update</string>
     <string name="currency_usd">USD</string>
     <string name="message">Write your message here.</string>
     <string name="send">Send</string>

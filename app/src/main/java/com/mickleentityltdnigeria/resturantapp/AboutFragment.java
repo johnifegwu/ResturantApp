@@ -20,7 +20,7 @@ import android.widget.TextView;
  */
 public class AboutFragment extends Fragment {
 
-   TextView btnRateUs;
+   TextView btnRateUs, btnSendUsFeedBack;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,7 +72,8 @@ public class AboutFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnRateUs = view.findViewById(R.id.btnRateUs);
-        btnRateUs.setOnClickListener(new View.OnClickListener() {
+        btnSendUsFeedBack = view.findViewById(R.id.btnSendUsFeedBack);
+        btnSendUsFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavHostFragment.findNavController(AboutFragment.this)

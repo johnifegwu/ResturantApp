@@ -1,7 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -137,7 +136,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             txtMenuCurrentLocation.text =
                 ("Location: " + module.toLowerCase(module.country) + ", " + module.zipCode)
             toolbar.isVisible = true
-            findViewById<FrameLayout>(R.id.frame_main).isVisible = true
+            //findViewById<FrameLayout>(R.id.frame_main).isVisible = true
         } else {
             btnMenuLoginLogout.text = ("Login")
             txtMenuUserName.text = ("Welcome Guest!")
@@ -308,7 +307,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun displayCartQty(cartItems: List<CartItem>) {
-        txtCart.text = module.getCartTotalQty(cartItems).toString()
+        val cartTotal:Int = module.getCartTotalQty(cartItems)
+        if(cartTotal > 0){
+            txtCart.text = cartTotal.toString()
+            findViewById<FrameLayout>(R.id.frame_main).isVisible = true
+        }else{
+            txtCart.text = cartTotal.toString()
+            findViewById<FrameLayout>(R.id.frame_main).isVisible = false
+        }
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

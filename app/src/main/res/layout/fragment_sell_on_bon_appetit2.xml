@@ -148,9 +148,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/txtNewRestaurantCurrency"
-        android:layout_width="40dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
@@ -158,10 +158,12 @@
         android:layout_marginBottom="3dp"
         android:hint="@string/currency_usd"
         android:text="@string/currency_usd"
+        android:inputType="none"
         android:textAlignment="textEnd"
         app:layout_constraintBottom_toBottomOf="@+id/txtNewRestaurantState"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtNewRestaurantState"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantZipCode" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantZipCode"
+        android:autofillHints="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

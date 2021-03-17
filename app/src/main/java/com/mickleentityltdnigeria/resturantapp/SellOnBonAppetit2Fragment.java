@@ -30,7 +30,7 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 public class SellOnBonAppetit2Fragment extends Fragment {
 
     EditText txtAddress, txtEmail, txtIDD, txtPhone, txtCity, txtZipCode, txtState;
-    TextView txtCurrency;
+    EditText txtCurrency;
     Spinner spinnerCountry;
     Button btnNext, btnBack;
 

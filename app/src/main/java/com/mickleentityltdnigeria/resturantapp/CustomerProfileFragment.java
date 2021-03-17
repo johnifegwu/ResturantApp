@@ -38,7 +38,7 @@ import java.util.List;
  */
 public class CustomerProfileFragment extends Fragment {
 
-    TextView txtProfileEmail, txtProfileFirstName, txtProfileMiddleName, txtProfileLastName;
+    EditText txtProfileEmail, txtProfileFirstName, txtProfileMiddleName, txtProfileLastName;
     EditText txtProfileAddress, txtProfileCity
             , txtProfileZipCode, txtProfileState, txtProfileIDD, txtProfilePhone;
     Spinner spinnerProfileCountry;
