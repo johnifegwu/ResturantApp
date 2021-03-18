@@ -77,7 +77,7 @@ class FoodItemAdapter(private val foodItems: List<FoodItem>,
 
     private fun addToCart(Qty: Int, foodItem: FoodItem) {
         progress.visibility = View.VISIBLE
-        val cartItem:CartItem = CartItem("",foodItem.foodID, foodItem.resturantID,module.userID,foodItem.foodImg,foodItem.foodPrice
+        val cartItem:CartItem = CartItem("",foodItem.foodID, foodItem.resturantID, module.userName,foodItem.foodImg,foodItem.foodPrice
         ,foodItem.currency,foodItem.foodDesc,foodItem.foodImgUrl,Qty)
         module.MyShoppingCart.AddCartItem(cartItem)
     }

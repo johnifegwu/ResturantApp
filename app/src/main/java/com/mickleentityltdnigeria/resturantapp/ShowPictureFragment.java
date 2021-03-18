@@ -16,9 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
@@ -34,8 +37,9 @@ import java.util.List;
 public class ShowPictureFragment extends Fragment {
 
     ImageView foodImg;
-    TextView foodText, foodPrice;
+    TextView foodText, foodPrice, txtFulfilledBy;
     Button btnAdd;
+    ResturantDalc resturantDalc;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -88,46 +92,56 @@ public class ShowPictureFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.progress = (ProgressBar) view.findViewById(R.id.progressBarShowPic);
-        this.progress.setVisibility( View.VISIBLE);
+        this.foodImg = (ImageView) view.findViewById(R.id.imgFood);
+        this.foodText = (TextView) view.findViewById(R.id.txtFoodDesc);
+        this.foodPrice = (TextView) view.findViewById(R.id.txtPrice);
+        this.btnAdd = (Button) view.findViewById(R.id.btnAdd);
+        this.txtFulfilledBy = (TextView) view.findViewById(R.id.txtFullfilledBy);
+        this.resturantDalc = new ResturantDalc();
         //
         if (module.foodItem != null) {
-            this.foodImg = (ImageView) view.findViewById(R.id.imgFood);
-            this.foodText = (TextView) view.findViewById(R.id.txtFoodDesc);
-            this.foodPrice = (TextView) view.findViewById(R.id.txtPrice);
-            this.btnAdd = (Button) view.findViewById(R.id.btnAdd);
             //
+            this.progress.setVisibility( View.VISIBLE);
             try {
                 InputStream ims = new ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(module.foodItem.getFoodImg())); //assetManager.open(this.foodItem.getFoodUrl());
                 Drawable d = Drawable.createFromStream(ims, null);
                 this.foodImg.setImageDrawable(d);
                 this.foodText.setText(module.foodItem.getFoodDesc());
-                this.foodPrice.setText(module.foodItem.getCurrency()+module.foodItem.getFoodPrice());
+                this.foodPrice.setText((module.foodItem.getCurrency() + module.foodItem.getFoodPrice()));
             }catch (Exception e){
                 Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            final View[] vw = new View[1];
+
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
-                    vw[0] = v;
                     addToCart(1, module.foodItem);
                 }
             });
             // Register interest in the completed report
             CartItemChangedHandler cartItemAdded = new CartItemChangedHandler() {
                 public void invoke(List<CartItem> cartItems) {
-                    callGetCartItems(cartItems, vw[0]);
+                    callGetCartItems(cartItems, view);
                 }
             };
 
             module.MyShoppingCart.cartItemsAdded.addListener("showPictureCartItemAdded",cartItemAdded);
+
+            ResturantUpdatedHandler RestaurantFetched = new ResturantUpdatedHandler() {
+                @Override
+                public void invoke(List<Resturant> Resturant) {
+                    txtFulfilledBy.setText(("Order fulfilled by: " + Resturant.get(0).getResturantName()));
+                }
+            };
+            resturantDalc.resturantDataFetched.addListener(RestaurantFetched);
+            resturantDalc.getResturantByResturantID(module.foodItem.getResturantID());
             this.progress.setVisibility( View.GONE);
         }
     }
 
     private void addToCart(int Qty, FoodItem foodItem) {
         progress.setVisibility(View.VISIBLE);
-        CartItem cartItem = new CartItem("",foodItem.foodID, foodItem.resturantID,module.userID,foodItem.foodImg,foodItem.foodPrice
+        CartItem cartItem = new CartItem("",foodItem.foodID, foodItem.resturantID,module.userName,foodItem.foodImg,foodItem.foodPrice
                 ,foodItem.currency,foodItem.foodDesc,foodItem.foodImgUrl,Qty);
         module.MyShoppingCart.AddCartItem(cartItem);
     }

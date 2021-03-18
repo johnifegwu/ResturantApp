@@ -8,6 +8,7 @@
     <string name="currentPassword">Current password</string>
     <string name="NewPassword">New password</string>
     <string name="go">go</string>
+    <string name="orderFulfilledBy">Order Fulfilled By</string>
     <string name="update">Update</string>
     <string name="currency_usd">USD</string>
     <string name="message">Write your message here.</string>
@@ -90,6 +91,7 @@
     <string name="email_merchant">Email Merchant</string>
     <string name="phone_merchant">Call Merchant</string>
     <string name="quantity">Quantity:</string>
+    <string name="Qty">Qty</string>
     <string name="ZeroValue">0</string>
     <string name="ZeroAmount">$0,0</string>
     <string name="price">Price:</string>

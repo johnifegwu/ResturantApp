@@ -11,9 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var btnMenuLoginLogout: TextView
     lateinit var txtMenuUserName: TextView
     lateinit var txtMenuCurrentLocation: TextView
+    lateinit var cartMenu:MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,6 +148,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             toolbar.isVisible = false
             findViewById<FrameLayout>(R.id.frame_main).isVisible = false
         }
+    }
+
+    private fun displayCartQty(cartItems: List<CartItem>) {
+        val cartTotal:Int = module.getCartTotalQty(cartItems)
+        if(cartTotal > 0){
+            txtCart.text = cartTotal.toString()
+            findViewById<FrameLayout>(R.id.frame_main).isVisible = true
+            cartMenu.isVisible = true
+        }else{
+            txtCart.text = cartTotal.toString()
+            findViewById<FrameLayout>(R.id.frame_main).isVisible = false
+            cartMenu.isVisible = false
+        }
+
     }
 
     private fun logOut() {
@@ -303,19 +320,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+        cartMenu = menu.findItem(R.id.menu_cart)
+        cartMenu.isVisible = false
         return true
-    }
-
-    private fun displayCartQty(cartItems: List<CartItem>) {
-        val cartTotal:Int = module.getCartTotalQty(cartItems)
-        if(cartTotal > 0){
-            txtCart.text = cartTotal.toString()
-            findViewById<FrameLayout>(R.id.frame_main).isVisible = true
-        }else{
-            txtCart.text = cartTotal.toString()
-            findViewById<FrameLayout>(R.id.frame_main).isVisible = false
-        }
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

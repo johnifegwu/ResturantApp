@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ShowPictureFragment">
 
-    <com.mickleentityltdnigeria.resturantapp.extensions.MyImageView
+    <ImageView
         android:id="@+id/imgFood"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/img_desc"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/bugger1"
         app:layout_constraintBottom_toTopOf="@+id/txtFoodDesc"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,10 +21,10 @@
 
     <TextView
         android:id="@+id/txtFoodDesc"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:text="@string/foodDesc"
         android:textColor="#2B2B2B"
@@ -37,16 +37,19 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/btnText"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/txtFullfilledBy"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txtPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:autofillHints=""
         android:ems="10"
         android:freezesText="true"
@@ -54,8 +57,9 @@
         android:textAlignment="textEnd"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btnAdd" />
 
     <ProgressBar
@@ -68,6 +72,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgFood" />
+
+    <TextView
+        android:id="@+id/txtFullfilledBy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/orderFulfilledBy"
+        android:textAlignment="textStart"
+        android:textColor="@color/OverlayForeground"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

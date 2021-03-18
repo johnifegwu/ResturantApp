@@ -165,7 +165,7 @@ public class RegisterUserFragment extends Fragment {
                         txtConfirm.requestFocus();
                         throw new Exception("Password did not match.");
                     }
-                    if (!txtCountry.isSelected()) {
+                    if (txtCountry.getSelectedItem().toString().isEmpty()) {
                         txtCountry.requestFocus();
                         throw new Exception("Fill all required fields.");
                     }
