@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        module.PACKAGE_NAME = applicationContext.packageName
         try {
             AppGlobals.setAppContext(this)
             setContentView(R.layout.activity_main)

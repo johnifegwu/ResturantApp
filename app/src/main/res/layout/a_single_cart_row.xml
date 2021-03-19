@@ -12,7 +12,7 @@
             android:layout_height="200dp"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/img_desc"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@+id/txtCartDesc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

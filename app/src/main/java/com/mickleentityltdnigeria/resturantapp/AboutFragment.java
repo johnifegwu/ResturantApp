@@ -1,5 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +77,19 @@ public class AboutFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btnRateUs = view.findViewById(R.id.btnRateUs);
         btnSendUsFeedBack = view.findViewById(R.id.btnSendUsFeedBack);
+        //
+        btnRateUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String appPackageName = module.PACKAGE_NAME; // package name of the app
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+            }
+        });
+        //
         btnSendUsFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

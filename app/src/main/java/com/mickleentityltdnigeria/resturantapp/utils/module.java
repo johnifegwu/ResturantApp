@@ -24,6 +24,8 @@ public class module {
 
     public static Activity activity;
 
+    public static String PACKAGE_NAME;
+
     public static String Wifi_ENABLED = "Wifi enabled";
     public static String Mobile_Data_ENABLED = "Mobile data enabled";
     public static String No_Network = "No internet enabled";
