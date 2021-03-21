@@ -58,7 +58,7 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
             public void onClick(View v) {
                 FeedBack fd = feedBack.get(myViewHolder.getLayoutPosition());
                 String em = fd.getUserEmail();
-                Uri uri = Uri.parse(("mailto:$em"));
+                Uri uri = Uri.parse(("mailto:"+em));
                 Intent emailIntent = new Intent(Intent.ACTION_VIEW,uri);
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "RE: " + fd.getMsgSubject());
                 emailIntent.putExtra(Intent.EXTRA_TEXT,("\n\n\nRE:"+ fd.getMsgSubject()+"\n\n-----------------------"+

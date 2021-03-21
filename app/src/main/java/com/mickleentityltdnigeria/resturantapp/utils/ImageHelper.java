@@ -44,7 +44,7 @@ public class ImageHelper {
         public byte[] base64StringToByteArray(String base64String){
             byte[] value = new byte[0];
             try{
-                value = Base64.decode(base64String.getBytes("UTF-8"),Base64.DEFAULT);
+                value = Base64.decode(base64String.getBytes("UTF-8"),Base64.URL_SAFE);
             }catch (UnsupportedEncodingException e){
                 Toast.makeText(AppGlobals.getAppContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }

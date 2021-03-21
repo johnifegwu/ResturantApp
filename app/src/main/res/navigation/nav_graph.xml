@@ -219,6 +219,11 @@
         android:label="fragment_feed_back_list"
         tools:layout="@layout/fragment_feed_back_list" />
     <fragment
+        android:id="@+id/newRegistrationFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.NewRegistrationFragment"
+        android:label="fragment_new_registration"
+        tools:layout="@layout/fragment_new_registration" />
+    <fragment
         android:id="@+id/aboutFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.AboutFragment"
         android:label="fragment_about"

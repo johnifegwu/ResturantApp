@@ -25,12 +25,13 @@ public class UserDalc {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userDB = database.getReference("users");
 
-    public Event<UserUpdatedHandler> userDataFetched = new Event<UserUpdatedHandler>();
-    public Event<UserUpdatedHandler> newUserAdded = new Event<UserUpdatedHandler>();
-    public Event<UserUpdatedHandler> userDataUpdated = new Event<UserUpdatedHandler>();
-    public Event<UserUpdatedHandler> userDataDeleted = new Event<UserUpdatedHandler>();
-    public Event<UserUpdatedHandler> userNotFound = new Event<UserUpdatedHandler>();
-    public Event<UserUpdatedHandler> duplicateUserEvent = new Event<UserUpdatedHandler>();
+    public Event<UserUpdatedHandler> userDataFetched = new Event<>();
+    public Event<UserUpdatedHandler> newUserAdded = new Event<>();
+    public Event<UserUpdatedHandler> userDataUpdated = new Event<>();
+    public Event<UserUpdatedHandler> userDataDeleted = new Event<>();
+    public Event<UserUpdatedHandler> userNotFound = new Event<>();
+    public Event<UserUpdatedHandler> userTypeChanged = new Event<>();
+    public Event<UserUpdatedHandler> duplicateUserEvent = new Event<>();
 
     private List<User> users = new ArrayList<User>();
 
@@ -62,6 +63,16 @@ public class UserDalc {
         for (UserUpdatedHandler listener : userDataUpdated.listeners()) {
             List<User> result = new ArrayList<User>();
             result.add(user);
+            listener.invoke(result);
+        }
+    }
+
+    public void UpdateUserType(String userID, String userType) {
+        //save user to the system.
+        userDB.child(userID).child("userType").setValue(userType);
+        //raise event
+        for (UserUpdatedHandler listener : userTypeChanged.listeners()) {
+            List<User> result = new ArrayList<User>();
             listener.invoke(result);
         }
     }

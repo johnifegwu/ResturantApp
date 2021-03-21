@@ -1,6 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -47,8 +48,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         try {
             AppGlobals.setAppContext(this)
             setContentView(R.layout.activity_main)
-            //
-            AppGlobals.setAppContext(this)
             module.activity = this
             //
             toolbar = findViewById(R.id.toolbar)
@@ -88,11 +87,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view -> goToShoppingCart() }
         btnMenuLoginLogout.setOnClickListener { view ->
-            if (btnMenuLoginLogout.text == ("Logout")) {
+            val logout:String = view.context.getString(R.string.menu_logout)
+            val login:String = view.context.getString(R.string.menu_login)
+            if (btnMenuLoginLogout.text == logout) {
                 drawerLayout.closeDrawer(navigationView)
                 logOut()
             }
-            if (btnMenuLoginLogout.text == ("Login")) {
+            if (btnMenuLoginLogout.text == login) {
                 drawerLayout.closeDrawer(navigationView)
                 logIn()
             }
@@ -134,15 +135,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun updateUI() {
+        val logout: String = applicationContext.getString(R.string.menu_logout)
+        val login = applicationContext.getString(R.string.menu_login)
         if (module.isLoggedIn) {
-            btnMenuLoginLogout.text = ("Logout")
+            btnMenuLoginLogout.text = logout
             txtMenuUserName.text = (module.lastName + ", " + module.firstName)
             txtMenuCurrentLocation.text =
                 ("Location: " + module.toLowerCase(module.country) + ", " + module.zipCode)
+           if(module.userType.equals(module.UserTypeSUPPER)){
+               navigationView.menu.clear()
+               navigationView.inflateMenu(R.menu.admin_drawer_menu)
+           }else if(module.userType.equals(module.UserTypeSELLER)){
+               navigationView.menu.clear()
+               navigationView.inflateMenu(R.menu.merchant_drawer_menu)
+           }else if(module.userType.equals(module.UserTypeCUSTOMER)){
+               navigationView.menu.clear()
+               navigationView.inflateMenu(R.menu.drawer_menu)
+           }
             toolbar.isVisible = true
-            //findViewById<FrameLayout>(R.id.frame_main).isVisible = true
         } else {
-            btnMenuLoginLogout.text = ("Login")
+            btnMenuLoginLogout.text = login
             txtMenuUserName.text = ("Welcome Guest!")
             txtMenuCurrentLocation.text = ("Location: not set")
             //hide menus
@@ -318,6 +330,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun goToNewRegistrationFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.newRegistrationFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -336,6 +362,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menuProfile -> goToProfileFragment()
             R.id.menuSell -> goToSellOnBonAppetittFragment()
             R.id.menuAbout -> gotoAbout()
+            R.id.menu_new_registration -> goToNewRegistrationFragment()
         }
         return true
     }

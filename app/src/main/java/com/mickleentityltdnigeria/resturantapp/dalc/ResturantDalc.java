@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,9 +62,12 @@ public class ResturantDalc {
         }
     }
 
-    public void DeleteResturant(String resturantID){
+    public void DeleteResturant(Resturant resturant){
         //save data to the system.
-        resturantDB.child(resturantID).setValue(null);
+        resturantDB.child(resturant.getResturantID()).setValue(null);
+        //update userType
+        UserDalc user = new UserDalc();
+        user.UpdateUserType(resturant.getUserID(), module.UserTypeCUSTOMER);
         //raise event
         for (ResturantUpdatedHandler listener : resturantDeleted.listeners()) {
             List<Resturant> result = new ArrayList<Resturant>();
@@ -160,6 +164,52 @@ public class ResturantDalc {
         Query query = FirebaseDatabase.getInstance().getReference("Resturants")
                 .orderByChild("resturantID")
                 .equalTo(resturantID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
+        //
+    }
+
+    public void getRestaurantByIsApproved(boolean isApproved){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<Resturant> result = new ArrayList<Resturant>();
+                        //
+                        if (snapshot.hasChildren()){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                Resturant resturant = userSnapshot.getValue(Resturant.class);
+                                result.add(resturant);
+                            }
+                            //raise event
+                            for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
+                                listener.invoke(result);
+                            }
+                        }
+                    }
+                }else{
+                    //raise event
+                    for (ResturantUpdatedHandler listener : resturantNotFound.listeners()) {
+                        List<Resturant> result = new ArrayList<Resturant>();
+                        listener.invoke(result);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (ResturantUpdatedHandler listener : resturantNotFound.listeners()) {
+                    List<Resturant> result = new ArrayList<Resturant>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        Query query = FirebaseDatabase.getInstance().getReference("Resturants")
+                .orderByChild("approved")
+                .equalTo(isApproved);
         query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }

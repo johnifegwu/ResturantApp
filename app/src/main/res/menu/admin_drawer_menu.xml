@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/admin_drawer_menu">
+
+    <item
+        android:id="@+id/menu_new_registration"
+        android:icon="@drawable/ic_business_24"
+        android:title="@string/new_registration" />
 
 </menu>

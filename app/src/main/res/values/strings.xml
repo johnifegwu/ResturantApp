@@ -61,8 +61,11 @@
     <string name="enter_your_password">Enter your password</string>
     <string name="enter_your_e_mail_address">Enter your E-mail address</string>
     <string name="first_name">First name</string>
+    <string name="new_registration">New Registrations</string>
     <string name="middle_name">Middle name</string>
     <string name="last_name">Last name</string>
+    <string name="submit">Submit</string>
+    <string name="on_map">Your Establishment must be on <b>Google Map</b> for this registration to be <b>approved.</b></string>
     <string name="address">Address</string>
     <string name="city">City</string>
     <string name="agreement">I agree</string>
@@ -79,6 +82,9 @@
     <string name="payment_address">Billing Address</string>
     <string name="place_order">Place Order</string>
     <string name="add">Add</string>
+    <string name="restaurantPicture">Restaurant Picture</string>
+    <string name="approve">Approve</string>
+    <string name="Disapprove">Disapprove</string>
     <string name="Terms_and_Condition">By selecting the switch below and placing this Order you agree to the terms and condition of the SELLER in addition to the term of paying for this order in full at the point of delivery.</string>
     <string name="new_shipping_address">New Shipping Address</string>
     <string name="save">Save</string>

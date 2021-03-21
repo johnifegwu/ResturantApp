@@ -105,14 +105,15 @@ public class SellOnBonAppetit4Fragment extends Fragment {
         };
         userDalc.userDataUpdated.addListener(userUpdatedEvent);
         //
-        ResturantUpdatedHandler restaurantAddedd = new ResturantUpdatedHandler() {
+        ResturantUpdatedHandler restaurantAdded = new ResturantUpdatedHandler() {
             @Override
             public void invoke(List<Resturant> Resturant) {
                 module.userData.setResturantID(Resturant.get(0).getResturantID());
+                module.userData.setUserType(module.UserTypeSELLER);
                 userDalc.UpdateUser( module.userData);
             }
         };
-        resturantDalc.newResturantAdded.addListener(restaurantAddedd);
+        resturantDalc.newResturantAdded.addListener(restaurantAdded);
         //
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

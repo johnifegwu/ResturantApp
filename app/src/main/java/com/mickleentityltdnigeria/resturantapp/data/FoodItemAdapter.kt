@@ -25,7 +25,7 @@ class FoodItemAdapter(private val foodItems: List<FoodItem>,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.a_single_resturant_row, parent, false)
+            .inflate(R.layout.a_single_fooditem_row, parent, false)
         // Register interest in the CartItems Added.
         val cartItemAdded = CartItemChangedHandler { cartItems -> callGetCartItems(cartItems, view) }
         module.MyShoppingCart.cartItemsAdded.addListener("foodItemAdapterCartItemsAdded",cartItemAdded)
