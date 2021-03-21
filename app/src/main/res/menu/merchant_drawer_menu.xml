@@ -2,4 +2,49 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/merchant_drawer_menu">
 
+    <item
+        android:id="@+id/menu_merchant_dashboard"
+        android:icon="@drawable/ic_dashboard_24"
+        android:title="@string/dashboard" />
+
+    <item
+        android:id="@+id/menu_my_restaurant"
+        android:icon="@drawable/ic_business_24"
+        android:title="@string/my_restaurant" />
+
+    <item
+        android:id="@+id/menu_my_food_items"
+        android:icon="@drawable/ic_baseline_fastfood_24"
+        android:title="@string/my_food_items" />
+
+    <item
+        android:id="@+id/menu_new_orders"
+        android:icon="@drawable/ic_baseline_format_list_bulleted_24"
+        android:title="@string/new_orders" />
+
+    <item
+        android:id="@+id/menu_unshipped_orders"
+        android:icon="@drawable/ic_shipping_24"
+        android:title="@string/un_shipped_orders" />
+
+    <item
+        android:id="@+id/menu_deliver_order"
+        android:icon="@drawable/ic_sports_motorsports_24"
+        android:title="@string/deliver_order" />
+
+    <item
+        android:id="@+id/menu_merchant_Profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/profile" />
+
+    <item
+        android:id="@+id/menu_merchant_ChangePassword"
+        android:icon="@drawable/ic_baseline_lock_24"
+        android:title="@string/changePassword" />
+
+    <item
+        android:id="@+id/menu_merchant_about"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="@string/about" />
+
 </menu>

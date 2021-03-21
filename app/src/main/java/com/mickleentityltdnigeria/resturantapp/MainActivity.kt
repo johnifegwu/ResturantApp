@@ -378,7 +378,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menuSell -> goToSellOnBonAppetittFragment()
             R.id.menuAbout -> gotoAbout()
             //Merchant menu
-
+            R.id.menu_merchant_Profile -> goToProfileFragment()
+            R.id.menu_merchant_ChangePassword -> goToChangePasswordFragment()
+            R.id.menu_merchant_about -> gotoAbout()
 
             //Admin menu
             R.id.menu_new_registration -> goToNewRegistrationFragment()
