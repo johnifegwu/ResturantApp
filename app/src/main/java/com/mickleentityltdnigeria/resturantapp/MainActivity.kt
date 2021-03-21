@@ -1,8 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp
 
 
-import android.app.Application
-import android.content.Context
+
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -102,15 +101,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             updateUI()
         }
         module.loginSuccessHandlerEvent.addListener(loginSuccessHandler)
-        //
+        //Set inactivity screen locker
         val userTimedOut = TimeOutEventHandler{
             logOut()
             updateUI()
             val navController = findNavController(R.id.nav_host_fragment)
             navController.navigate(R.id.LoginFragment)
         }
-        ApplockManager.getInstance().currentAppLocker.userTimedOut.addListener(userTimedOut)
         ApplockManager.getInstance().enableDefaultAppLockIfAvailable(this.application)
+        ApplockManager.userTimedOut.addListener(userTimedOut)
         //
         module.MyShoppingCart = CartDalc()
 

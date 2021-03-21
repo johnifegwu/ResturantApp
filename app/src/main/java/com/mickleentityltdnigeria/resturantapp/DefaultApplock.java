@@ -75,7 +75,7 @@ public class DefaultApplock implements Application.ActivityLifecycleCallbacks {
     }
 
     private boolean shouldShowUnlockScreen() {
-        Boolean isvalid = false;
+        boolean isvalid = false;
         if (mLostFocusDate == null) {
             isvalid = false;
         } else {
@@ -86,7 +86,7 @@ public class DefaultApplock implements Application.ActivityLifecycleCallbacks {
                 mLostFocusDate = null;
             }
         }
-        Log.d(TAG, isvalid.toString());
+        Log.d(TAG,String.valueOf(isvalid));
         return isvalid;
     }
 
