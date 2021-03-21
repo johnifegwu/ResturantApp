@@ -344,6 +344,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun goToFeedbackListFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.feedBackListFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -354,6 +368,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            //Customer menu
             R.id.menuHome -> gotoHome()
             R.id.menuBuyFood -> goToFirstFragment()
             R.id.menuShoppingCart -> goToShoppingCart()
@@ -362,7 +377,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menuProfile -> goToProfileFragment()
             R.id.menuSell -> goToSellOnBonAppetittFragment()
             R.id.menuAbout -> gotoAbout()
+            //Merchant menu
+
+
+            //Admin menu
             R.id.menu_new_registration -> goToNewRegistrationFragment()
+            R.id.menu_Feedback -> goToFeedbackListFragment()
+
         }
         return true
     }

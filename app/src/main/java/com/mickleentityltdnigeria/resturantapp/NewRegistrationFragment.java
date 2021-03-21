@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
 import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,7 @@ public class NewRegistrationFragment extends Fragment {
 
     ResturantDalc resturantDalc;
     List<Resturant> resturants = new ArrayList<>();
+    RestaurantAdapter adapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -88,12 +90,12 @@ public class NewRegistrationFragment extends Fragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         //Create adapter
-        RestaurantAdapter adapter = new RestaurantAdapter(resturants, new ResturantRecyclerViewItemClickListener() {
+        adapter = new RestaurantAdapter(resturants, new ResturantRecyclerViewItemClickListener() {
             @Override
             public void onItemClicked(Resturant resturant) {
 
             }
-        },false);
+        },false,false, module.country,false);
         //Set adapter to RecyclerView
         mRecyclerView.setAdapter(adapter);
         //

@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_business_24"
         android:title="@string/new_registration" />
 
+    <item
+        android:id="@+id/menu_Feedback"
+        android:icon="@drawable/ic_baseline_feedback2_24"
+        android:title="@string/customer_feedback" />
+
 </menu>

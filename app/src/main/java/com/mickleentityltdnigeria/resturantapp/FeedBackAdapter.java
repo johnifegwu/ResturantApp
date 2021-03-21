@@ -89,6 +89,17 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
         };
         feedBackDalc.feedBackFetched.addListener(feedBackFetched);
         //
+        FeedBackEventHandler feedBackNotFound = new FeedBackEventHandler() {
+            @Override
+            public void invoke(List<FeedBack> feedBackList) {
+                progress.setVisibility(View.GONE);
+                feedBack = new ArrayList<>();
+                notifyDataSetChanged();
+                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_LONG).show();
+            }
+        };
+        feedBackDalc.feedBackNotFound.addListener(feedBackNotFound);
+        //
         //create listener for btnResolved.
         myViewHolder.itemView.findViewById(R.id.btnResolved).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -24,6 +24,7 @@ import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.mickleentityltdnigeria.resturantapp.AppGlobals.StartActivity;
@@ -34,12 +35,17 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     private List<Resturant> resturants = new ArrayList<>();
     private final Context myContext = ApplicationContextProvider.getContext();
     private ResturantRecyclerViewItemClickListener mItemClickListener;
-    private boolean isApproved;
+    ResturantDalc resturantDalc;
+    private boolean isApproved, byQueryString, suspended;
+    private String country;
 
-    public RestaurantAdapter(List<Resturant> resturants, ResturantRecyclerViewItemClickListener mItemClickListener, boolean isApproved) {
+    public RestaurantAdapter(List<Resturant> resturants, ResturantRecyclerViewItemClickListener mItemClickListener, boolean isApproved, boolean byQueryString, String country, boolean suspended) {
         this.resturants = resturants;
         this.mItemClickListener = mItemClickListener;
         this.isApproved = isApproved;
+        this.byQueryString = byQueryString;
+        this.suspended = suspended;
+        this.country = country;
     }
 
     public void updateData(List<Resturant> resturants) {
@@ -47,12 +53,19 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         notifyDataSetChanged();
     }
 
+    public void getDataByQueryString(String country, boolean suspended){
+        this.country = country;
+        this.suspended = suspended;
+        this.byQueryString = true;
+        resturantDalc.getRestaurantByQueryString(Resturant.getQqueryString(country,suspended));
+    }
+
     @NonNull
     @Override
     public RestaurantAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.a_single_restaurant_row, parent, false);
         RestaurantAdapter.ViewHolder myViewHolder = new RestaurantAdapter.ViewHolder(view, myContext);
-        ResturantDalc resturantDalc = new ResturantDalc();
+        this.resturantDalc = new ResturantDalc();
         //create click listener
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +125,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                             public void onClick(DialogInterface dialog, int which) {
                                 // Continue with delete operation
                                 Resturant rs = resturants.get(myViewHolder.getLayoutPosition());
-                                resturantDalc.DeleteResturant(rs);
+                               if(!rs.approved){ resturantDalc.DeleteResturant(rs);}
                             }
                         })
                         // A null listener allows the button to dismiss the dialog and take no further action.
@@ -127,16 +140,24 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         //set listeners for restaurant.
         ResturantUpdatedHandler restaurantUpdated = new ResturantUpdatedHandler() {
             @Override
-            public void invoke(List<Resturant> Resturant) {
-                resturantDalc.getRestaurantByIsApproved(isApproved);
+            public void invoke(List<Resturant> resturant) {
+                if(!byQueryString){
+                    resturantDalc.getRestaurantByIsApproved(isApproved);
+                }else{
+                    resturantDalc.getRestaurantByQueryString(Resturant.getQqueryString(country,suspended));
+                }
             }
         };
         resturantDalc.resturantUpdated.addListener(restaurantUpdated);
         //
         ResturantUpdatedHandler restaurantDeleted = new ResturantUpdatedHandler() {
             @Override
-            public void invoke(List<Resturant> Resturant) {
-                resturantDalc.getRestaurantByIsApproved(isApproved);
+            public void invoke(List<Resturant> resturant) {
+                if(!byQueryString){
+                    resturantDalc.getRestaurantByIsApproved(isApproved);
+                }else{
+                    resturantDalc.getRestaurantByQueryString(Resturant.getQqueryString(country,suspended));
+                }
             }
         };
         resturantDalc.resturantDeleted.addListener(restaurantDeleted);
@@ -172,11 +193,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                     Button btnApprove = myViewHolder.itemView.findViewById(R.id.btnApprove);
                     Resturant rs = resturants.get(myViewHolder.getLayoutPosition());
                     String approve = myContext.getString(R.string.approve);
-                    String Disapprove = myContext.getString(R.string.Disapprove);
+                    String suspend = myContext.getString(R.string.suspend);
                     if (btnApprove.getText().toString().equals(approve)) {
                         rs.setApproved(true);
-                    } else if (btnApprove.getText().toString().equals(Disapprove)) {
-                        rs.setApproved(false);
+                        rs.setApprovedBy(module.userName);
+                        rs.setDateApproved(new Date());
+                    } else if (btnApprove.getText().toString().equals(suspend)) {
+                        rs.setSuspended(true);
+                        rs.setSuspendedBy(module.userName);
+                        rs.setDateSuspended(new Date());
                     }
                     resturantDalc.UpdateResturant(rs);
                     //
@@ -220,9 +245,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             Button btnApprove = (Button) itemView.findViewById(R.id.btnApprove);
             String tx;
             if (resturant.isApproved()) {
-                tx = myContext.getString(R.string.Disapprove);
+                tx = myContext.getString(R.string.suspend);
+                itemView.findViewById(R.id.btnRowRestaurantDelete).setEnabled(false);
             } else {
                 tx = myContext.getString(R.string.approve);
+                itemView.findViewById(R.id.btnRowRestaurantDelete).setEnabled(true);
             }
             btnApprove.setText(tx);
             //load restaurant image

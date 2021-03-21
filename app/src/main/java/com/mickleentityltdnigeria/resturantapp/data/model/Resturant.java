@@ -32,15 +32,21 @@ public class Resturant implements Serializable {
     public String websiteUrl;
     public boolean paid;
     public boolean approved;
+    public Date dateApproved;
+    public  String approvedBy;
+    public boolean suspended;
+    public Date dateSuspended;
+    public  String suspendedBy;
     public Date lastPaidDate;
     public double amountPaid;
     public String paymentChannel;
     public Date nextPaymentDueDate;
+    public String queryString;
 
 
     public Resturant(){}
 
-    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String currencyCode, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
+    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String currencyCode, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date dateApproved, String approvedBy, boolean suspended, Date dateSuspended, String suspendedBy, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
         this.resturantID = resturantID;
         this.userID = userID;
         this.resturantName = resturantName;
@@ -64,10 +70,21 @@ public class Resturant implements Serializable {
         this.websiteUrl = websiteUrl;
         this.paid = paid;
         this.approved = approved;
+        this.dateApproved = dateApproved;
+        this.approvedBy = approvedBy;
+        this.suspended = suspended;
+        this.dateSuspended = dateSuspended;
+        this.suspendedBy = suspendedBy;
         this.lastPaidDate = lastPaidDate;
         this.amountPaid = amountPaid;
         this.paymentChannel = paymentChannel;
         this.nextPaymentDueDate = nextPaymentDueDate;
+        this.queryString = getQqueryString(country, suspended);
+    }
+
+    @Exclude
+    public static String getQqueryString(String country, boolean suspended){
+        return (country + String.valueOf(suspended));
     }
 
     @Exclude
@@ -228,6 +245,7 @@ public class Resturant implements Serializable {
     @Exclude
     public void setCountry(String country) {
         this.country = country;
+        this.queryString = getQqueryString(country,this.suspended);
     }
 
     @Exclude
@@ -298,6 +316,57 @@ public class Resturant implements Serializable {
     @Exclude
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    @Exclude
+    public Date getDateApproved() {
+        return dateApproved;
+    }
+
+    @Exclude
+    public void setDateApproved(Date dateApproved) {
+        this.dateApproved = dateApproved;
+    }
+
+    @Exclude
+    public String getApprovedBy() {
+        return approvedBy;
+    }
+
+    @Exclude
+    public void setApprovedBy(String approvedBy) {
+        this.approvedBy = approvedBy;
+    }
+
+    @Exclude
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    @Exclude
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+        this.queryString = getQqueryString(this.country,this.suspended);
+    }
+
+    @Exclude
+    public Date getDateSuspended() {
+        return dateSuspended;
+    }
+
+    @Exclude
+    public void setDateSuspended(Date dateSuspended) {
+        this.dateSuspended = dateSuspended;
+    }
+
+    @Exclude
+    public String getSuspendedBy() {
+        return suspendedBy;
+    }
+
+    @Exclude
+    public void setSuspendedBy(String suspendedBy) {
+        this.suspendedBy = suspendedBy;
     }
 
     @Exclude
