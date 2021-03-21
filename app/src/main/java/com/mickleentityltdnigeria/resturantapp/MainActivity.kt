@@ -1,8 +1,10 @@
 package com.mickleentityltdnigeria.resturantapp
 
 
+import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,11 +14,9 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -102,6 +102,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             updateUI()
         }
         module.loginSuccessHandlerEvent.addListener(loginSuccessHandler)
+        //
+        val userTimedOut = TimeOutEventHandler{
+            logOut()
+            updateUI()
+            val navController = findNavController(R.id.nav_host_fragment)
+            navController.navigate(R.id.LoginFragment)
+        }
+        ApplockManager.getInstance().currentAppLocker.userTimedOut.addListener(userTimedOut)
+        ApplockManager.getInstance().enableDefaultAppLockIfAvailable(this.application)
         //
         module.MyShoppingCart = CartDalc()
 
@@ -401,6 +410,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             gotoHome()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        touch()
+        Log.d("TAG", "User interaction to $this")
+    }
+
+    fun touch() {
+        ApplockManager.getInstance().updateTouch()
     }
 
 }
