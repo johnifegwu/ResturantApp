@@ -163,7 +163,7 @@ import java.text.DecimalFormat
                 val foodItemsFetched = FoodItemUpdatedHandler { fooditems ->
                     foodItem = fooditems[0]
                     //
-                    itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(ImageHelper.getInstant().imageFromString(foodItem.foodImg))
+                    itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(ImageHelper.getInstance().imageFromString(foodItem.foodImg))
                     itemView.findViewById<TextView>(R.id.txtCustomerOrderFoodItemName).text = foodItem.foodDesc
                     itemView.findViewById<TextView>(R.id.txtCustomerOrderPrice).text = (cu+ orderDetail.foodPrice)
                     itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text = (cu+ dc.format((orderDetail.subTotal)))

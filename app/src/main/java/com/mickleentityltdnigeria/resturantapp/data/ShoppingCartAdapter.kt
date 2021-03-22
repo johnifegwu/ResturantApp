@@ -83,7 +83,7 @@ class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListen
         fun bind(cartItem: CartItem) {
             try
             {
-                itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(ImageHelper.getInstant().imageFromString(cartItem.foodImg))
+                itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(ImageHelper.getInstance().imageFromString(cartItem.foodImg))
                 itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.foodDesc
                 itemView.findViewById<TextView>(R.id.txtPrice).text = (cartItem.currency+ cartItem.foodPrice)
                 itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.foodQty)

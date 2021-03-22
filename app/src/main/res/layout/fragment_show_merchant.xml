@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ShowMerchantFragment">
+
+    <Button
+        android:id="@+id/btnGoToShowPicture"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/continue_shopping"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMerchantLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMerchantCity" />
+
+    <ImageView
+        android:id="@+id/btnMerchantLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/phone_merchant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMerchantPhone"
+        app:layout_constraintStart_toEndOf="@+id/btnGoToShowPicture"
+        app:layout_constraintTop_toBottomOf="@+id/txtMerchantZipCode"
+        app:srcCompat="@drawable/ic_location_on_48" />
+
+    <ImageView
+        android:id="@+id/btnMerchantPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/phone_merchant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMerchantEmail"
+        app:layout_constraintStart_toEndOf="@+id/btnMerchantLocation"
+        app:layout_constraintTop_toBottomOf="@+id/txtMerchantZipCode"
+        app:srcCompat="@drawable/ic_phone_48" />
+
+    <ImageView
+        android:id="@+id/btnMerchantEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/email_merchant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnMerchantPhone"
+        app:layout_constraintTop_toBottomOf="@+id/txtMerchantZipCode"
+        app:srcCompat="@drawable/ic_email_48" />
+
+    <ImageView
+        android:id="@+id/imgMerchantImage"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="@string/restaurantPicture"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/txtMerchantName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bugger1" />
+
+    <TextView
+        android:id="@+id/txtMerchantName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMerchantDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgMerchantImage" />
+
+    <TextView
+        android:id="@+id/txtMerchantDescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMerchantCountry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMerchantName" />
+
+    <TextView
+        android:id="@+id/txtMerchantCountry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMerchantCity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMerchantDescription" />
+
+    <TextView
+        android:id="@+id/txtMerchantCity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoToShowPicture"
+        app:layout_constraintEnd_toStartOf="@+id/txtMerchantZipCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMerchantCountry" />
+
+    <TextView
+        android:id="@+id/txtMerchantZipCode"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtMerchantCity"
+        app:layout_constraintTop_toTopOf="@+id/txtMerchantCity" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

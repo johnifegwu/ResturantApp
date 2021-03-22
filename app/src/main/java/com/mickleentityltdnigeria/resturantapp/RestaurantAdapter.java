@@ -236,13 +236,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         }
 
         void bind(Resturant resturant) {
-            ImageView imgResturant = (ImageView) itemView.findViewById(R.id.imgRowRestaurantImage);
-            TextView txtResturantName = (TextView) itemView.findViewById(R.id.txtRowRestaurantName);
-            TextView txtContactPerson = (TextView) itemView.findViewById(R.id.txtRowRestaurantContactPerson);
-            TextView txtCountry = (TextView) itemView.findViewById(R.id.txtRowRestaurantCountry);
-            TextView txtCity = (TextView) itemView.findViewById(R.id.txtRowRestaurantCity);
-            TextView txtZipCode = (TextView) itemView.findViewById(R.id.txtRowRestaurantZipCode);
-            Button btnApprove = (Button) itemView.findViewById(R.id.btnApprove);
+            ImageView imgResturant = itemView.findViewById(R.id.imgRowRestaurantImage);
+            TextView txtResturantName = itemView.findViewById(R.id.txtRowRestaurantName);
+            TextView txtContactPerson = itemView.findViewById(R.id.txtRowRestaurantContactPerson);
+            TextView txtCountry = itemView.findViewById(R.id.txtRowRestaurantCountry);
+            TextView txtCity = itemView.findViewById(R.id.txtRowRestaurantCity);
+            TextView txtZipCode = itemView.findViewById(R.id.txtRowRestaurantZipCode);
+            Button btnApprove = itemView.findViewById(R.id.btnApprove);
             String tx;
             if (resturant.isApproved()) {
                 tx = myContext.getString(R.string.suspend);
@@ -253,7 +253,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
             btnApprove.setText(tx);
             //load restaurant image
-            imgResturant.setImageDrawable(ImageHelper.getInstant().imageFromString(resturant.resturantImg));
+            imgResturant.setImageDrawable(ImageHelper.getInstance().imageFromString(resturant.resturantImg));
             txtCity.setText(resturant.getCity());
             txtContactPerson.setText(resturant.getContactPerson());
             txtCountry.setText(resturant.getCountry());

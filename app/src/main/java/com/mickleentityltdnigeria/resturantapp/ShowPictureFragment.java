@@ -6,7 +6,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,23 +90,24 @@ public class ShowPictureFragment extends Fragment {
     }
 
     ProgressBar progress;
+    public static Resturant resturant = new Resturant();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.progress = (ProgressBar) view.findViewById(R.id.progressBarShowPic);
-        this.foodImg = (ImageView) view.findViewById(R.id.imgFood);
-        this.foodText = (TextView) view.findViewById(R.id.txtFoodDesc);
-        this.foodPrice = (TextView) view.findViewById(R.id.txtPrice);
-        this.btnAdd = (Button) view.findViewById(R.id.btnAdd);
-        this.txtFulfilledBy = (TextView) view.findViewById(R.id.txtFullfilledBy);
+        this.progress = view.findViewById(R.id.progressBarShowPic);
+        this.foodImg = view.findViewById(R.id.imgFood);
+        this.foodText = view.findViewById(R.id.txtFoodDesc);
+        this.foodPrice = view.findViewById(R.id.txtPrice);
+        this.btnAdd = view.findViewById(R.id.btnAdd);
+        this.txtFulfilledBy = view.findViewById(R.id.txtFullfilledBy);
         this.resturantDalc = new ResturantDalc();
         //
         if (module.foodItem != null) {
             //
             this.progress.setVisibility( View.VISIBLE);
             try {
-                InputStream ims = new ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(module.foodItem.getFoodImg())); //assetManager.open(this.foodItem.getFoodUrl());
+                InputStream ims = new ByteArrayInputStream(ImageHelper.getInstance().base64StringToByteArray(module.foodItem.getFoodImg())); //assetManager.open(this.foodItem.getFoodUrl());
                 Drawable d = Drawable.createFromStream(ims, null);
                 this.foodImg.setImageDrawable(d);
                 this.foodText.setText(module.foodItem.getFoodDesc());
@@ -130,12 +134,22 @@ public class ShowPictureFragment extends Fragment {
             ResturantUpdatedHandler RestaurantFetched = new ResturantUpdatedHandler() {
                 @Override
                 public void invoke(List<Resturant> Resturant) {
-                    txtFulfilledBy.setText(("Order fulfilled by: " + Resturant.get(0).getResturantName()));
+                    resturant = Resturant.get(0);
+                    SpannableString content = new SpannableString(("Order fulfilled by: " + resturant.getResturantName()));
+                    content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+                    txtFulfilledBy.setText(content);
                 }
             };
             resturantDalc.resturantDataFetched.addListener(RestaurantFetched);
             resturantDalc.getResturantByResturantID(module.foodItem.getResturantID());
             this.progress.setVisibility( View.GONE);
+            txtFulfilledBy.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    NavHostFragment.findNavController(ShowPictureFragment.this)
+                            .navigate(R.id.action_showPictureFragment_to_showMerchantFragment);
+                }
+            });
         }
     }
 

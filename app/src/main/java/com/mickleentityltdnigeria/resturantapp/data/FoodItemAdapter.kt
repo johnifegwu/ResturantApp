@@ -92,7 +92,7 @@ class FoodItemAdapter(private val foodItems: List<FoodItem>,
         fun bind(fooditem: FoodItem) {
             try
             {
-                itemView.findViewById<ImageView>(R.id.imgFood).setImageDrawable(ImageHelper.getInstant().imageFromString(fooditem.foodImg))
+                itemView.findViewById<ImageView>(R.id.imgFood).setImageDrawable(ImageHelper.getInstance().imageFromString(fooditem.foodImg))
                 itemView.findViewById<TextView>(R.id.txtFoodDesc).text = fooditem.foodDesc
                 itemView.findViewById<TextView>(R.id.txtPrice).text = (fooditem.currency + fooditem.foodPrice)
             }catch (e: Exception)

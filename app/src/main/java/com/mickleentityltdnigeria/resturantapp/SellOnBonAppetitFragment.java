@@ -166,9 +166,9 @@ public class SellOnBonAppetitFragment extends Fragment {
                 public void onActivityResult(Uri uri) {
                     // Handle the returned Uri
                     try {
-                        module.newRestaurantImg =  ImageHelper.getInstant().decodeFile(uri);
-                        module.newResturant.setResturantImg(ImageHelper.getInstant().byteArrayToString(module.newRestaurantImg));
-                        imgResturant.setImageDrawable(ImageHelper.getInstant().imageFromString(module.newResturant.resturantImg));
+                        module.newRestaurantImg =  ImageHelper.getInstance().decodeFile(uri);
+                        module.newResturant.setResturantImg(ImageHelper.getInstance().byteArrayToString(module.newRestaurantImg));
+                        imgResturant.setImageDrawable(ImageHelper.getInstance().imageFromString(module.newResturant.resturantImg));
                     }catch (Exception e){
                         Toast.makeText(requireContext(),e.toString(),Toast.LENGTH_LONG).show();
                     }

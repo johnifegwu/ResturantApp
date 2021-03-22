@@ -99,6 +99,9 @@
         <action
             android:id="@+id/action_showPictureFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_showPictureFragment_to_showMerchantFragment"
+            app:destination="@id/showMerchantFragment" />
     </fragment>
     <fragment
         android:id="@+id/customerOrderListFragment"
@@ -269,4 +272,13 @@
         android:name="com.mickleentityltdnigeria.resturantapp.DeliverOrderFragment"
         android:label="fragment_deliver_order"
         tools:layout="@layout/fragment_deliver_order" />
+    <fragment
+        android:id="@+id/showMerchantFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.ShowMerchantFragment"
+        android:label="fragment_show_merchant"
+        tools:layout="@layout/fragment_show_merchant" >
+        <action
+            android:id="@+id/action_showMerchantFragment_to_showPictureFragment"
+            app:destination="@id/showPictureFragment" />
+    </fragment>
 </navigation>

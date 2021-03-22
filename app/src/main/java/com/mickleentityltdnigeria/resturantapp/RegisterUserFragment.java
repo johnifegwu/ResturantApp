@@ -178,7 +178,7 @@ public class RegisterUserFragment extends Fragment {
                         throw new Exception("Fill all required fields.");
                     }
                     String deviceID = Settings.Secure.getString(view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-                    deviceID = ImageHelper.getInstant().byteArrayToString(deviceID.getBytes());
+                    deviceID = ImageHelper.getInstance().byteArrayToString(deviceID.getBytes());
                     User user = new User("", txtEmail.getText().toString().trim(), "xxxxxxxx",
                             txtFirstName.getText().toString().trim(), txtMiddleName.getText().toString().trim(), txtLastName.getText().toString().trim(),
                             txtEmail.getText().toString().trim(), txtIDD.getText().toString().trim() + txtPhone.getText().toString().trim(), txtAddress.getText().toString().trim(), txtCity.getText().toString().trim(),

@@ -1,6 +1,5 @@
 package com.mickleentityltdnigeria.resturantapp.utils;
 
-import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,22 +16,19 @@ import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 public class ImageHelper {
 
-        public static ImageHelper mInstant;
+        public static ImageHelper mInstance;
 
-        public static ImageHelper getInstant(){
-            if(mInstant==null){
-                mInstant = new ImageHelper();
+        public static ImageHelper getInstance(){
+            if(mInstance==null){
+                mInstance = new ImageHelper();
             }
-            return mInstant;
+            return mInstance;
         }
 
         public String byteArrayToString(byte[] byteArray){
@@ -201,7 +197,7 @@ public class ImageHelper {
 
     //image processing
     public Drawable imageFromString(String imgString){
-        InputStream ims = new ByteArrayInputStream(ImageHelper.getInstant().base64StringToByteArray(imgString));
+        InputStream ims = new ByteArrayInputStream(ImageHelper.getInstance().base64StringToByteArray(imgString));
         Drawable d = Drawable.createFromStream(ims, null);
         return d;
     }
