@@ -235,4 +235,38 @@
             android:id="@+id/action_aboutFragment_to_feedBackFragment"
             app:destination="@id/feedBackFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/merchantDashboardFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.MerchantDashboardFragment"
+        android:label="fragment_merchant_dashboard"
+        tools:layout="@layout/fragment_merchant_dashboard" />
+    <fragment
+        android:id="@+id/myRestaurantFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.MyRestaurantFragment"
+        android:label="fragment_my_restaurant"
+        tools:layout="@layout/fragment_my_restaurant" >
+        <action
+            android:id="@+id/action_myRestaurantFragment_to_myFoodItemsFragment"
+            app:destination="@id/myFoodItemsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myFoodItemsFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.MyFoodItemsFragment"
+        android:label="fragment_my_food_items"
+        tools:layout="@layout/fragment_my_food_items" />
+    <fragment
+        android:id="@+id/newOrdersFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.NewOrdersFragment"
+        android:label="fragment_new_orders"
+        tools:layout="@layout/fragment_new_orders" />
+    <fragment
+        android:id="@+id/unShippedOrdersFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.UnShippedOrdersFragment"
+        android:label="fragment_un_shipped_orders"
+        tools:layout="@layout/fragment_un_shipped_orders" />
+    <fragment
+        android:id="@+id/deliverOrderFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.DeliverOrderFragment"
+        android:label="fragment_deliver_order"
+        tools:layout="@layout/fragment_deliver_order" />
 </navigation>

@@ -65,12 +65,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout.addDrawerListener(actionBarDrawerToggle)
             actionBarDrawerToggle.isDrawerIndicatorEnabled = true
             actionBarDrawerToggle.syncState()
-            /*try{
-                val navController = findNavController(R.id.nav_host_fragment)
-                navController.navigate(R.id.HomeFragment)
-            }finally {
-
-            }*/
+            //
         } catch (e: Exception) {
             Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
         }
@@ -91,6 +86,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (btnMenuLoginLogout.text == logout) {
                 drawerLayout.closeDrawer(navigationView)
                 logOut()
+                updateUI()
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.LoginFragment)
             }
             if (btnMenuLoginLogout.text == login) {
                 drawerLayout.closeDrawer(navigationView)
@@ -366,6 +364,90 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun goToDashboardFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.merchantDashboardFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun goToMyRestaurantFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.myRestaurantFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun goToMyFoodItemsFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.myFoodItemsFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun goToNewOrdersFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.newOrdersFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun goToUnShippedOrdersFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.unShippedOrdersFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun goToDeliverOrderFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.deliverOrderFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -389,7 +471,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_merchant_Profile -> goToProfileFragment()
             R.id.menu_merchant_ChangePassword -> goToChangePasswordFragment()
             R.id.menu_merchant_about -> gotoAbout()
-
+            R.id.menu_merchant_dashboard -> goToDashboardFragment()
+            R.id.menu_my_restaurant -> goToMyRestaurantFragment()
+            R.id.menu_my_food_items -> goToMyFoodItemsFragment()
+            R.id.menu_new_orders -> goToNewOrdersFragment()
+            R.id.menu_unshipped_orders -> goToUnShippedOrdersFragment()
+            R.id.menu_deliver_order -> goToDeliverOrderFragment()
             //Admin menu
             R.id.menu_new_registration -> goToNewRegistrationFragment()
             R.id.menu_Feedback -> goToFeedbackListFragment()
