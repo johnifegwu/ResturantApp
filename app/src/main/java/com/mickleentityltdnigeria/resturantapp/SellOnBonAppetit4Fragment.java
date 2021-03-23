@@ -1,5 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -25,6 +28,8 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.List;
 
+import static com.mickleentityltdnigeria.resturantapp.AppGlobals.StartActivity;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SellOnBonAppetit4Fragment#newInstance} factory method to
@@ -37,6 +42,7 @@ public class SellOnBonAppetit4Fragment extends Fragment {
     ProgressBar progress;
     ResturantDalc resturantDalc;
     UserDalc userDalc;
+    CheckBox checkBoxAgreement;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -90,6 +96,7 @@ public class SellOnBonAppetit4Fragment extends Fragment {
         txtWebsite = view.findViewById(R.id.txtNewRestaurantWebsite);
         btnBack = view.findViewById(R.id.btnBack3);
         btnSave = view.findViewById(R.id.btnSaveNewRestaurant);
+        checkBoxAgreement = view.findViewById(R.id.checkBoxAgreement);
         //
         userDalc = new UserDalc();
         resturantDalc = new ResturantDalc();
@@ -115,6 +122,15 @@ public class SellOnBonAppetit4Fragment extends Fragment {
         };
         resturantDalc.newResturantAdded.addListener(restaurantAdded);
         //
+        view.findViewById(R.id.btnTermsAndConditions).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String web = requireContext().getString(R.string.merchant_terms_url);
+                Uri uri = Uri.parse("https://" + web);
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, uri);
+                StartActivity(webIntent);
+            }
+        });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +146,9 @@ public class SellOnBonAppetit4Fragment extends Fragment {
                     module.checkNetwork();
                     if(txtDesc.getText().toString().isEmpty()){
                         throw new Exception("Description is required");
+                    }
+                    if(!checkBoxAgreement.isChecked()){
+                        throw new Exception("You must agree to Terms and Conditions.");
                     }
                     module.newResturant.setResturantDescription(txtDesc.getText().toString());
                     module.newResturant.setWebsiteUrl(txtWebsite.getText().toString().trim());

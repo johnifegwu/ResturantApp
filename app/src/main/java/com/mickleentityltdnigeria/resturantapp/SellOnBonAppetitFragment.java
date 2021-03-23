@@ -119,6 +119,16 @@ public class SellOnBonAppetitFragment extends Fragment {
             }
         };
         resturantDalc.resturantDataFetched.addListener(restaurantFetched);
+        //
+        ResturantUpdatedHandler restaurantNotFound = new ResturantUpdatedHandler() {
+            @Override
+            public void invoke(List<Resturant> Resturant) {
+                btnNext1.setEnabled(true);
+                imgResturant.setEnabled(true);
+                btnAddImage.setEnabled(true);
+            }
+        };
+        resturantDalc.resturantNotFound.addListener(restaurantNotFound);
         resturantDalc.getResturantByUserID(module.userID);
         //
         btnAddImage.setOnClickListener(new View.OnClickListener() {
