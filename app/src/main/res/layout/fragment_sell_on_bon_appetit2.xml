@@ -15,10 +15,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="3dp"
         android:autofillHints=""
+        android:drawableStart="@drawable/ic_email_24"
         android:ems="10"
         android:hint="@string/prompt_email"
-        android:nextFocusDown="@id/spinnerNewRestaurantCountry"
         android:inputType="textEmailAddress"
+        android:nextFocusDown="@id/spinnerNewRestaurantCountry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,14 +57,15 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_phone_24"
         android:ems="10"
         android:hint="@string/phone"
         android:inputType="phone"
         android:nextFocusDown="@id/txtNewRestaurantAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtNewRestaurantIDD"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerNewRestaurantCountry"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerNewRestaurantCountry" />
 
     <EditText
         android:id="@+id/txtNewRestaurantAddress"
@@ -72,14 +74,15 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_location_on_24"
         android:ems="10"
         android:hint="@string/address"
-        android:nextFocusDown="@id/txtNewRestaurantCity"
         android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtNewRestaurantCity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantPhone"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantPhone" />
 
     <EditText
         android:id="@+id/txtNewRestaurantZipCode"
@@ -150,20 +153,23 @@
 
     <EditText
         android:id="@+id/txtNewRestaurantCurrency"
-        android:layout_width="60dp"
+        android:layout_width="84dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_monetization_on_24"
+        android:enabled="false"
         android:hint="@string/currency_usd"
-        android:text="@string/currency_usd"
         android:inputType="none"
+        android:maxLength="3"
+        android:text="@string/currency_usd"
         android:textAlignment="textEnd"
         app:layout_constraintBottom_toBottomOf="@+id/txtNewRestaurantState"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtNewRestaurantState"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantZipCode"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNewRestaurantZipCode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
