@@ -206,6 +206,7 @@ public class RegisterUserFragment extends Fragment {
                                         Log.d(TAG, "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         updateUI(user);
+                                        assert user != null;
                                         user.sendEmailVerification()
                                                 .addOnCompleteListener(((MainActivity) requireActivity()), new OnCompleteListener() {
                                                     @Override
@@ -284,6 +285,7 @@ public class RegisterUserFragment extends Fragment {
                 module.lastName = u.getLastName();
                 FirebaseUser user = mAuth.getCurrentUser();
                 module.userSignedInSuccessfully(user);
+                module.getCountries();
                 //
                 userData.newUserAdded.removeListener("RegnewUserAdded");
                 //

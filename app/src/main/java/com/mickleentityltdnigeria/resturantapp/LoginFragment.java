@@ -215,6 +215,7 @@ public class LoginFragment extends Fragment {
     private void updateUI(FirebaseUser user) {
         if(user != null){
             progress.setVisibility(View.VISIBLE);
+            module.getCountries();
             userData.getUserByName(user.getEmail());
         }
     }

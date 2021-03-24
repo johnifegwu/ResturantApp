@@ -37,8 +37,6 @@ class FirstFragment : Fragment() {
     lateinit var btnChangeLocation:TextView
     lateinit var progress:ProgressBar
     lateinit var foodData: FoodDalc
-    lateinit var countryData: CountryDalc;
-    //lateinit var mAuth: FirebaseAuth
 
     override fun onStart() {
         super.onStart()
@@ -64,7 +62,6 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
        //Initialise ShoppingCart
-        this.countryData = CountryDalc()
         foodData = FoodDalc()
         this.progress = view.findViewById<ProgressBar>(R.id.progressBarSearch)
         this.progress.visibility = View.VISIBLE
@@ -75,19 +72,9 @@ class FirstFragment : Fragment() {
         this.txtsearchZipCode = view.findViewById<TextView>(R.id.txtSearchZipCode)
         //
         this.txtsearchZipCode.text = module.zipCode
-        //
-        val countriesFetched = CountryChangedHandler { countries ->
-           module.myCountries = countries
-        }
-        this.countryData.countriesFetched.addListener(countriesFetched)
-        try{
-            this.countryData.getCountries()
-        }catch (e:Exception){
-            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
-        }
         // Register interest in the CurrentLocation.
         val locationsFetched = CurrentLocationChangedHandler { locations ->
-            val l:CurrentLocation = locations.get(0)
+            val l:CurrentLocation = locations[0]
             module.locationID = l.getLocationID().toString()
             module.country = l.getCountry().toString()
             module.state = l.getState().toString()
@@ -107,7 +94,7 @@ class FirstFragment : Fragment() {
             module.MyCurrentLocation.AddCurrentLocation(lc)
         }
         val locationsAdded = CurrentLocationChangedHandler { locations ->
-            val l = locations.get(0)
+            val l = locations[0]
             module.locationID = l.getLocationID().toString()
             module.country = l.getCountry().toString()
             module.state = l.getState().toString()
@@ -116,7 +103,7 @@ class FirstFragment : Fragment() {
             this.txtsearchZipCode.text = module.zipCode
         }
         val locationUpdated = CurrentLocationChangedHandler { locations ->
-            val l = locations.get(0)
+            val l = locations[0]
             module.locationID = l.getLocationID().toString()
             module.country = l.getCountry().toString()
             module.state = l.getState().toString()
@@ -131,7 +118,7 @@ class FirstFragment : Fragment() {
         try{
             module.MyCurrentLocation.GetCurrentLocation(module.userID)
         }catch (e:Exception){
-            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG)
+            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
         }
         //
         // Register interest in the FoodItemsFetched.
@@ -181,7 +168,7 @@ class FirstFragment : Fragment() {
         try{
             module.MyShoppingCart.getCartItems(module.userName)
         }catch (e:Exception){
-            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG)
+            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
         }
         //Reference of RecyclerView
        val mRecyclerView:RecyclerView = view.findViewById<RecyclerView>(R.id.resturantRecyclerView)

@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.mickleentityltdnigeria.resturantapp.AppGlobals;
 import com.mickleentityltdnigeria.resturantapp.dalc.AddressDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CartDalc;
+import com.mickleentityltdnigeria.resturantapp.dalc.CountryDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.CurrentLocationDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.Country;
@@ -13,6 +14,7 @@ import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
 import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.exceptions.NoNetworkException;
+import com.mickleentityltdnigeria.resturantapp.extensions.CountryChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.LoginSuccessHandler;
 import java.util.ArrayList;
@@ -84,6 +86,19 @@ public class module {
     //Zip Codes derived from Resturant separated by spaces
 
     public static List<Country> myCountries = new ArrayList<>();
+    public static CountryDalc myCountryDalc;
+
+    public static void getCountries(){
+        myCountryDalc = new CountryDalc();
+        CountryChangedHandler countriesFetched = new CountryChangedHandler() {
+            @Override
+            public void invoke(List<Country> countries) {
+                myCountries = countries;
+            }
+        };
+        myCountryDalc.countriesFetched.addListener(countriesFetched);
+        myCountryDalc.getCountries();
+    }
 
     public static CurrentLocationDalc MyCurrentLocation;
     public static CartDalc MyShoppingCart;
