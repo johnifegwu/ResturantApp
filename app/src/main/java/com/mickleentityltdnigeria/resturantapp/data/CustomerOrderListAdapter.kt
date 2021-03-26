@@ -2,7 +2,6 @@ package com.mickleentityltdnigeria.resturantapp.data
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.*
 import com.mickleentityltdnigeria.resturantapp.AppGlobals.*
-import com.mickleentityltdnigeria.resturantapp.dalc.FoodDalc
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodItemDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.FoodOrderDalc
 import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
@@ -19,8 +18,6 @@ import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 import java.text.DecimalFormat
 
  class CustomerOrderListAdapter(
@@ -31,7 +28,7 @@ import java.text.DecimalFormat
 
     private lateinit var foodOrderDalc: FoodOrderDalc
     private lateinit var resturantDalc: ResturantDalc
-    private lateinit var foodDalc:FoodDalc
+    private lateinit var foodItemDalc: FoodItemDalc
     private lateinit var progress: ProgressBar
     private val mItemClickListener: CustomerOrderListRecyclerViewItemClickListener = itemClickListener
 
@@ -47,9 +44,10 @@ import java.text.DecimalFormat
         //
         foodOrderDalc = FoodOrderDalc()
         resturantDalc = ResturantDalc()
-        foodDalc = FoodDalc()
+        foodItemDalc =
+            FoodItemDalc()
         //Create View Holder
-        val myViewHolder = ViewHolder(view, getAppContext(), foodDalc)
+        val myViewHolder = ViewHolder(view, getAppContext(), foodItemDalc)
         //
         progress = myViewHolder.itemView.findViewById(R.id.progressBarCustomerOrderStatus)
         //Item Clicks
@@ -150,7 +148,7 @@ import java.text.DecimalFormat
     }
 
 
-    class ViewHolder(view: View, private val myContext: Context, private var foodDalc:FoodDalc) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val myContext: Context, private var foodItemDalc: FoodItemDalc) : RecyclerView.ViewHolder(view) {
         //
         fun bind(orderDetail: FoodOrderDetail) {
             lateinit var foodItem:FoodItem
@@ -182,10 +180,10 @@ import java.text.DecimalFormat
                         itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = true
                     }
                 }
-                this.foodDalc.foodItemsFetched.addListener(foodItemsFetched)
+                this.foodItemDalc.foodItemsFetched.addListener(foodItemsFetched)
                 try{
                     //
-                    this.foodDalc.getFoodItemByFoodID(orderDetail.foodID)
+                    this.foodItemDalc.getFoodItemByFoodID(orderDetail.foodID)
                     //
                 }catch (e:Exception){
                     Toast.makeText(getAppContext(),e.message,Toast.LENGTH_LONG).show()

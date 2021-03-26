@@ -54,6 +54,9 @@ public class ResturantDalc {
         String resturantID =resturant.getResturantID();
         //save data to the system.
         resturantDB.child(resturantID).setValue(resturant);
+        //Update foodItems
+        DatabaseReference foodItemDB = database.getReference("fooditems");
+        foodItemDB.child(resturantID).child("zipCodes").setValue(resturant.getZipCodes());
         //raise event
         for (ResturantUpdatedHandler listener : resturantUpdated.listeners()) {
             List<Resturant> result = new ArrayList<Resturant>();

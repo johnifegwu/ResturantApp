@@ -11,15 +11,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.mickleentityltdnigeria.resturantapp.dalc.CountryDalc
-import com.mickleentityltdnigeria.resturantapp.dalc.FoodDalc
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodItemDalc
 import com.mickleentityltdnigeria.resturantapp.data.FoodItemAdapter
 import com.mickleentityltdnigeria.resturantapp.data.MyRecyclerViewItemClickListener
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.data.model.CurrentLocation
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
-import com.mickleentityltdnigeria.resturantapp.extensions.CountryChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.CurrentLocationChangedHandler
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.module
@@ -36,7 +34,7 @@ class FirstFragment : Fragment() {
     lateinit var btnSearch:Button
     lateinit var btnChangeLocation:TextView
     lateinit var progress:ProgressBar
-    lateinit var foodData: FoodDalc
+    lateinit var foodItemData: FoodItemDalc
 
     override fun onStart() {
         super.onStart()
@@ -62,7 +60,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
        //Initialise ShoppingCart
-        foodData = FoodDalc()
+        foodItemData =
+            FoodItemDalc()
         this.progress = view.findViewById<ProgressBar>(R.id.progressBarSearch)
         this.progress.visibility = View.VISIBLE
         //
@@ -126,7 +125,7 @@ class FirstFragment : Fragment() {
             foodItems,
             view
         ) }
-        foodData.foodItemsFetched.addListener(foodItemsFetched)
+        foodItemData.foodItemsFetched.addListener(foodItemsFetched)
         //
         btnSearch.setOnClickListener(View.OnClickListener {
             this.progress.visibility = View.VISIBLE
@@ -137,7 +136,7 @@ class FirstFragment : Fragment() {
                         txtsearchZipCode.text.toString().trim()
                     )
                 ) {
-                    foodData.SearchFoodItems(
+                    foodItemData.SearchFoodItems(
                         txtsearchString.text.toString().trim(),
                         module.country.trim() + "-" + txtsearchZipCode.text.toString().trim()
                     )

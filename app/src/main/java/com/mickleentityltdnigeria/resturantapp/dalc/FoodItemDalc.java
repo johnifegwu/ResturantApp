@@ -17,7 +17,7 @@ import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodDalc {
+public class FoodItemDalc {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference foodItemDB = database.getReference("fooditems");
@@ -28,7 +28,7 @@ public class FoodDalc {
     public Event<FoodItemUpdatedHandler> foodItemsUpdated = new Event<FoodItemUpdatedHandler>();
     public Event<FoodItemUpdatedHandler> foodItemsDeleted = new Event<FoodItemUpdatedHandler>();
 
-    public FoodDalc() {
+    public FoodItemDalc() {
     }
 
 

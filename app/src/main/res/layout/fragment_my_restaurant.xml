@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,291 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btnSaveMyRestaurant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantDesc" />
 
+        <EditText
+            android:id="@+id/txtMyRestaurantDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:nextFocusDown="@id/btnSaveMyRestaurant"
+            android:gravity="start|top"
+            android:hint="@string/desc"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantWebsite" />
+
+        <EditText
+            android:id="@+id/txtMyRestaurantWebsite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:nextFocusDown="@id/txtMyRestaurantDesc"
+            android:hint="@string/website"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantZipCodes" />
+
+        <EditText
+            android:id="@+id/txtMyRestaurantZipCodes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/zipCodes"
+            android:nextFocusDown="@id/txtMyRestaurantWebsite"
+            android:inputType="textMultiLine|textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantState" />
+
+        <EditText
+        android:id="@+id/txtMyRestaurantCurrency"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_monetization_on_24"
+        android:enabled="false"
+        android:hint="@string/currency_usd"
+        android:inputType="none"
+        android:maxLength="3"
+        android:text="@string/currency_usd"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantZipCode" />
+
+    <EditText
+        android:id="@+id/txtMyRestaurantState"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/state_resgion"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtMyRestaurantZipCodes"
+        app:layout_constraintEnd_toStartOf="@+id/txtMyRestaurantCurrency"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantCity" />
+
+    <EditText
+        android:id="@+id/txtMyRestaurantZipCode"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/zip_code"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtMyRestaurantState"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantAddress" />
+
+    <EditText
+        android:id="@+id/txtMyRestaurantCity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/city"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtMyRestaurantZipCode"
+        app:layout_constraintEnd_toStartOf="@+id/txtMyRestaurantZipCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantAddress" />
+
+    <EditText
+        android:id="@+id/txtMyRestaurantAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_location_on_24"
+        android:ems="10"
+        android:hint="@string/address"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtMyRestaurantCity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantPhone" />
+
+    <EditText
+        android:id="@+id/txtMyRestaurantPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_phone_24"
+        android:ems="10"
+        android:hint="@string/phone"
+        android:inputType="phone"
+        android:nextFocusDown="@id/txtMyRestaurantAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtMyRestaurantIDD"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantCountry" />
+
+    <EditText
+        android:id="@+id/txtMyRestaurantIDD"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/IDD"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtNewRestaurantPhone"
+        app:layout_constraintBottom_toBottomOf="@+id/txtMyRestaurantPhone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantCountry" />
+
+    <EditText
+        android:id="@+id/txtMyRestaurantEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_email_24"
+        android:ems="10"
+        android:hint="@string/prompt_email"
+        android:inputType="textEmailAddress"
+        android:nextFocusDown="@id/txtMyRestaurantCountry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestauranContact" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinnerMyRestaurantTypes"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:entries="@array/ResturantTypes"
+        android:nextFocusDown="@id/txtMyRestauranContact"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMyRestauranName" />
+
+    <ImageView
+        android:id="@+id/imgMyRestaurant"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@string/restaurantPicture"
+        android:scaleType="fitXY"
+        android:src="@drawable/bugger1"
+        android:nextFocusDown="@id/txtMyRestauranName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtMyRestauranName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:nextFocusDown="@id/spinnerMyRestaurantTypes"
+        android:hint="@string/restaurantName"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgMyRestaurant"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtMyRestauranContact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:hint="@string/contact"
+        android:inputType="textPersonName"
+        android:nextFocusDown="@id/txtMyRestaurantEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerMyRestaurantTypes"
+        android:autofillHints="" />
+
+        <EditText
+            android:id="@+id/txtMyRestaurantCountry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:enabled="false"
+            android:nextFocusDown="@id/txtMyRestaurantPhone"
+            android:hint="@string/country"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantEmail" />
+
+        <ProgressBar
+            android:id="@+id/progressBarMyRestaurant"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgMyRestaurant"
+            app:layout_constraintVertical_bias="0.212" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

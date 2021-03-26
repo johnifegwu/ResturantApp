@@ -20,9 +20,9 @@ public class Dalc {
         //
     }
 
-    public static FoodDalc Food() {
+    public static FoodItemDalc Food() {
         //
-        return new FoodDalc();
+        return new FoodItemDalc();
         //
     }
 
