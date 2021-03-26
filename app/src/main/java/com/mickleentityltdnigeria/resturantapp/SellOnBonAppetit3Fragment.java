@@ -97,8 +97,17 @@ public class SellOnBonAppetit3Fragment extends Fragment {
                     }
                     String zip = "";
                     String zipX = txtZipCodes.getText().toString();
-                    for(String s: zipX.split(" ")){
-                        zip += (module.newResturant.getCountry().trim() + "-" + s.trim() + " ");
+                    if(zipX.contains("\n")){
+                        String[] line = zipX.split("\n");
+                        for(String l:line){
+                            for(String s: l.split(" ")){
+                                zip += ( module.newResturant.getCountry().trim() + "-" + s.trim() + " ");
+                            }
+                        }
+                    }else {
+                        for(String s: zipX.split(" ")){
+                            zip += ( module.newResturant.getCountry().trim() + "-" + s.trim() + " ");
+                        }
                     }
                     module.newResturant.setZipCodes(zip);
                     //ZipCodes preserved for future updates.

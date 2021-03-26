@@ -117,6 +117,7 @@ public class MyRestaurantFragment extends Fragment {
         ResturantUpdatedHandler resturantFetched = new ResturantUpdatedHandler() {
             @Override
             public void invoke(List<Resturant> Resturant) {
+                progress.setVisibility(View.GONE);
                 resturant = Resturant.get(0);
                 imgMyRestaurant.setImageDrawable(ImageHelper.getInstance().imageFromString(resturant.resturantImg));
                 txtName.setText(resturant.getResturantName());
@@ -124,17 +125,15 @@ public class MyRestaurantFragment extends Fragment {
                 txtEmail.setText(resturant.getEmail());
                 txtCountry.setText(resturant.getCountry());
                 Country country = new Country();
-                int x = 0;
                 for (int i = 0; i < module.myCountries.size(); i++) {
                     Country c = module.myCountries.get(i);
                     if (c.getCountryName().equals(resturant.getCountry().toUpperCase())) {
                         country = c;
-                        x = i;
                         break;
                     }
                 }
                 //
-                txtIDD.setText(country.getDialCode());
+                txtIDD.setText(("+" + country.getDialCode()));
                 txtPhone.setText(resturant.getPhone().substring((country.dialCode.length() + 1)));
                 txtaddress.setText(resturant.getAddress());
                 txtCity.setText(resturant.getCity());
@@ -186,8 +185,17 @@ public class MyRestaurantFragment extends Fragment {
                     }
                     String zip = "";
                     String zipX = txtZipCodes.getText().toString();
-                    for(String s: zipX.split(" ")){
-                        zip += (resturant.getCountry().trim() + "-" + s.trim() + " ");
+                    if(zipX.contains("\n")){
+                        String[] line = zipX.split("\n");
+                        for(String l:line){
+                            for(String s: l.split(" ")){
+                                zip += (resturant.getCountry().trim() + "-" + s.trim() + " ");
+                            }
+                        }
+                    }else {
+                        for(String s: zipX.split(" ")){
+                            zip += (resturant.getCountry().trim() + "-" + s.trim() + " ");
+                        }
                     }
                     if(resturant.getResturantImg().isEmpty()){
                         throw new Exception("An image is required for this Restaurant.");
@@ -225,8 +233,10 @@ public class MyRestaurantFragment extends Fragment {
         //
         try{
             module.checkNetwork();
+            progress.setVisibility(View.VISIBLE);
             restaurantDalc.getResturantByUserID(module.userID);
         } catch (Exception e) {
+            progress.setVisibility(View.GONE);
             Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }

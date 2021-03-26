@@ -256,7 +256,11 @@
         android:id="@+id/myFoodItemsFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.MyFoodItemsFragment"
         android:label="fragment_my_food_items"
-        tools:layout="@layout/fragment_my_food_items" />
+        tools:layout="@layout/fragment_my_food_items" >
+        <action
+            android:id="@+id/action_myFoodItemsFragment_to_myNewFoodItemFragment"
+            app:destination="@id/myNewFoodItemFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newOrdersFragment"
         android:name="com.mickleentityltdnigeria.resturantapp.NewOrdersFragment"
@@ -280,5 +284,14 @@
         <action
             android:id="@+id/action_showMerchantFragment_to_showPictureFragment"
             app:destination="@id/showPictureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myNewFoodItemFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.MyNewFoodItemFragment"
+        android:label="fragment_my_new_food_item"
+        tools:layout="@layout/fragment_my_new_food_item" >
+        <action
+            android:id="@+id/action_myNewFoodItemFragment_to_myFoodItemsFragment"
+            app:destination="@id/myFoodItemsFragment" />
     </fragment>
 </navigation>

@@ -108,7 +108,7 @@ import java.text.DecimalFormat
         //
         val resturantFetched = ResturantUpdatedHandler { merchant ->
             val phone:String = merchant[0].phone
-            val number:Uri = Uri.parse(("tel:+$phone"))
+            val number:Uri = Uri.parse(("tel:$phone"))
             val callIntent = Intent(Intent.ACTION_DIAL,number)
             StartActivity(callIntent)
             this.resturantDalc.resturantDataFetched.removeListener("cusOrderresturantFetched")

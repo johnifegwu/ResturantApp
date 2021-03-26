@@ -16,6 +16,8 @@
     <string name="send">Send</string>
     <string name="subject">Subject</string>
     <string name="full_name">Full name</string>
+    <string name="add_new_food_item">Add New Food Item</string>
+    <string name="food_item_image">Food Item Image</string>
     <!-- Strings for Merchant -->
     <string name="dashboard">Dashboard</string>
     <string name="my_restaurant">My Restaurant</string>
