@@ -226,7 +226,7 @@
         android:layout_height="200dp"
         android:contentDescription="@string/restaurantPicture"
         android:scaleType="fitXY"
-        android:src="@drawable/bugger1"
+        android:src="@drawable/ic_baseline_add_business_24"
         android:nextFocusDown="@id/txtMyRestauranName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
