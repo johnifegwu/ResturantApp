@@ -91,7 +91,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             public void onClick(View v) {
                 Resturant resturant = resturants.get(myViewHolder.getLayoutPosition());
                 String phone = resturant.getPhone();
-                Uri uri = Uri.parse("tel:" + phone);
+                Uri uri = Uri.parse("tel:+" + phone);
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, uri);
                 StartActivity(callIntent);
             }

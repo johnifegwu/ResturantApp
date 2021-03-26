@@ -85,7 +85,7 @@ public class MyRestaurantFragment extends Fragment {
     ResturantDalc restaurantDalc;
     ImageView imgMyRestaurant;
     Button btnSave;
-    EditText txtName, txtContact, txtEmail, txtCountry, txtIDD, txtPhone, txtaddress, txtCity, txtZipCode, txtState, txtZipCodes, txtWeb, txtDescription;
+    EditText txtName, txtCurrency, txtContact, txtEmail, txtCountry, txtIDD, txtPhone, txtaddress, txtCity, txtZipCode, txtState, txtZipCodes, txtWeb, txtDescription;
     Spinner spinnerTypes;
     Resturant resturant;
     ProgressBar progress;
@@ -109,6 +109,7 @@ public class MyRestaurantFragment extends Fragment {
         this.txtWeb = view.findViewById(R.id.txtMyRestaurantWebsite);
         this.txtZipCode = view.findViewById(R.id.txtMyRestaurantZipCode);
         this.txtZipCodes = view.findViewById(R.id.txtMyRestaurantZipCodes);
+        this.txtCurrency = view.findViewById(R.id.txtMyRestaurantCurrency);
         this.spinnerTypes = view.findViewById(R.id.spinnerMyRestaurantTypes);
         this.progress = view.findViewById(R.id.progressBarMyRestaurant);
         btnSave.setEnabled(false);
@@ -142,6 +143,7 @@ public class MyRestaurantFragment extends Fragment {
                 txtZipCodes.setText(resturant.getZipCodesX());
                 txtWeb.setText(resturant.getWebsiteUrl());
                 txtDescription.setText(resturant.getResturantDescription());
+                txtCurrency.setText(resturant.getCurrencyCode());
                 int i = 0;
                 while (i < spinnerTypes.getAdapter().getCount()) {
                     if (spinnerTypes.getItemAtPosition(i).toString().equals(resturant.getResturantType())) {
@@ -220,7 +222,12 @@ public class MyRestaurantFragment extends Fragment {
             }
         });
         //
-        restaurantDalc.getResturantByUserID(module.userID);
+        try{
+            module.checkNetwork();
+            restaurantDalc.getResturantByUserID(module.userID);
+        } catch (Exception e) {
+            Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
