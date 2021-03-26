@@ -205,6 +205,7 @@ public class MyRestaurantFragment extends Fragment {
                     resturant.setPhone((txtIDD.getText().toString().trim() + txtPhone.getText().toString().trim()));
                     resturant.setAddress(txtaddress.getText().toString());
                     resturant.setEmail(txtEmail.getText().toString().trim());
+                    //set ZipCodes for updating FoodItems.
                     resturant.setZipCodes(zip);
                     //ZipCodes preserved for future updates.
                     resturant.setZipCodesX(zipX);
