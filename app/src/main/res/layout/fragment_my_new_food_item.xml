@@ -10,11 +10,11 @@
     <ImageView
         android:id="@+id/imgNewFoodItem"
         android:layout_width="0dp"
-        android:layout_height="600dp"
+        android:layout_height="500dp"
+        android:contentDescription="@string/food_item_image"
         android:scaleType="fitXY"
         android:src="@drawable/meal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/food_item_image" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
