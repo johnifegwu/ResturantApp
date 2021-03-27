@@ -234,7 +234,7 @@ public class MyRestaurantFragment extends Fragment {
         try{
             module.checkNetwork();
             progress.setVisibility(View.VISIBLE);
-            restaurantDalc.getResturantByUserID(module.userID);
+            restaurantDalc.getResturantByResturantID(module.userData.resturantID);
         } catch (Exception e) {
             progress.setVisibility(View.GONE);
             Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_LONG).show();

@@ -5,10 +5,15 @@
     <string name="menu_Merchant">Merchant</string>
     <string name="menu_admin">Admin</string>
     <string name="open">open</string>
+    <string name="description">Description</string>
     <string name="close">close</string>
     <string name="currentPassword">Current password</string>
     <string name="NewPassword">New password</string>
     <string name="go">go</string>
+    <string name="un_append">Un Append</string>
+    <string name="append_user">Append User</string>
+    <string name="registered_email">User registered Email</string>
+    <string name="append_users">Append Users</string>
     <string name="orderFulfilledBy">Order Fulfilled By</string>
     <string name="update">Update</string>
     <string name="currency_usd">USD</string>
@@ -113,6 +118,7 @@
     <string name="ZeroValue">0</string>
     <string name="ZeroAmount">$0,0</string>
     <string name="price">Price:</string>
+    <string name="price2">Price</string>
     <string name="total">Total:</string>
     <string name="continue_shopping">Continue Shopping</string>
     <string name="title_activity_folder">folder</string>

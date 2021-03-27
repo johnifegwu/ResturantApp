@@ -11,6 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc;
+import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
+import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,17 +74,41 @@ public class MyFoodItemsFragment extends Fragment {
     }
 
     Button btnNewFoodItem;
+    ProgressBar progress;
+    public static Resturant resturant = new Resturant();
+    ResturantDalc resturantDalc;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        resturantDalc = new ResturantDalc();
+        this.progress = view.findViewById(R.id.progressBarMyFoodItems);
         this.btnNewFoodItem = view.findViewById(R.id.btnNewFoodItem);
+        this.btnNewFoodItem.setEnabled(false);
+        ResturantUpdatedHandler restaurantsFetched = new ResturantUpdatedHandler() {
+            @Override
+            public void invoke(List<Resturant> Resturant) {
+                progress.setVisibility(View.GONE);
+                btnNewFoodItem.setEnabled(true);
+                resturant = Resturant.get(0);
+            }
+        };
+        resturantDalc.resturantDataFetched.addListener(restaurantsFetched);
+        progress.setVisibility(View.VISIBLE);
+        resturantDalc.getResturantByResturantID(module.userData.getResturantID());
+        //
         btnNewFoodItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(MyFoodItemsFragment.this)
-                        .navigate(R.id.action_myFoodItemsFragment_to_myNewFoodItemFragment);
+                try{
+                    if(module.userType.equals(module.UserTypeSELLER2)){
+                        throw new Exception("You lack the privilege to perform this task.");
+                    }
+                    NavHostFragment.findNavController(MyFoodItemsFragment.this)
+                            .navigate(R.id.action_myFoodItemsFragment_to_myNewFoodItemFragment);
+                }catch (Exception e){
+                    Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

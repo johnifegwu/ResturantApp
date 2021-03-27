@@ -294,4 +294,9 @@
             android:id="@+id/action_myNewFoodItemFragment_to_myFoodItemsFragment"
             app:destination="@id/myFoodItemsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/merchantAppendUsersFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.MerchantAppendUsersFragment"
+        android:label="fragment_append_users"
+        tools:layout="@layout/fragment_merchant_append_users" />
 </navigation>

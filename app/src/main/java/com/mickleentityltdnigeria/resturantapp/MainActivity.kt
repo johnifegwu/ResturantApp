@@ -448,6 +448,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun goToMerchantAppendUserFragment() {
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.merchantAppendUsersFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -477,6 +491,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_new_orders -> goToNewOrdersFragment()
             R.id.menu_unshipped_orders -> goToUnShippedOrdersFragment()
             R.id.menu_deliver_order -> goToDeliverOrderFragment()
+            R.id.menu_merchant_append_users -> goToMerchantAppendUserFragment()
             //Admin menu
             R.id.menu_new_registration -> goToNewRegistrationFragment()
             R.id.menu_Feedback -> goToFeedbackListFragment()

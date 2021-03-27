@@ -38,6 +38,11 @@
         android:title="@string/profile" />
 
     <item
+        android:id="@+id/menu_merchant_append_users"
+        android:icon="@drawable/ic_append_users_24"
+        android:title="@string/append_users" />
+
+    <item
         android:id="@+id/menu_merchant_ChangePassword"
         android:icon="@drawable/ic_baseline_lock_24"
         android:title="@string/changePassword" />

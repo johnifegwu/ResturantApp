@@ -4,39 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyFoodItemsFragment">
+    tools:context=".MerchantAppendUsersFragment">
 
 
     <Button
-        android:id="@+id/btnNewFoodItem"
+        android:id="@+id/btnAppendUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/add_new_food_item"
+        android:layout_marginBottom="5dp"
+        android:text="@string/append_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewFoodItems"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <EditText
+        android:id="@+id/txtMerchantUserEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnNewFoodItem"
+        android:drawableStart="@drawable/ic_email_24"
+        android:ems="10"
+        android:nextFocusDown="@id/btnAppendUser"
+        android:hint="@string/registered_email"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"
+        app:layout_constraintBottom_toTopOf="@+id/btnAppendUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:autofillHints="" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAppendUsers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtMerchantUserEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/progressBarMyFoodItems"
+        android:id="@+id/progressBarAppendUsers"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewAppendUsers"
+        app:layout_constraintVertical_bias="0.727" />
 </androidx.constraintlayout.widget.ConstraintLayout>

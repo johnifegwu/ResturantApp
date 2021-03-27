@@ -124,8 +124,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Continue with delete operation
-                                Resturant rs = resturants.get(myViewHolder.getLayoutPosition());
-                               if(!rs.approved){ resturantDalc.DeleteResturant(rs);}
+                                try{
+                                    module.checkNetwork();
+                                    if(module.userType.equals(module.UserTypeSUPPER2) || module.userType.equals(module.UserTypeSELLER2) || module.userType.equals(module.UserTypeSELLER) || module.userType.equals(module.UserTypeCUSTOMER) ){
+                                        throw new Exception("You lack the privilege to perform this task.");
+                                    }
+                                    Resturant rs = resturants.get(myViewHolder.getLayoutPosition());
+                                    if(!rs.approved){ resturantDalc.DeleteResturant(rs);}
+                                }catch (Exception e){
+                                    Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         })
                         // A null listener allows the button to dismiss the dialog and take no further action.

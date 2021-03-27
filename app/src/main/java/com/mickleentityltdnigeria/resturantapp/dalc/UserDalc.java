@@ -15,6 +15,7 @@ import com.mickleentityltdnigeria.resturantapp.exceptions.RequiredFiledException
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.idGen;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,8 @@ public class UserDalc {
 
     public Event<UserUpdatedHandler> userDataFetched = new Event<>();
     public Event<UserUpdatedHandler> newUserAdded = new Event<>();
+    public Event<UserUpdatedHandler> newUserAppended = new Event<>();
+    public Event<UserUpdatedHandler> userUnAppended = new Event<>();
     public Event<UserUpdatedHandler> userDataUpdated = new Event<>();
     public Event<UserUpdatedHandler> userDataDeleted = new Event<>();
     public Event<UserUpdatedHandler> userNotFound = new Event<>();
@@ -52,6 +55,77 @@ public class UserDalc {
             result.add(user);
             listener.invoke(result);
         }
+    }
+
+    public void AppendUser(String userRegisteredEmail, String userType){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        if (snapshot.hasChildren()){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                User user = userSnapshot.getValue(User.class);
+                                //Append user to the system.
+                                userDB.child(user.getUserID()).child("resturantID").setValue(module.userData.resturantID);
+                                userDB.child(user.getUserID()).child("userType").setValue(userType);
+                                //raise event
+                                for (UserUpdatedHandler listener : newUserAppended.listeners()) {
+                                    List<User> result = new ArrayList<>();
+                                    listener.invoke(result);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        };
+        //
+        Query query = FirebaseDatabase.getInstance().getReference("users")
+                .orderByChild("userName")
+                .equalTo(userRegisteredEmail);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
+        //
+    }
+
+    public void unAppendUser(String userRegisteredEmail){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        if (snapshot.hasChildren()){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                User user = userSnapshot.getValue(User.class);
+                                //Append user to the system.
+                                userDB.child(user.getUserID()).child("resturantID").setValue(null);
+                                userDB.child(user.getUserID()).child("userType").setValue(module.UserTypeCUSTOMER);
+                                //raise event
+                                for (UserUpdatedHandler listener : userUnAppended.listeners()) {
+                                    List<User> result = new ArrayList<>();
+                                    listener.invoke(result);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        };
+        //
+        Query query = FirebaseDatabase.getInstance().getReference("users")
+                .orderByChild("userName")
+                .equalTo(userRegisteredEmail);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
+        //
     }
 
     public void UpdateUser(User user) {
@@ -129,6 +203,52 @@ public class UserDalc {
         Query query = FirebaseDatabase.getInstance().getReference("users")
                 .orderByChild("userName")
                 .equalTo(userName);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
+        //
+    }
+
+    public void getUsersByRestaurant(String resturantID) {
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<User> result = new ArrayList<User>();
+                        //
+                        if (snapshot.hasChildren()){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                User user = userSnapshot.getValue(User.class);
+                                result.add(user);
+                            }
+                            //raise event
+                            for (UserUpdatedHandler listener : userDataFetched.listeners()) {
+                                listener.invoke(result);
+                            }
+                        }
+                    }
+                }else{
+                    //raise event
+                    for (UserUpdatedHandler listener : userNotFound.listeners()) {
+                        List<User> result = new ArrayList<User>();
+                        listener.invoke(result);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (UserUpdatedHandler listener : userNotFound.listeners()) {
+                    List<User> result = new ArrayList<User>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        Query query = FirebaseDatabase.getInstance().getReference("users")
+                .orderByChild("resturantID")
+                .equalTo(resturantID);
         query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }

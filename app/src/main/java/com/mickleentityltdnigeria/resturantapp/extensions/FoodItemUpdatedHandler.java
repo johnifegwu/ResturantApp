@@ -7,5 +7,5 @@ import java.util.*;
 @FunctionalInterface
 public interface FoodItemUpdatedHandler
 {
-        void invoke(List<FoodItem> foodID);
+        void invoke(List<FoodItem> foodItems);
 }

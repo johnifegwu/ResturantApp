@@ -82,7 +82,7 @@ public class FoodItemDalc {
                         if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 FoodItem foodItem = userSnapshot.getValue(FoodItem.class);
-                                if(foodItem.foodDesc.toString().contains(searchTerm)){
+                                if(foodItem.foodDesc.contains(searchTerm)){
                                     result.add(foodItem);
                                 }
                             }
@@ -116,7 +116,7 @@ public class FoodItemDalc {
         Query query = FirebaseDatabase.getInstance().getReference("fooditems")
                 .orderByChild("zipCodes")
                 .startAt(zipCode)
-                .endAt(zipCode);
+                .endAt(zipCode + "\uf8ff");
         query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }

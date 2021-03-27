@@ -10,10 +10,84 @@
     <ImageView
         android:id="@+id/imgNewFoodItem"
         android:layout_width="0dp"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:contentDescription="@string/food_item_image"
         android:scaleType="fitXY"
         android:src="@drawable/meal"
+        app:layout_constraintBottom_toTopOf="@+id/txtFoodItemDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtFoodItemDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:hint="@string/description"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgNewFoodItem"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtFoodItemCurrency"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/currency_usd"
+        android:inputType="textPersonName"
+        android:maxLength="3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtFoodItemDescription"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/txtFoodItemPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:ems="10"
+        android:hint="@string/price2"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtFoodItemCurrency"
+        app:layout_constraintTop_toBottomOf="@+id/txtFoodItemDescription"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/btnAddNewFoodItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtFoodItemPrice"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ProgressBar
+        android:id="@+id/progressBarMyNewFoodItem"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

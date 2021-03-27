@@ -60,9 +60,17 @@ public class module {
     public static final String AddressTYPE_SHIPPING = "SHIPPING";
     public static final String AddressTYPE_BILLING = "BILLING";
 
+    //User types for merchants
     public static final String UserTypeSELLER = "SELLER";
+    //Appended users
+    public static final String UserTypeSELLER2 = "SELLER2";
+
+    //User type for Customers
     public static final String UserTypeCUSTOMER = "CUSTOMER";
+
+    //User types for system Administrators
     public static final String UserTypeSUPPER = "SUPPER";
+    public static final String UserTypeSUPPER2 = "SUPPER2";
 
     public static User userData = new User();
     public static String userID = "";
