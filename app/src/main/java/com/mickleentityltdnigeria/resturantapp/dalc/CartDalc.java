@@ -193,7 +193,7 @@ public class CartDalc
             public void onCancelled(@NonNull DatabaseError error) {
                 //raise event
                 for (CartItemChangedHandler listener : cartItemsNotFound.listeners()) {
-                    List<CartItem> result = new ArrayList<CartItem>();
+                    List<CartItem> result = new ArrayList<>();
                     listener.invoke(result);
                 }
             }

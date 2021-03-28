@@ -26,7 +26,7 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="72dp"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom|start"
         android:id="@+id/frame_main">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -50,7 +50,7 @@
             android:elevation="40dp"
             android:text="@string/Cart"
             android:textColor="@color/purple_700"
-            android:textSize="25sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </FrameLayout>

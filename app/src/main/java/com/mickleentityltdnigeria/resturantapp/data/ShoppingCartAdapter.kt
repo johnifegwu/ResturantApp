@@ -12,7 +12,10 @@ import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
-class ShoppingCartAdapter(private var cartItems: MutableList<CartItem>, itemClickListener: CartRecyclerViewItemClickListener) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
+class ShoppingCartAdapter(
+    private var cartItems: MutableList<CartItem>,
+    itemClickListener: CartRecyclerViewItemClickListener
+) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
 
     private lateinit var progress: ProgressBar
     private val mItemClickListener: CartRecyclerViewItemClickListener = itemClickListener
@@ -22,7 +25,7 @@ class ShoppingCartAdapter(private var cartItems: MutableList<CartItem>, itemClic
         notifyDataSetChanged()
     }
 
-    fun clearData(){
+    fun clearData() {
         this.cartItems.clear()
         notifyDataSetChanged()
     }
@@ -56,7 +59,7 @@ class ShoppingCartAdapter(private var cartItems: MutableList<CartItem>, itemClic
                 updateCartItem(qty.toInt(), cartItems[myViewHolder.layoutPosition])
                 //update data adapter.
             } catch (e: Exception) {
-                Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
             }
             progress.visibility = View.GONE
         }
@@ -65,11 +68,11 @@ class ShoppingCartAdapter(private var cartItems: MutableList<CartItem>, itemClic
         return myViewHolder
     }
 
-    private fun updateCartItem(qty:Int, cartItem: CartItem) {
+    private fun updateCartItem(qty: Int, cartItem: CartItem) {
         cartItem.foodQty = qty
-        if(qty > 0){
+        if (qty > 0) {
             module.MyShoppingCart.UpdateCart(cartItem)
-        }else{
+        } else {
             module.MyShoppingCart.DeleteCart(cartItem.getCartID().toString())
         }
         module.MyShoppingCart.getCartItems(module.userName)
@@ -83,18 +86,20 @@ class ShoppingCartAdapter(private var cartItems: MutableList<CartItem>, itemClic
     }
 
 
-
     class ViewHolder(view: View, private val myContext: Context) : RecyclerView.ViewHolder(view) {
         fun bind(cartItem: CartItem) {
-            try
-            {
-                itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(ImageHelper.getInstance().imageFromString(cartItem.foodImg))
+            try {
+                itemView.findViewById<ImageView>(R.id.cartImg).setImageDrawable(
+                    ImageHelper.getInstance().imageFromString(
+                        cartItem.foodImg
+                    )
+                )
                 itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.foodDesc
-                itemView.findViewById<TextView>(R.id.txtPrice).text = (cartItem.currency+ cartItem.foodPrice)
-                itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.foodQty)
-            }catch (e: Exception)
-            {
-                Toast.makeText(myContext, e.message, Toast.LENGTH_LONG).show()
+                itemView.findViewById<TextView>(R.id.txtPrice).text = (cartItem.currency + cartItem.foodPrice)
+                itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.foodQty.toString())
+
+            } catch (e: Exception) {
+                Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
             }
         }
 

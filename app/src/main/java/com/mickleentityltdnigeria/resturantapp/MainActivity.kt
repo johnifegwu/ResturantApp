@@ -117,7 +117,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val cartChanged = CartItemChangedHandler {
             displayCartQty(it)
         }
-        module.MyShoppingCart.cartItemsFetched.addListener(cartChanged)
+        try{
+            module.MyShoppingCart.cartItemsFetched.removeListener("MainActivityFragmentCartItemsFetched")
+        }catch (e:Exception){
+        }
+        module.MyShoppingCart.cartItemsFetched.addListener("MainActivityFragmentCartItemsFetched", cartChanged)
         // Register interest in the CurrentLocation.
         val locationsFetched = CurrentLocationChangedHandler { locations ->
             val l: CurrentLocation = locations[0]

@@ -163,8 +163,14 @@ class FirstFragment : Fragment() {
                     .navigate(R.id.action_FirstFragment_to_changeLocationFragment)
         })
         // Register interest in the CartItem Change.
-        val cartItemsFetched = CartItemChangedHandler { cartItems -> displayCartQty(cartItems, view) }
-        module.MyShoppingCart.cartItemsFetched.addListener(cartItemsFetched)
+        val cartItemsFetched = CartItemChangedHandler { cartItems ->
+            displayCartQty(cartItems)
+        }
+        try{
+            module.MyShoppingCart.cartItemsFetched.removeListener("FirstFragmentCartItemsFetched")
+        }catch (e:Exception){
+        }
+        module.MyShoppingCart.cartItemsFetched.addListener("FirstFragmentCartItemsFetched",cartItemsFetched)
         try{
             module.MyShoppingCart.getCartItems(module.userName)
         }catch (e:Exception){
@@ -197,7 +203,7 @@ class FirstFragment : Fragment() {
        adapter.appendData(foodItems)
     }
 
-    private fun displayCartQty(cartItems: List<CartItem>, v: View?) {
+    private fun displayCartQty(cartItems: List<CartItem>) {
         val cartTotalQty = module.getCartTotalQty(cartItems)
         if(cartTotalQty > 0){
             this.btnChangeLocation.isClickable = false
@@ -206,13 +212,11 @@ class FirstFragment : Fragment() {
             this.btnChangeLocation.isClickable = true
             this.btnChangeLocation.isEnabled = true
         }
-        Snackbar.make(
-            v!!,
+        Toast.makeText(
+            requireContext(),
             "$cartTotalQty item(s) added to Cart.",
-            Snackbar.LENGTH_LONG
-        )
-            .setAction("Action", null).show()
-        //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 
