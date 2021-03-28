@@ -120,8 +120,13 @@ public class ShoppingCartFragment extends Fragment {
                 btnCheckOut.setEnabled(false);
             }
         };
-        module.MyShoppingCart.cartItemsNotFound.addListener(cartItemsNotFound);
-        module.MyShoppingCart.cartItemsFetched.addListener(cartItemsFetched);
+        try{
+            module.MyShoppingCart.cartItemsNotFound.removeListener("ShoppingCartFragmentCartItemNotFound");
+            module.MyShoppingCart.cartItemsFetched.removeListener("ShoppingCartFragmentCartItemFound");
+        }catch (Exception e){
+        }
+        module.MyShoppingCart.cartItemsNotFound.addListener("ShoppingCartFragmentCartItemNotFound", cartItemsNotFound);
+        module.MyShoppingCart.cartItemsFetched.addListener("ShoppingCartFragmentCartItemFound",cartItemsFetched);
         module.MyShoppingCart.getCartItems(module.userName);
         try {
 
@@ -169,9 +174,10 @@ public class ShoppingCartFragment extends Fragment {
     }
 
     public void displayCartQty(List<CartItem> cartItems) {
-        Toast.makeText(requireContext(), "" + module.getCartTotalQty(cartItems) + " item(s) added to Cart.", Toast.LENGTH_SHORT).show();
         SetStatus(cartItems);
-        //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
+       /* Toast.makeText(requireContext(),
+                "" + module.getCartTotalQty(cartItems) + " item(s) added to Cart.",
+                Toast.LENGTH_SHORT).show();*/
         this.progress.setVisibility(View.GONE);
     }
 }
