@@ -46,7 +46,7 @@ import java.util.List;
 public class CheckOutFragment extends Fragment {
 
     ProgressBar progress;
-    private List<Address> shippingAddresses = new ArrayList<Address>();
+    private List<Address> shippingAddresses = new ArrayList<>();
     private User user;
     Address shippingAddress;
     private UserDalc userDalc;
@@ -108,7 +108,7 @@ public class CheckOutFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //
-        progress = view.findViewById(R.id.progressBarRegister);
+        progress = view.findViewById(R.id.progressBarCheckOut);
         switchAgreement = view.findViewById(R.id.switchOrderAgreement);
         txtBillingAddress = view.findViewById(R.id.txtPlaceOrderAddress);
         txtBillingCity = view.findViewById(R.id.txtPlaceOrderCity);
