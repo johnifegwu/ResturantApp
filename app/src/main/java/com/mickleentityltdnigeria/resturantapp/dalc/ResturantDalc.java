@@ -2,12 +2,14 @@ package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodItemChild;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
@@ -40,43 +42,55 @@ public class ResturantDalc {
         //Update model with acquired data.
         resturant.setResturantID(resturantID);
         //save data to the system.
-        resturantDB.child(resturantID).setValue(resturant);
-        //raise event
-        for (ResturantUpdatedHandler listener : newResturantAdded.listeners()) {
-            List<Resturant> result = new ArrayList<Resturant>();
-            result.add(resturant);
-            listener.invoke(result);
-        }
+        resturantDB.child(resturantID).setValue(resturant).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (ResturantUpdatedHandler listener : newResturantAdded.listeners()) {
+                    List<Resturant> result = new ArrayList<Resturant>();
+                    result.add(resturant);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void UpdateResturant(Resturant resturant){
         //Get ID from the system.
         String resturantID =resturant.getResturantID();
         //save data to the system.
-        resturantDB.child(resturantID).setValue(resturant);
-        //Update foodItems
-        DatabaseReference foodItemDB = database.getReference("fooditems");
-        foodItemDB.child(resturantID).child("zipCodes").setValue(resturant.getZipCodes());
-        //raise event
-        for (ResturantUpdatedHandler listener : resturantUpdated.listeners()) {
-            List<Resturant> result = new ArrayList<Resturant>();
-            result.add(resturant);
-            listener.invoke(result);
-        }
+        resturantDB.child(resturantID).setValue(resturant).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (ResturantUpdatedHandler listener : resturantUpdated.listeners()) {
+                    List<Resturant> result = new ArrayList<Resturant>();
+                    result.add(resturant);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void DeleteResturant(Resturant resturant){
         //save data to the system.
-        resturantDB.child(resturant.getResturantID()).setValue(null);
-        //update userType
-        UserDalc user = new UserDalc();
-        user.UpdateUserType(resturant.getUserID(), module.UserTypeCUSTOMER);
-        //raise event
-        for (ResturantUpdatedHandler listener : resturantDeleted.listeners()) {
-            List<Resturant> result = new ArrayList<Resturant>();
-            result.add(null);
-            listener.invoke(result);
-        }
+        resturantDB.child(resturant.getResturantID()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //update userType
+                UserDalc user = new UserDalc();
+                user.UpdateUserType(resturant.getUserID(), module.UserTypeCUSTOMER);
+                //raise event
+                for (ResturantUpdatedHandler listener : resturantDeleted.listeners()) {
+                    List<Resturant> result = new ArrayList<Resturant>();
+                    result.add(null);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void getResturantByUserID(String userID){

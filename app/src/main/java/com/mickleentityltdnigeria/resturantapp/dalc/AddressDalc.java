@@ -2,6 +2,7 @@ package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,45 +33,60 @@ public class AddressDalc {
     public AddressDalc() {
     }
 
-    public void AddAddress(Address address){
+    public void AddAddress(Address address) {
         //Get ID from the system.
         String addressID = addressDB.push().getKey();
         //Update model with acquired data.
         address.setAddressID(addressID);
         //save user to the system.
-        addressDB.child(addressID).setValue(address);
-        //raise event
-        for (AddressChangedHandler listener : addressAdded.listeners()) {
-            List<Address> result = new ArrayList<Address>();
-            result.add(address);
-            listener.invoke(result);
-        }
+        assert addressID != null;
+        addressDB.child(addressID).setValue(address).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (AddressChangedHandler listener : addressAdded.listeners()) {
+                    List<Address> result = new ArrayList<>();
+                    result.add(address);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
-    public void UpdateAddress(Address address){
+    public void UpdateAddress(Address address) {
         //save user to the system.
-        addressDB.child(address.getAddressID()).setValue(address);
-        //raise event
-        for (AddressChangedHandler listener : addressUpdated.listeners()) {
-            List<Address> result = new ArrayList<Address>();
-            result.add(address);
-            listener.invoke(result);
-        }
+        addressDB.child(address.getAddressID()).setValue(address).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (AddressChangedHandler listener : addressUpdated.listeners()) {
+                    List<Address> result = new ArrayList<Address>();
+                    result.add(address);
+                    listener.invoke(result);
+                }
+            }
+        });
     }
 
-    public void DeleteAddress(Address address){
+    public void DeleteAddress(Address address) {
         //save user to the system.
-        addressDB.child(address.getAddressID()).setValue(null);
-        //raise event
-        for (AddressChangedHandler listener : addressDeleted.listeners()) {
-            List<Address> result = new ArrayList<Address>();
-            result.add(address);
-            listener.invoke(result);
-        }
+        addressDB.child(address.getAddressID()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (AddressChangedHandler listener : addressDeleted.listeners()) {
+                    List<Address> result = new ArrayList<Address>();
+                    result.add(address);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
-    public void getAddresses(String userID){
-        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+    public void getAddresses(String userID) {
+        ValueEventListener onDataChangedListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -78,12 +94,12 @@ public class AddressDalc {
                         //
                         List<Address> result = new ArrayList<Address>();
                         //
-                        if (snapshot.hasChildren()){
-                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                        if (snapshot.hasChildren()) {
+                            for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                                 Address address = userSnapshot.getValue(Address.class);
                                 result.add(address);
                             }
-                        }else{
+                        } else {
                             Address address = snapshot.getValue(Address.class);
                             result.add(address);
                         }
@@ -92,7 +108,7 @@ public class AddressDalc {
                             listener.invoke(result);
                         }
                     }
-                }else{
+                } else {
                     //raise event
                     for (AddressChangedHandler listener : addressNotFound.listeners()) {
                         List<Address> result = new ArrayList<Address>();
@@ -118,9 +134,9 @@ public class AddressDalc {
         //
     }
 
-    public List<String> getAddressList(List<Address> addresses){
+    public List<String> getAddressList(List<Address> addresses) {
         List<String> result = new ArrayList<String>();
-        for (Address a: addresses) {
+        for (Address a : addresses) {
             result.add(a.contactAddress);
         }
         return result;

@@ -11,7 +11,7 @@ public class CartItem implements Serializable {
     public String cartID;
     public String foodID;
     public String resturantID;
-    public String userID;
+    public String userName;
     public String foodImg;
     public Double foodPrice;
     public String currency;
@@ -25,11 +25,11 @@ public class CartItem implements Serializable {
 
     }
 
-    public CartItem(String cartID, String foodID, String resturantID, String userID, String foodImg, Double foodPrice, String currency, String foodDesc, String foodImgUrl, int foodQty) {
+    public CartItem(String cartID, String foodID, String resturantID, String userName, String foodImg, Double foodPrice, String currency, String foodDesc, String foodImgUrl, int foodQty) {
         this.cartID = cartID;
         this.foodID = foodID;
         this.resturantID = resturantID;
-        this.userID = userID;
+        this.userName = userName;
         this.foodImg = foodImg;
         this.foodPrice = foodPrice;
         this.currency = currency;
@@ -95,13 +95,13 @@ public class CartItem implements Serializable {
     }
 
     @Exclude
-    public String getUserID() {
-        return userID;
+    public String getUserName() {
+        return userName;
     }
 
     @Exclude
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Exclude

@@ -55,7 +55,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="3dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="3dp"
         android:autofillHints="@string/country"
         android:ems="10"

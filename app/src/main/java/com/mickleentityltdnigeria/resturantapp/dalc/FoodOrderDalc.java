@@ -2,6 +2,7 @@ package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,56 +58,71 @@ public class FoodOrderDalc {
                 paymentAddress.getCity(),paymentAddress.getZipCode(),paymentAddress.getState(),paymentAddress.getCountry(),shippingAddress.getContactAddress(),
                 shippingAddress.getCity(), shippingAddress.getZipCode(),shippingAddress.getState(),shippingAddress.getCountry());
         //save cart to the system.
-        foodOrderDB.child(orderID).setValue(order);
-        //Save Order details here.
-        List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
-        //Initialise CartDalc
-        CartDalc cartX = new CartDalc();
-        for (CartItem c:cart) {
-            String ID = foodOrderDetailDB.push().getKey();
-            //
-            FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,c.getUserID(),c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
-                    c.getFoodQty(),false,0.0,0.0,"",false,new Date(),"",false,
-                    new Date(),"", "",false,false);
-            //
-            foodOrderDetailDB.child(ID).setValue(orderDetail);
-            orderDetails.add(orderDetail);
-            //delete cartItem
-            cartX.DeleteCart(c.getCartID());
-            //
-        }
-        //raise event
-        for (FoodOrderEventHandler listener : foodOrdersAdded.listeners()) {
-            List<FoodOrder> result = new ArrayList<FoodOrder>();
-            result.add(order);
-            listener.invoke(result);
-        }
-        //raise event
-        for (FoodOrderDetailsEventHandler listener : foodOrderDetailsAdded.listeners()) {
-            listener.invoke(orderDetails);
-        }
+        foodOrderDB.child(orderID).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //Save Order details here.
+                List<FoodOrderDetail> orderDetails = new ArrayList<>();
+                //Initialise CartDalc
+                CartDalc cartX = new CartDalc();
+                for (CartItem c:cart) {
+                    String ID = foodOrderDetailDB.push().getKey();
+                    //
+                    FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,c.getUserName(),c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
+                            c.getFoodQty(),false,0.0,0.0,"",false,new Date(),"",false,
+                            new Date(),"", "",false,false);
+                    //
+                    foodOrderDetailDB.child(ID).setValue(orderDetail);
+                    orderDetails.add(orderDetail);
+                    //delete cartItem
+                    cartX.DeleteCart(c.getCartID());
+                    //
+                }
+                //raise event
+                for (FoodOrderEventHandler listener : foodOrdersAdded.listeners()) {
+                    List<FoodOrder> result = new ArrayList<FoodOrder>();
+                    result.add(order);
+                    listener.invoke(result);
+                }
+                //raise event
+                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsAdded.listeners()) {
+                    listener.invoke(orderDetails);
+                }
+            }
+        });
+
     }
 
     public void updateFoodOrder(FoodOrder order){
         //save cart to the system.
-        foodOrderDB.child(order.orderID).setValue(order);
-        //raise event
-        for (FoodOrderEventHandler listener : foodOrdersUpdated.listeners()) {
-            List<FoodOrder> result = new ArrayList<FoodOrder>();
-            result.add(order);
-            listener.invoke(result);
-        }
+        foodOrderDB.child(order.orderID).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (FoodOrderEventHandler listener : foodOrdersUpdated.listeners()) {
+                    List<FoodOrder> result = new ArrayList<FoodOrder>();
+                    result.add(order);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void updateFoodOrderDetails(FoodOrderDetail orderDetail){
         //
-        foodOrderDetailDB.child(orderDetail.ID).setValue(orderDetail);
-        //raise event
-        for (FoodOrderDetailsEventHandler listener : foodOrderDetailsAdded.listeners()) {
-            List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
-            result.add(orderDetail);
-            listener.invoke(result);
-        }
+        foodOrderDetailDB.child(orderDetail.ID).setValue(orderDetail).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsAdded.listeners()) {
+                    List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                    result.add(orderDetail);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void getFoodOrderByOrderID(String orderID){

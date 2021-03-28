@@ -12,13 +12,19 @@ import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
 
-class ShoppingCartAdapter(private var cartItems: List<CartItem>, itemClickListener: CartRecyclerViewItemClickListener) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
+class ShoppingCartAdapter(private var cartItems: MutableList<CartItem>, itemClickListener: CartRecyclerViewItemClickListener) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
 
     private lateinit var progress: ProgressBar
     private val mItemClickListener: CartRecyclerViewItemClickListener = itemClickListener
 
-    fun setCartItems(cartItems: List<CartItem>) {
+    fun updateData(cartItems: MutableList<CartItem>) {
         this.cartItems = cartItems
+        notifyDataSetChanged()
+    }
+
+    fun clearData(){
+        this.cartItems.clear()
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

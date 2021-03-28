@@ -4,6 +4,9 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @IgnoreExtraProperties
 public class FoodItem implements Serializable {
@@ -17,13 +20,13 @@ public class FoodItem implements Serializable {
     public String foodImg;
     public String userID;
     public boolean approved;
-    public String zipCodes; //Zip Codes derived from Resturant separated by spaces
+    public Map<String,FoodItemChild> zipCodes = new HashMap<>(); //Zip Codes derived from Resturant separated by spaces
 
     public FoodItem(){
 
     }
 
-    public FoodItem(String foodID, String resturantID, String foodImgUrl, String foodDesc, Double foodPrice, String currency, String foodImg, String userID, boolean approved, String zipCodes) {
+    public FoodItem(String foodID, String resturantID, String foodImgUrl, String foodDesc, Double foodPrice, String currency, String foodImg, String userID, boolean approved, Map<String,FoodItemChild> zipCodes) {
         this.foodID = foodID;
         this.resturantID = resturantID;
         this.foodImgUrl = foodImgUrl;
@@ -127,12 +130,12 @@ public class FoodItem implements Serializable {
     }
 
     @Exclude
-    public String getZipCodes() {
+    public Map<String,FoodItemChild> getZipCodes() {
         return zipCodes;
     }
 
     @Exclude
-    public void setZipCodes(String zipCodes) {
+    public void setZipCodes(Map<String,FoodItemChild> zipCodes) {
         this.zipCodes = zipCodes;
     }
 }

@@ -86,12 +86,14 @@ public class ShoppingCartFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_shopping_cart, container, false);
     }
 
+    ShoppingCartAdapter adapter;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.status = (TextView) view.findViewById(R.id.txtCartStatus);
-        this.progress = (ProgressBar) view.findViewById(R.id.progressBarCheckOut);
-        this.btnCheckOut = (Button) view.findViewById(R.id.btnCheckOut);
+        this.status = view.findViewById(R.id.txtCartStatus);
+        this.progress = view.findViewById(R.id.progressBarCheckOut);
+        this.btnCheckOut =  view.findViewById(R.id.btnCheckOut);
         this.progress.setVisibility(View.VISIBLE);
         //
         view.findViewById(R.id.btnCheckOut).setOnClickListener(new View.OnClickListener() {
@@ -105,13 +107,16 @@ public class ShoppingCartFragment extends Fragment {
         CartItemChangedHandler cartItemsFetched = new CartItemChangedHandler() {
             public void invoke(List<CartItem> cartItems) {
                 module.cartItems = cartItems;
-                displayCartQty(cartItems, view.findViewById(R.id.shoppingCartView));
+                adapter.updateData(cartItems);
+                displayCartQty(cartItems);
                 btnCheckOut.setEnabled(true);
             }
         };
         // Register interest in the CartItem Change.
         CartItemChangedHandler cartItemsNotFound = new CartItemChangedHandler() {
             public void invoke(List<CartItem> cartItems) {
+                progress.setVisibility(View.GONE);
+                adapter.clearData();
                 btnCheckOut.setEnabled(false);
             }
         };
@@ -130,7 +135,7 @@ public class ShoppingCartFragment extends Fragment {
             mRecyclerView.setLayoutManager(linearLayoutManager);
 
             //Create adapter
-            ShoppingCartAdapter adapter = new ShoppingCartAdapter(module.cartItems, new CartRecyclerViewItemClickListener() {
+            adapter = new ShoppingCartAdapter(module.cartItems, new CartRecyclerViewItemClickListener() {
                 @Override
                 public void onItemClicked(@NotNull CartItem cartItem) {
 
@@ -141,34 +146,12 @@ public class ShoppingCartFragment extends Fragment {
             mRecyclerView.setAdapter(adapter);
             //
         } catch (Exception e) {
-            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-        this.progress.setVisibility(View.GONE);
-    }
-
-    private void updateAdapter(View view) {
-        try {
-            //Reference of RecyclerView
-            RecyclerView mRecyclerView = view.findViewById(R.id.shoppingCartRecyclerView);
-
-            //Create adapter
-            ShoppingCartAdapter adapter = new ShoppingCartAdapter(module.cartItems, new CartRecyclerViewItemClickListener() {
-                @Override
-                public void onItemClicked(@NotNull CartItem cartItem) {
-
-                }
-            });
-
-            //Set adapter to RecyclerView
-            mRecyclerView.swapAdapter(adapter, false);
-        } catch (Exception e) {
-            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            this.progress.setVisibility(View.GONE);
+            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void SetStatus(List<CartItem> cartItems) {
-        this.progress.setVisibility(View.VISIBLE);
         try {
             DecimalFormat dc = new DecimalFormat("#,###,##0.00");
             double t = module.getCartTotalValue(cartItems);
@@ -178,19 +161,16 @@ public class ShoppingCartFragment extends Fragment {
                 currency = module.cartItems.get(0).getCurrency();
             }
             //
-            this.status.setText("Cart total (+ 1% markup): " + currency + dc.format(t));
+            this.status.setText(("Cart total (+ 1% markup): " + currency + dc.format(t)));
         } catch (Exception e) {
-            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         this.progress.setVisibility(View.GONE);
     }
 
-    public void displayCartQty(List<CartItem> cartItems, View v) {
-        this.progress.setVisibility(View.VISIBLE);
-        Snackbar.make(v, "" + module.getCartTotalQty(cartItems) + " item(s) added to Cart.", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+    public void displayCartQty(List<CartItem> cartItems) {
+        Toast.makeText(requireContext(), "" + module.getCartTotalQty(cartItems) + " item(s) added to Cart.", Toast.LENGTH_SHORT).show();
         SetStatus(cartItems);
-        updateAdapter(v);
         //Toast.makeText(this, ""+ Qty + " items added to Cart.", Toast.LENGTH_SHORT).show();
         this.progress.setVisibility(View.GONE);
     }

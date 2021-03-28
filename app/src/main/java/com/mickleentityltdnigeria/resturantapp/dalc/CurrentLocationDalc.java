@@ -2,6 +2,7 @@ package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,26 +37,36 @@ public class CurrentLocationDalc {
         //Update model with acquired data.
         location.setLocationID(locationID);
         //save location to the system.
-        currentLocationDB.child(locationID).setValue(location);
-        //raise event
-        for (CurrentLocationChangedHandler listener : locationsAdded.listeners()) {
-            List<CurrentLocation> result = new ArrayList<CurrentLocation>();
-            result.add(location);
-            listener.invoke(result);
-        }
+        currentLocationDB.child(locationID).setValue(location).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (CurrentLocationChangedHandler listener : locationsAdded.listeners()) {
+                    List<CurrentLocation> result = new ArrayList<CurrentLocation>();
+                    result.add(location);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void UpdateCurrentLocation(CurrentLocation location){
         //Get ID from the system.
         String locationID = location.getLocationID();
         //save location to the system.
-        currentLocationDB.child(locationID).setValue(location);
-        //raise event
-        for (CurrentLocationChangedHandler listener : locationsUpdated.listeners()) {
-            List<CurrentLocation> result = new ArrayList<CurrentLocation>();
-            result.add(location);
-            listener.invoke(result);
-        }
+        currentLocationDB.child(locationID).setValue(location).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (CurrentLocationChangedHandler listener : locationsUpdated.listeners()) {
+                    List<CurrentLocation> result = new ArrayList<>();
+                    result.add(location);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void GetCurrentLocation(String userID){

@@ -80,15 +80,6 @@ public class FeedBackListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         feedBackDalc = new FeedBackDalc();
-        FeedBackEventHandler feedBackFetched = new FeedBackEventHandler() {
-            @Override
-            public void invoke(List<FeedBack> feedBackList) {
-                adapter.updateData(feedBackList);
-            }
-        };
-        feedBackDalc.feedBackFetched.addListener(feedBackFetched);
-        //call get feedback after initialising other controls.
-
         //Reference of RecyclerView
         recyclerView = view.findViewById(R.id.feedBackListRecyclerView);
 
@@ -105,10 +96,17 @@ public class FeedBackListFragment extends Fragment {
 
             }
         });
-
         //Set adapter to RecyclerView
         recyclerView.setAdapter(adapter);
-
+        //
+        FeedBackEventHandler feedBackFetched = new FeedBackEventHandler() {
+            @Override
+            public void invoke(List<FeedBack> feedBackList) {
+                adapter.updateData(feedBackList);
+            }
+        };
+        feedBackDalc.feedBackFetched.addListener(feedBackFetched);
+        //call get feedback after initialising other controls.
         //call get feedback
         feedBackDalc.getFeedBack(false);
     }

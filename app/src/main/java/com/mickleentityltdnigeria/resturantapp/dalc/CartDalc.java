@@ -3,6 +3,7 @@ package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,13 +50,18 @@ public class CartDalc
                                    //update cart
                                    cartItem2.setFoodQty((cartItem2.getFoodQty() + cartItem.getFoodQty()));
                                    //save cart to the system.
-                                   shoppingCartDB.child(cartItem2.getCartID()).setValue(cartItem2);
-                                   //raise event
-                                   for (CartItemChangedHandler listener : cartItemsAdded.listeners()) {
-                                       List<CartItem> result = new ArrayList<>();
-                                       result.add(cartItem2);
-                                       listener.invoke(result);
-                                   }
+                                   shoppingCartDB.child(cartItem2.getCartID()).setValue(cartItem2).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                       @Override
+                                       public void onSuccess(Void aVoid) {
+                                           //raise event
+                                           for (CartItemChangedHandler listener : cartItemsAdded.listeners()) {
+                                               List<CartItem> result = new ArrayList<>();
+                                               result.add(cartItem2);
+                                               listener.invoke(result);
+                                           }
+                                       }
+                                   });
+
                                }
                                if(hasItem){
                                    break;
@@ -69,13 +75,18 @@ public class CartDalc
                                //Update model with acquired data.
                                cartItem.setCartID(cartID);
                                //save cart to the system.
-                               shoppingCartDB.child(cartID).setValue(cartItem);
-                               //raise event
-                               for (CartItemChangedHandler listener : cartItemsAdded.listeners()) {
-                                   List<CartItem> result = new ArrayList<>();
-                                   result.add(cartItem);
-                                   listener.invoke(result);
-                               }
+                               shoppingCartDB.child(cartID).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                   @Override
+                                   public void onSuccess(Void aVoid) {
+                                       //raise event
+                                       for (CartItemChangedHandler listener : cartItemsAdded.listeners()) {
+                                           List<CartItem> result = new ArrayList<>();
+                                           result.add(cartItem);
+                                           listener.invoke(result);
+                                       }
+                                   }
+                               });
+
                            }
                         }
                     }
@@ -87,13 +98,18 @@ public class CartDalc
                         //Update model with acquired data.
                         cartItem.setCartID(cartID);
                         //save cart to the system.
-                        shoppingCartDB.child(cartID).setValue(cartItem);
-                        //raise event
-                        for (CartItemChangedHandler listener : cartItemsAdded.listeners()) {
-                            List<CartItem> result = new ArrayList<>();
-                            result.add(cartItem);
-                            listener.invoke(result);
-                        }
+                        shoppingCartDB.child(cartID).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                //raise event
+                                for (CartItemChangedHandler listener : cartItemsAdded.listeners()) {
+                                    List<CartItem> result = new ArrayList<>();
+                                    result.add(cartItem);
+                                    listener.invoke(result);
+                                }
+                            }
+                        });
+
                     }
                 }
             }
@@ -115,23 +131,33 @@ public class CartDalc
         //Get ID from the system.
         String cartID = cartItem.getCartID();
         //save cart to the system.
-        shoppingCartDB.child(cartID).setValue(cartItem);
-        //raise event
-        for (CartItemChangedHandler listener : cartItemsUpdated.listeners()) {
-            List<CartItem> result = new ArrayList<CartItem>();
-            result.add(cartItem);
-            listener.invoke(result);
-        }
+        shoppingCartDB.child(cartID).setValue(cartItem).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (CartItemChangedHandler listener : cartItemsUpdated.listeners()) {
+                    List<CartItem> result = new ArrayList<CartItem>();
+                    result.add(cartItem);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void DeleteCart(String cartID){
         //save cart to the system.
-        shoppingCartDB.child(cartID).setValue(null);
-        //raise event
-        for (CartItemChangedHandler listener : cartItemsDeleted.listeners()) {
-            List<CartItem> result = new ArrayList<CartItem>();
-            listener.invoke(result);
-        }
+        shoppingCartDB.child(cartID).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (CartItemChangedHandler listener : cartItemsDeleted.listeners()) {
+                    List<CartItem> result = new ArrayList<CartItem>();
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void getCartItems(String userName){

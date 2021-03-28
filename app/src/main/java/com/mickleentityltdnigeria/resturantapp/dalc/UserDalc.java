@@ -2,6 +2,7 @@ package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,13 +49,18 @@ public class UserDalc {
         //Update model with acquired data.
         user.setUserID(userID);
         //save user to the system.
-        userDB.child(userID).setValue(user);
-        //raise event
-        for (UserUpdatedHandler listener : newUserAdded.listeners()) {
-            List<User> result = new ArrayList<User>();
-            result.add(user);
-            listener.invoke(result);
-        }
+        userDB.child(userID).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (UserUpdatedHandler listener : newUserAdded.listeners()) {
+                    List<User> result = new ArrayList<>();
+                    result.add(user);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void AppendUser(String userRegisteredEmail, String userType){
@@ -132,33 +138,48 @@ public class UserDalc {
         //Get ID from the system.
         String userID = user.getUserID();
         //save user to the system.
-        userDB.child(userID).setValue(user);
-        //raise event
-        for (UserUpdatedHandler listener : userDataUpdated.listeners()) {
-            List<User> result = new ArrayList<User>();
-            result.add(user);
-            listener.invoke(result);
-        }
+        userDB.child(userID).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (UserUpdatedHandler listener : userDataUpdated.listeners()) {
+                    List<User> result = new ArrayList<User>();
+                    result.add(user);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void UpdateUserType(String userID, String userType) {
         //save user to the system.
-        userDB.child(userID).child("userType").setValue(userType);
-        //raise event
-        for (UserUpdatedHandler listener : userTypeChanged.listeners()) {
-            List<User> result = new ArrayList<User>();
-            listener.invoke(result);
-        }
+        userDB.child(userID).child("userType").setValue(userType).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (UserUpdatedHandler listener : userTypeChanged.listeners()) {
+                    List<User> result = new ArrayList<User>();
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void DeleteUser(String userID) {
         //save user to the system.
-        userDB.child(userID).setValue(null);
-        //raise event
-        for (UserUpdatedHandler listener : userDataDeleted.listeners()) {
-            List<User> result = new ArrayList<User>();
-            listener.invoke(result);
-        }
+        userDB.child(userID).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (UserUpdatedHandler listener : userDataDeleted.listeners()) {
+                    List<User> result = new ArrayList<User>();
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void getUserByName(String userName) {

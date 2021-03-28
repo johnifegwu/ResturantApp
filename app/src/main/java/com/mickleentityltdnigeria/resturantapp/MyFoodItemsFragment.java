@@ -1,24 +1,36 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodItemDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc;
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
+import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
+import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,11 +89,18 @@ public class MyFoodItemsFragment extends Fragment {
     ProgressBar progress;
     public static Resturant resturant = new Resturant();
     ResturantDalc resturantDalc;
+    RecyclerView recyclerView;
+    MyFoodItemAdapter adapter;
+    List<FoodItem> foodItemList = new ArrayList<>();
+    FoodItemDalc foodItemDalc;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //
         resturantDalc = new ResturantDalc();
+        foodItemDalc = new FoodItemDalc();
+        //
         this.progress = view.findViewById(R.id.progressBarMyFoodItems);
         this.btnNewFoodItem = view.findViewById(R.id.btnNewFoodItem);
         this.btnNewFoodItem.setEnabled(false);
@@ -96,7 +115,7 @@ public class MyFoodItemsFragment extends Fragment {
         resturantDalc.resturantDataFetched.addListener(restaurantsFetched);
         progress.setVisibility(View.VISIBLE);
         resturantDalc.getResturantByResturantID(module.userData.getResturantID());
-        //
+       //
         btnNewFoodItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +130,53 @@ public class MyFoodItemsFragment extends Fragment {
                 }
             }
         });
+
+        //Reference of RecyclerView
+        recyclerView = view.findViewById(R.id.recyclerViewFoodItems);
+
+        //Linear Layout Manager
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false);
+
+        //Set Layout Manager to RecyclerView
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        //set adapter
+        adapter = new MyFoodItemAdapter(foodItemList, new MyFoodItemRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClicked(FoodItem foodItem, ImageView img) {
+                UpdatePicture(foodItem,img);
+            }
+        });
+        //Set adapter to RecyclerView
+        recyclerView.setAdapter(adapter);
+        //get foodItems
+        FoodItemUpdatedHandler foodItemsFetched = new FoodItemUpdatedHandler() {
+            @Override
+            public void invoke(List<FoodItem> foodItems) {
+                progress.setVisibility(View.GONE);
+                foodItemList = foodItems;
+                adapter.UpdateDate(foodItemList);
+            }
+        };
+        foodItemDalc.foodItemsFetched.addListener(foodItemsFetched);
+        foodItemDalc.getFoodItemsByResturant(module.userData.getResturantID());
+        //
+    }
+
+    private void UpdatePicture(FoodItem foodItem, ImageView img){
+        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri uri) {
+                        // Handle the returned Uri
+                        try {
+                            foodItem.setFoodImg(ImageHelper.getInstance().byteArrayToString(ImageHelper.getInstance().decodeFile(uri)));
+                            img.setImageDrawable(ImageHelper.getInstance().imageFromString(foodItem.getFoodImg()));
+                        } catch (Exception e) {
+                            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
 }

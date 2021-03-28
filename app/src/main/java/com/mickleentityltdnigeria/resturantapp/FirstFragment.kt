@@ -28,13 +28,14 @@ import com.mickleentityltdnigeria.resturantapp.utils.module
  */
 class FirstFragment : Fragment() {
 
-    var foodItems:List<FoodItem> = ArrayList<FoodItem>()
+    var foodItems:MutableList<FoodItem> = ArrayList<FoodItem>()
     lateinit var txtsearchString:EditText
     lateinit var txtsearchZipCode:TextView
     lateinit var btnSearch:Button
     lateinit var btnChangeLocation:TextView
     lateinit var progress:ProgressBar
     lateinit var foodItemData: FoodItemDalc
+    lateinit var adapter: FoodItemAdapter
 
     override fun onStart() {
         super.onStart()
@@ -121,11 +122,15 @@ class FirstFragment : Fragment() {
         }
         //
         // Register interest in the FoodItemsFetched.
-        val foodItemsFetched = FoodItemUpdatedHandler { foodItems -> getSearchResults(
-            foodItems,
-            view
-        ) }
+        val foodItemsFetched = FoodItemUpdatedHandler { foodItems ->
+            this.progress.visibility = View.GONE
+            getSearchResults(foodItems)
+        }
         foodItemData.foodItemsFetched.addListener(foodItemsFetched)
+        val foodItemsNotFound = FoodItemUpdatedHandler { foodItems ->
+            this.progress.visibility = View.GONE
+        }
+        foodItemData.foodItemsNotFound.addListener(foodItemsNotFound)
         //
         btnSearch.setOnClickListener(View.OnClickListener {
             this.progress.visibility = View.VISIBLE
@@ -136,24 +141,20 @@ class FirstFragment : Fragment() {
                         txtsearchZipCode.text.toString().trim()
                     )
                 ) {
+                    adapter.clearData()
                     foodItemData.SearchFoodItems(
                         txtsearchString.text.toString().trim(),
                         module.country.trim() + "-" + txtsearchZipCode.text.toString().trim()
                     )
 
                 } else {
-                    Snackbar.make(
-                        view,
-                        "Please enter a valid Zip-Code and the kind of food you would want to eat.",
-                        Snackbar.LENGTH_LONG
-                    )
-                        .setAction("Action", null).show()
+                    throw java.lang.Exception("Please enter a valid Zip-Code and the kind of food you would want to eat.")
                 }
 
             } catch (e: java.lang.Exception) {
+                this.progress.visibility = View.GONE
                 Toast.makeText(this.context, e.message, Toast.LENGTH_LONG).show()
             }
-            this.progress.visibility = View.GONE
         })
         //
         btnChangeLocation.setOnClickListener(View.OnClickListener {
@@ -179,7 +180,7 @@ class FirstFragment : Fragment() {
         mRecyclerView.layoutManager = linearLayoutManager
 
         //Create adapter
-        val adapter = FoodItemAdapter(foodItems, object : MyRecyclerViewItemClickListener {
+        adapter = FoodItemAdapter(foodItems, object : MyRecyclerViewItemClickListener {
             //Handling clicks
             override fun onItemClicked(f: FoodItem) {
                 //do something here.
@@ -192,21 +193,8 @@ class FirstFragment : Fragment() {
         this.progress.visibility = View.GONE
     }
 
-    private fun getSearchResults(foodItems: List<FoodItem>, view: View){
-        //Reference of RecyclerView
-        val mRecyclerView: RecyclerView =
-            view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
-
-        //Create adapter
-        val adapter = FoodItemAdapter(foodItems,
-            object : MyRecyclerViewItemClickListener {
-                override fun onItemClicked(f: FoodItem) {
-
-                }
-            })
-        //Set adapter to RecyclerView
-        mRecyclerView.swapAdapter(adapter, false)
-        //
+    private fun getSearchResults(foodItems: MutableList<FoodItem>){
+       adapter.appendData(foodItems)
     }
 
     private fun displayCartQty(cartItems: List<CartItem>, v: View?) {

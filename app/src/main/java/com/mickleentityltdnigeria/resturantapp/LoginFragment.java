@@ -157,8 +157,7 @@ public class LoginFragment extends Fragment {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     //
-                                    Snackbar.make(view, Objects.requireNonNull(e.getMessage()), Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
+                                    Toast.makeText(requireContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnCompleteListener(((MainActivity) requireActivity()), new OnCompleteListener<AuthResult>() {
@@ -189,8 +188,7 @@ public class LoginFragment extends Fragment {
                 } catch (Exception e) {
                     progress.setVisibility(View.GONE);
                    //
-                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Toast.makeText(requireContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -237,8 +235,7 @@ public class LoginFragment extends Fragment {
                     module.isLoggedIn = false;
                     module.firstName = "";
                     module.lastName = "";
-                    Snackbar.make(requireView(), "Invalid username and password.", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Toast.makeText(requireContext(),"Invalid username and password.", Toast.LENGTH_SHORT).show();
                 }
         };
         //

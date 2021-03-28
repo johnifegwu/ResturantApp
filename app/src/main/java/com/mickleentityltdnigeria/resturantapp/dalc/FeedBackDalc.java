@@ -2,6 +2,7 @@ package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,24 +36,34 @@ public class FeedBackDalc {
         //Update model with acquired data.
         feedBack.setFeedBackID(feedBackID);
         //save to the system.
-        feedbackDB.child(feedBackID).setValue(feedBack);
-        //raise event
-        for(FeedBackEventHandler listener : newFeedBackAdded.listeners()){
-            List<FeedBack> result = new ArrayList<>();
-            result.add(feedBack);
-            listener.invoke(result);
-        }
+        feedbackDB.child(feedBackID).setValue(feedBack).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for(FeedBackEventHandler listener : newFeedBackAdded.listeners()){
+                    List<FeedBack> result = new ArrayList<>();
+                    result.add(feedBack);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void updateFeedBack(FeedBack feedBack){
         //save to the system.
-        feedbackDB.child(feedBack.feedBackID).setValue(feedBack);
-        //raise event
-        for(FeedBackEventHandler listener : feedBackUpdated.listeners()){
-            List<FeedBack> result = new ArrayList<>();
-            result.add(feedBack);
-            listener.invoke(result);
-        }
+        feedbackDB.child(feedBack.feedBackID).setValue(feedBack).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for(FeedBackEventHandler listener : feedBackUpdated.listeners()){
+                    List<FeedBack> result = new ArrayList<>();
+                    result.add(feedBack);
+                    listener.invoke(result);
+                }
+            }
+        });
+
     }
 
     public void getFeedBack(boolean isResolved){

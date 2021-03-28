@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,7 +142,7 @@ public class ChangeLocationFragment extends Fragment {
                             //
                             Toast.makeText(view.getContext(), "Shipping successfully.", Toast.LENGTH_LONG).show();
                             //
-                            Navigation.findNavController(view)
+                            NavHostFragment.findNavController(ChangeLocationFragment.this)
                                     .navigate(R.id.action_changeLocationFragment_to_FirstFragment);
                         }
                     };

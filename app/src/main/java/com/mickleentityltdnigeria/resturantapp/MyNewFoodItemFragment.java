@@ -22,12 +22,16 @@ import android.widget.Toast;
 
 import com.mickleentityltdnigeria.resturantapp.dalc.FoodItemDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
+import com.mickleentityltdnigeria.resturantapp.data.model.FoodItemChild;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,12 +97,12 @@ public class MyNewFoodItemFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         foodItem = new FoodItem();
         foodItemDalc = new FoodItemDalc();
-        progress = view.findViewById(R.id.progressBarMyNewFoodItem);
-        txtDesc = view.findViewById(R.id.txtFoodItemDescription);
-        txtPrice = view.findViewById(R.id.txtFoodItemPrice);
-        txtCurrencyCode = view.findViewById(R.id.txtFoodItemCurrency);
-        btnAdd = view.findViewById(R.id.btnAddNewFoodItem);
-        imgNewFoodItem = view.findViewById(R.id.imgNewFoodItem);
+        progress = view.findViewById(R.id.progressBarMyUpdateFoodItem);
+        txtDesc = view.findViewById(R.id.txtUpdateFoodItemDescription);
+        txtPrice = view.findViewById(R.id.txtUpdateFoodItemPrice);
+        txtCurrencyCode = view.findViewById(R.id.txtUpdateFoodItemCurrency);
+        btnAdd = view.findViewById(R.id.btnUpdateFoodItem);
+        imgNewFoodItem = view.findViewById(R.id.imgUpdateFoodItem);
         imgNewFoodItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +142,11 @@ public class MyNewFoodItemFragment extends Fragment {
                     if(txtPrice.getText().toString().isEmpty()){
                         throw new Exception("You must add a price for this Item.");
                     }
-                    foodItem.setZipCodes(resturant.getZipCodes());
+                    Map<String,FoodItemChild> zips = new HashMap<>();
+                    for(String s:resturant.getZipCodes().split(" ")){
+                        zips.put(s, new FoodItemChild("",s.trim()));
+                    }
+                    foodItem.setZipCodes(zips);
                     foodItem.setCurrency(resturant.getCurrencyCode());
                     foodItem.setResturantID(resturant.getResturantID());
                     foodItem.setUserID(module.userID);
