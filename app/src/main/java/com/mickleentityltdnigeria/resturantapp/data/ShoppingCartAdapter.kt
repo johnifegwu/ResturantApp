@@ -34,7 +34,6 @@ class ShoppingCartAdapter(private var cartItems: MutableList<CartItem>, itemClic
         //Create View Holder
         val myViewHolder = ViewHolder(view, AppGlobals.getAppContext())
         progress = myViewHolder.itemView.findViewById(R.id.progressBarCartRow)
-
         //Item Clicks
         myViewHolder.itemView.setOnClickListener {
             mItemClickListener.onItemClicked(

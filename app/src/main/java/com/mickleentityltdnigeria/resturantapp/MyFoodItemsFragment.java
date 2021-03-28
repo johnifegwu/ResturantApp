@@ -108,8 +108,10 @@ public class MyFoodItemsFragment extends Fragment {
             @Override
             public void invoke(List<Resturant> Resturant) {
                 progress.setVisibility(View.GONE);
-                btnNewFoodItem.setEnabled(true);
                 resturant = Resturant.get(0);
+                if(resturant.isApproved() && !resturant.isSuspended()){
+                    btnNewFoodItem.setEnabled(true);
+                }
             }
         };
         resturantDalc.resturantDataFetched.addListener(restaurantsFetched);
