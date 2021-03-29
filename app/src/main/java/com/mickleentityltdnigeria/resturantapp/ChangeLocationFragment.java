@@ -121,7 +121,7 @@ public class ChangeLocationFragment extends Fragment {
             });
         }catch (Exception e){
             progress.setVisibility(View.GONE);
-            Toast.makeText(view.getContext(),e.getMessage().toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(),e.getMessage().toString(),Toast.LENGTH_SHORT).show();
         }
         progress.setVisibility(View.GONE);
         //
@@ -153,7 +153,7 @@ public class ChangeLocationFragment extends Fragment {
                     //
                 }catch (Exception e){
                     progress.setVisibility(View.GONE);
-                    Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 progress.setVisibility(View.GONE);
             }

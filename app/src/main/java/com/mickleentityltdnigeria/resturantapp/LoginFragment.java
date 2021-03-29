@@ -56,7 +56,7 @@ public class LoginFragment extends Fragment {
     TextView btnRegister, btnResetPassword;
     EditText txtUserName, txtPassword;
     ProgressBar progress;
-    UserDalc userData;
+    UserDalc userDalc;
 
    /* //
     NavHostFragment navHostFragment;
@@ -149,8 +149,6 @@ public class LoginFragment extends Fragment {
                 try {
                     module.checkNetwork();
                    //
-                   /* Toast.makeText(view.getContext(), "About to Login. with: " + txtUserName.getText().toString(),
-                            Toast.LENGTH_SHORT).show();*/
                     module.userName = txtUserName.getText().toString();
                     mAuth.signInWithEmailAndPassword(txtUserName.getText().toString().trim(), txtPassword.getText().toString())
                             .addOnFailureListener(((MainActivity) requireActivity()), new OnFailureListener() {
@@ -214,12 +212,12 @@ public class LoginFragment extends Fragment {
         if(user != null){
             progress.setVisibility(View.VISIBLE);
             module.getCountries();
-            userData.getUserByName(user.getEmail());
+            this.userDalc.getUserByName(user.getEmail());
         }
     }
 
     private void setGetUserData(){
-        userData = new UserDalc();
+        this.userDalc = new UserDalc();
         //Try to fetch user data.
         UserUpdatedHandler userNotFound = new UserUpdatedHandler() {
                 public void invoke(List<User> users) {
@@ -258,10 +256,6 @@ public class LoginFragment extends Fragment {
                     FirebaseUser user = mAuth.getCurrentUser();
                     module.userSignedInSuccessfully(user);
                     //
-                    userData.newUserAdded.removeListener("LoginuserNotFound");
-                    userData.userDataFetched.removeListener("LoginuserDataFetched");
-                   /* NavHostFragment.findNavController(LoginFragment.this)
-                    .navigate(R.id.action_LoginFragment_to_FirstFragment);*/
                     Navigation.findNavController(requireView())
                             .navigate(R.id.action_LoginFragment_to_FirstFragment);
                         //
@@ -271,7 +265,7 @@ public class LoginFragment extends Fragment {
                 }
             };
             //
-            userData.newUserAdded.addListener("LoginuserNotFound", userNotFound);
-            userData.userDataFetched.addListener("LoginuserDataFetched", userDataFetched);
+            userDalc.newUserAdded.addListener("LoginUserNotFound", userNotFound);
+            userDalc.userDataFetched.addListener("LoginUserDataFetched", userDataFetched);
     }
 }

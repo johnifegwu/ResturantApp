@@ -84,7 +84,7 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
                 progress.setVisibility(View.GONE);
                 feedBack = feedBackList;
                 notifyDataSetChanged();
-                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_LONG).show();
+                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_SHORT).show();
             }
         };
         feedBackDalc.feedBackFetched.addListener(feedBackFetched);
@@ -95,7 +95,7 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
                 progress.setVisibility(View.GONE);
                 feedBack = new ArrayList<>();
                 notifyDataSetChanged();
-                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_LONG).show();
+                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_SHORT).show();
             }
         };
         feedBackDalc.feedBackNotFound.addListener(feedBackNotFound);
@@ -116,7 +116,7 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
                     //
                 }catch (Exception e){
                     progress.setVisibility(View.GONE);
-                    Toast.makeText(myContext,e.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(myContext,e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }
         });

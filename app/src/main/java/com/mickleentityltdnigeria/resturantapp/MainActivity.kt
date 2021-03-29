@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             actionBarDrawerToggle.syncState()
             //
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
         //
         FirebaseDatabase.getInstance().setPersistenceEnabled(false)
@@ -206,11 +206,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Toast.makeText(
                 AppGlobals.getAppContext(),
                 "Signed out successfully.",
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
             //
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -239,7 +239,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -254,7 +254,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -268,7 +268,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -282,7 +282,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -296,7 +296,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -310,7 +310,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -324,7 +324,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -336,7 +336,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             navController.navigate(R.id.HomeFragment)
             //
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -350,7 +350,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -364,7 +364,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -378,7 +378,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -392,7 +392,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -406,7 +406,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -420,7 +420,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -434,7 +434,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -448,7 +448,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -462,7 +462,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
             }
         } catch (e: Exception) {
-            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
         }
     }
 

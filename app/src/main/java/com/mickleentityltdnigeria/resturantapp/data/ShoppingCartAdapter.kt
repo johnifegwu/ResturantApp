@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mickleentityltdnigeria.resturantapp.AppGlobals
+import com.mickleentityltdnigeria.resturantapp.ApplicationContextProvider
 import com.mickleentityltdnigeria.resturantapp.R
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
@@ -18,6 +19,7 @@ class ShoppingCartAdapter(
 ) : RecyclerView.Adapter<ShoppingCartAdapter.ViewHolder>() {
 
     private lateinit var progress: ProgressBar
+    private val myContext: Context = ApplicationContextProvider.getContext()
     private val mItemClickListener: CartRecyclerViewItemClickListener = itemClickListener
 
     fun updateData(cartItems: MutableList<CartItem>) {
@@ -70,12 +72,17 @@ class ShoppingCartAdapter(
 
     private fun updateCartItem(qty: Int, cartItem: CartItem) {
         cartItem.foodQty = qty
-        if (qty > 0) {
-            module.MyShoppingCart.UpdateCart(cartItem)
-        } else {
-            module.MyShoppingCart.DeleteCart(cartItem.getCartID().toString())
+        try {
+            module.checkNetwork()
+            if (qty > 0) {
+                module.MyShoppingCart.UpdateCart(cartItem)
+            } else {
+                module.MyShoppingCart.DeleteCart(cartItem.getCartID().toString())
+            }
+            module.MyShoppingCart.getCartItems(module.userName)
+        } catch (e: Exception) {
+            Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
         }
-        module.MyShoppingCart.getCartItems(module.userName)
     }
 
     override fun getItemCount() = cartItems.size
@@ -95,7 +102,8 @@ class ShoppingCartAdapter(
                     )
                 )
                 itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.foodDesc
-                itemView.findViewById<TextView>(R.id.txtPrice).text = (cartItem.currency + cartItem.foodPrice)
+                itemView.findViewById<TextView>(R.id.txtPrice).text =
+                    (cartItem.currency + cartItem.foodPrice)
                 itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.foodQty.toString())
 
             } catch (e: Exception) {

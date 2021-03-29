@@ -162,7 +162,7 @@ public class CustomerProfileFragment extends Fragment {
                     //
                 }catch (Exception e){
                     progress.setVisibility(View.GONE);
-                    Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
                 progress.setVisibility(View.GONE);
             }

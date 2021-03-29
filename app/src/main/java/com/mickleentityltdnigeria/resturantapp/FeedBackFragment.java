@@ -101,7 +101,7 @@ public class FeedBackFragment extends Fragment {
             @Override
             public void invoke(List<FeedBack> feedBackList) {
                 progress.setVisibility(View.GONE);
-                Toast.makeText(requireContext(),"Your feedback has been sent successfully.", Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(),"Your feedback has been sent successfully.", Toast.LENGTH_SHORT).show();
                 NavHostFragment.findNavController(FeedBackFragment.this)
                         .navigate(R.id.action_feedBackFragment_to_FirstFragment);
             }
@@ -133,7 +133,7 @@ public class FeedBackFragment extends Fragment {
                     feedBackDalc.addFeedBack(feedBack);
                 }catch (Exception e){
                     progress.setVisibility(View.GONE);
-                    Toast.makeText(requireContext(), e.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             }
         });

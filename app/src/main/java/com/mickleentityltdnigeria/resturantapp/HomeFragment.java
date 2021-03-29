@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
                     navController.navigate(R.id.action_HomeFragment_to_registerUserFragment);
                     //
                 }catch (Exception e){
-                    Toast.makeText(view.getContext(),e.getMessage(), Toast.LENGTH_LONG);
+                    Toast.makeText(view.getContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

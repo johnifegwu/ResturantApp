@@ -104,12 +104,23 @@ class FoodItemAdapter(
             foodItem.foodImgUrl,
             Qty
         )
-        module.MyShoppingCart.AddCartItem(cartItem)
+        try{
+            module.checkNetwork()
+            module.MyShoppingCart.AddCartItem(cartItem)
+        }catch(e: Exception){
+            Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun callGetCartItems(cartItems: List<CartItem>, view: View){
         progress.visibility = View.GONE
+        try{
+            module.checkNetwork()
         module.MyShoppingCart.getCartItems(module.userName)
+        }catch(e: Exception){
+            Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
 

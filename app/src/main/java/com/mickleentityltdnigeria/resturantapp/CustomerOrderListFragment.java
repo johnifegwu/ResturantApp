@@ -136,7 +136,7 @@ public class CustomerOrderListFragment extends Fragment {
             mRecyclerView.setAdapter(adapter);
             //
         }catch (Exception e){
-            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         this.progress.setVisibility( View.GONE);
     }
@@ -146,7 +146,7 @@ public class CustomerOrderListFragment extends Fragment {
         try {
             adapter.updateOrderDetails(orderDetails);
         }catch (Exception e){
-            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         this.progress.setVisibility(View.GONE);
     }

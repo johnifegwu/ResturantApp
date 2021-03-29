@@ -91,7 +91,13 @@ class FirstFragment : Fragment() {
                 module.city,
                 module.zipCode
             )
+            try {
+                module.checkNetwork()
             module.MyCurrentLocation.AddCurrentLocation(lc)
+
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+        }
         }
         val locationsAdded = CurrentLocationChangedHandler { locations ->
             val l = locations[0]
@@ -116,9 +122,10 @@ class FirstFragment : Fragment() {
         module.MyCurrentLocation.locationsNotFound.addListener(locationsNotFound)
         module.MyCurrentLocation.locationsAdded.addListener(locationsAdded)
         try{
+            module.checkNetwork()
             module.MyCurrentLocation.GetCurrentLocation(module.userID)
         }catch (e:Exception){
-            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),e.message,Toast.LENGTH_SHORT).show()
         }
         //
         // Register interest in the FoodItemsFetched.
@@ -135,6 +142,7 @@ class FirstFragment : Fragment() {
         btnSearch.setOnClickListener(View.OnClickListener {
             this.progress.visibility = View.VISIBLE
             try {
+                module.checkNetwork()
                 if (!TextUtils.isEmpty(
                         txtsearchString.text.toString().trim()
                     ) && !TextUtils.isEmpty(
@@ -153,7 +161,7 @@ class FirstFragment : Fragment() {
 
             } catch (e: java.lang.Exception) {
                 this.progress.visibility = View.GONE
-                Toast.makeText(this.context, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this.context, e.message, Toast.LENGTH_SHORT).show()
             }
         })
         //
@@ -172,9 +180,10 @@ class FirstFragment : Fragment() {
         }
         module.MyShoppingCart.cartItemsFetched.addListener("FirstFragmentCartItemsFetched",cartItemsFetched)
         try{
+            module.checkNetwork()
             module.MyShoppingCart.getCartItems(module.userName)
         }catch (e:Exception){
-            Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),e.message,Toast.LENGTH_SHORT).show()
         }
         //Reference of RecyclerView
        val mRecyclerView:RecyclerView = view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
