@@ -38,7 +38,7 @@ public class CustomerOrderListFragment extends Fragment {
 
     ProgressBar progress;
     FoodOrderDalc orderDalc;
-    List<FoodOrderDetail> foodOrderDetails = new ArrayList<FoodOrderDetail>();
+    List<FoodOrderDetail> foodOrderDetails = new ArrayList<>();
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -89,7 +89,7 @@ public class CustomerOrderListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.progress = (ProgressBar) view.findViewById(R.id.progressBarCustomerOrderList);
+        this.progress = view.findViewById(R.id.progressBarCustomerOrderList);
         orderDalc = new FoodOrderDalc();
         this.progress.setVisibility(View.VISIBLE);
 
@@ -97,19 +97,32 @@ public class CustomerOrderListFragment extends Fragment {
         FoodOrderDetailsEventHandler orderDetailsFetched = new FoodOrderDetailsEventHandler() {
             public void invoke(List<FoodOrderDetail> orderDetails) {
                 foodOrderDetails = orderDetails;
-                updateAdapter(foodOrderDetails, view);
+                adapter.updateData(foodOrderDetails);
+                progress.setVisibility(View.GONE);
             }
         };
-        orderDalc.foodOrderDetailsFetched.addListener(orderDetailsFetched);
-        orderDalc.getFoodOrderDetailsByUserID(module.userID);
+        FoodOrderDetailsEventHandler orderDetailsNotFound = new FoodOrderDetailsEventHandler() {
+            @Override
+            public void invoke(List<FoodOrderDetail> orderDetails) {
+                foodOrderDetails = orderDetails;
+                adapter.updateData(foodOrderDetails);
+                progress.setVisibility(View.GONE);
+            }
+        };
+        try{
+            orderDalc.foodOrderDetailsNotFound.addListener(orderDetailsNotFound);
+            orderDalc.foodOrderDetailsFetched.addListener(orderDetailsFetched);
+            orderDalc.getFoodOrderDetailsByUserID(module.userID);
+        }catch(Exception e){
+            Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
         //
         view.findViewById(R.id.btnContinueShopping).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //
-                NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.action_customerOrderListFragment_to_FirstFragment);
+                NavHostFragment.findNavController(CustomerOrderListFragment.this)
+                        .navigate(R.id.action_customerOrderListFragment_to_FirstFragment);
                 //
             }
         });
@@ -135,20 +148,9 @@ public class CustomerOrderListFragment extends Fragment {
             //Set adapter to RecyclerView
             mRecyclerView.setAdapter(adapter);
             //
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        this.progress.setVisibility( View.GONE);
-    }
-
-    private void updateAdapter(List<FoodOrderDetail> orderDetails, View view){
-        this.progress.setVisibility(View.VISIBLE);
-        try {
-            adapter.updateOrderDetails(orderDetails);
-        }catch (Exception e){
-            Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        this.progress.setVisibility(View.GONE);
     }
 
 }

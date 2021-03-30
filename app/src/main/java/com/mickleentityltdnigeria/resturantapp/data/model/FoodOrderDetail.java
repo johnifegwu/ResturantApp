@@ -1,5 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp.data.model;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -7,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @IgnoreExtraProperties
-public class FoodOrderDetail implements Serializable {
+public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail> {
 
     public String ID;
     public String oderID;
@@ -351,20 +353,38 @@ public class FoodOrderDetail implements Serializable {
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
+    @Exclude
     public String getQueryString() {
         return queryString;
     }
 
+    @Exclude
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }
 
+    @Exclude
     public boolean isPrinted() {
         return isPrinted;
     }
 
+    @Exclude
     public void setPrinted(boolean printed) {
         isPrinted = printed;
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+    }
+
+    @Exclude
+    @Override
+    public String toString() {
+        return "FoodOrderDetail{" +
+                "dateDelivered=" + dateDelivered +
+                '}';
+    }
+
+    @Exclude
+    @Override
+    public int compareTo(FoodOrderDetail o){
+        return this.getDateDelivered().compareTo(o.getDateDelivered());
     }
 }

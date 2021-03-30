@@ -22,6 +22,7 @@ import com.mickleentityltdnigeria.resturantapp.utils.idGen;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -37,10 +38,10 @@ public class FoodOrderDalc {
     public Event<FoodOrderEventHandler> foodOrdersAdded = new Event<FoodOrderEventHandler>();
     public Event<FoodOrderEventHandler> foodOrdersUpdated = new Event<FoodOrderEventHandler>();
 
-    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsFetched = new Event<FoodOrderDetailsEventHandler>();
-    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsNotFound = new Event<FoodOrderDetailsEventHandler>();
-    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsAdded = new Event<FoodOrderDetailsEventHandler>();
-    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsUpdated = new Event<FoodOrderDetailsEventHandler>();
+    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsFetched = new Event<>();
+    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsNotFound = new Event<>();
+    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsAdded = new Event<>();
+    public Event<FoodOrderDetailsEventHandler> foodOrderDetailsUpdated = new Event<>();
 
     public FoodOrderDalc() {
     }
@@ -48,13 +49,13 @@ public class FoodOrderDalc {
     //Adds new order to the system and returns the order tracking Code.
     public void PlaceOrder(List<CartItem> cart, Address paymentAddress, Address shippingAddress) throws Exception {
         //
-        if(shippingAddress.city != module.city || shippingAddress.country != module.country || shippingAddress.zipCode != module.zipCode){
-            throw new Exception("Shipping address Country, City and ZipCode must be the same with your current location.");
+        if(!shippingAddress.getCountry().equals(module.country) && !shippingAddress.getZipCode().equals(module.zipCode)){
+            throw new Exception("Shipping address Country and ZipCode must be the same with your current location.");
         }
         String guid = idGen.getInstance().getUUID();
         String orderID = foodOrderDB.push().getKey();
         //
-        FoodOrder order = new FoodOrder(orderID, module.userID,new Date(),guid,paymentAddress.getContactAddress(),
+        FoodOrder order = new FoodOrder(orderID, module.userID, new Date(),guid,paymentAddress.getContactAddress(),
                 paymentAddress.getCity(),paymentAddress.getZipCode(),paymentAddress.getState(),paymentAddress.getCountry(),shippingAddress.getContactAddress(),
                 shippingAddress.getCity(), shippingAddress.getZipCode(),shippingAddress.getState(),shippingAddress.getCountry());
         //save cart to the system.
@@ -68,8 +69,8 @@ public class FoodOrderDalc {
                 for (CartItem c:cart) {
                     String ID = foodOrderDetailDB.push().getKey();
                     //
-                    FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,c.getUserName(),c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
-                            c.getFoodQty(),false,0.0,0.0,"",false,new Date(),"",false,
+                    FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,module.userID,c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
+                            c.getFoodQty(),false,0.0,0.0,"",false, new Date(),"",false,
                             new Date(),"", "",false,false);
                     //
                     foodOrderDetailDB.child(ID).setValue(orderDetail);
@@ -80,7 +81,7 @@ public class FoodOrderDalc {
                 }
                 //raise event
                 for (FoodOrderEventHandler listener : foodOrdersAdded.listeners()) {
-                    List<FoodOrder> result = new ArrayList<FoodOrder>();
+                    List<FoodOrder> result = new ArrayList<>();
                     result.add(order);
                     listener.invoke(result);
                 }
@@ -115,8 +116,8 @@ public class FoodOrderDalc {
             @Override
             public void onSuccess(Void aVoid) {
                 //raise event
-                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsAdded.listeners()) {
-                    List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsUpdated.listeners()) {
+                    List<FoodOrderDetail> result = new ArrayList<>();
                     result.add(orderDetail);
                     listener.invoke(result);
                 }
@@ -178,13 +179,15 @@ public class FoodOrderDalc {
                 if (snapshot.exists()) {
                     if (snapshot.exists()) {
                         //
-                        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                        List<FoodOrderDetail> result = new ArrayList<>();
                         //
                         if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 FoodOrderDetail foodOrderDetail = userSnapshot.getValue(FoodOrderDetail.class);
                                 result.add(foodOrderDetail);
                             }
+                            //sort data
+                            Collections.sort(result, Collections.reverseOrder());
                             //raise event
                             for (FoodOrderDetailsEventHandler listener : foodOrderDetailsFetched.listeners()) {
                                 listener.invoke(result);
@@ -194,7 +197,7 @@ public class FoodOrderDalc {
                 }else{
                     //raise event
                     for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
-                        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                        List<FoodOrderDetail> result = new ArrayList<>();
                         listener.invoke(result);
                     }
                 }
@@ -204,7 +207,7 @@ public class FoodOrderDalc {
             public void onCancelled(@NonNull DatabaseError error) {
                 //raise event
                 for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
-                    List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                    List<FoodOrderDetail> result = new ArrayList<>();
                     listener.invoke(result);
                 }
             }
@@ -225,7 +228,7 @@ public class FoodOrderDalc {
                 if (snapshot.exists()) {
                     if (snapshot.exists()) {
                         //
-                        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                        List<FoodOrderDetail> result = new ArrayList<>();
                         //
                         if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
@@ -241,7 +244,7 @@ public class FoodOrderDalc {
                 }else{
                     //raise event
                     for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
-                        List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                        List<FoodOrderDetail> result = new ArrayList<>();
                         listener.invoke(result);
                     }
                 }
@@ -251,7 +254,7 @@ public class FoodOrderDalc {
             public void onCancelled(@NonNull DatabaseError error) {
                 //raise event
                 for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
-                    List<FoodOrderDetail> result = new ArrayList<FoodOrderDetail>();
+                    List<FoodOrderDetail> result = new ArrayList<>();
                     listener.invoke(result);
                 }
             }

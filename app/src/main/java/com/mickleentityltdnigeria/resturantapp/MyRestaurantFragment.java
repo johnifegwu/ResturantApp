@@ -113,6 +113,7 @@ public class MyRestaurantFragment extends Fragment {
         this.spinnerTypes = view.findViewById(R.id.spinnerMyRestaurantTypes);
         this.progress = view.findViewById(R.id.progressBarMyRestaurant);
         btnSave.setEnabled(false);
+        txtCurrency.setKeyListener(null);
         //
         ResturantUpdatedHandler resturantFetched = new ResturantUpdatedHandler() {
             @Override

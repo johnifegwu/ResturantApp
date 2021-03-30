@@ -10,6 +10,7 @@
     <string name="currentPassword">Current password</string>
     <string name="NewPassword">New password</string>
     <string name="go">go</string>
+    <string name="canceled"><b><i>CANCELED</i></b></string>
     <string name="un_append">Un Append</string>
     <string name="append_user">Append User</string>
     <string name="registered_email">User registered Email</string>

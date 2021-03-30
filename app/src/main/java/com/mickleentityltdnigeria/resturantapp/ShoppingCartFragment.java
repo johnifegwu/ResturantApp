@@ -127,7 +127,11 @@ public class ShoppingCartFragment extends Fragment {
         }
         module.MyShoppingCart.cartItemsNotFound.addListener("ShoppingCartFragmentCartItemNotFound", cartItemsNotFound);
         module.MyShoppingCart.cartItemsFetched.addListener("ShoppingCartFragmentCartItemFound",cartItemsFetched);
-        module.MyShoppingCart.getCartItems(module.userName);
+        try{
+            module.MyShoppingCart.getCartItems(module.userName);
+        } catch (Exception e){
+            Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
         try {
 
             //Reference of RecyclerView
@@ -175,9 +179,6 @@ public class ShoppingCartFragment extends Fragment {
 
     public void displayCartQty(List<CartItem> cartItems) {
         SetStatus(cartItems);
-       /* Toast.makeText(requireContext(),
-                "" + module.getCartTotalQty(cartItems) + " item(s) added to Cart.",
-                Toast.LENGTH_SHORT).show();*/
         this.progress.setVisibility(View.GONE);
     }
 }

@@ -20,16 +20,15 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/city"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtPlaceOrderState"
+        app:layout_constraintBottom_toTopOf="@+id/txtBillingContactPerson"
         app:layout_constraintEnd_toStartOf="@+id/txtPlaceOrderZipCode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderAddress" />
 
     <EditText
-        android:id="@+id/txtPlaceOrderState"
+        android:id="@+id/txtBillingContactPerson"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -37,7 +36,6 @@
         android:layout_marginEnd="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/contact"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderCity" />
 
     <EditText
-        android:id="@+id/txtPlaceOrderCountry"
+        android:id="@+id/txtBillingPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -54,14 +52,13 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/contactPhone"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderState" />
+        app:layout_constraintTop_toBottomOf="@+id/txtBillingContactPerson" />
 
     <EditText
         android:id="@+id/txtPlaceOrderZipCode"
@@ -73,32 +70,31 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/zip_code"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtPlaceOrderState"
+        app:layout_constraintBottom_toTopOf="@+id/txtBillingContactPerson"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtPlaceOrderCity"
         app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderAddress" />
 
-    <TextView
-        android:id="@+id/txtCartStatus3"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="3dp"
-        android:background="#DCD6E3"
-        android:text="@string/shipping_address"
-        android:textAlignment="textStart"
-        android:textColor="@color/purple_700"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/spinerPlaceOderAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        <TextView
+            android:id="@+id/txtCartStatus3"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="3dp"
+            android:background="#DCD6E3"
+            android:text="@string/shipping_address"
+            android:textAlignment="textStart"
+            android:textColor="@color/purple_700"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/spinerPlaceOderAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <Spinner
         android:id="@+id/spinerPlaceOderAddress"
@@ -115,44 +111,44 @@
         app:layout_constraintTop_toBottomOf="@+id/txtCartStatus3"
         tools:ignore="InvalidId" />
 
-    <TextView
-        android:id="@+id/txtOrderCartStatus"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginBottom="3dp"
-        android:background="#DCD6E3"
-        android:text="@string/cart_total"
-        android:textAlignment="textEnd"
-        android:textColor="@color/purple_700"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnPlaceOrder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchOrderAgreement" />
+        <TextView
+            android:id="@+id/txtOrderCartStatus"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#DCD6E3"
+            android:text="@string/cart_total"
+            android:textAlignment="textEnd"
+            android:textColor="@color/purple_700"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/btnPlaceOrder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchOrderAgreement" />
 
-    <TextView
-        android:id="@+id/txtCartStatus2"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginBottom="3dp"
-        android:background="#DCD6E3"
-        android:text="@string/payment_address"
-        android:textAlignment="textStart"
-        android:textColor="@color/purple_700"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/txtPlaceOrderAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/txtCartStatus2"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="#DCD6E3"
+            android:text="@string/payment_address"
+            android:textAlignment="textStart"
+            android:textColor="@color/purple_700"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/txtPlaceOrderAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/divider"
@@ -165,7 +161,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderCountry" />
+        app:layout_constraintTop_toBottomOf="@+id/txtBillingPhone" />
 
     <EditText
         android:id="@+id/txtPlaceOrderAddress"
@@ -177,7 +173,6 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/address"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/txtPlaceOrderCity"
@@ -193,7 +188,6 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
-        android:enabled="false"
         android:text="@string/place_order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -230,7 +224,6 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/address"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/txtPlaceOrderShiipingCity"
@@ -248,10 +241,9 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/city"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtPlaceOrderShiipingState"
+        app:layout_constraintBottom_toTopOf="@+id/txtShippingContactPerson"
         app:layout_constraintEnd_toStartOf="@+id/txtPlaceOrderShiipingZipCode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingAddress" />
@@ -266,16 +258,15 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/zip_code"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtPlaceOrderShiipingState"
+        app:layout_constraintBottom_toTopOf="@+id/txtShippingContactPerson"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtPlaceOrderShiipingCity"
         app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingAddress" />
 
     <EditText
-        android:id="@+id/txtPlaceOrderShiipingState"
+        android:id="@+id/txtShippingContactPerson"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -284,16 +275,15 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/contact"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txtPlaceOrderShiipingCountry"
+        app:layout_constraintBottom_toTopOf="@+id/txtCheckoutShippingPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingCity" />
 
     <EditText
-        android:id="@+id/txtPlaceOrderShiipingCountry"
+        android:id="@+id/txtCheckoutShippingPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -302,13 +292,12 @@
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
-        android:enabled="false"
         android:hint="@string/contactPhone"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingState" />
+        app:layout_constraintTop_toBottomOf="@+id/txtShippingContactPerson" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchOrderAgreement"
@@ -334,7 +323,7 @@
         app:layout_constraintBottom_toTopOf="@+id/switchOrderAgreement"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPlaceOrderShiipingCountry" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCheckoutShippingPhone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

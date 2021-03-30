@@ -88,7 +88,7 @@ public class NewShippingAddressFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        progress = view.findViewById(R.id.progressBarRegister);
+        progress = view.findViewById(R.id.progressBarNewShippingAdd);
         //
         txtShippingAddress = view.findViewById(R.id.txtNewShippingAddress);
         txtShippingCity = view.findViewById(R.id.txtNewShippingCity);

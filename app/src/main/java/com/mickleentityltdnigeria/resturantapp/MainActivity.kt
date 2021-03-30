@@ -117,11 +117,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val cartChanged = CartItemChangedHandler {
             displayCartQty(it)
         }
+        val cartItemsNotFound = CartItemChangedHandler {
+            displayCartQty(it)
+        }
         try{
             module.MyShoppingCart.cartItemsFetched.removeListener("MainActivityFragmentCartItemsFetched")
+            module.MyShoppingCart.cartItemsNotFound.removeListener("MainActivityFragmentCartItemsNotFound")
         }catch (e:Exception){
         }
         module.MyShoppingCart.cartItemsFetched.addListener("MainActivityFragmentCartItemsFetched", cartChanged)
+        module.MyShoppingCart.cartItemsNotFound.addListener("MainActivityFragmentCartItemsNotFound", cartItemsNotFound)
         // Register interest in the CurrentLocation.
         val locationsFetched = CurrentLocationChangedHandler { locations ->
             val l: CurrentLocation = locations[0]
