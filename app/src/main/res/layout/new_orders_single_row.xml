@@ -1,6 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <TextView
+        android:id="@+id/txtCusOrderTotal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/ZeroAmount"
+        app:layout_constraintBottom_toTopOf="@+id/textView24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderItemDesc" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/total"
+        app:layout_constraintBottom_toTopOf="@+id/textView24"
+        app:layout_constraintEnd_toStartOf="@+id/txtCusOrderTotal"
+        app:layout_constraintStart_toEndOf="@+id/txtCusOrderPrice"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderItemDesc" />
+
+    <TextView
+        android:id="@+id/txtCusOrderPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/ZeroAmount"
+        app:layout_constraintBottom_toTopOf="@+id/textView24"
+        app:layout_constraintEnd_toStartOf="@+id/textView23"
+        app:layout_constraintStart_toEndOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderItemDesc" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/price"
+        app:layout_constraintBottom_toTopOf="@+id/textView24"
+        app:layout_constraintEnd_toStartOf="@+id/txtCusOrderPrice"
+        app:layout_constraintStart_toEndOf="@+id/txtCusOrderQty"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderItemDesc" />
+
+    <TextView
+        android:id="@+id/txtCusOrderQty"
+        android:layout_width="3dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/ZeroValue"
+        app:layout_constraintBottom_toTopOf="@+id/textView24"
+        app:layout_constraintEnd_toStartOf="@+id/textView22"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderItemDesc" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/Qty"
+        app:layout_constraintBottom_toTopOf="@+id/textView24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderItemDesc" />
+
+    <ImageView
+        android:id="@+id/imgCusOrderImage"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:contentDescription="@string/item_image"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bugger1" />
+
+    <Button
+        android:id="@+id/btnPrepareCusOrder"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="3dp"
+        android:text="@string/prepare"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnShipCusOrder"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnShipCusOrder"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:text="@string/ship"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeliverCusOrder"
+        app:layout_constraintStart_toEndOf="@+id/btnPrepareCusOrder" />
+
+    <ImageView
+        android:id="@+id/btnCusOrderLocation"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:contentDescription="@string/locate_customer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCusOrderCallCustomer"
+        app:srcCompat="@drawable/ic_location_on_48" />
+
+    <ImageView
+        android:id="@+id/btnPrintCusOrder"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:contentDescription="@string/print_order"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCusOrderCallCustomer"
+        app:layout_constraintStart_toEndOf="@+id/btnDeliverCusOrder"
+        app:srcCompat="@drawable/ic_baseline_print_48" />
+
+    <ImageView
+        android:id="@+id/btnCusOrderCallCustomer"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:contentDescription="@string/call_customer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCusOrderLocation"
+        app:layout_constraintStart_toEndOf="@+id/btnPrintCusOrder"
+        app:srcCompat="@drawable/ic_phone_48" />
+
+    <TextView
+        android:id="@+id/txtCusOrderItemDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:hint="@string/foodDesc"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgCusOrderImage" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/Background"
+        android:text="@string/contact2"
+        android:textAlignment="center"
+        android:textColor="@color/purple_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderTotal" />
+
+    <ImageView
+        android:id="@+id/btnDeliverCusOrder"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:contentDescription="@string/deliver_order"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnPrintCusOrder"
+        app:layout_constraintStart_toEndOf="@+id/btnShipCusOrder"
+        app:srcCompat="@drawable/ic_local_shipping_48" />
+
+    <TextView
+        android:id="@+id/txtCusOrderContactPerson"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        android:hint="@string/contact"
+        app:layout_constraintBottom_toTopOf="@+id/txtCusOrderPhone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+    <TextView
+        android:id="@+id/txtCusOrderPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:hint="@string/contactPhone"
+        app:layout_constraintBottom_toTopOf="@+id/txtCusOrderAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderContactPerson" />
+
+    <TextView
+        android:id="@+id/txtCusOrderAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        android:hint="@string/address"
+        app:layout_constraintBottom_toTopOf="@+id/txtCusOrderCity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderPhone" />
+
+    <TextView
+        android:id="@+id/txtCusOrderCity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:hint="@string/city"
+        app:layout_constraintBottom_toTopOf="@+id/textView30"
+        app:layout_constraintEnd_toStartOf="@+id/txtCusOrderZipCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderAddress" />
+
+    <TextView
+        android:id="@+id/txtCusOrderZipCode"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        android:hint="@string/zip_code"
+        app:layout_constraintBottom_toTopOf="@+id/textView30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtCusOrderCity"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderAddress" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/Background"
+        app:layout_constraintBottom_toTopOf="@+id/btnShipCusOrder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCusOrderCity" />
 </androidx.constraintlayout.widget.ConstraintLayout>

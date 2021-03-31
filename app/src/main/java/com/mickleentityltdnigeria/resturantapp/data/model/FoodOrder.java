@@ -23,11 +23,13 @@ public class FoodOrder implements Serializable {
     public String shippingZipCode;
     public String shippingState;
     public String shippingCountry;
+    public String shippingContactPerson;
+    public String shippingContactPhone;
 
     public FoodOrder() {
     }
 
-    public FoodOrder(String orderID, String userID, Date oderDate, String trackCode, String paymentAddress, String paymentCity, String paymentZipCode, String paymentState, String paymentCountry, String shippingAddress, String shippingCity, String shippingZipCode, String shippingState, String shippingCountry) {
+    public FoodOrder(String orderID, String userID, Date oderDate, String trackCode, String paymentAddress, String paymentCity, String paymentZipCode, String paymentState, String paymentCountry, String shippingAddress, String shippingCity, String shippingZipCode, String shippingState, String shippingCountry, String shippingContactPerson, String shippingContactPhone) {
         this.orderID = orderID;
         this.userID = userID;
         this.oderDate = oderDate;
@@ -36,12 +38,14 @@ public class FoodOrder implements Serializable {
         this.paymentCity = paymentCity;
         this.paymentZipCode = paymentZipCode;
         this.paymentState = paymentState;
-        PaymentCountry = paymentCountry;
+        this.PaymentCountry = paymentCountry;
         this.shippingAddress = shippingAddress;
         this.shippingCity = shippingCity;
         this.shippingZipCode = shippingZipCode;
         this.shippingState = shippingState;
         this.shippingCountry = shippingCountry;
+        this.shippingContactPerson = shippingContactPerson;
+        this.shippingContactPhone = shippingContactPhone;
     }
 
     @Exclude
@@ -182,5 +186,25 @@ public class FoodOrder implements Serializable {
     @Exclude
     public void setShippingCountry(String shippingCountry) {
         this.shippingCountry = shippingCountry;
+    }
+
+    @Exclude
+    public String getShippingContactPerson() {
+        return shippingContactPerson;
+    }
+
+    @Exclude
+    public void setShippingContactPerson(String shippingContactPerson) {
+        this.shippingContactPerson = shippingContactPerson;
+    }
+
+    @Exclude
+    public String getShippingContactPhone() {
+        return shippingContactPhone;
+    }
+
+    @Exclude
+    public void setShippingContactPhone(String shippingContactPhone) {
+        this.shippingContactPhone = shippingContactPhone;
     }
 }

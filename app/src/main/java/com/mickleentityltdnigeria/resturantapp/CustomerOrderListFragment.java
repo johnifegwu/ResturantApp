@@ -36,10 +36,6 @@ import java.util.List;
  */
 public class CustomerOrderListFragment extends Fragment {
 
-    ProgressBar progress;
-    FoodOrderDalc orderDalc;
-    List<FoodOrderDetail> foodOrderDetails = new ArrayList<>();
-
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -84,6 +80,9 @@ public class CustomerOrderListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_customer_order_list, container, false);
     }
 
+    ProgressBar progress;
+    FoodOrderDalc orderDalc;
+    List<FoodOrderDetail> foodOrderDetails = new ArrayList<>();
     CustomerOrderListAdapter adapter;
 
     @Override

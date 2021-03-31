@@ -144,18 +144,22 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
         }
 
         void bind(FeedBack feedBack){
-            TextView txtDate = (TextView)itemView.findViewById(R.id.txtFeedBackDate);
-            TextView txtFullName = (TextView)itemView.findViewById(R.id.txtFeedBackFullName);
-            TextView txtEmail = (TextView)itemView.findViewById(R.id.txtFeedBackEmail);
-            TextView txtFeedBackType = (TextView)itemView.findViewById(R.id.txtFeedBackType);
-            TextView txtSubject = (TextView)itemView.findViewById(R.id.txtFeedBackSubject);
-            TextView txtMsgBody = (TextView)itemView.findViewById(R.id.txtFeedBackMsgBody);
-            txtDate.setText(feedBack.getMsgDate().toString());
-            txtEmail.setText(feedBack.getUserEmail());
-            txtFeedBackType.setText(feedBack.getFeedBackType());
-            txtFullName.setText(feedBack.getUserFullName());
-            txtMsgBody.setText(feedBack.getMsgBody());
-            txtSubject.setText(feedBack.getMsgSubject());
+            try{
+                TextView txtDate = itemView.findViewById(R.id.txtFeedBackDate);
+                TextView txtFullName = itemView.findViewById(R.id.txtFeedBackFullName);
+                TextView txtEmail = itemView.findViewById(R.id.txtFeedBackEmail);
+                TextView txtFeedBackType = itemView.findViewById(R.id.txtFeedBackType);
+                TextView txtSubject = itemView.findViewById(R.id.txtFeedBackSubject);
+                TextView txtMsgBody = itemView.findViewById(R.id.txtFeedBackMsgBody);
+                txtDate.setText(feedBack.getMsgDate().toString());
+                txtEmail.setText(feedBack.getUserEmail());
+                txtFeedBackType.setText(feedBack.getFeedBackType());
+                txtFullName.setText(feedBack.getUserFullName());
+                txtMsgBody.setText(feedBack.getMsgBody());
+                txtSubject.setText(feedBack.getMsgSubject());
+            }catch (Exception e){
+                Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
 
     }

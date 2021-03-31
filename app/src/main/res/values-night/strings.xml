@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="item_image">Item Image</string>
+    <string name="locate_customer">Locate Customer</string>
+    <string name="print_order">Print Order</string>
+    <string name="call_customer">Call Customer</string>
+    <string name="deliver_order">Deliver Order</string>
+</resources>

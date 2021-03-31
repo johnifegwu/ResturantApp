@@ -10,6 +10,10 @@
     <string name="currentPassword">Current password</string>
     <string name="NewPassword">New password</string>
     <string name="go">go</string>
+    <string name="contact2">Contact</string>
+    <string name="prepare">Prepare</string>
+    <string name="ship">Ship</string>
+    <string name="deliver">Deliver</string>
     <string name="canceled"><b><i>CANCELED</i></b></string>
     <string name="un_append">Un Append</string>
     <string name="append_user">Append User</string>
@@ -30,7 +34,6 @@
     <string name="my_food_items">My Food Items</string>
     <string name="new_orders">New Order(s)</string>
     <string name="un_shipped_orders">Un-shipped Order(s)</string>
-    <string name="deliver_order">Deliver Order</string>
     <string name="merchant_terms_and_conditions"><u>I <b>agree</b> to <b><i>Terms and Conditions</i></b>.</u></string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -172,5 +175,10 @@
     <string name="title_activity_splash_screen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="item_image">Item Image</string>
+    <string name="locate_customer">Locate Customer</string>
+    <string name="print_order">Print Order</string>
+    <string name="call_customer">Call Customer</string>
+    <string name="deliver_order">Deliver Order</string>
 
 </resources>

@@ -57,7 +57,7 @@ public class FoodOrderDalc {
         //
         FoodOrder order = new FoodOrder(orderID, module.userID, new Date(),guid,paymentAddress.getContactAddress(),
                 paymentAddress.getCity(),paymentAddress.getZipCode(),paymentAddress.getState(),paymentAddress.getCountry(),shippingAddress.getContactAddress(),
-                shippingAddress.getCity(), shippingAddress.getZipCode(),shippingAddress.getState(),shippingAddress.getCountry());
+                shippingAddress.getCity(), shippingAddress.getZipCode(),shippingAddress.getState(),shippingAddress.getCountry(), shippingAddress.getContactPerson(), shippingAddress.getContactPhone());
         //save cart to the system.
         foodOrderDB.child(orderID).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
