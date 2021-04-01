@@ -129,6 +129,15 @@ public class module {
         return total;
     }
 
+    //Calculates the total quantity of items in the provided FoodOrderDetails.
+    public static double getFoodOrderTotalValue(List<FoodOrderDetail> foodOrderDetails){
+        double total = 0;
+        for(FoodOrderDetail o:foodOrderDetails){
+            total += o.getSubTotal();
+        }
+        return total;
+    }
+
     //New Restaurant fields
     public static Resturant newResturant = new Resturant();
     public static byte[] newRestaurantImg = null;

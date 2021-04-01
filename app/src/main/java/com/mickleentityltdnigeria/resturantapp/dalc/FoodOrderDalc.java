@@ -220,6 +220,54 @@ public class FoodOrderDalc {
         //
     }
 
+    public void getFoodOrderDetailsByID(String ID){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<FoodOrderDetail> result = new ArrayList<>();
+                        //
+                        if (snapshot.hasChildren()){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                FoodOrderDetail foodOrderDetail = userSnapshot.getValue(FoodOrderDetail.class);
+                                result.add(foodOrderDetail);
+                            }
+                            //sort data
+                            Collections.sort(result, Collections.reverseOrder());
+                            //raise event
+                            for (FoodOrderDetailsEventHandler listener : foodOrderDetailsFetched.listeners()) {
+                                listener.invoke(result);
+                            }
+                        }
+                    }
+                }else{
+                    //raise event
+                    for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
+                        List<FoodOrderDetail> result = new ArrayList<>();
+                        listener.invoke(result);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
+                    List<FoodOrderDetail> result = new ArrayList<>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        Query query = FirebaseDatabase.getInstance().getReference("foodorderdetails")
+                .orderByChild("ID")
+                .equalTo(ID);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
+        //
+    }
+
     public void getFoodOrderDetailsByQueryString(String resturantID, boolean isCanceled,boolean isPrinted, boolean isShipped, boolean isDelivered){
         String queryString = FoodOrderDetail.getQueryString(resturantID, isCanceled,isPrinted, isShipped, isDelivered);
         ValueEventListener onDataChangedListener =  new ValueEventListener() {

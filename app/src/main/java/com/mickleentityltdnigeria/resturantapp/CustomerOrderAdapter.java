@@ -41,6 +41,16 @@ public class CustomerOrderAdapter  extends RecyclerView.Adapter<CustomerOrderAda
         notifyDataSetChanged();
     }
 
+    public void appendData(List<FoodOrderDetail> foodOrderDetailList){
+        this.foodOrderDetails.addAll(foodOrderDetailList);
+        notifyDataSetChanged();
+    }
+
+    public void clearData(FoodOrderDetail foodOrderDetail){
+        this.foodOrderDetails.remove(foodOrderDetail);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public CustomerOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -148,7 +158,7 @@ public class CustomerOrderAdapter  extends RecyclerView.Adapter<CustomerOrderAda
                             btnDeliverCusOrder.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    mItemClickListener.onDeliverOrder(foodOrderDetail);
+                                    mItemClickListener.onDeliverOrder(foodOrder, foodOrderDetail);
                                 }
                             });
                             btnPrintCusOrder.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +214,7 @@ interface CustomerAdapterClickListener
 
     void onShipOrder(FoodOrder foodOrder,FoodOrderDetail foodOrderDetail);
 
-    void onDeliverOrder(FoodOrderDetail foodOrderDetail);
+    void onDeliverOrder(FoodOrder foodOrder ,FoodOrderDetail foodOrderDetail);
 
     void onPrintOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail);
 

@@ -7,6 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @IgnoreExtraProperties
 public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail> {
@@ -386,5 +387,20 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     @Override
     public int compareTo(FoodOrderDetail o){
         return this.getDateDelivered().compareTo(o.getDateDelivered());
+    }
+
+    @Exclude
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FoodOrderDetail that = (FoodOrderDetail) o;
+        return Objects.equals(getID(), that.getID());
+    }
+
+    @Exclude
+    @Override
+    public int hashCode() {
+        return Objects.hash(getID());
     }
 }

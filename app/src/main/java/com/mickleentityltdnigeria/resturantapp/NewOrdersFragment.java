@@ -1,9 +1,14 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,13 +25,16 @@ import com.mickleentityltdnigeria.resturantapp.dalc.FoodOrderDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrder;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodOrderDetailsEventHandler;
+import com.mickleentityltdnigeria.resturantapp.utils.PaymentDetails;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
+import com.mickleentityltdnigeria.resturantapp.utils.paymentResult;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static com.mickleentityltdnigeria.resturantapp.AppGlobals.StartActivity;
+import static com.mickleentityltdnigeria.resturantapp.utils.module.getFoodOrderTotalValue;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,6 +93,8 @@ public class NewOrdersFragment extends Fragment {
     FoodOrderDalc foodOrderDalc;
     List<FoodOrderDetail> foodOrderDetails;
     CustomerOrderAdapter adapter;
+    FoodOrder foodOrder = null;
+    FoodOrderDetail foodOrderDetail = null;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -102,6 +112,7 @@ public class NewOrdersFragment extends Fragment {
                     progress.setVisibility(View.GONE);
                 }
             };
+            foodOrderDalc.foodOrderDetailsFetched.addListener(orderDetailsFetched);
             FoodOrderDetailsEventHandler orderDetailsNotFound = new FoodOrderDetailsEventHandler() {
                 @Override
                 public void invoke(List<FoodOrderDetail> orderDetails) {
@@ -111,36 +122,6 @@ public class NewOrdersFragment extends Fragment {
                 }
             };
             foodOrderDalc.foodOrderDetailsNotFound.addListener(orderDetailsNotFound);
-            foodOrderDalc.foodOrderDetailsFetched.addListener(orderDetailsFetched);
-            foodOrderDalc.getFoodOrderDetailsByUserID(module.userID);
-            //
-            //Reference of RecyclerView
-            RecyclerView mRecyclerView = view.findViewById(R.id.newOrdersRecyclerView);
-
-            //Linear Layout Manager
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
-
-            //Set Layout Manager to RecyclerView
-            mRecyclerView.setLayoutManager(linearLayoutManager);
-            //
-            FoodOrderDetailsEventHandler foodOrderDetailNotFound = new FoodOrderDetailsEventHandler() {
-                @Override
-                public void invoke(List<FoodOrderDetail> foodOrderDetails) {
-                    progress.setVisibility(View.GONE);
-                    adapter.updateData(foodOrderDetails);
-                }
-            };
-            foodOrderDalc.foodOrderDetailsNotFound.addListener(foodOrderDetailNotFound);
-            //
-            FoodOrderDetailsEventHandler foodOrderDetailsFetched = new FoodOrderDetailsEventHandler() {
-                @Override
-                public void invoke(List<FoodOrderDetail> foodOrderDetails) {
-                    progress.setVisibility(View.GONE);
-                    adapter.updateData(foodOrderDetails);
-                }
-            };
-            foodOrderDalc.foodOrderDetailsFetched.addListener(foodOrderDetailsFetched);
-            //
             FoodOrderDetailsEventHandler foodOrderDetailUpdated = new FoodOrderDetailsEventHandler() {
                 @Override
                 public void invoke(List<FoodOrderDetail> foodOrderDetails) {
@@ -155,6 +136,23 @@ public class NewOrdersFragment extends Fragment {
                 }
             };
             foodOrderDalc.foodOrderDetailsUpdated.addListener(foodOrderDetailUpdated);
+            //
+            try{
+                module.checkNetwork();
+            foodOrderDalc.getFoodOrderDetailsByQueryString(module.userData.getResturantID(),
+                    false,false,false,false);
+            }catch (Exception e){
+                progress.setVisibility(View.GONE);
+                Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+            //Reference of RecyclerView
+            RecyclerView mRecyclerView = view.findViewById(R.id.newOrdersRecyclerView);
+
+            //Linear Layout Manager
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
+
+            //Set Layout Manager to RecyclerView
+            mRecyclerView.setLayoutManager(linearLayoutManager);
             //
             adapter = new CustomerOrderAdapter(foodOrderDetails, new CustomerAdapterClickListener() {
                 @Override
@@ -173,35 +171,12 @@ public class NewOrdersFragment extends Fragment {
 
                 @Override
                 public void onShipOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail) {
-                    progress.setVisibility(View.VISIBLE);
-                    try{
-                        module.checkNetwork();
-                        foodOrderDetail.setShipped(true);
-                        foodOrderDetail.setShippedBy(module.userName);
-                        foodOrderDetail.setDateShipped(new Date());
-                        foodOrderDalc.updateFoodOrderDetails(foodOrderDetail);
-                    }catch (Exception e){
-                        progress.setVisibility(View.GONE);
-                        Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
+
                 }
 
                 @Override
-                public void onDeliverOrder(FoodOrderDetail foodOrderDetail) {
-                    progress.setVisibility(View.VISIBLE);
-                    try{
-                        module.checkNetwork();
-                        //get Payment details
+                public void onDeliverOrder(FoodOrder Order,FoodOrderDetail OrderDetail) {
 
-                        //
-                        foodOrderDetail.setDelivered(true);
-                        foodOrderDetail.setDeliveredBy(module.userName);
-                        foodOrderDetail.setDateDelivered(new Date());
-                        foodOrderDalc.updateFoodOrderDetails(foodOrderDetail);
-                    }catch (Exception e){
-                        progress.setVisibility(View.GONE);
-                        Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
                 }
 
                 @Override
@@ -259,7 +234,25 @@ public class NewOrdersFragment extends Fragment {
     }
 
     private void printOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail){
-
+        progress.setVisibility(View.VISIBLE);
+        try{
+            module.checkNetwork();
+            //clear data
+            PrintOrderActivity.foodOrder.clear();
+            PrintOrderActivity.foodOrderDetails.clear();
+            //set order details
+            PrintOrderActivity.foodOrder.add(foodOrder);
+            PrintOrderActivity.foodOrderDetails.add(foodOrderDetail);
+            // The launcher with the Intent you want to start
+            Intent intent = new Intent(requireContext(),PrintOrderActivity.class);
+            startActivity(intent);
+            progress.setVisibility(View.GONE);
+            //
+        }catch (Exception e){
+            progress.setVisibility(View.GONE);
+            Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
     }
+
 
 }
