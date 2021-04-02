@@ -20,9 +20,6 @@ import javax.xml.transform.Result;
 public class ScanQRCodeActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
 
-    int resultCode;
-    Intent data;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +32,9 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        resultCode = Activity.RESULT_OK;
-                        Uri uri = Uri.parse(result.getText());
-                        Intent intent = new Intent(Intent.EXTRA_TEXT, uri);
+                        Intent intent = getIntent();
                         intent.putExtra("QRCode", result.getText());
-                        data = intent;
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                 });
@@ -51,13 +46,6 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 mCodeScanner.startPreview();
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        resultCode = this.resultCode;
-        data = this.data;
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

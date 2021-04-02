@@ -284,7 +284,7 @@ public class DeliverOrderFragment extends Fragment {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     try{
-                        if (result.getResultCode() == paymentResult.OK.getValue()) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
                             Intent intent = result.getData();
                             // Handle the Intent
                             assert intent != null;

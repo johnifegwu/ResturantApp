@@ -24,8 +24,6 @@ import java.util.List;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    int resultCode;
-    Intent data;
     Button btnPay;
     ProgressBar progress;
 
@@ -48,27 +46,14 @@ public class PaymentActivity extends AppCompatActivity {
                     //Make payment and get Authorization Code
                     int result = 1;
                     String authCode = "1234567890";
-                    PaymentDetails paymentDetails = new PaymentDetails(authCode,0.0,0.0,0.0,"","","");
-                    Intent intent = new Intent(AppGlobals.getAppContext(), PaymentDetails.class);
-                    intent.putExtra("paymentDetails",paymentDetails);
-                    switch (result) {
-                        case 1:
-                            setPaymentResult(paymentResult.OK, intent);
-                            break;
-                        case 0:
-                            setPaymentResult(paymentResult.FAILED, intent);
-                            break;
-                        case -1:
-                            setPaymentResult(paymentResult.INSUFFICIENT_BALANCE, intent);
-                            break;
-                        case -2:
-                            setPaymentResult(paymentResult.CANCELED, intent);
-                            break;
-                        case -3:
-                            setPaymentResult(paymentResult.NETWORK_FAILURE, intent);
+                    if(result == 1){
+                        PaymentDetails paymentDetails = new PaymentDetails(authCode,0.0,0.0,0.0,"","","");
+                        Intent intent = getIntent();
+                        intent.putExtra("paymentDetails",paymentDetails);
+                        setResult(RESULT_OK, intent);
+                        progress.setVisibility(View.GONE);
+                        finish();
                     }
-                    progress.setVisibility(View.GONE);
-                    finish();
                 } catch (Exception e) {
                     progress.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -80,15 +65,4 @@ public class PaymentActivity extends AppCompatActivity {
 
     }
 
-    private void setPaymentResult(paymentResult result, Intent data) {
-        this.resultCode = result.getValue();
-        this.data = data;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        resultCode = this.resultCode;
-        data = this.data;
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 }
