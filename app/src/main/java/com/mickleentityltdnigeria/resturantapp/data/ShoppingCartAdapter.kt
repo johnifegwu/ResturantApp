@@ -35,7 +35,6 @@ class ShoppingCartAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.a_single_cart_row, parent, false)
-        AppGlobals.setAppContext(parent.context)
         //Create View Holder
         val myViewHolder = ViewHolder(view, AppGlobals.getAppContext())
         progress = myViewHolder.itemView.findViewById(R.id.progressBarCartRow)

@@ -117,6 +117,7 @@ public class ShoppingCartFragment extends Fragment {
             public void invoke(List<CartItem> cartItems) {
                 progress.setVisibility(View.GONE);
                 adapter.clearData();
+                displayCartQty(cartItems);
                 btnCheckOut.setEnabled(false);
             }
         };

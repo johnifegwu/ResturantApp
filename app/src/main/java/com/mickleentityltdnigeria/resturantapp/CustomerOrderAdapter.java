@@ -139,7 +139,7 @@ public class CustomerOrderAdapter  extends RecyclerView.Adapter<CustomerOrderAda
                             imgCusOrderImage.setImageDrawable(ImageHelper.getInstance().imageFromString(foodItem.foodImg));
                             txtCusOrderItemDesc.setText(foodItem.getFoodDesc());
                             //Continue Set Text
-                            txtCusOrderQty.setText((int) foodOrderDetail.getFoodQty());
+                            txtCusOrderQty.setText(String.valueOf(foodOrderDetail.getFoodQty()));
                             txtCusOrderPrice.setText((cu + foodOrderDetail.getFoodPrice()));
                             txtCusOrderTotal.setText((cu + dc.format((foodOrderDetail.getSubTotal()))));
                             //set onClickListener for Prepare, Ship and Deliver

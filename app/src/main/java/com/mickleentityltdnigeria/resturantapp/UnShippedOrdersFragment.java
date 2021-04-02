@@ -148,10 +148,6 @@ public class UnShippedOrdersFragment extends Fragment {
             };
             foodOrderDalc.foodOrderDetailsUpdated.addListener(foodOrderDetailUpdated);
             //
-            foodOrderDalc.getFoodOrderDetailsByQueryString(module.userData.getResturantID(),
-                    false,true,false,false);
-            //
-
             //Reference of RecyclerView
             RecyclerView mRecyclerView = view.findViewById(R.id.unShippedOrderrecyclerView);
 
@@ -231,7 +227,7 @@ public class UnShippedOrdersFragment extends Fragment {
             try{
                 module.checkNetwork();
                 foodOrderDalc.getFoodOrderDetailsByQueryString(module.userData.getResturantID(),
-                        false,false,false,false);
+                        false,true,false,false);
             }catch (Exception e){
                 progress.setVisibility(View.GONE);
                 Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -252,7 +248,7 @@ public class UnShippedOrdersFragment extends Fragment {
             PrintOrderActivity.foodOrder.add(foodOrder);
             PrintOrderActivity.foodOrderDetails.add(foodOrderDetail);
             // The launcher with the Intent you want to start
-            Intent intent = new Intent(requireContext(),PrintOrderActivity.class);
+            Intent intent = new Intent(AppGlobals.getAppContext(), PrintOrderActivity.class);
             startActivity(intent);
             progress.setVisibility(View.GONE);
             //

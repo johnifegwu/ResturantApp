@@ -136,15 +136,6 @@ public class NewOrdersFragment extends Fragment {
                 }
             };
             foodOrderDalc.foodOrderDetailsUpdated.addListener(foodOrderDetailUpdated);
-            //
-            try{
-                module.checkNetwork();
-            foodOrderDalc.getFoodOrderDetailsByQueryString(module.userData.getResturantID(),
-                    false,false,false,false);
-            }catch (Exception e){
-                progress.setVisibility(View.GONE);
-                Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
             //Reference of RecyclerView
             RecyclerView mRecyclerView = view.findViewById(R.id.newOrdersRecyclerView);
 
@@ -160,9 +151,9 @@ public class NewOrdersFragment extends Fragment {
                     progress.setVisibility(View.VISIBLE);
                     try{
                         module.checkNetwork();
+                        printOrder(foodOrder, foodOrderDetail);
                         foodOrderDetail.setPrinted(true);
                         foodOrderDalc.updateFoodOrderDetails(foodOrderDetail);
-                        printOrder(foodOrder, foodOrderDetail);
                     }catch (Exception e){
                         progress.setVisibility(View.GONE);
                         Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -236,7 +227,6 @@ public class NewOrdersFragment extends Fragment {
     private void printOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail){
         progress.setVisibility(View.VISIBLE);
         try{
-            module.checkNetwork();
             //clear data
             PrintOrderActivity.foodOrder.clear();
             PrintOrderActivity.foodOrderDetails.clear();
@@ -244,7 +234,7 @@ public class NewOrdersFragment extends Fragment {
             PrintOrderActivity.foodOrder.add(foodOrder);
             PrintOrderActivity.foodOrderDetails.add(foodOrderDetail);
             // The launcher with the Intent you want to start
-            Intent intent = new Intent(requireContext(),PrintOrderActivity.class);
+            Intent intent = new Intent(AppGlobals.getAppContext(), PrintOrderActivity.class);
             startActivity(intent);
             progress.setVisibility(View.GONE);
             //

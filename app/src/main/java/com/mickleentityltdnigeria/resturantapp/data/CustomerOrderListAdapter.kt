@@ -42,7 +42,6 @@ class CustomerOrderListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.a_single_customer_order_row, parent, false)
-        setAppContext(parent.context)
         //
         foodOrderDalc = FoodOrderDalc()
         resturantDalc = ResturantDalc()

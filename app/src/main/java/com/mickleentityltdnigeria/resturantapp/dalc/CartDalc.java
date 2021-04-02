@@ -167,7 +167,7 @@ public class CartDalc
                 if (snapshot.exists()) {
                     if (snapshot.exists()) {
                         //
-                        List<CartItem> result = new ArrayList<CartItem>();
+                        List<CartItem> result = new ArrayList<>();
                         //
                         if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
@@ -183,7 +183,7 @@ public class CartDalc
                 }else{
                     //raise event
                     for (CartItemChangedHandler listener : cartItemsNotFound.listeners()) {
-                        List<CartItem> result = new ArrayList<CartItem>();
+                        List<CartItem> result = new ArrayList<>();
                         listener.invoke(result);
                     }
                 }

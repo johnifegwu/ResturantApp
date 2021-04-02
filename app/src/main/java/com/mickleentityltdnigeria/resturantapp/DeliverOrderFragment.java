@@ -104,7 +104,7 @@ public class DeliverOrderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-            this.progress = view.findViewById(R.id.progressBarUnShippedOrders);
+            this.progress = view.findViewById(R.id.progressBarDeliverOrder);
             this.btnCollectPayment = view.findViewById(R.id.btnCollectPayment);
             foodOrderDalc = new FoodOrderDalc();
             foodOrderDetails = new ArrayList<>();
@@ -253,14 +253,6 @@ public class DeliverOrderFragment extends Fragment {
             //Set adapter to RecyclerView
             mRecyclerView.setAdapter(adapter);
             //
-            try{
-                module.checkNetwork();
-                foodOrderDalc.getFoodOrderDetailsByQueryString(module.userData.getResturantID(),
-                        false,false,false,false);
-            }catch (Exception e){
-                progress.setVisibility(View.GONE);
-                Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
         } catch (Exception e) {
             Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -277,7 +269,7 @@ public class DeliverOrderFragment extends Fragment {
             PrintOrderActivity.foodOrder.add(foodOrder);
             PrintOrderActivity.foodOrderDetails.add(foodOrderDetail);
             // The launcher with the Intent you want to start
-            Intent intent = new Intent(requireContext(),PrintOrderActivity.class);
+            Intent intent = new Intent(AppGlobals.getAppContext(), PrintOrderActivity.class);
             startActivity(intent);
             progress.setVisibility(View.GONE);
             //
@@ -364,4 +356,5 @@ public class DeliverOrderFragment extends Fragment {
                     }
                 }
             });
+
 }
