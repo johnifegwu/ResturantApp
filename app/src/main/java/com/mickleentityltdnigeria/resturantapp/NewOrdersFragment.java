@@ -225,18 +225,14 @@ public class NewOrdersFragment extends Fragment {
     }
 
     private void printOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail){
-        progress.setVisibility(View.VISIBLE);
         try{
-            //clear data
-            PrintOrderActivity.foodOrder.clear();
-            PrintOrderActivity.foodOrderDetails.clear();
+            progress.setVisibility(View.GONE);
             //set order details
-            PrintOrderActivity.foodOrder.add(foodOrder);
-            PrintOrderActivity.foodOrderDetails.add(foodOrderDetail);
+            PrintOrderActivity.foodOrder = foodOrder;
+            PrintOrderActivity.foodOrderDetails = foodOrderDetail;
             // The launcher with the Intent you want to start
             Intent intent = new Intent(AppGlobals.getAppContext(), PrintOrderActivity.class);
             startActivity(intent);
-            progress.setVisibility(View.GONE);
             //
         }catch (Exception e){
             progress.setVisibility(View.GONE);

@@ -174,6 +174,7 @@
     <string name="scanQRCode">Ship Item (Scan QR Code)</string>
     <string name="collect_payment">Collect Payment</string>
     <string name="pay">Pay</string>
+    <string name="qr_code">QR Code</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_splash_screen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -183,5 +184,11 @@
     <string name="print_order">Print Order</string>
     <string name="call_customer">Call Customer</string>
     <string name="deliver_order">Deliver Order</string>
+    <string name="date">Date</string>
+    <string name="sub_total">Sub Total:</string>
+    <string name="_1_markup">1% Markup:</string>
+    <string name="total_due">Total Due:</string>
+    <string name="manager_sign">Manager Sign</string>
+    <string name="customer_sign">Customer Sign</string>
 
 </resources>

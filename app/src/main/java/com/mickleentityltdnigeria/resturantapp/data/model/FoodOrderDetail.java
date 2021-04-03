@@ -18,6 +18,7 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     public String foodID;
     public String resturantID;
     public double foodPrice;
+    public String foodDesc;
     public String currency;
     public double foodQty;
     public boolean isPaid;
@@ -45,13 +46,14 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     public FoodOrderDetail() {
     }
 
-    public FoodOrderDetail(String ID, String oderID, String userID, String foodID, String resturantID, double foodPrice, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled, boolean isPrinted) {
+    public FoodOrderDetail(String ID, String oderID, String userID, String foodID, String resturantID, double foodPrice, String foodDesc, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled, boolean isPrinted) {
         this.ID = ID;
         this.oderID = oderID;
         this.userID = userID;
         this.foodID = foodID;
         this.resturantID = resturantID;
         this.foodPrice = foodPrice;
+        this.foodDesc = foodDesc;
         this.currency = currency;
         this.foodQty = foodQty;
         this.isPaid = isPaid;
@@ -209,6 +211,16 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     @Exclude
     public void setFoodPrice(double foodPrice) {
         this.foodPrice = foodPrice;
+    }
+
+    @Exclude
+    public String getFoodDesc() {
+        return foodDesc;
+    }
+
+    @Exclude
+    public void setFoodDesc(String foodDesc) {
+        this.foodDesc = foodDesc;
     }
 
     @Exclude

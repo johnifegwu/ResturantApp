@@ -69,7 +69,7 @@ public class FoodOrderDalc {
                 for (CartItem c:cart) {
                     String ID = foodOrderDetailDB.push().getKey();
                     //
-                    FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,module.userID,c.getFoodID(),c.getResturantID(),c.getFoodPrice(),c.getCurrency(),
+                    FoodOrderDetail orderDetail = new FoodOrderDetail(ID,orderID,module.userID,c.getFoodID(),c.getResturantID(),c.getFoodPrice(), c.getFoodDesc(),c.getCurrency(),
                             c.getFoodQty(),false,0.0,0.0,"",false, new Date(),"",false,
                             new Date(),"", "",false,false);
                     //
