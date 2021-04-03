@@ -63,8 +63,8 @@
 
     <TextView
         android:id="@+id/txtCusOrderQty"
-        android:layout_width="3dp"
-        android:layout_height="13dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
@@ -81,9 +81,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="8dp"
         android:text="@string/Qty"
         app:layout_constraintBottom_toTopOf="@+id/textView24"
+        app:layout_constraintEnd_toStartOf="@+id/txtCusOrderQty"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCusOrderItemDesc" />
 
@@ -102,15 +104,21 @@
         android:id="@+id/btnPrepareCusOrder"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="2dp"
         android:text="@string/prepare"
         app:layout_constraintBottom_toTopOf="@+id/btnShipCusOrder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
     <Button
         android:id="@+id/btnShipCusOrder"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
         android:text="@string/ship"
@@ -243,6 +251,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="5dp"
         android:hint="@string/city"
         app:layout_constraintBottom_toTopOf="@+id/textView30"
@@ -271,7 +280,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:background="@color/Background"
-        app:layout_constraintBottom_toTopOf="@+id/btnShipCusOrder"
+        app:layout_constraintBottom_toTopOf="@+id/btnPrepareCusOrder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCusOrderCity" />

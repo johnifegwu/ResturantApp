@@ -108,7 +108,6 @@ public class DeliverOrderFragment extends Fragment {
             this.btnCollectPayment = view.findViewById(R.id.btnCollectPayment);
             foodOrderDalc = new FoodOrderDalc();
             foodOrderDetails = new ArrayList<>();
-            this.progress.setVisibility(View.VISIBLE);
             // Register interest in the Order Change.
             FoodOrderDetailsEventHandler orderDetailsFetched = new FoodOrderDetailsEventHandler() {
                 public void invoke(List<FoodOrderDetail> orderDetails) {
@@ -133,6 +132,7 @@ public class DeliverOrderFragment extends Fragment {
                 @Override
                 public void invoke(List<FoodOrderDetail> foodOrderDetails) {
                     try{
+                        progress.setVisibility(View.GONE);
                         adapter.clearData(foodOrderDetails.get(0));
                     }catch (Exception e){
                         progress.setVisibility(View.GONE);
@@ -145,6 +145,7 @@ public class DeliverOrderFragment extends Fragment {
             view.findViewById(R.id.btnScanQQRCode).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    progress.setVisibility(View.VISIBLE);
                     scanQRCode();
                 }
             });
@@ -154,12 +155,8 @@ public class DeliverOrderFragment extends Fragment {
                     progress.setVisibility(View.VISIBLE);
                     try{
                         module.checkNetwork();
-                        //clear data
-                        PaymentActivity.foodOrder.clear();
-                        PaymentActivity.foodOrderDetails.clear();
-                        //set order details
-                        PaymentActivity.foodOrder.add(foodOrder);
-                        PaymentActivity.foodOrderDetails.add(foodOrderDetail);
+                        //
+                        PaymentActivity.foodOrderDetails = foodOrderDetails;
                         // The launcher with the Intent you want to start
                         Intent intent = new Intent(requireContext(),PaymentActivity.class);
                         mStartForResult.launch(intent);
@@ -196,11 +193,7 @@ public class DeliverOrderFragment extends Fragment {
                     progress.setVisibility(View.VISIBLE);
                     try{
                         module.checkNetwork();
-                        //clear data
-                        PaymentActivity.foodOrder.clear();
-                        PaymentActivity.foodOrderDetails.clear();
                         //set order details
-                        PaymentActivity.foodOrder.add(Order);
                         PaymentActivity.foodOrderDetails.add(OrderDetail);
                         // The launcher with the Intent you want to start
                         Intent intent = new Intent(requireContext(),PaymentActivity.class);
@@ -320,7 +313,6 @@ public class DeliverOrderFragment extends Fragment {
 
 
     private void scanQRCode(){
-        progress.setVisibility(View.VISIBLE);
         // The launcher with the Intent you want to start
         Intent intent = new Intent(requireContext(),ScanQRCodeActivity.class);
         mStartScanForResult.launch(intent);

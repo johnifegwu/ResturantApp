@@ -234,8 +234,6 @@ public class FoodOrderDalc {
                                 FoodOrderDetail foodOrderDetail = userSnapshot.getValue(FoodOrderDetail.class);
                                 result.add(foodOrderDetail);
                             }
-                            //sort data
-                            Collections.sort(result, Collections.reverseOrder());
                             //raise event
                             for (FoodOrderDetailsEventHandler listener : foodOrderDetailsFetched.listeners()) {
                                 listener.invoke(result);

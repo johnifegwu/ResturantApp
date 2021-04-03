@@ -53,6 +53,7 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 mCodeScanner.startPreview();
             }
         });
+        mCodeScanner.startPreview();
     }
 
     @Override

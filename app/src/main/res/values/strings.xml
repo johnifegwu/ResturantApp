@@ -172,6 +172,7 @@
     </array>
     <string name="location">Location</string>
     <string name="scanQRCode">Ship Item (Scan QR Code)</string>
+    <string name="scanQRCodeForDelivery">Deliver Item (Scan QR Code)</string>
     <string name="collect_payment">Collect Payment</string>
     <string name="pay">Pay</string>
     <string name="qr_code">QR Code</string>

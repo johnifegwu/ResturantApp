@@ -1,10 +1,18 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.print.PrintHelper;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +24,7 @@ import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -46,10 +55,13 @@ public class PrintOrderActivity extends AppCompatActivity {
             txtPrintMarkup = this.findViewById(R.id.txtPrintMarkup);
             txtPrintTotalDue = this.findViewById(R.id.txtPrintTotalDue);
             //set values
+            View view = getLayoutInflater().inflate(R.layout.activity_print_order,null);
             try {
                 QRGEncoder qrgEncoder = new QRGEncoder(foodOrderDetails.getID(), null, QRGContents.Type.TEXT, 500);
                 Bitmap qrImg = qrgEncoder.encodeAsBitmap();
                 imgQRCode.setImageBitmap(qrImg);
+                ImageView img = view.findViewById(R.id.imgQRCode);
+                img.setImageBitmap(qrImg);
             } catch (Exception e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -66,16 +78,39 @@ public class PrintOrderActivity extends AppCompatActivity {
             txtPrintMarkup.setText((foodOrderDetails.getCurrency() + dc.format(foodOrderDetails.getMarkUpValue())));
             txtPrintTotalDue.setText((foodOrderDetails.getCurrency() + dc.format(foodOrderDetails.getSubTotal())));
             //get ready to print
-            View view = getWindow().getDecorView().findViewById(android.R.id.content);
+            TextView txtAddress = view.findViewById(R.id.txtPrintAddress);
+            TextView txtCity = view.findViewById(R.id.txtPrintCity);
+            TextView txtZipCode = view.findViewById(R.id.txtPrintZipCode);
+            TextView txtContactPerson = view.findViewById(R.id.txtPrintContactPerson);
+            TextView txtContactPhone = view.findViewById(R.id.txtPrintContactPhone);
+            TextView txtFoodDesc = view.findViewById(R.id.txtPrintFoodDesc);
+            TextView txtFoodQty = view.findViewById(R.id.txtPrintFoodQty);
+            TextView txtFoodPrice = view.findViewById(R.id.txtPrintFoodPrice);
+            TextView txtSubTotal = view.findViewById(R.id.txtPrintSubTotal);
+            TextView txtMarkup = view.findViewById(R.id.txtPrintMarkup);
+            TextView txtTotalDue = view.findViewById(R.id.txtPrintTotalDue);
+            txtAddress.setText(foodOrder.getShippingAddress());
+            txtCity.setText(foodOrder.getShippingCity());
+            txtZipCode.setText(foodOrder.getShippingZipCode());
+            txtContactPerson.setText(foodOrder.getShippingContactPerson());
+            txtContactPhone.setText(foodOrder.getShippingContactPhone());
+            txtFoodDesc.setText(foodOrderDetails.getFoodDesc());
+            txtFoodQty.setText(String.valueOf(foodOrderDetails.getFoodQty()));
+            txtFoodPrice.setText((foodOrderDetails.getCurrency() + foodOrderDetails.getFoodPrice()));
+            txtSubTotal.setText((foodOrderDetails.getCurrency() + dc.format(foodOrderDetails.getFoodPrice() * foodOrderDetails.getFoodQty())));
+            txtMarkup.setText((foodOrderDetails.getCurrency() + dc.format(foodOrderDetails.getMarkUpValue())));
+            txtTotalDue.setText((foodOrderDetails.getCurrency() + dc.format(foodOrderDetails.getSubTotal())));
+
+            /* View view = getWindow().getDecorView().findViewById(android.R.id.content);
             view.setDrawingCacheEnabled(true);
             view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
             view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
             view.buildDrawingCache(true);
             Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-            view.setDrawingCacheEnabled(false);
+            view.setDrawingCacheEnabled(false);*/
 
+            Bitmap bitmap = getBitmapFromView(PrintOrderActivity.this, view);
             //And to print:
-
             PrintHelper photoPrinter = new PrintHelper(PrintOrderActivity.this); // Assume that 'this' is your activity
             photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
             photoPrinter.setOrientation(PrintHelper.ORIENTATION_PORTRAIT);
@@ -85,6 +120,26 @@ public class PrintOrderActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private static Bitmap getBitmapFromView(Context context, View view) {
+        view.setLayoutParams(new
+                ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT));
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        view.measure(View.MeasureSpec.makeMeasureSpec(dm.widthPixels,
+                View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(dm.heightPixels,
+                        View.MeasureSpec.EXACTLY));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+        view.draw(canvas);
+        return bitmap;
     }
 
 }

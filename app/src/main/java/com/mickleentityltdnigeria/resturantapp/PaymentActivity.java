@@ -22,12 +22,13 @@ import com.mickleentityltdnigeria.resturantapp.utils.paymentResult;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mickleentityltdnigeria.resturantapp.utils.module.getFoodOrderTotalValue;
+
 public class PaymentActivity extends AppCompatActivity {
 
     Button btnPay;
     ProgressBar progress;
 
-    public static List<FoodOrder> foodOrder = new ArrayList<>();
     public static List<FoodOrderDetail> foodOrderDetails = new ArrayList<>();
 
     @Override
@@ -42,12 +43,12 @@ public class PaymentActivity extends AppCompatActivity {
                 try {
                     progress.setVisibility(View.VISIBLE);
                     //validate payment inputs
-
+                    double totalDue = getFoodOrderTotalValue(foodOrderDetails);
                     //Make payment and get Authorization Code
                     int result = 1;
                     String authCode = "1234567890";
                     if(result == 1){
-                        PaymentDetails paymentDetails = new PaymentDetails(authCode,0.0,0.0,0.0,"","","");
+                        PaymentDetails paymentDetails = new PaymentDetails(authCode,totalDue,totalDue,0.0,"","","");
                         Intent intent = getIntent();
                         intent.putExtra("paymentDetails",paymentDetails);
                         setResult(RESULT_OK, intent);
