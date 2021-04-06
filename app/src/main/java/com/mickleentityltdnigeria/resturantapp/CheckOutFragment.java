@@ -1,5 +1,7 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.internal.StringResourceValueReader;
 import com.mickleentityltdnigeria.resturantapp.dalc.AddressDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.FoodOrderDalc;
 import com.mickleentityltdnigeria.resturantapp.dalc.UserDalc;
@@ -37,6 +40,8 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mickleentityltdnigeria.resturantapp.AppGlobals.StartActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -99,6 +104,7 @@ public class CheckOutFragment extends Fragment {
 
     EditText txtBillingAddress,txtBillingPhone, txtBillingCity, txtBillingZipCode, txtBillingContactPerson;
     EditText txtShippingAddress,txtShippingPhone , txtShippingCity, txtShippingZipCode, txtShippingContactPerson;
+    TextView txtGetMICKLEPAYWALLETID;
     Spinner spinerPlaceOderAddress;
     TextView txtStatus;
     Button btnPlaceOrder, btnNewAddress;
@@ -126,12 +132,27 @@ public class CheckOutFragment extends Fragment {
         txtStatus = view.findViewById(R.id.txtOrderCartStatus);
         btnPlaceOrder = view.findViewById(R.id.btnPlaceOrder);
         btnNewAddress = view.findViewById(R.id.btnAddShippingAddress);
+        txtGetMICKLEPAYWALLETID = view.findViewById(R.id.txtGetMICKLEPAYWALLETID);
         //
         this.progress.setVisibility(View.VISIBLE);
         module.addressDalc = new AddressDalc();
         userDalc = new UserDalc();
         orderDalc = new FoodOrderDalc();
         btnPlaceOrder.setEnabled(false);
+        //
+        txtGetMICKLEPAYWALLETID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    String web = getString(R.string.mickle_pay_url);
+                    Uri uri = Uri.parse("https://" + web);
+                    Intent callIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    StartActivity(callIntent);
+                }catch (Exception e){
+                    Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         //
         try {
             setBillingAddress();

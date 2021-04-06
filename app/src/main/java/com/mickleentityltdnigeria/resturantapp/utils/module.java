@@ -43,7 +43,7 @@ public class module {
         return s.charAt(0) + s.substring(1).toLowerCase();
     }
 
-    public static Event<LoginSuccessHandler> loginSuccessHandlerEvent = new Event<LoginSuccessHandler>();
+    public static Event<LoginSuccessHandler> loginSuccessHandlerEvent = new Event<>();
 
     public  static void userSignedInSuccessfully(FirebaseUser user){
         //raise event
@@ -52,8 +52,8 @@ public class module {
         }
     }
 
-    public static List<FoodOrderDetail> orderDetails = new ArrayList<FoodOrderDetail>();
-    public static List<CartItem> cartItems = new ArrayList<CartItem>();
+    public static List<FoodOrderDetail> orderDetails = new ArrayList<>();
+    public static List<CartItem> cartItems = new ArrayList<>();
     public static FoodItem foodItem;
     public static AddressDalc addressDalc;
 
@@ -129,11 +129,29 @@ public class module {
         return total;
     }
 
-    //Calculates the total quantity of items in the provided FoodOrderDetails.
+    //Calculates the total Value of items in the provided FoodOrderDetails including MarkUps.
     public static double getFoodOrderTotalValue(List<FoodOrderDetail> foodOrderDetails){
         double total = 0;
         for(FoodOrderDetail o:foodOrderDetails){
             total += o.getSubTotal();
+        }
+        return total;
+    }
+
+    //Calculates the total Value of items in the provided FoodOrderDetails excluding MarkUps.
+    public static double getFoodOrderTotalMerchantValue(List<FoodOrderDetail> foodOrderDetails){
+        double total = 0;
+        for(FoodOrderDetail o:foodOrderDetails){
+            total += (o.getFoodPrice() * o.getFoodQty());
+        }
+        return total;
+    }
+
+    //Calculates the total MarkUp Value of items in the provided FoodOrderDetails.
+    public static double getFoodOrderTotalSubMerchantValue(List<FoodOrderDetail> foodOrderDetails){
+        double total = 0;
+        for(FoodOrderDetail o:foodOrderDetails){
+            total += o.getMarkUpValue();
         }
         return total;
     }

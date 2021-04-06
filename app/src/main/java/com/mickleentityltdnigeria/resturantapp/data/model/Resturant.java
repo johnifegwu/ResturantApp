@@ -26,6 +26,7 @@ public class Resturant implements Serializable {
     public String state;
     public String country;
     public String currencyCode;
+    public String MICKLE_PAY_WALLET_ID;
     public String contactPerson;
     public String phone;
     public String email;
@@ -46,7 +47,7 @@ public class Resturant implements Serializable {
 
     public Resturant(){}
 
-    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String currencyCode, String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date dateApproved, String approvedBy, boolean suspended, Date dateSuspended, String suspendedBy, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
+    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String currencyCode, String MICKLE_PAY_WALLET_ID , String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date dateApproved, String approvedBy, boolean suspended, Date dateSuspended, String suspendedBy, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
         this.resturantID = resturantID;
         this.userID = userID;
         this.resturantName = resturantName;
@@ -64,6 +65,7 @@ public class Resturant implements Serializable {
         this.state = state;
         this.country = country;
         this.currencyCode = currencyCode;
+        this.MICKLE_PAY_WALLET_ID = MICKLE_PAY_WALLET_ID;
         this.contactPerson = contactPerson;
         this.phone = phone;
         this.email = email;
@@ -256,6 +258,16 @@ public class Resturant implements Serializable {
     @Exclude
     public void setCurrencyCode(String currencyCode) {
         this.currencyCode = currencyCode;
+    }
+
+    @Exclude
+    public String getMICKLE_PAY_WALLET_ID() {
+        return MICKLE_PAY_WALLET_ID;
+    }
+
+    @Exclude
+    public void setMICKLE_PAY_WALLET_ID(String MICKLE_PAY_WALLET_ID) {
+        this.MICKLE_PAY_WALLET_ID = MICKLE_PAY_WALLET_ID;
     }
 
     @Exclude

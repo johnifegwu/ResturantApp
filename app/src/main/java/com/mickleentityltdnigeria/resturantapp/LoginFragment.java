@@ -256,8 +256,16 @@ public class LoginFragment extends Fragment {
                     FirebaseUser user = mAuth.getCurrentUser();
                     module.userSignedInSuccessfully(user);
                     //
-                    Navigation.findNavController(requireView())
-                            .navigate(R.id.action_LoginFragment_to_FirstFragment);
+                        if(module.userType.equals(module.UserTypeSELLER) || module.userType.equals(module.UserTypeSELLER2)){
+                            Navigation.findNavController(requireView())
+                                    .navigate(R.id.action_LoginFragment_to_newOrdersFragment2);
+                        }else if(module.userType.equals(module.UserTypeSUPPER) || module.userType.equals(module.UserTypeSUPPER2)){
+                            Navigation.findNavController(requireView())
+                                    .navigate(R.id.action_LoginFragment_to_newRegistrationFragment);
+                        }else if(module.userType.equals(module.UserTypeCUSTOMER)){
+                            Navigation.findNavController(requireView())
+                                    .navigate(R.id.action_LoginFragment_to_FirstFragment);
+                        }
                         //
                     } catch (Exception e) {
                         Toast.makeText(requireContext(), e.getMessage().toString(), Toast.LENGTH_SHORT).show();

@@ -111,9 +111,19 @@ public class DeliverOrderFragment extends Fragment {
             // Register interest in the Order Change.
             FoodOrderDetailsEventHandler orderDetailsFetched = new FoodOrderDetailsEventHandler() {
                 public void invoke(List<FoodOrderDetail> orderDetails) {
+                    for(FoodOrderDetail f:orderDetails){
+                        if(f.isDelivered()){
+                            orderDetails.remove(f);
+                        }
+                    }
                     foodOrderDetails.addAll(orderDetails);
                     adapter.appendData(orderDetails);
-                    btnCollectPayment.setEnabled(true);
+                    if(foodOrderDetails.size() > 0){
+                        btnCollectPayment.setEnabled(true);
+
+                    }else{
+                        btnCollectPayment.setEnabled(false);
+                    }
                     progress.setVisibility(View.GONE);
                 }
             };
@@ -121,9 +131,13 @@ public class DeliverOrderFragment extends Fragment {
             FoodOrderDetailsEventHandler orderDetailsNotFound = new FoodOrderDetailsEventHandler() {
                 @Override
                 public void invoke(List<FoodOrderDetail> orderDetails) {
-                    foodOrderDetails = new ArrayList<>();
                     adapter.updateData(foodOrderDetails);
-                    btnCollectPayment.setEnabled(false);
+                    if(foodOrderDetails.size() > 0){
+                        btnCollectPayment.setEnabled(true);
+
+                    }else{
+                        btnCollectPayment.setEnabled(false);
+                    }
                     progress.setVisibility(View.GONE);
                 }
             };

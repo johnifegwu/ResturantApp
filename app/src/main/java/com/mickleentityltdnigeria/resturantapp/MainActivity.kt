@@ -443,6 +443,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun goToMicklePaySettingsFragment(){
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.micklePaySettingsFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun goToDeliverOrderFragment() {
         try {
             if (module.isLoggedIn) {
@@ -504,6 +518,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //Admin menu
             R.id.menu_new_registration -> goToNewRegistrationFragment()
             R.id.menu_Feedback -> goToFeedbackListFragment()
+            R.id.menu_new_mickle_pay -> goToMicklePaySettingsFragment()
 
         }
         return true

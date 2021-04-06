@@ -176,6 +176,7 @@
     <string name="collect_payment">Collect Payment</string>
     <string name="pay">Pay</string>
     <string name="qr_code">QR Code</string>
+    <string name="scan_mickle_pay_qr_code">Scan MICKLE-PAY QR Code</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_splash_screen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -190,6 +191,12 @@
     <string name="_1_markup">1% Markup:</string>
     <string name="total_due">Total Due:</string>
     <string name="manager_sign">Manager Sign</string>
+    <string name="company_name">Company Name</string>
     <string name="customer_sign">Customer Sign</string>
+    <string name="mickle_pay_url">www.mickle-pay.com</string>
+    <string name="mickle_pay_settings">MICKLE-PAY Settings</string>
+    <string name="mickle_pay_wallet_id">MICKLE-PAY WALLET ID</string>
+    <string name="mickle_pay_wallet_notice">MICKLE-PAY WALLET ID required during payment. Get one <u><b><i>here</i></b></u> if you havent.</string>
+    <string name="mickle_pay_wallet_note"><i>Please note that you must register with MICKLE-PAY and enter your WALLET ID in the field provided above. Your WALLET ID is required for customers to successfully make payments to you when they buy any of your product. Download the <b>MICKLE-PAY APP</b> or visit <u>www.mickle-pay.com</u> to begin.</i></string>
 
 </resources>

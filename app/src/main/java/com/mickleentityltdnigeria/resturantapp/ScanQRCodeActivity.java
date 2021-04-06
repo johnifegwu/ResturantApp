@@ -53,13 +53,12 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 mCodeScanner.startPreview();
             }
         });
-        mCodeScanner.startPreview();
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
         requestCameraPermission();
+        super.onResume();
     }
 
     @Override

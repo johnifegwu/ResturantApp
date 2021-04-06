@@ -325,6 +325,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCheckoutShippingPhone" />
 
+        <TextView
+            android:id="@+id/txtGetMICKLEPAYWALLETID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:clickable="true"
+            android:text="@string/mickle_pay_wallet_notice"
+            app:layout_constraintBottom_toTopOf="@+id/txtOrderCartStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/switchOrderAgreement"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:drawableStartCompat="@drawable/ic_baseline_announcement_24"
+            android:focusable="true" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

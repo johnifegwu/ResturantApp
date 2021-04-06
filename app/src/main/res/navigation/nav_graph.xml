@@ -32,6 +32,12 @@
         <action
             android:id="@+id/action_LoginFragment_to_passwordResetFragment"
             app:destination="@id/passwordResetFragment" />
+        <action
+            android:id="@+id/action_LoginFragment_to_newOrdersFragment2"
+            app:destination="@id/newOrdersFragment" />
+        <action
+            android:id="@+id/action_LoginFragment_to_newRegistrationFragment"
+            app:destination="@id/newRegistrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/FirstFragment"
@@ -299,4 +305,9 @@
         android:name="com.mickleentityltdnigeria.resturantapp.MerchantAppendUsersFragment"
         android:label="fragment_append_users"
         tools:layout="@layout/fragment_merchant_append_users" />
+    <fragment
+        android:id="@+id/micklePaySettingsFragment"
+        android:name="com.mickleentityltdnigeria.resturantapp.MicklePaySettingsFragment"
+        android:label="fragment_mickle_pay_settings"
+        tools:layout="@layout/fragment_mickle_pay_settings" />
 </navigation>

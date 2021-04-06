@@ -8,6 +8,11 @@
         android:title="@string/new_registration" />
 
     <item
+        android:id="@+id/menu_new_mickle_pay"
+        android:icon="@drawable/ic_wallet_24"
+        android:title="@string/mickle_pay_settings" />
+
+    <item
         android:id="@+id/menu_Feedback"
         android:icon="@drawable/ic_baseline_feedback2_24"
         android:title="@string/customer_feedback" />

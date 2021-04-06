@@ -1,5 +1,8 @@
 package com.mickleentityltdnigeria.resturantapp;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,8 @@ import com.mickleentityltdnigeria.resturantapp.dalc.CountryDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.Country;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
+import static com.mickleentityltdnigeria.resturantapp.AppGlobals.StartActivity;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SellOnBonAppetit2Fragment#newInstance} factory method to
@@ -30,9 +35,10 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 public class SellOnBonAppetit2Fragment extends Fragment {
 
     EditText txtAddress, txtEmail, txtIDD, txtPhone, txtCity, txtZipCode, txtState;
-    EditText txtCurrency;
+    EditText txtCurrency, txtMicklePayWalletID;
     Spinner spinnerCountry;
     Button btnNext, btnBack;
+    TextView txtMicklePayNote;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -92,7 +98,22 @@ public class SellOnBonAppetit2Fragment extends Fragment {
         this.txtZipCode = view.findViewById(R.id.txtNewRestaurantZipCode);
         this.spinnerCountry = view.findViewById(R.id.spinnerNewRestaurantCountry);
         this.txtCurrency = view.findViewById(R.id.txtNewRestaurantCurrency);
+        this.txtMicklePayNote = view.findViewById(R.id.txtMicklePayNote);
+        this.txtMicklePayWalletID = view.findViewById(R.id.txtNewRestaurantMicklePayWalletID);
         //
+        txtMicklePayNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    String web = getString(R.string.mickle_pay_url);
+                    Uri uri = Uri.parse("https://" + web);
+                    Intent callIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    StartActivity(callIntent);
+                }catch (Exception e){
+                    Toast.makeText(requireContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, CountryDalc.getCountryNamesList(module.myCountries));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCountry.setAdapter(adapter);
@@ -124,6 +145,10 @@ public class SellOnBonAppetit2Fragment extends Fragment {
                     if(txtEmail.getText().toString().isEmpty() || txtZipCode.getText().toString().isEmpty() || txtCity.getText().toString().isEmpty() || txtIDD.getText().toString().isEmpty() || txtPhone.getText().toString().isEmpty()){
                         throw new Exception("Country, City, Zip Code, Phone number and Email are required fields.");
                     }
+                    if(txtMicklePayWalletID.getText().toString().isEmpty()){
+                        txtMicklePayWalletID.setError("MICKLE-PAY WALLET ID required.");
+                        throw new Exception("MICKLE-PAY WALLET ID required.");
+                    }
                     module.newResturant.setZipCode(txtZipCode.getText().toString().trim());
                     module.newResturant.setCity(txtCity.getText().toString().trim());
                     module.newResturant.setState(txtState.getText().toString().trim());
@@ -132,6 +157,7 @@ public class SellOnBonAppetit2Fragment extends Fragment {
                     module.newResturant.setEmail(txtEmail.getText().toString().trim());
                     module.newResturant.setCountry(spinnerCountry.getSelectedItem().toString());
                     module.newResturant.setCurrencyCode(txtCurrency.getText().toString().trim());
+                    module.newResturant.setMICKLE_PAY_WALLET_ID(txtMicklePayWalletID.getText().toString().trim());
                     //
                     NavHostFragment.findNavController(SellOnBonAppetit2Fragment.this)
                             .navigate(R.id.action_sellOnBonAppetit2Fragment_to_sellOnBonAppetit3Fragment);
