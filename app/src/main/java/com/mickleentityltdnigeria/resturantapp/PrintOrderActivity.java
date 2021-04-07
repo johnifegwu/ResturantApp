@@ -1,30 +1,26 @@
 package com.mickleentityltdnigeria.resturantapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.print.PrintHelper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrder;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
+import com.mickleentityltdnigeria.resturantapp.utils.idGen;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -35,6 +31,8 @@ public class PrintOrderActivity extends AppCompatActivity {
     public static FoodOrderDetail foodOrderDetails = new FoodOrderDetail();
     ImageView imgQRCode;
     TextView txtPrintAddress, txtPrintCity, txtPrintZipCode, txtPrintContactPerson, txtPrintContactPhone, txtPrintFoodDesc, txtPrintFoodQty, txtPrintFoodPrice, txtPrintSubTotal, txtPrintMarkup, txtPrintTotalDue;
+    Button btnPrint;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +52,9 @@ public class PrintOrderActivity extends AppCompatActivity {
             txtPrintSubTotal = this.findViewById(R.id.txtPrintSubTotal);
             txtPrintMarkup = this.findViewById(R.id.txtPrintMarkup);
             txtPrintTotalDue = this.findViewById(R.id.txtPrintTotalDue);
+            btnPrint = this.findViewById(R.id.btnPrint);
             //set values
-            View view = getLayoutInflater().inflate(R.layout.activity_print_order,null);
+            view = getLayoutInflater().inflate(R.layout.activity_print_order,null);
             try {
                 QRGEncoder qrgEncoder = new QRGEncoder(foodOrderDetails.getID(), null, QRGContents.Type.TEXT, 500);
                 Bitmap qrImg = qrgEncoder.encodeAsBitmap();
@@ -100,24 +99,32 @@ public class PrintOrderActivity extends AppCompatActivity {
             txtSubTotal.setText((foodOrderDetails.getCurrency() + dc.format(foodOrderDetails.getFoodPrice() * foodOrderDetails.getFoodQty())));
             txtMarkup.setText((foodOrderDetails.getCurrency() + dc.format(foodOrderDetails.getMarkUpValue())));
             txtTotalDue.setText((foodOrderDetails.getCurrency() + dc.format(foodOrderDetails.getSubTotal())));
+            //
+            btnPrint.setVisibility(View.VISIBLE);
+            btnPrint.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    printDoc(view);
+                }
+            });
+            //
+           printDoc(this.view);
+           //
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
-            /* View view = getWindow().getDecorView().findViewById(android.R.id.content);
-            view.setDrawingCacheEnabled(true);
-            view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-            view.buildDrawingCache(true);
-            Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-            view.setDrawingCacheEnabled(false);*/
-
+    private void printDoc(View view){
+        try{
             Bitmap bitmap = getBitmapFromView(PrintOrderActivity.this, view);
             //And to print:
             PrintHelper photoPrinter = new PrintHelper(PrintOrderActivity.this); // Assume that 'this' is your activity
             photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
             photoPrinter.setOrientation(PrintHelper.ORIENTATION_PORTRAIT);
-            photoPrinter.printBitmap("Print Order: " + foodOrderDetails.getID(), bitmap);
+            photoPrinter.printBitmap("Print Order: " + idGen.getInstance().getUUID(), bitmap);
             //finish();
-
-        } catch (Exception e) {
+        }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
