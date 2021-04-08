@@ -19,20 +19,7 @@ public class idGen{
 
     //A function for generating MICKLE-PAY WALLET ID.
     public String getWalletID(String currencyCode){
-        String wID = currencyCode;
-        int i,x;
-        String s;
-        //block one
-        s = UUID.randomUUID().toString();
-        i = s.length();
-        x = i/2;
-        wID += s.substring(1,x);
-        //block two
-        s = UUID.randomUUID().toString();
-        i = s.length();
-        x = i/2;
-        wID += s.substring(x,i);
-        //
+        String wID = currencyCode +  UUID.randomUUID().toString();
         return wID.toUpperCase();
     }
 }

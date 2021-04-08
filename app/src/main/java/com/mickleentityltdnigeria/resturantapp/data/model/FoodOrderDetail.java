@@ -42,8 +42,11 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     public String paymentNote = "";
     public String queryString;
     public boolean isPrinted;
+    public Date orderDate;
+    public String reportQuery;
 
     public FoodOrderDetail() {
+        this.orderDate = new Date();
     }
 
     public FoodOrderDetail(String ID, String oderID, String userID, String foodID, String resturantID, double foodPrice, String foodDesc, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled, boolean isPrinted) {
@@ -70,12 +73,20 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
         this.isCanceled = isCanceled;
         this.markUpValue = ((foodPrice * foodQty) * this.markUp);
         this.queryString = getQueryString(this.resturantID,this.isCanceled, this.isPrinted,this.isShipped,this.isDelivered);
+        this.orderDate = new Date();
+        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
     public static String getQueryString(String resturantID, boolean isCanceled, boolean isPrinted, boolean isShipped, boolean isDelivered){
         return "resturantID=" + resturantID + "+isCanceled=" + isCanceled + "+isPrinted=" + isPrinted +"+isShipped=" + isShipped
                 + "isDelivered=" + isDelivered;
+    }
+
+    @Exclude
+    public static String getReportQuery(String resturantID, int month, int year,  boolean isCanceled, boolean isPrinted, boolean isShipped, boolean isDelivered){
+        String result = resturantID + String.valueOf(month) + String.valueOf(year) + String.valueOf(isCanceled)+String.valueOf(isDelivered)+String.valueOf(isPrinted)+String.valueOf(isShipped);
+        return result;
     }
 
     @Exclude
@@ -292,6 +303,7 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     public void setShipped(boolean shipped) {
         this.isShipped = shipped;
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
@@ -323,6 +335,7 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     public void setDelivered(boolean delivered) {
         isDelivered = delivered;
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
@@ -362,8 +375,9 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
 
     @Exclude
     public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
+        this.isCanceled = canceled;
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
@@ -372,8 +386,8 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     }
 
     @Exclude
-    public void setQueryString(String queryString) {
-        this.queryString = queryString;
+    public String getReportQuery() {
+        return reportQuery;
     }
 
     @Exclude
@@ -385,6 +399,17 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     public void setPrinted(boolean printed) {
         isPrinted = printed;
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+    }
+
+    @Exclude
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    @Exclude
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     @Exclude

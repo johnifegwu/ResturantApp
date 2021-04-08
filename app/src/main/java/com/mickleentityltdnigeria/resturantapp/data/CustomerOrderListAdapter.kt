@@ -195,9 +195,9 @@ class CustomerOrderListAdapter(
                         itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).setOnClickListener {
                                 try {
                                     //
-                                    if (!orderDetail.isPrinted) {
+                                    if (!orderDetail.isPrinted()) {
                                         //
-                                        orderDetail.isCanceled = true
+                                        orderDetail.setCanceled(true)
                                         itemView.findViewById<ProgressBar>(R.id.progressBarSingleCustomerOrder).visibility =
                                             View.VISIBLE
                                         //
