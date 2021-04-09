@@ -125,7 +125,8 @@ public class ShowPictureFragment extends Fragment {
             // Register interest in the completed report
             CartItemChangedHandler cartItemAdded = new CartItemChangedHandler() {
                 public void invoke(List<CartItem> cartItems) {
-                    callGetCartItems(cartItems, view);
+                    progress.setVisibility(View.GONE);
+                    callGetCartItems();
                 }
             };
 
@@ -160,7 +161,7 @@ public class ShowPictureFragment extends Fragment {
         module.MyShoppingCart.AddCartItem(cartItem);
     }
 
-    private void callGetCartItems(List<CartItem> cartItems, View view){
+    private void callGetCartItems(){
         progress.setVisibility(View.GONE);
         module.MyShoppingCart.getCartItems(module.userName);
     }
