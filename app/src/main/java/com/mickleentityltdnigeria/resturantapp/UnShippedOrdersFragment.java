@@ -111,7 +111,6 @@ public class UnShippedOrdersFragment extends Fragment {
             btnScan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    progress.setVisibility(View.VISIBLE);
                     scanQRCode();
                 }
             });

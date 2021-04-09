@@ -159,7 +159,6 @@ public class DeliverOrderFragment extends Fragment {
             view.findViewById(R.id.btnScanQQRCode).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    progress.setVisibility(View.VISIBLE);
                     scanQRCode();
                 }
             });

@@ -3,10 +3,12 @@ package com.mickleentityltdnigeria.resturantapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -53,11 +55,16 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 mCodeScanner.startPreview();
             }
         });
+        //
     }
 
     @Override
     protected void onResume() {
-        requestCameraPermission();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            mCodeScanner.startPreview();
+        } else {
+            requestCameraPermission();
+        }
         super.onResume();
     }
 
