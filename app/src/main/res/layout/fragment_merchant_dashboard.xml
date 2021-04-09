@@ -14,8 +14,20 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
         android:text="@string/print"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerChart"
+        app:layout_constraintEnd_toStartOf="@+id/btnRefreshChart"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnRefreshChart"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:text="@string/refresh"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerChart"
+        app:layout_constraintStart_toEndOf="@+id/btnPrintChart"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
@@ -26,7 +38,7 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnPrintChart"
+        app:layout_constraintStart_toEndOf="@+id/btnRefreshChart"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.mikephil.charting.charts.BarChart

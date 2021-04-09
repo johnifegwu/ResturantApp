@@ -105,7 +105,7 @@ public class MerchantDashboardFragment extends Fragment {
     MerchantReportHelper merchantReportHelper;
     ReportIndicies reportIndicies;
     Spinner spinnerChart;
-    Button btnPrint;
+    Button btnPrint, btnRefresh;
     ProgressBar progress;
     int year = new Date().getYear();
 
@@ -117,6 +117,7 @@ public class MerchantDashboardFragment extends Fragment {
             revenueChart = view.findViewById(R.id.revenueChart);
             spinnerChart = view.findViewById(R.id.spinnerChart);
             btnPrint = view.findViewById(R.id.btnPrintChart);
+            btnRefresh = view.findViewById(R.id.btnRefreshChart);
             progress = view.findViewById(R.id.progressBarChart);
             //
             merchantReportHelper = new MerchantReportHelper(new ReportIndicesEventHandler() {
@@ -128,18 +129,8 @@ public class MerchantDashboardFragment extends Fragment {
                     BarData salesData = getSalesDataSet(reportIndicies);
                     salesData.setValueFormatter(new LargeValueFormatter());
                     salesChart.setData(salesData);
-                    /*XAxis xAxis1 = salesChart.getXAxis();
-                    xAxis1.setValueFormatter(new ValueFormatter() {
-                        @Override
-                        public String getAxisLabel(float value, AxisBase axis) {
-                            super.getAxisLabel(value, axis);
-                            DecimalFormat dc = new DecimalFormat("#,###,##0.00");
-                            String cu = reportIndicies.getCurrencyCode();
-                            return  cu + dc.format(value);
-                        }
-                    });*/
                     Description sd = new Description();
-                    sd.setText((String.valueOf(year) + " to " + String.valueOf(year -1) + " Quarterly Sales Report."));
+                    sd.setText((String.valueOf(year) + " & " + String.valueOf(year -1) + " Quarterly Sales Report."));
                     salesChart.setDescription(sd);
                     salesChart.animateXY(2000, 2000);
                     salesChart.invalidate();
@@ -148,37 +139,35 @@ public class MerchantDashboardFragment extends Fragment {
                     BarData revenueData = getRevenueDataSet(reportIndicies);
                     revenueData.setValueFormatter(new LargeValueFormatter());
                     revenueChart.setData(revenueData);
-                   /* XAxis xAxis = revenueChart.getXAxis();
-                    xAxis.setValueFormatter(new ValueFormatter() {
-                        @Override
-                        public String getAxisLabel(float value, AxisBase axis) {
-                            super.getAxisLabel(value, axis);
-                            DecimalFormat dc = new DecimalFormat("#,###,##0.00");
-                            String cu = reportIndicies.getCurrencyCode();
-                            return  cu + dc.format(value);
-                        }
-                    });*/
                     Description rd = new Description();
-                    rd.setText((String.valueOf(year) + " to " + String.valueOf(year -1) + " Quarterly Revenue Report."));
+                    rd.setText((String.valueOf(year) + " & " + String.valueOf(year -1) + " Quarterly Revenue Report."));
                     revenueChart.setDescription(rd);
                     revenueChart.animateXY(2000, 2000);
                     revenueChart.invalidate();
                 }
             });
             //
-            view.findViewById(R.id.btnPrintChart).setOnClickListener(new View.OnClickListener() {
+            btnPrint.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try{
                         btnPrint.setVisibility(View.INVISIBLE);
+                        btnRefresh.setVisibility(View.INVISIBLE);
                         spinnerChart.setVisibility(View.INVISIBLE);
                         printReport(view);
                         btnPrint.setVisibility(View.VISIBLE);
+                        btnRefresh.setVisibility(View.VISIBLE);
                         spinnerChart.setVisibility(View.VISIBLE);
                     }catch (Exception e){
                         Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
+                }
+            });
+            btnRefresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getReportData(year);
                 }
             });
             //
@@ -248,10 +237,10 @@ public class MerchantDashboardFragment extends Fragment {
 
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, String.valueOf(year) + " Sales");
-        barDataSet1.setColor(Color.rgb(0, 155, 0));
+        barDataSet1.setColors(ColorTemplate.COLORFUL_COLORS);
         //
         BarDataSet barDataSet2 = new BarDataSet(valueSet2, String.valueOf(year -1) + " Sales");
-        barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet2.setColor(Color.rgb(0, 155, 0));
         //
         return new BarData(barDataSet1,barDataSet2);
     }
@@ -305,9 +294,9 @@ public class MerchantDashboardFragment extends Fragment {
     }
 
     private static Bitmap getBitmapFromView(Context context, View view) {
-        view.setLayoutParams(new
+       /* view.setLayoutParams(new
                 ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT));
+                ConstraintLayout.LayoutParams.MATCH_PARENT));*/
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         view.measure(View.MeasureSpec.makeMeasureSpec(dm.widthPixels,
                 View.MeasureSpec.EXACTLY),
