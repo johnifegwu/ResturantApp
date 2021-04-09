@@ -28,6 +28,8 @@ public class ReportIndicies {
     private double prevFourthQuarterRevenue;
     private int prevYear;
 
+    private String currencyCode;
+
     public ReportIndicies() {
     }
 
@@ -50,6 +52,14 @@ public class ReportIndicies {
         this.prevFourthQuarterSales = prevFourthQuarterSales;
         this.prevFourthQuarterRevenue = prevFourthQuarterRevenue;
         this.prevYear = prevYear;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
     public double getFirstQuarterSales() {

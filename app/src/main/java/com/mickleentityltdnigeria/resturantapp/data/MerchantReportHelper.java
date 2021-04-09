@@ -340,14 +340,17 @@ public class MerchantReportHelper {
             prevThirdQuarterSales += f.foodQty;
             prevThirdQuarterRevenue += (f.getFoodQty() * f.foodPrice);
         }
+        String cuCode = "";
         //get fourth Quarter report indices
         for(FoodOrderDetail f:prevFourthQuarterData){
             prevFourthQuarterSales += f.foodQty;
             prevFourthQuarterRevenue += (f.getFoodQty() * f.foodPrice);
+            cuCode = f.getCurrency();
         }
 
         ReportIndicies reportIndicies = new ReportIndicies(firstQuarterSales,firstQuarterRevenue,secondQuarterSales,secondQuarterRevenue, thirdQuarterSales,thirdQuarterRevenue,fourthQuarterSales,fourthQuarterRevenue, year,
                 prevFirstQuarterSales,prevFirstQuarterRevenue,prevSecondQuarterSales,prevSecondQuarterRevenue,prevThirdQuarterSales,prevThirdQuarterRevenue,prevFourthQuarterSales,prevFourthQuarterRevenue,prevYear);
+        reportIndicies.setCurrencyCode(cuCode);
         mReportIndicesEventHandler.invoke(reportIndicies);
     }
 }

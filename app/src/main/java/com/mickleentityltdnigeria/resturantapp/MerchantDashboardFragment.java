@@ -1,8 +1,6 @@
 package com.mickleentityltdnigeria.resturantapp;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.print.PrintHelper;
 
@@ -21,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,17 +33,16 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.mickleentityltdnigeria.resturantapp.dalc.CountryDalc;
 import com.mickleentityltdnigeria.resturantapp.data.MerchantReportHelper;
 import com.mickleentityltdnigeria.resturantapp.data.ReportIndicesEventHandler;
 import com.mickleentityltdnigeria.resturantapp.data.ReportIndicies;
-import com.mickleentityltdnigeria.resturantapp.data.model.Country;
 import com.mickleentityltdnigeria.resturantapp.utils.idGen;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -108,47 +105,39 @@ public class MerchantDashboardFragment extends Fragment {
     MerchantReportHelper merchantReportHelper;
     ReportIndicies reportIndicies;
     Spinner spinnerChart;
+    Button btnPrint;
+    ProgressBar progress;
     int year = new Date().getYear();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try{
-            salesChart = (BarChart) view.findViewById(R.id.salesChart);
-            revenueChart = (BarChart) view.findViewById(R.id.revenueChart);
+            salesChart = view.findViewById(R.id.salesChart);
+            revenueChart = view.findViewById(R.id.revenueChart);
             spinnerChart = view.findViewById(R.id.spinnerChart);
+            btnPrint = view.findViewById(R.id.btnPrintChart);
+            progress = view.findViewById(R.id.progressBarChart);
             //
             merchantReportHelper = new MerchantReportHelper(new ReportIndicesEventHandler() {
                 @Override
                 public void invoke(ReportIndicies mReportIndices) {
+                    progress.setVisibility(View.GONE);
                     reportIndicies = mReportIndices;
                     //display sales report here
-                    BarData salesData = new BarData((IBarDataSet) getSalesDataSet(reportIndicies));
+                    BarData salesData = getSalesDataSet(reportIndicies);
                     salesData.setValueFormatter(new LargeValueFormatter());
                     salesChart.setData(salesData);
-                    XAxis xAxis1 = salesChart.getXAxis();
+                    /*XAxis xAxis1 = salesChart.getXAxis();
                     xAxis1.setValueFormatter(new ValueFormatter() {
                         @Override
                         public String getAxisLabel(float value, AxisBase axis) {
                             super.getAxisLabel(value, axis);
-                            String result = "1st Quarter";
-                            switch((int) value){
-                                case 0:
-                                    result = "1st Quarter";
-                                    break;
-                                case 1:
-                                    result = "2nd Quarter";
-                                    break;
-                                case 2:
-                                    result = "3rd Quarter";
-                                    break;
-                                case 3:
-                                    result = "4th Quarter";
-                                    break;
-                            }
-                            return  result;
+                            DecimalFormat dc = new DecimalFormat("#,###,##0.00");
+                            String cu = reportIndicies.getCurrencyCode();
+                            return  cu + dc.format(value);
                         }
-                    });
+                    });*/
                     Description sd = new Description();
                     sd.setText((String.valueOf(year) + " to " + String.valueOf(year -1) + " Quarterly Sales Report."));
                     salesChart.setDescription(sd);
@@ -156,32 +145,19 @@ public class MerchantDashboardFragment extends Fragment {
                     salesChart.invalidate();
 
                     //display revenue report here
-                    BarData revenueData = new BarData((IBarDataSet) getSalesDataSet(reportIndicies));
+                    BarData revenueData = getRevenueDataSet(reportIndicies);
                     revenueData.setValueFormatter(new LargeValueFormatter());
                     revenueChart.setData(revenueData);
-                    XAxis xAxis = revenueChart.getXAxis();
+                   /* XAxis xAxis = revenueChart.getXAxis();
                     xAxis.setValueFormatter(new ValueFormatter() {
                         @Override
                         public String getAxisLabel(float value, AxisBase axis) {
                             super.getAxisLabel(value, axis);
-                            String result = "1st Quarter";
-                            switch((int) value){
-                                case 0:
-                                    result = "1st Quarter";
-                                    break;
-                                case 1:
-                                    result = "2nd Quarter";
-                                    break;
-                                case 2:
-                                    result = "3rd Quarter";
-                                    break;
-                                case 3:
-                                    result = "4th Quarter";
-                                    break;
-                            }
-                            return  result;
+                            DecimalFormat dc = new DecimalFormat("#,###,##0.00");
+                            String cu = reportIndicies.getCurrencyCode();
+                            return  cu + dc.format(value);
                         }
-                    });
+                    });*/
                     Description rd = new Description();
                     rd.setText((String.valueOf(year) + " to " + String.valueOf(year -1) + " Quarterly Revenue Report."));
                     revenueChart.setDescription(rd);
@@ -194,10 +170,11 @@ public class MerchantDashboardFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try{
-                        Button btnPrint = view.findViewById(R.id.btnPrintChart);
                         btnPrint.setVisibility(View.INVISIBLE);
+                        spinnerChart.setVisibility(View.INVISIBLE);
                         printReport(view);
                         btnPrint.setVisibility(View.VISIBLE);
+                        spinnerChart.setVisibility(View.VISIBLE);
                     }catch (Exception e){
                         Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -206,10 +183,9 @@ public class MerchantDashboardFragment extends Fragment {
             });
             //
             List<String> mYear = new ArrayList<>();
-            Date d = new Date();
-            int x = d.getYear();
+            Integer x = Calendar.getInstance().get(Calendar.YEAR);
             do{
-                mYear.add(String.valueOf(x));
+                mYear.add(x.toString());
                 x--;
             }while (x >= 2021);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mYear);
@@ -236,10 +212,12 @@ public class MerchantDashboardFragment extends Fragment {
 
     private void getReportData(int year){
         try{
+            progress.setVisibility(View.VISIBLE);
             module.checkNetwork();
             this.year = year;
             this.merchantReportHelper.getReportData(module.userData.getResturantID(),year);
         }catch (Exception e){
+            progress.setVisibility(View.GONE);
            Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -247,25 +225,25 @@ public class MerchantDashboardFragment extends Fragment {
     private BarData getSalesDataSet(ReportIndicies reportIndicies) {
         List<BarEntry> valueSet1 = new ArrayList<>();
         //add values for year one
-        BarEntry v1e1 = new BarEntry((float) reportIndicies.getFirstQuarterSales(), 0); // 1st Quarter
+        BarEntry v1e1 = new BarEntry(0, (float) reportIndicies.getFirstQuarterSales()); // 1st Quarter
         valueSet1.add(v1e1);
-        BarEntry v1e2 = new BarEntry((float) reportIndicies.getSecondQuarterSales(), 1); // 2nd Quarter
+        BarEntry v1e2 = new BarEntry(1, (float) reportIndicies.getSecondQuarterSales()); // 2nd Quarter
         valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry((float) reportIndicies.getThirdQuarterSales(), 2); // 3rd Quarter
+        BarEntry v1e3 = new BarEntry(2, (float) reportIndicies.getThirdQuarterSales()); // 3rd Quarter
         valueSet1.add(v1e3);
-        BarEntry v1e4 = new BarEntry((float) reportIndicies.getFirstQuarterSales(), 3); // 4th Quarter
+        BarEntry v1e4 = new BarEntry(3, (float) reportIndicies.getFourthQuarterSales()); // 4th Quarter
         valueSet1.add(v1e4);
 
 
         List<BarEntry> valueSet2 = new ArrayList<>();
         //add values for year 2
-        BarEntry v2e1 = new BarEntry((float) reportIndicies.getPrevFirstQuarterSales(), 0); // 1st Quarter
+        BarEntry v2e1 = new BarEntry(0, (float) reportIndicies.getPrevFirstQuarterSales()); // 1st Quarter
         valueSet2.add(v2e1);
-        BarEntry v2e2 = new BarEntry((float) reportIndicies.getPrevSecondQuarterSales(), 1); // 2nd Quarter
+        BarEntry v2e2 = new BarEntry(1, (float) reportIndicies.getPrevSecondQuarterSales()); // 2nd Quarter
         valueSet2.add(v2e2);
-        BarEntry v2e3 = new BarEntry((float) reportIndicies.getPrevThirdQuarterSales(), 2); // 3rd Quarter
+        BarEntry v2e3 = new BarEntry(2, (float) reportIndicies.getPrevThirdQuarterSales()); // 3rd Quarter
         valueSet2.add(v2e3);
-        BarEntry v2e4 = new BarEntry((float) reportIndicies.getPrevFourthQuarterSales(), 3); // 4th Quarter
+        BarEntry v2e4 = new BarEntry(3, (float) reportIndicies.getPrevFourthQuarterSales()); // 4th Quarter
         valueSet2.add(v2e4);
 
 
@@ -281,25 +259,25 @@ public class MerchantDashboardFragment extends Fragment {
     private BarData getRevenueDataSet(ReportIndicies reportIndicies) {
         List<BarEntry> valueSet1 = new ArrayList<>();
         //add values for year one
-        BarEntry v1e1 = new BarEntry((float) reportIndicies.getFirstQuarterRevenue(), 0); // 1st Quarter
+        BarEntry v1e1 = new BarEntry(0, (float) reportIndicies.getFirstQuarterRevenue()); // 1st Quarter
         valueSet1.add(v1e1);
-        BarEntry v1e2 = new BarEntry((float) reportIndicies.getSecondQuarterRevenue(), 1); // 2nd Quarter
+        BarEntry v1e2 = new BarEntry(1, (float) reportIndicies.getSecondQuarterRevenue()); // 2nd Quarter
         valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry((float) reportIndicies.getThirdQuarterRevenue(), 2); // 3rd Quarter
+        BarEntry v1e3 = new BarEntry(2, (float) reportIndicies.getThirdQuarterRevenue()); // 3rd Quarter
         valueSet1.add(v1e3);
-        BarEntry v1e4 = new BarEntry((float) reportIndicies.getFourthQuarterRevenue(), 3); // 4th Quarter
+        BarEntry v1e4 = new BarEntry(3, (float) reportIndicies.getFourthQuarterRevenue()); // 4th Quarter
         valueSet1.add(v1e4);
 
 
         List<BarEntry> valueSet2 = new ArrayList<>();
         //add values for year 2
-        BarEntry v2e1 = new BarEntry((float) reportIndicies.getPrevFirstQuarterRevenue(), 0); // 1st Quarter
+        BarEntry v2e1 = new BarEntry(0, (float) reportIndicies.getPrevFirstQuarterRevenue()); // 1st Quarter
         valueSet2.add(v2e1);
-        BarEntry v2e2 = new BarEntry((float) reportIndicies.getPrevSecondQuarterRevenue(), 1); // 2nd Quarter
+        BarEntry v2e2 = new BarEntry(1, (float) reportIndicies.getPrevSecondQuarterRevenue()); // 2nd Quarter
         valueSet2.add(v2e2);
-        BarEntry v2e3 = new BarEntry((float) reportIndicies.getPrevThirdQuarterRevenue(), 2); // 3rd Quarter
+        BarEntry v2e3 = new BarEntry(2, (float) reportIndicies.getPrevThirdQuarterRevenue()); // 3rd Quarter
         valueSet2.add(v2e3);
-        BarEntry v2e4 = new BarEntry((float) reportIndicies.getPrevFourthQuarterRevenue(), 3); // 4th Quarter
+        BarEntry v2e4 = new BarEntry(3, (float) reportIndicies.getPrevFourthQuarterRevenue()); // 4th Quarter
         valueSet2.add(v2e4);
 
 
