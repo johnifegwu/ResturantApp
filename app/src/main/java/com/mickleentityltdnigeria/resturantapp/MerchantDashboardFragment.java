@@ -100,13 +100,14 @@ public class MerchantDashboardFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_merchant_dashboard, container, false);
     }
 
-    BarChart salesChart;
-    BarChart revenueChart;
+    BarChart salesChart, printSalesChart;
+    BarChart revenueChart, printRevenueChart;
     MerchantReportHelper merchantReportHelper;
     ReportIndicies reportIndicies;
     Spinner spinnerChart;
     Button btnPrint, btnRefresh;
     ProgressBar progress;
+    View printView;
     int year = new Date().getYear();
 
     @Override
@@ -119,6 +120,12 @@ public class MerchantDashboardFragment extends Fragment {
             btnPrint = view.findViewById(R.id.btnPrintChart);
             btnRefresh = view.findViewById(R.id.btnRefreshChart);
             progress = view.findViewById(R.id.progressBarChart);
+            btnPrint.setVisibility(View.VISIBLE);
+            btnRefresh.setVisibility(View.VISIBLE);
+            spinnerChart.setVisibility(View.VISIBLE);
+            printView = getLayoutInflater().inflate(R.layout.fragment_merchant_dashboard,null);
+            printSalesChart = printView.findViewById(R.id.salesChart);
+            printRevenueChart = printView.findViewById(R.id.revenueChart);
             //
             merchantReportHelper = new MerchantReportHelper(new ReportIndicesEventHandler() {
                 @Override
@@ -134,6 +141,11 @@ public class MerchantDashboardFragment extends Fragment {
                     salesChart.setDescription(sd);
                     salesChart.animateXY(2000, 2000);
                     salesChart.invalidate();
+                    //set print data for sales
+                    printSalesChart.setData(salesData);
+                    printSalesChart.setDescription(sd);
+                    printSalesChart.animateXY(2000, 2000);
+                    printSalesChart.invalidate();
 
                     //display revenue report here
                     BarData revenueData = getRevenueDataSet(reportIndicies);
@@ -144,6 +156,11 @@ public class MerchantDashboardFragment extends Fragment {
                     revenueChart.setDescription(rd);
                     revenueChart.animateXY(2000, 2000);
                     revenueChart.invalidate();
+                    //set print data for revenue
+                    printRevenueChart.setData(revenueData);
+                    printRevenueChart.setDescription(rd);
+                    printRevenueChart.animateXY(2000, 2000);
+                    printRevenueChart.invalidate();
                 }
             });
             //
@@ -151,13 +168,7 @@ public class MerchantDashboardFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try{
-                        btnPrint.setVisibility(View.INVISIBLE);
-                        btnRefresh.setVisibility(View.INVISIBLE);
-                        spinnerChart.setVisibility(View.INVISIBLE);
-                        printReport(view);
-                        btnPrint.setVisibility(View.VISIBLE);
-                        btnRefresh.setVisibility(View.VISIBLE);
-                        spinnerChart.setVisibility(View.VISIBLE);
+                        printReport(printView);
                     }catch (Exception e){
                         Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -286,7 +297,7 @@ public class MerchantDashboardFragment extends Fragment {
             PrintHelper photoPrinter = new PrintHelper(requireContext()); // Assume that 'this' is your activity
             photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
             photoPrinter.setOrientation(PrintHelper.ORIENTATION_PORTRAIT);
-            photoPrinter.printBitmap("Print Order: " + idGen.getInstance().getUUID(), bitmap);
+            photoPrinter.printBitmap("Print Revenue - Sales Report_" + new Date().toString() , bitmap);
             //finish();
         }catch (Exception e){
             Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

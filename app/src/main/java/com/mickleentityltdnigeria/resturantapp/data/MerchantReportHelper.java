@@ -5,31 +5,25 @@ import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodOrderDetailsEventHandler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MerchantReportHelper {
 
     public ReportIndicesEventHandler mReportIndicesEventHandler;
 
-    private final List<FoodOrderDetail> firstQuarterData;
-    private final List<FoodOrderDetail> secondQuarterData;
-    private final List<FoodOrderDetail> thirdQuarterData;
-    private final List<FoodOrderDetail> fourthQuarterData;
-
     private final FoodOrderDalc firstQuarterDalc;
     private final FoodOrderDalc secondQuarterDalc;
     private final FoodOrderDalc thirdQuarterDalc;
     private final FoodOrderDalc fourthQuarterDalc;
 
-    private final List<FoodOrderDetail> prevFirstQuarterData;
-    private final List<FoodOrderDetail> prevSecondQuarterData;
-    private final List<FoodOrderDetail> prevThirdQuarterData;
-    private final List<FoodOrderDetail> prevFourthQuarterData;
 
     private final FoodOrderDalc prevFirstQuarterDalc;
     private final FoodOrderDalc prevSecondQuarterDalc;
     private final FoodOrderDalc prevThirdQuarterDalc;
     private final FoodOrderDalc prevFourthQuarterDalc;
+
+    private ReportIndicies reportIndicies;
 
     public MerchantReportHelper(ReportIndicesEventHandler mReportIndicesEventHandler) {
         this.mReportIndicesEventHandler = mReportIndicesEventHandler;
@@ -37,46 +31,43 @@ public class MerchantReportHelper {
         this.secondQuarterDalc = new FoodOrderDalc();
         this.thirdQuarterDalc = new FoodOrderDalc();
         this.fourthQuarterDalc = new FoodOrderDalc();
-        this.firstQuarterData = new ArrayList<>();
-        this.secondQuarterData = new ArrayList<>();
-        this.thirdQuarterData = new ArrayList<>();
-        this.fourthQuarterData = new ArrayList<>();
+
         //previous year
         this.prevFirstQuarterDalc = new FoodOrderDalc();
         this.prevSecondQuarterDalc = new FoodOrderDalc();
         this.prevThirdQuarterDalc = new FoodOrderDalc();
         this.prevFourthQuarterDalc = new FoodOrderDalc();
-        this.prevFirstQuarterData = new ArrayList<>();
-        this.prevSecondQuarterData = new ArrayList<>();
-        this.prevThirdQuarterData = new ArrayList<>();
-        this.prevFourthQuarterData = new ArrayList<>();
+
+        this.reportIndicies = new ReportIndicies(0,0,0,0,0,0,0,0, Calendar.getInstance().get(Calendar.YEAR),0,0,0,0,0,0,0,0,Calendar.getInstance().get(Calendar.YEAR));
+
     }
 
     private int countDown = 24;
 
     public void getReportData(String restaurantID, int year){
         //set Listeners for first quarter
-        FoodOrderDetailsEventHandler firstQuarterDataFetched = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler firstQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
-                firstQuarterData.addAll(foodOrderDetails);
+                reportIndicies.setFirstQuarterSales(reportIndicies.getFirstQuarterSales() + reportIndex.getTotalSales());
+                reportIndicies.setFirstQuarterRevenue(reportIndicies.getFirstQuarterRevenue() + reportIndex.getTotalRevenue());
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        FoodOrderDetailsEventHandler firstQuarterDataNotFound = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler firstQuarterDataNotFound = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        this.firstQuarterDalc.foodOrderDetailsNotFound.addListener(firstQuarterDataNotFound);
-        this.firstQuarterDalc.foodOrderDetailsFetched.addListener(firstQuarterDataFetched);
+        this.firstQuarterDalc.reportIndexNotFound.addListener(firstQuarterDataNotFound);
+        this.firstQuarterDalc.reportIndexFetched.addListener(firstQuarterDataFetched);
         //get January data
         firstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,1,year,false,true,true,true);
         //get February data
@@ -85,27 +76,28 @@ public class MerchantReportHelper {
         firstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,3,year,false,true,true,true);
 
         //set Listeners for second quarter
-        FoodOrderDetailsEventHandler secondQuarterDataFetched = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler secondQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
-                secondQuarterData.addAll(foodOrderDetails);
+                reportIndicies.setSecondQuarterSales(reportIndicies.getSecondQuarterSales() + reportIndex.getTotalSales());
+                reportIndicies.setSecondQuarterRevenue(reportIndicies.getSecondQuarterRevenue() + reportIndex.getTotalRevenue());
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        FoodOrderDetailsEventHandler secondQuarterDataNotFound = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler secondQuarterDataNotFound = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        this.secondQuarterDalc.foodOrderDetailsNotFound.addListener(secondQuarterDataNotFound);
-        this.secondQuarterDalc.foodOrderDetailsFetched.addListener(secondQuarterDataFetched);
+        this.secondQuarterDalc.reportIndexNotFound.addListener(secondQuarterDataNotFound);
+        this.secondQuarterDalc.reportIndexFetched.addListener(secondQuarterDataFetched);
         //get April data
         secondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,4,year,false,true,true,true);
         //get May data
@@ -114,27 +106,28 @@ public class MerchantReportHelper {
         secondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,6,year,false,true,true,true);
 
         //set Listeners for third quarter
-        FoodOrderDetailsEventHandler thirdQuarterDataFetched = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler thirdQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
-                thirdQuarterData.addAll(foodOrderDetails);
+                reportIndicies.setThirdQuarterSales(reportIndicies.getThirdQuarterSales() + reportIndex.getTotalSales());
+                reportIndicies.setThirdQuarterRevenue(reportIndicies.getThirdQuarterRevenue() + reportIndex.getTotalRevenue());
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        FoodOrderDetailsEventHandler thirdQuarterDataNotFound = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler thirdQuarterDataNotFound = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        this.thirdQuarterDalc.foodOrderDetailsNotFound.addListener(thirdQuarterDataNotFound);
-        this.thirdQuarterDalc.foodOrderDetailsFetched.addListener(thirdQuarterDataFetched);
+        this.thirdQuarterDalc.reportIndexNotFound.addListener(thirdQuarterDataNotFound);
+        this.thirdQuarterDalc.reportIndexFetched.addListener(thirdQuarterDataFetched);
         //get July data
         thirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,7,year,false,true,true,true);
         //get August data
@@ -143,27 +136,28 @@ public class MerchantReportHelper {
         thirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,9,year,false,true,true,true);
 
         //set Listeners for fourth quarter
-        FoodOrderDetailsEventHandler fourthQuarterDataFetched = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler fourthQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
-                fourthQuarterData.addAll(foodOrderDetails);
+                reportIndicies.setFourthQuarterSales(reportIndicies.getFourthQuarterSales() + reportIndex.getTotalSales());
+                reportIndicies.setFourthQuarterRevenue(reportIndicies.getFourthQuarterRevenue() + reportIndex.getTotalRevenue());
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        FoodOrderDetailsEventHandler fourthQuarterDataNotFound = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler fourthQuarterDataNotFound = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        this.fourthQuarterDalc.foodOrderDetailsNotFound.addListener(fourthQuarterDataNotFound);
-        this.fourthQuarterDalc.foodOrderDetailsFetched.addListener(fourthQuarterDataFetched);
+        this.fourthQuarterDalc.reportIndexNotFound.addListener(fourthQuarterDataNotFound);
+        this.fourthQuarterDalc.reportIndexFetched.addListener(fourthQuarterDataFetched);
         //get July data
         fourthQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,10,year,false,true,true,true);
         //get August data
@@ -174,27 +168,28 @@ public class MerchantReportHelper {
         //get previous year report
         int prevYear = (year -1);
         //set Listeners for first quarter
-        FoodOrderDetailsEventHandler prevFirstQuarterDataFetched = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler prevFirstQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
-                prevFirstQuarterData.addAll(foodOrderDetails);
+                reportIndicies.setPrevFirstQuarterSales(reportIndicies.getPrevFirstQuarterSales() + reportIndex.getTotalSales());
+                reportIndicies.setPrevFirstQuarterRevenue(reportIndicies.getPrevFirstQuarterRevenue() + reportIndex.getTotalRevenue());
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        FoodOrderDetailsEventHandler prevFirstQuarterDataNotFound = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler prevFirstQuarterDataNotFound = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        this.prevFirstQuarterDalc.foodOrderDetailsNotFound.addListener(prevFirstQuarterDataNotFound);
-        this.prevFirstQuarterDalc.foodOrderDetailsFetched.addListener(prevFirstQuarterDataFetched);
+        this.prevFirstQuarterDalc.reportIndexNotFound.addListener(prevFirstQuarterDataNotFound);
+        this.prevFirstQuarterDalc.reportIndexFetched.addListener(prevFirstQuarterDataFetched);
         //get January data
         prevFirstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,1,prevYear,false,true,true,true);
         //get February data
@@ -203,27 +198,28 @@ public class MerchantReportHelper {
         prevFirstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,3,prevYear,false,true,true,true);
 
         //set Listeners for second quarter
-        FoodOrderDetailsEventHandler prevSecondQuarterDataFetched = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler prevSecondQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
-                prevSecondQuarterData.addAll(foodOrderDetails);
+                reportIndicies.setPrevSecondQuarterSales(reportIndicies.getPrevSecondQuarterSales() + reportIndex.getTotalSales());
+                reportIndicies.setPrevSecondQuarterRevenue(reportIndicies.getPrevSecondQuarterRevenue() + reportIndex.getTotalRevenue());
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        FoodOrderDetailsEventHandler prevSecondQuarterDataNotFound = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler prevSecondQuarterDataNotFound = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        this.prevSecondQuarterDalc.foodOrderDetailsNotFound.addListener(prevSecondQuarterDataNotFound);
-        this.prevSecondQuarterDalc.foodOrderDetailsFetched.addListener(prevSecondQuarterDataFetched);
+        this.prevSecondQuarterDalc.reportIndexNotFound.addListener(prevSecondQuarterDataNotFound);
+        this.prevSecondQuarterDalc.reportIndexFetched.addListener(prevSecondQuarterDataFetched);
         //get April data
         prevSecondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,4,prevYear,false,true,true,true);
         //get May data
@@ -232,27 +228,28 @@ public class MerchantReportHelper {
         prevSecondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,6,prevYear,false,true,true,true);
 
         //set Listeners for third quarter
-        FoodOrderDetailsEventHandler prevThirdQuarterDataFetched = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler prevThirdQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
-                prevThirdQuarterData.addAll(foodOrderDetails);
+                reportIndicies.setPrevThirdQuarterSales(reportIndicies.getPrevThirdQuarterSales() + reportIndex.getTotalSales());
+                reportIndicies.setPrevThirdQuarterRevenue(reportIndicies.getPrevThirdQuarterRevenue() + reportIndex.getTotalRevenue());
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        FoodOrderDetailsEventHandler prevThirdQuarterDataNotFound = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler prevThirdQuarterDataNotFound = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        this.prevThirdQuarterDalc.foodOrderDetailsNotFound.addListener(prevThirdQuarterDataNotFound);
-        this.prevThirdQuarterDalc.foodOrderDetailsFetched.addListener(prevThirdQuarterDataFetched);
+        this.prevThirdQuarterDalc.reportIndexNotFound.addListener(prevThirdQuarterDataNotFound);
+        this.prevThirdQuarterDalc.reportIndexFetched.addListener(prevThirdQuarterDataFetched);
         //get July data
         prevThirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,7,prevYear,false,true,true,true);
         //get August data
@@ -261,27 +258,28 @@ public class MerchantReportHelper {
         prevThirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,9,prevYear,false,true,true,true);
 
         //set Listeners for fourth quarter
-        FoodOrderDetailsEventHandler prevFourthQuarterDataFetched = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler prevFourthQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
-                prevFourthQuarterData.addAll(foodOrderDetails);
+                reportIndicies.setPrevFourthQuarterSales(reportIndicies.getPrevFourthQuarterSales() + reportIndex.getTotalSales());
+                reportIndicies.setPrevFourthQuarterRevenue(reportIndicies.getPrevFourthQuarterRevenue() + reportIndex.getTotalRevenue());
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        FoodOrderDetailsEventHandler prevFourthQuarterDataNotFound = new FoodOrderDetailsEventHandler() {
+        ReportIndexEventHandler prevFourthQuarterDataNotFound = new ReportIndexEventHandler() {
             @Override
-            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+            public void invoke(ReportIndex reportIndex) {
                 countDown --;
                 if(countDown <= 0){
-                    raiseEvent(year);
+                    raiseEvent(reportIndicies);
                 }
             }
         };
-        this.prevFourthQuarterDalc.foodOrderDetailsNotFound.addListener(prevFourthQuarterDataNotFound);
-        this.prevFourthQuarterDalc.foodOrderDetailsFetched.addListener(prevFourthQuarterDataFetched);
+        this.prevFourthQuarterDalc.reportIndexNotFound.addListener(prevFourthQuarterDataNotFound);
+        this.prevFourthQuarterDalc.reportIndexFetched.addListener(prevFourthQuarterDataFetched);
         //get July data
         prevFourthQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,10,prevYear,false,true,true,true);
         //get August data
@@ -291,66 +289,7 @@ public class MerchantReportHelper {
 
     }
 
-    private void raiseEvent(int year){
-        //
-        int prevYear = (year -1);
-        double firstQuarterSales = 0, firstQuarterRevenue = 0;
-        double secondQuarterSales = 0, secondQuarterRevenue = 0;
-        double thirdQuarterSales = 0, thirdQuarterRevenue = 0;
-        double fourthQuarterSales = 0, fourthQuarterRevenue = 0;
-
-        //get first Quarter report indices
-        for(FoodOrderDetail f:firstQuarterData){
-            firstQuarterSales += f.foodQty;
-            firstQuarterRevenue += (f.getFoodQty() * f.foodPrice);
-        }
-        //get second Quarter report indices
-        for(FoodOrderDetail f:secondQuarterData){
-            secondQuarterSales += f.foodQty;
-            secondQuarterRevenue += (f.getFoodQty() * f.foodPrice);
-        }
-        //get third Quarter report indices
-        for(FoodOrderDetail f:thirdQuarterData){
-            thirdQuarterSales += f.foodQty;
-            thirdQuarterRevenue += (f.getFoodQty() * f.foodPrice);
-        }
-        //get fourth Quarter report indices
-        for(FoodOrderDetail f:fourthQuarterData){
-            fourthQuarterSales += f.foodQty;
-            fourthQuarterRevenue += (f.getFoodQty() * f.foodPrice);
-        }
-        //previous year
-        double prevFirstQuarterSales = 0, prevFirstQuarterRevenue = 0;
-        double prevSecondQuarterSales = 0, prevSecondQuarterRevenue = 0;
-        double prevThirdQuarterSales = 0, prevThirdQuarterRevenue = 0;
-        double prevFourthQuarterSales = 0, prevFourthQuarterRevenue = 0;
-
-        //get first Quarter report indices
-        for(FoodOrderDetail f:prevFirstQuarterData){
-            prevFirstQuarterSales += f.foodQty;
-            prevFirstQuarterRevenue += (f.getFoodQty() * f.foodPrice);
-        }
-        //get second Quarter report indices
-        for(FoodOrderDetail f:prevSecondQuarterData){
-            prevSecondQuarterSales += f.foodQty;
-            prevSecondQuarterRevenue += (f.getFoodQty() * f.foodPrice);
-        }
-        //get third Quarter report indices
-        for(FoodOrderDetail f:prevThirdQuarterData){
-            prevThirdQuarterSales += f.foodQty;
-            prevThirdQuarterRevenue += (f.getFoodQty() * f.foodPrice);
-        }
-        String cuCode = "";
-        //get fourth Quarter report indices
-        for(FoodOrderDetail f:prevFourthQuarterData){
-            prevFourthQuarterSales += f.foodQty;
-            prevFourthQuarterRevenue += (f.getFoodQty() * f.foodPrice);
-            cuCode = f.getCurrency();
-        }
-
-        ReportIndicies reportIndicies = new ReportIndicies(firstQuarterSales,firstQuarterRevenue,secondQuarterSales,secondQuarterRevenue, thirdQuarterSales,thirdQuarterRevenue,fourthQuarterSales,fourthQuarterRevenue, year,
-                prevFirstQuarterSales,prevFirstQuarterRevenue,prevSecondQuarterSales,prevSecondQuarterRevenue,prevThirdQuarterSales,prevThirdQuarterRevenue,prevFourthQuarterSales,prevFourthQuarterRevenue,prevYear);
-        reportIndicies.setCurrencyCode(cuCode);
+    private void raiseEvent(ReportIndicies reportIndicies){
         mReportIndicesEventHandler.invoke(reportIndicies);
     }
 }

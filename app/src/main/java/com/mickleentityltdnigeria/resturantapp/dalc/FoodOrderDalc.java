@@ -9,6 +9,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mickleentityltdnigeria.resturantapp.data.ReportIndex;
+import com.mickleentityltdnigeria.resturantapp.data.ReportIndexEventHandler;
 import com.mickleentityltdnigeria.resturantapp.data.model.Address;
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
@@ -33,15 +35,18 @@ public class FoodOrderDalc {
     DatabaseReference foodOrderDB = database.getReference("foodorders");
     DatabaseReference foodOrderDetailDB = database.getReference("foodorderdetails");
 
-    public Event<FoodOrderEventHandler> foodOrdersFetched = new Event<FoodOrderEventHandler>();
-    public Event<FoodOrderEventHandler> foodOrdersNotFound = new Event<FoodOrderEventHandler>();
-    public Event<FoodOrderEventHandler> foodOrdersAdded = new Event<FoodOrderEventHandler>();
-    public Event<FoodOrderEventHandler> foodOrdersUpdated = new Event<FoodOrderEventHandler>();
+    public Event<FoodOrderEventHandler> foodOrdersFetched = new Event<>();
+    public Event<FoodOrderEventHandler> foodOrdersNotFound = new Event<>();
+    public Event<FoodOrderEventHandler> foodOrdersAdded = new Event<>();
+    public Event<FoodOrderEventHandler> foodOrdersUpdated = new Event<>();
 
     public Event<FoodOrderDetailsEventHandler> foodOrderDetailsFetched = new Event<>();
     public Event<FoodOrderDetailsEventHandler> foodOrderDetailsNotFound = new Event<>();
     public Event<FoodOrderDetailsEventHandler> foodOrderDetailsAdded = new Event<>();
     public Event<FoodOrderDetailsEventHandler> foodOrderDetailsUpdated = new Event<>();
+
+    public Event<ReportIndexEventHandler> reportIndexFetched = new Event<>();
+    public Event<ReportIndexEventHandler> reportIndexNotFound = new Event<>();
 
     public FoodOrderDalc() {
     }
@@ -321,23 +326,25 @@ public class FoodOrderDalc {
                 if (snapshot.exists()) {
                     if (snapshot.exists()) {
                         //
-                        List<FoodOrderDetail> result = new ArrayList<>();
+                       ReportIndex result = new ReportIndex(0,0);
                         //
                         if (snapshot.hasChildren()){
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 FoodOrderDetail foodOrderDetail = userSnapshot.getValue(FoodOrderDetail.class);
-                                result.add(foodOrderDetail);
+                                assert foodOrderDetail != null;
+                                result.setTotalSales(result.getTotalSales() + foodOrderDetail.getFoodQty());
+                                result.setTotalRevenue(result.getTotalRevenue() + (foodOrderDetail.getFoodQty() * foodOrderDetail.getFoodPrice()));
                             }
                             //raise event
-                            for (FoodOrderDetailsEventHandler listener : foodOrderDetailsFetched.listeners()) {
+                            for (ReportIndexEventHandler listener : reportIndexFetched.listeners()) {
                                 listener.invoke(result);
                             }
                         }
                     }
                 }else{
                     //raise event
-                    for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
-                        List<FoodOrderDetail> result = new ArrayList<>();
+                    for (ReportIndexEventHandler listener : reportIndexNotFound.listeners()) {
+                        ReportIndex result = new ReportIndex(0,0);
                         listener.invoke(result);
                     }
                 }
