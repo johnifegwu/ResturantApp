@@ -98,7 +98,7 @@ public class AppendedUserAdapter extends RecyclerView.Adapter<AppendedUserAdapte
                                 progress.setVisibility(View.VISIBLE);
                                 try {
                                     module.checkNetwork();
-                                    if (module.userType.equals(module.UserTypeSELLER2)) {
+                                    if (module.userType.equals(module.UserTypeSELLER2) || module.userType.equals(module.UserTypeSUPPER2)) {
                                         throw new Exception("You lack the privilege to perform this task.");
                                     }
                                     userDalc.unAppendUser(users.get(myViewHolder.getLayoutPosition()).getUserName());
@@ -140,7 +140,7 @@ public class AppendedUserAdapter extends RecyclerView.Adapter<AppendedUserAdapte
             TextView txtEmail = itemView.findViewById(R.id.txtAppendedUserEmail);
             TextView txtFullName = itemView.findViewById(R.id.txtAppendedUserFullName);
             ImageView btnUnAppendUser = itemView.findViewById(R.id.btnUnAppendUser);
-            if (user.getUserType().equals(module.UserTypeSELLER)) {
+            if (user.getUserType().equals(module.UserTypeSELLER) || user.getUserType().equals(module.UserTypeSUPPER)) {
                 btnUnAppendUser.setEnabled(false);
             }
             txtEmail.setText(user.getUserName());

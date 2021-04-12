@@ -1,14 +1,17 @@
 package com.mickleentityltdnigeria.resturantapp.data;
 
-import com.mickleentityltdnigeria.resturantapp.dalc.FoodOrderDalc;
-import com.mickleentityltdnigeria.resturantapp.data.model.FoodOrderDetail;
-import com.mickleentityltdnigeria.resturantapp.extensions.FoodOrderDetailsEventHandler;
+import android.content.Context;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.mickleentityltdnigeria.resturantapp.dalc.FoodOrderDalc;
+import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc;
+import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
+import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
+
 import java.util.Calendar;
 import java.util.List;
 
-public class MerchantReportHelper {
+public class AdminReportHelper {
 
     public ReportIndicesEventHandler mReportIndicesEventHandler;
 
@@ -24,9 +27,17 @@ public class MerchantReportHelper {
     private final FoodOrderDalc prevFourthQuarterDalc;
 
     private ReportIndicies reportIndicies;
+    private Context mContext;
 
-    public MerchantReportHelper(ReportIndicesEventHandler mReportIndicesEventHandler) {
+    private ResturantDalc resturantDalc;
+
+    private int countDown = -1;
+    private int year;
+
+    public AdminReportHelper(ReportIndicesEventHandler mReportIndicesEventHandler, Context context) {
         this.mReportIndicesEventHandler = mReportIndicesEventHandler;
+        this.mContext = context;
+        this.resturantDalc = new ResturantDalc();
         this.firstQuarterDalc = new FoodOrderDalc();
         this.secondQuarterDalc = new FoodOrderDalc();
         this.thirdQuarterDalc = new FoodOrderDalc();
@@ -40,11 +51,18 @@ public class MerchantReportHelper {
 
         this.reportIndicies = new ReportIndicies(0,0,0,0,0,0,0,0, Calendar.getInstance().get(Calendar.YEAR),0,0,0,0,0,0,0,0,Calendar.getInstance().get(Calendar.YEAR));
 
-    }
+        //set listeners for fetched restaurant data
+        ResturantUpdatedHandler onRestaurantDataFetched = new ResturantUpdatedHandler() {
+            @Override
+            public void invoke(List<Resturant> resturantList) {
+                countDown = (24 * resturantList.size());
+                for(Resturant r:resturantList){
+                    getReportData(r.getResturantID(),year);
+                }
+            }
+        };
+        resturantDalc.resturantDataFetched.addListener(onRestaurantDataFetched);
 
-    private int countDown = 24;
-
-    public void getReportData(String restaurantID, int year){
         //set Listeners for first quarter
         ReportIndexEventHandler firstQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
@@ -68,12 +86,6 @@ public class MerchantReportHelper {
         };
         this.firstQuarterDalc.reportIndexNotFound.addListener(firstQuarterDataNotFound);
         this.firstQuarterDalc.reportIndexFetched.addListener(firstQuarterDataFetched);
-        //get January data
-        firstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,1,year,false,true,true,true);
-        //get February data
-        firstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,2,year,false,true,true,true);
-        //get March data
-        firstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,3,year,false,true,true,true);
 
         //set Listeners for second quarter
         ReportIndexEventHandler secondQuarterDataFetched = new ReportIndexEventHandler() {
@@ -98,12 +110,6 @@ public class MerchantReportHelper {
         };
         this.secondQuarterDalc.reportIndexNotFound.addListener(secondQuarterDataNotFound);
         this.secondQuarterDalc.reportIndexFetched.addListener(secondQuarterDataFetched);
-        //get April data
-        secondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,4,year,false,true,true,true);
-        //get May data
-        secondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,5,year,false,true,true,true);
-        //get June data
-        secondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,6,year,false,true,true,true);
 
         //set Listeners for third quarter
         ReportIndexEventHandler thirdQuarterDataFetched = new ReportIndexEventHandler() {
@@ -128,12 +134,7 @@ public class MerchantReportHelper {
         };
         this.thirdQuarterDalc.reportIndexNotFound.addListener(thirdQuarterDataNotFound);
         this.thirdQuarterDalc.reportIndexFetched.addListener(thirdQuarterDataFetched);
-        //get July data
-        thirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,7,year,false,true,true,true);
-        //get August data
-        thirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,8,year,false,true,true,true);
-        //get September data
-        thirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,9,year,false,true,true,true);
+
 
         //set Listeners for fourth quarter
         ReportIndexEventHandler fourthQuarterDataFetched = new ReportIndexEventHandler() {
@@ -158,15 +159,7 @@ public class MerchantReportHelper {
         };
         this.fourthQuarterDalc.reportIndexNotFound.addListener(fourthQuarterDataNotFound);
         this.fourthQuarterDalc.reportIndexFetched.addListener(fourthQuarterDataFetched);
-        //get October data
-        fourthQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,10,year,false,true,true,true);
-        //get November data
-        fourthQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,11,year,false,true,true,true);
-        //get December data
-        fourthQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,12,year,false,true,true,true);
-
-        //get previous year report
-        int prevYear = (year -1);
+        
         //set Listeners for first quarter
         ReportIndexEventHandler prevFirstQuarterDataFetched = new ReportIndexEventHandler() {
             @Override
@@ -190,12 +183,7 @@ public class MerchantReportHelper {
         };
         this.prevFirstQuarterDalc.reportIndexNotFound.addListener(prevFirstQuarterDataNotFound);
         this.prevFirstQuarterDalc.reportIndexFetched.addListener(prevFirstQuarterDataFetched);
-        //get January data
-        prevFirstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,1,prevYear,false,true,true,true);
-        //get February data
-        prevFirstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,2,prevYear,false,true,true,true);
-        //get March data
-        prevFirstQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,3,prevYear,false,true,true,true);
+
 
         //set Listeners for second quarter
         ReportIndexEventHandler prevSecondQuarterDataFetched = new ReportIndexEventHandler() {
@@ -220,12 +208,7 @@ public class MerchantReportHelper {
         };
         this.prevSecondQuarterDalc.reportIndexNotFound.addListener(prevSecondQuarterDataNotFound);
         this.prevSecondQuarterDalc.reportIndexFetched.addListener(prevSecondQuarterDataFetched);
-        //get April data
-        prevSecondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,4,prevYear,false,true,true,true);
-        //get May data
-        prevSecondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,5,prevYear,false,true,true,true);
-        //get June data
-        prevSecondQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,6,prevYear,false,true,true,true);
+
 
         //set Listeners for third quarter
         ReportIndexEventHandler prevThirdQuarterDataFetched = new ReportIndexEventHandler() {
@@ -250,12 +233,7 @@ public class MerchantReportHelper {
         };
         this.prevThirdQuarterDalc.reportIndexNotFound.addListener(prevThirdQuarterDataNotFound);
         this.prevThirdQuarterDalc.reportIndexFetched.addListener(prevThirdQuarterDataFetched);
-        //get July data
-        prevThirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,7,prevYear,false,true,true,true);
-        //get August data
-        prevThirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,8,prevYear,false,true,true,true);
-        //get September data
-        prevThirdQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,9,prevYear,false,true,true,true);
+
 
         //set Listeners for fourth quarter
         ReportIndexEventHandler prevFourthQuarterDataFetched = new ReportIndexEventHandler() {
@@ -280,17 +258,85 @@ public class MerchantReportHelper {
         };
         this.prevFourthQuarterDalc.reportIndexNotFound.addListener(prevFourthQuarterDataNotFound);
         this.prevFourthQuarterDalc.reportIndexFetched.addListener(prevFourthQuarterDataFetched);
-        //get October data
-        prevFourthQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,10,prevYear,false,true,true,true);
-        //get November data
-        prevFourthQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,11,prevYear,false,true,true,true);
-        //get December data
-        prevFourthQuarterDalc.getFoodOrderDetailsByReportQuery(restaurantID,12,prevYear,false,true,true,true);
 
+    }
+
+    private void getReportData(String restaurantID, int year){
+        try {
+            //get previous year report
+            int prevYear = (year - 1);
+
+            //get January data
+            firstQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 1, year, false, true, true, true);
+            //get February data
+            firstQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 2, year, false, true, true, true);
+            //get March data
+            firstQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 3, year, false, true, true, true);
+
+            //get April data
+            secondQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 4, year, false, true, true, true);
+            //get May data
+            secondQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 5, year, false, true, true, true);
+            //get June data
+            secondQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 6, year, false, true, true, true);
+
+            //get July data
+            thirdQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 7, year, false, true, true, true);
+            //get August data
+            thirdQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 8, year, false, true, true, true);
+            //get September data
+            thirdQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 9, year, false, true, true, true);
+
+            //get October data
+            fourthQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 10, year, false, true, true, true);
+            //get November data
+            fourthQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 11, year, false, true, true, true);
+            //get December data
+            fourthQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 12, year, false, true, true, true);
+
+            //get January data
+            prevFirstQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 1, prevYear, false, true, true, true);
+            //get February data
+            prevFirstQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 2, prevYear, false, true, true, true);
+            //get March data
+            prevFirstQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 3, prevYear, false, true, true, true);
+
+            //get April data
+            prevSecondQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 4, prevYear, false, true, true, true);
+            //get May data
+            prevSecondQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 5, prevYear, false, true, true, true);
+            //get June data
+            prevSecondQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 6, prevYear, false, true, true, true);
+
+            //get July data
+            prevThirdQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 7, prevYear, false, true, true, true);
+            //get August data
+            prevThirdQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 8, prevYear, false, true, true, true);
+            //get September data
+            prevThirdQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 9, prevYear, false, true, true, true);
+
+            //get October data
+            prevFourthQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 10, prevYear, false, true, true, true);
+            //get November data
+            prevFourthQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 11, prevYear, false, true, true, true);
+            //get December data
+            prevFourthQuarterDalc.getFoodOrderDetailsByReportQueryForAdmin(restaurantID, 12, prevYear, false, true, true, true);
+        }catch (Exception e){
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void getReport(String country, int year){
+        this.year = year;
+        try{
+            this.resturantDalc.getResturantByCountry(country);
+        }catch (Exception e){
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void raiseEvent(ReportIndicies reportIndicies){
         mReportIndicesEventHandler.invoke(reportIndicies);
     }
-}
 
+}

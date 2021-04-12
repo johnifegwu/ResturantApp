@@ -63,7 +63,7 @@ public class UserDalc {
 
     }
 
-    public void AppendUser(String userRegisteredEmail, String userType){
+    public void AppendUser(String RestaurantID, String userRegisteredEmail, String userType){
         ValueEventListener onDataChangedListener =  new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,7 +74,7 @@ public class UserDalc {
                             for(DataSnapshot userSnapshot:snapshot.getChildren()){
                                 User user = userSnapshot.getValue(User.class);
                                 //Append user to the system.
-                                userDB.child(user.getUserID()).child("resturantID").setValue(module.userData.resturantID);
+                                userDB.child(user.getUserID()).child("resturantID").setValue(RestaurantID);
                                 userDB.child(user.getUserID()).child("userType").setValue(userType);
                                 //raise event
                                 for (UserUpdatedHandler listener : newUserAppended.listeners()) {

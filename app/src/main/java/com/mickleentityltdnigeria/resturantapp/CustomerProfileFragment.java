@@ -108,6 +108,7 @@ public class CustomerProfileFragment extends Fragment {
         this.spinnerProfileCountry = view.findViewById(R.id.spinnerProfileCountry);
         this.progress = view.findViewById(R.id.progressBarProfile);
         progress.setVisibility(View.VISIBLE);
+        this.txtProfileIDD.setKeyListener(null);
         //
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, CountryDalc.getCountryNamesList(module.myCountries));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

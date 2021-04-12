@@ -20,7 +20,6 @@ public class FeedBackDalc {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference feedbackDB = database.getReference("feedback");
-    Query query = FirebaseDatabase.getInstance().getReference("feedback");
 
     public Event<FeedBackEventHandler> newFeedBackAdded = new Event<>();
     public Event<FeedBackEventHandler> feedBackUpdated = new Event<>();
@@ -108,7 +107,8 @@ public class FeedBackDalc {
             }
         };
         //
-        query.orderByChild("isResolved")
+        Query query = FirebaseDatabase.getInstance().getReference("feedback")
+                .orderByChild("isResolved")
                 .equalTo(isResolved);
         query.addListenerForSingleValueEvent(onDataChangedListener);
         //

@@ -87,6 +87,9 @@ public class MerchantAppendUsersFragment extends Fragment {
     AppendedUserAdapter adapter;
     RecyclerView recyclerView;
 
+    public static boolean isAdmin = false;
+    private static final String adminCode = "-967-MICKLE-ENTITY-LTD-BON-APPETIT-APP";
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -122,7 +125,11 @@ public class MerchantAppendUsersFragment extends Fragment {
             @Override
             public void invoke(List<User> users) {
                 //get already appended users.
-                userDalc.getUsersByRestaurant(module.userData.resturantID);
+                if(isAdmin){
+                    userDalc.getUsersByRestaurant(adminCode);
+                }else{
+                    userDalc.getUsersByRestaurant(module.userData.resturantID);
+                }
             }
         };
         userDalc.newUserAppended.addListener(userAppended);
@@ -155,14 +162,18 @@ public class MerchantAppendUsersFragment extends Fragment {
                 try{
                     progress.setVisibility(View.VISIBLE);
                     module.checkNetwork();
-                    if(module.userType.equals(module.UserTypeSELLER2)){
+                    if(module.userType.equals(module.UserTypeSELLER2) || module.userType.equals(module.UserTypeSUPPER2)){
                         throw new Exception("You lack the privilege to perform this task.");
                     }
                     if(txtEmail.getText().toString().isEmpty()){
                         throw new Exception("User registered Email is required.");
                     }
                     //save data
-                    userDalc.AppendUser(txtEmail.getText().toString().trim(), module.UserTypeSELLER2);
+                    if(isAdmin){
+                        userDalc.AppendUser(adminCode,txtEmail.getText().toString().trim(), module.UserTypeSUPPER2);
+                    }else{
+                        userDalc.AppendUser(module.userData.resturantID, txtEmail.getText().toString().trim(), module.UserTypeSELLER2);
+                    }
                 }catch(Exception e){
                     progress.setVisibility(View.GONE);
                     Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -170,6 +181,10 @@ public class MerchantAppendUsersFragment extends Fragment {
             }
         });
         //get already appended users.
-        userDalc.getUsersByRestaurant(module.userData.resturantID);
+        if(isAdmin){
+            userDalc.getUsersByRestaurant(adminCode);
+        }else{
+            userDalc.getUsersByRestaurant(module.userData.resturantID);
+        }
     }
 }

@@ -114,6 +114,8 @@ public class MyRestaurantFragment extends Fragment {
         this.progress = view.findViewById(R.id.progressBarMyRestaurant);
         btnSave.setEnabled(false);
         txtCurrency.setKeyListener(null);
+        txtIDD.setKeyListener(null);
+        txtCountry.setKeyListener(null);
         //
         ResturantUpdatedHandler resturantFetched = new ResturantUpdatedHandler() {
             @Override

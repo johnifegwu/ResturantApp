@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnResolved"
         app:layout_constraintTop_toBottomOf="@+id/txtFeedBackMsgBody"
-        app:srcCompat="@mipmap/email_icon" />
+        app:srcCompat="@drawable/ic_email_48" />
 
     <Button
         android:id="@+id/btnResolved"

@@ -3,6 +3,7 @@ package com.mickleentityltdnigeria.resturantapp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -30,9 +29,12 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.mickleentityltdnigeria.resturantapp.dalc.CountryDalc;
+import com.mickleentityltdnigeria.resturantapp.data.AdminReportHelper;
 import com.mickleentityltdnigeria.resturantapp.data.MerchantReportHelper;
 import com.mickleentityltdnigeria.resturantapp.data.ReportIndicesEventHandler;
 import com.mickleentityltdnigeria.resturantapp.data.ReportIndicies;
+import com.mickleentityltdnigeria.resturantapp.data.model.Country;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
@@ -42,21 +44,19 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MerchantDashboardFragment#newInstance} factory method to
+ * Use the {@link AdminDashboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MerchantDashboardFragment extends Fragment {
-
+public class AdminDashboardFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
     private String mParam1;
     private String mParam2;
 
-    public MerchantDashboardFragment() {
+    public AdminDashboardFragment() {
         // Required empty public constructor
     }
 
@@ -66,11 +66,10 @@ public class MerchantDashboardFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MerchantDashboardFragment.
+     * @return A new instance of fragment AdminDashboardFragment.
      */
-
-    public static MerchantDashboardFragment newInstance(String param1, String param2) {
-        MerchantDashboardFragment fragment = new MerchantDashboardFragment();
+    public static AdminDashboardFragment newInstance(String param1, String param2) {
+        AdminDashboardFragment fragment = new AdminDashboardFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -91,37 +90,72 @@ public class MerchantDashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_merchant_dashboard, container, false);
+        return inflater.inflate(R.layout.fragment_admin_dashboard, container, false);
     }
 
     BarChart salesChart, printSalesChart;
     BarChart revenueChart, printRevenueChart;
-    MerchantReportHelper merchantReportHelper;
+
+    AdminReportHelper adminReportHelper;
     ReportIndicies reportIndicies;
-    Spinner spinnerChart;
-    Button btnPrint, btnRefresh;
+    Spinner spinnerChartCountry, spinnerChartYear;
     ProgressBar progress;
+    ImageView btnPrint, btnRefresh;
     View printView;
+
     int year = Calendar.getInstance().get(Calendar.YEAR);
+    String country = module.userData.getCountry();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.spinnerChartCountry = view.findViewById(R.id.spinnerChartCountry);
+        this.spinnerChartYear = view.findViewById(R.id.spinnerChartYear);
+        this.progress = view.findViewById(R.id.progressBarAdminReport);
+        salesChart = view.findViewById(R.id.salesChartAdmin);
+        revenueChart = view.findViewById(R.id.revenueChartAdmin);
+        btnPrint = view.findViewById(R.id.btnPrintAdminReport);
+        btnRefresh = view.findViewById(R.id.btnRefreshAdminReport);
+        printView = getLayoutInflater().inflate(R.layout.fragment_admin_dashboard,null);
+        printSalesChart = printView.findViewById(R.id.salesChartAdmin);
+        printRevenueChart = printView.findViewById(R.id.revenueChartAdmin);
+        //
         try{
-            salesChart = view.findViewById(R.id.salesChartAdmin);
-            revenueChart = view.findViewById(R.id.revenueChartAdmin);
-            spinnerChart = view.findViewById(R.id.spinnerChart);
-            btnPrint = view.findViewById(R.id.btnPrintChart);
-            btnRefresh = view.findViewById(R.id.btnRefreshChart);
-            progress = view.findViewById(R.id.progressBarChart);
-            btnPrint.setVisibility(View.VISIBLE);
-            btnRefresh.setVisibility(View.VISIBLE);
-            spinnerChart.setVisibility(View.VISIBLE);
-            printView = getLayoutInflater().inflate(R.layout.fragment_merchant_dashboard,null);
-            printSalesChart = printView.findViewById(R.id.salesChartAdmin);
-            printRevenueChart = printView.findViewById(R.id.revenueChartAdmin);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, CountryDalc.getCountryNamesList(module.myCountries));
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerChartCountry.setAdapter(adapter);
+            spinnerChartCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    Country d = module.myCountries.get(position);
+                    //Get selected value of key
+                    country = d.getCountryName();
+                }
+
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+            List<String> mYear = new ArrayList<>();
+            Integer x = Calendar.getInstance().get(Calendar.YEAR);
+            do{
+                mYear.add(x.toString());
+                x--;
+            }while (x >= 2021);
+            ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mYear);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerChartYear.setAdapter(adapterYear);
+            spinnerChartYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    //Get selected value of key
+                    year = Integer.parseInt(mYear.get(position));
+                }
+
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
             //
-            merchantReportHelper = new MerchantReportHelper(new ReportIndicesEventHandler() {
+            adminReportHelper = new AdminReportHelper(new ReportIndicesEventHandler() {
                 @Override
                 public void invoke(ReportIndicies mReportIndices) {
                     progress.setVisibility(View.GONE);
@@ -156,7 +190,7 @@ public class MerchantDashboardFragment extends Fragment {
                     printRevenueChart.animateXY(2000, 2000);
                     printRevenueChart.invalidate();
                 }
-            });
+            }, requireContext());
             //
             btnPrint.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -172,47 +206,29 @@ public class MerchantDashboardFragment extends Fragment {
             btnRefresh.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getReportData(year);
+                    progress.setVisibility(View.VISIBLE);
+                    getReportData(country, year);
                 }
             });
             //
-            List<String> mYear = new ArrayList<>();
-            Integer x = Calendar.getInstance().get(Calendar.YEAR);
-            do{
-                mYear.add(x.toString());
-                x--;
-            }while (x >= 2021);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mYear);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinnerChart.setAdapter(adapter);
-            spinnerChart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                    //Get selected value of key
-                    year = Integer.parseInt(mYear.get(position));
-                }
-
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
-
-            //get report data
-            this.getReportData(year);
+            progress.setVisibility(View.VISIBLE);
+            getReportData(country, year);
             //
         }catch (Exception e){
+            progress.setVisibility(View.GONE);
             Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
     }
 
-    private void getReportData(int year){
+    private void getReportData(String country, int year){
         try{
             progress.setVisibility(View.VISIBLE);
             module.checkNetwork();
-            this.year = year;
-            this.merchantReportHelper.getReportData(module.userData.getResturantID(),year);
+            this.adminReportHelper.getReport(country, year);
         }catch (Exception e){
             progress.setVisibility(View.GONE);
-           Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -317,5 +333,4 @@ public class MerchantDashboardFragment extends Fragment {
         view.draw(canvas);
         return bitmap;
     }
-
 }

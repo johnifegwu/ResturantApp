@@ -36,10 +36,10 @@
         android:hint="@string/last_name"
         android:inputType="none"
         android:nextFocusDown="@id/spinnerCustomerCountry"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerProfileCountry"
+        app:layout_constraintBottom_toBottomOf="@+id/txtProfileFirstName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtProfileMiddleName"
-        app:layout_constraintTop_toBottomOf="@+id/txtProfileEmail"
+        app:layout_constraintTop_toTopOf="@+id/txtProfileFirstName"
         android:autofillHints="" />
 
     <EditText
@@ -53,28 +53,28 @@
         android:hint="@string/middle_name"
         android:inputType="none"
         android:nextFocusDown="@id/txtProfileLastName"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerProfileCountry"
+        app:layout_constraintBottom_toBottomOf="@+id/txtProfileFirstName"
         app:layout_constraintEnd_toStartOf="@+id/txtProfileLastName"
         app:layout_constraintStart_toEndOf="@+id/txtProfileFirstName"
-        app:layout_constraintTop_toBottomOf="@+id/txtProfileEmail"
+        app:layout_constraintTop_toTopOf="@+id/txtProfileFirstName"
         android:autofillHints="" />
 
     <EditText
         android:id="@+id/txtProfileFirstName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
+        android:autofillHints=""
         android:hint="@string/first_name"
         android:inputType="none"
         android:nextFocusDown="@id/txtProfileMiddleName"
         app:layout_constraintBottom_toTopOf="@+id/spinnerProfileCountry"
         app:layout_constraintEnd_toStartOf="@+id/txtProfileMiddleName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtProfileEmail"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/txtProfileEmail" />
 
     <EditText
         android:id="@+id/txtProfilePhone"
@@ -214,12 +214,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/IDD"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/txtProfileAddress"
+        app:layout_constraintEnd_toStartOf="@+id/txtProfilePhone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerProfileCountry" />
 

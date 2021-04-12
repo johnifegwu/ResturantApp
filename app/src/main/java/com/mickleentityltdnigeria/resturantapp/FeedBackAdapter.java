@@ -74,6 +74,7 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
         FeedBackEventHandler feedBackUpdated = new FeedBackEventHandler() {
             @Override
             public void invoke(List<FeedBack> feedBackList) {
+                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_SHORT).show();
                 feedBackDalc.getFeedBack(false);
             }
         };
@@ -85,7 +86,6 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
                 progress.setVisibility(View.GONE);
                 feedBack = feedBackList;
                 notifyDataSetChanged();
-                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_SHORT).show();
             }
         };
         feedBackDalc.feedBackFetched.addListener(feedBackFetched);
@@ -96,7 +96,6 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
                 progress.setVisibility(View.GONE);
                 feedBack.clear();
                 notifyDataSetChanged();
-                Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_SHORT).show();
             }
         };
         feedBackDalc.feedBackNotFound.addListener(feedBackNotFound);

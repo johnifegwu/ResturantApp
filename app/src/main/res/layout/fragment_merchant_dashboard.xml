@@ -45,25 +45,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/salesChart"
+        android:id="@+id/salesChartAdmin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/revenueChart"
+        app:layout_constraintBottom_toTopOf="@+id/revenueChartAdmin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnPrintChart">
     </com.github.mikephil.charting.charts.BarChart>
 
     <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/revenueChart"
+        android:id="@+id/revenueChartAdmin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/salesChart" />
+        app:layout_constraintTop_toBottomOf="@+id/salesChartAdmin" />
 
     <ProgressBar
         android:id="@+id/progressBarChart"

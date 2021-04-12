@@ -277,4 +277,50 @@ public class ResturantDalc {
         //
     }
 
+    public void getResturantByCountry(String country){
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        List<Resturant> result = new ArrayList<Resturant>();
+                        //
+                        if (snapshot.hasChildren()){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                Resturant resturant = userSnapshot.getValue(Resturant.class);
+                                result.add(resturant);
+                            }
+                            //raise event
+                            for (ResturantUpdatedHandler listener : resturantDataFetched.listeners()) {
+                                listener.invoke(result);
+                            }
+                        }
+                    }
+                }else{
+                    //raise event
+                    for (ResturantUpdatedHandler listener : resturantNotFound.listeners()) {
+                        List<Resturant> result = new ArrayList<Resturant>();
+                        listener.invoke(result);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (ResturantUpdatedHandler listener : resturantNotFound.listeners()) {
+                    List<Resturant> result = new ArrayList<Resturant>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        Query query = FirebaseDatabase.getInstance().getReference("Resturants")
+                .orderByChild("country")
+                .equalTo(country);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
+        //
+    }
+
 }

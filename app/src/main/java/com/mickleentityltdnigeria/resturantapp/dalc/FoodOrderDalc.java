@@ -367,4 +367,53 @@ public class FoodOrderDalc {
         //
     }
 
+    public void getFoodOrderDetailsByReportQueryForAdmin(String resturantID, int month, int year, boolean isCanceled,boolean isPrinted, boolean isShipped, boolean isDelivered){
+        String reportQuery = FoodOrderDetail.getReportQuery(resturantID,month,year, isCanceled,isPrinted, isShipped, isDelivered);
+        ValueEventListener onDataChangedListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.exists()) {
+                        //
+                        ReportIndex result = new ReportIndex(0,0);
+                        //
+                        if (snapshot.hasChildren()){
+                            for(DataSnapshot userSnapshot:snapshot.getChildren()){
+                                FoodOrderDetail foodOrderDetail = userSnapshot.getValue(FoodOrderDetail.class);
+                                assert foodOrderDetail != null;
+                                result.setTotalSales(result.getTotalSales() + foodOrderDetail.getFoodQty());
+                                result.setTotalRevenue(result.getTotalRevenue() + foodOrderDetail.getMarkUpValuePaid());
+                            }
+                            //raise event
+                            for (ReportIndexEventHandler listener : reportIndexFetched.listeners()) {
+                                listener.invoke(result);
+                            }
+                        }
+                    }
+                }else{
+                    //raise event
+                    for (ReportIndexEventHandler listener : reportIndexNotFound.listeners()) {
+                        ReportIndex result = new ReportIndex(0,0);
+                        listener.invoke(result);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //raise event
+                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsNotFound.listeners()) {
+                    List<FoodOrderDetail> result = new ArrayList<>();
+                    listener.invoke(result);
+                }
+            }
+        };
+        //
+        Query query = FirebaseDatabase.getInstance().getReference("foodorderdetails")
+                .orderByChild("reportQuery")
+                .equalTo(reportQuery);
+        query.addListenerForSingleValueEvent(onDataChangedListener);
+        //
+    }
+
 }

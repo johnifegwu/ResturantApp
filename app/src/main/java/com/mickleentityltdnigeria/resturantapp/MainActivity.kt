@@ -477,6 +477,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
+                MerchantAppendUsersFragment.isAdmin = false
                 navController.navigate(R.id.merchantAppendUsersFragment)
                 //
             }
@@ -491,7 +492,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
-               // navController.navigate(R.id.adminAppendUsersFragment)
+                MerchantAppendUsersFragment.isAdmin = true
+                navController.navigate(R.id.merchantAppendUsersFragment)
                 //
             }
         } catch (e: Exception) {
@@ -505,7 +507,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 //
                 drawerLayout.closeDrawer(navigationView)
                 val navController = findNavController(R.id.nav_host_fragment)
-               // navController.navigate(R.id.adminDashboardFragment)
+                navController.navigate(R.id.adminDashboardFragment)
                 //
             }
         } catch (e: Exception) {
