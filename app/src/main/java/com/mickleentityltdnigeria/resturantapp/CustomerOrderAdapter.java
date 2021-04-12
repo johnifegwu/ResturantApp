@@ -25,7 +25,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerOrderAdapter  extends RecyclerView.Adapter<CustomerOrderAdapter.ViewHolder> {
+public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdapter.ViewHolder> {
 
     private List<FoodOrderDetail> foodOrderDetails = new ArrayList<>();
     private final Context myContext = ApplicationContextProvider.getContext();
@@ -36,18 +36,18 @@ public class CustomerOrderAdapter  extends RecyclerView.Adapter<CustomerOrderAda
         this.mItemClickListener = mItemClickListener;
     }
 
-    public void updateData(List<FoodOrderDetail> foodOrderDetailList){
+    public void updateData(List<FoodOrderDetail> foodOrderDetailList) {
         this.foodOrderDetails = foodOrderDetailList;
         notifyDataSetChanged();
     }
 
-    public void appendData(List<FoodOrderDetail> foodOrderDetailList){
+    public void appendData(List<FoodOrderDetail> foodOrderDetailList) {
         this.foodOrderDetails.removeAll(foodOrderDetailList);
         this.foodOrderDetails.addAll(foodOrderDetailList);
         notifyDataSetChanged();
     }
 
-    public void clearData(FoodOrderDetail foodOrderDetail){
+    public void clearData(FoodOrderDetail foodOrderDetail) {
         this.foodOrderDetails.remove(foodOrderDetail);
         notifyDataSetChanged();
     }
@@ -55,10 +55,8 @@ public class CustomerOrderAdapter  extends RecyclerView.Adapter<CustomerOrderAda
     @NonNull
     @Override
     public CustomerOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.new_orders_single_row, parent, false);
-        CustomerOrderAdapter.ViewHolder myViewHolder = new CustomerOrderAdapter.ViewHolder(view,myContext);
-        //create click listener
-        return myViewHolder;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_orders_single_row, parent, false);
+        return new CustomerOrderAdapter.ViewHolder(view, myContext);
     }
 
     @Override
@@ -80,13 +78,10 @@ public class CustomerOrderAdapter  extends RecyclerView.Adapter<CustomerOrderAda
             this.myContext = myContext;
         }
 
-        FoodItemDalc foodItemDalc = new FoodItemDalc();
-        FoodOrderDalc foodOrderDalc = new FoodOrderDalc();
-        FoodItem foodItem = new FoodItem();
-        FoodOrder foodOrder = new FoodOrder();
-
-        void bind(FoodOrderDetail foodOrderDetail){
-            try{
+        void bind(FoodOrderDetail foodOrderDetail) {
+            FoodItemDalc foodItemDalc = new FoodItemDalc();
+            FoodOrderDalc foodOrderDalc = new FoodOrderDalc();
+            try {
                 ImageView imgCusOrderImage = itemView.findViewById(R.id.imgCusOrderImage);
                 TextView txtCusOrderItemDesc = itemView.findViewById(R.id.txtCusOrderItemDesc);
                 TextView txtCusOrderQty = itemView.findViewById(R.id.txtCusOrderQty);
@@ -106,116 +101,143 @@ public class CustomerOrderAdapter  extends RecyclerView.Adapter<CustomerOrderAda
                 ImageView btnCusOrderCallCustomer = itemView.findViewById(R.id.btnCusOrderCallCustomer);
                 ImageView btnCusOrderLocation = itemView.findViewById(R.id.btnCusOrderLocation);
                 //Initialize controls
-                if(foodOrderDetail.isCanceled){
+                if (foodOrderDetail.isCanceled) {
                     btnPrepareCusOrder.setEnabled(false);
                     btnShipCusOrder.setEnabled(false);
                     btnDeliverCusOrder.setEnabled(false);
                     btnPrintCusOrder.setEnabled(false);
-                }else if(!foodOrderDetail.isPrinted && !foodOrderDetail.isShipped && !foodOrderDetail.isDelivered){
+                } else if (!foodOrderDetail.isPrinted && !foodOrderDetail.isShipped && !foodOrderDetail.isDelivered) {
                     btnPrepareCusOrder.setEnabled(true);
                     btnShipCusOrder.setEnabled(false);
                     btnDeliverCusOrder.setEnabled(false);
-                }else if(foodOrderDetail.isPrinted && !foodOrderDetail.isShipped && !foodOrderDetail.isDelivered){
+                } else if (foodOrderDetail.isPrinted && !foodOrderDetail.isShipped && !foodOrderDetail.isDelivered) {
                     btnPrepareCusOrder.setEnabled(false);
                     btnShipCusOrder.setEnabled(true);
                     btnDeliverCusOrder.setEnabled(false);
-                }else if(foodOrderDetail.isPrinted && foodOrderDetail.isShipped && !foodOrderDetail.isDelivered){
+                } else if (foodOrderDetail.isPrinted && foodOrderDetail.isShipped && !foodOrderDetail.isDelivered) {
                     btnPrepareCusOrder.setEnabled(false);
                     btnShipCusOrder.setEnabled(false);
                     btnDeliverCusOrder.setEnabled(true);
-                }else if(foodOrderDetail.isPrinted && foodOrderDetail.isShipped && foodOrderDetail.isDelivered){
+                } else if (foodOrderDetail.isPrinted && foodOrderDetail.isShipped && foodOrderDetail.isDelivered) {
                     btnPrepareCusOrder.setEnabled(false);
                     btnShipCusOrder.setEnabled(false);
                     btnDeliverCusOrder.setEnabled(false);
                 }
                 //Set picture and Text
-                try{
+                try {
                     DecimalFormat dc = new DecimalFormat("#,###,##0.00");
                     String cu = foodOrderDetail.getCurrency();
                     //
                     FoodItemUpdatedHandler foodItemsFetched = new FoodItemUpdatedHandler() {
                         @Override
                         public void invoke(List<FoodItem> foodItems) {
-                            foodItem = foodItems.get(0);
-                            imgCusOrderImage.setImageDrawable(ImageHelper.getInstance().imageFromString(foodItem.foodImg));
-                            txtCusOrderItemDesc.setText(foodItem.getFoodDesc());
-                            //Continue Set Text
-                            txtCusOrderQty.setText(String.valueOf(foodOrderDetail.getFoodQty()));
-                            txtCusOrderPrice.setText((cu + foodOrderDetail.getFoodPrice()));
-                            txtCusOrderTotal.setText((cu + dc.format((foodOrderDetail.getSubTotal()))));
-                            //set onClickListener for Prepare, Ship and Deliver
-                            btnPrepareCusOrder.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mItemClickListener.onPrepareOrder(foodOrder, foodOrderDetail);
-                                }
-                            });
-                            btnShipCusOrder.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mItemClickListener.onShipOrder(foodOrder, foodOrderDetail);
-                                }
-                            });
-                            btnDeliverCusOrder.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mItemClickListener.onDeliverOrder(foodOrder, foodOrderDetail);
-                                }
-                            });
-                            btnPrintCusOrder.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mItemClickListener.onPrintOrder(foodOrder, foodOrderDetail);
-                                }
-                            });
+                            imgCusOrderImage.setImageDrawable(ImageHelper.getInstance().imageFromString(foodItems.get(0).getFoodImg()));
+                            foodOrderDetail.setFoodImg(foodItems.get(0).getFoodImg());
                         }
                     };
-                    foodItemDalc.foodItemsFetched.addListener(foodItemsFetched);
-                    foodItemDalc.getFoodItemByFoodID(foodOrderDetail.getFoodID());
-                }catch (Exception e){
+                    if (foodOrderDetail.getFoodImg() == null) {
+                        foodItemDalc.foodItemsFetched.addListener(foodItemsFetched);
+                        foodItemDalc.getFoodItemByFoodID(foodOrderDetail.getFoodID());
+                    } else {
+                        imgCusOrderImage.setImageDrawable(ImageHelper.getInstance().imageFromString(foodOrderDetail.getFoodImg()));
+                    }
+                    //
+                    txtCusOrderItemDesc.setText(foodOrderDetail.getFoodDesc());
+                    //Continue Set Text
+                    txtCusOrderQty.setText(String.valueOf(foodOrderDetail.getFoodQty()));
+                    txtCusOrderPrice.setText((cu + foodOrderDetail.getFoodPrice()));
+                    txtCusOrderTotal.setText((cu + dc.format((foodOrderDetail.getSubTotal()))));
+                    //set onClickListener for Prepare, Ship and Deliver
+                    btnPrepareCusOrder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mItemClickListener.onPrepareOrder(foodOrderDetail.getFoodOrder(), foodOrderDetail);
+                        }
+                    });
+                    btnShipCusOrder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mItemClickListener.onShipOrder(foodOrderDetail.getFoodOrder(), foodOrderDetail);
+                        }
+                    });
+                    btnDeliverCusOrder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mItemClickListener.onDeliverOrder(foodOrderDetail.getFoodOrder(), foodOrderDetail);
+                        }
+                    });
+                    btnPrintCusOrder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mItemClickListener.onPrintOrder(foodOrderDetail.getFoodOrder(), foodOrderDetail);
+                        }
+                    });
+                } catch (Exception e) {
                     Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 //
                 FoodOrderEventHandler foodOrderFetched = new FoodOrderEventHandler() {
                     @Override
                     public void invoke(List<FoodOrder> foodOrders) {
-                        foodOrder = foodOrders.get(0);
-                        txtCusOrderContactPerson.setText(foodOrder.getShippingContactPerson());
-                        txtCusOrderPhone.setText(foodOrder.getShippingContactPhone());
-                        txtCusOrderAddress.setText(foodOrder.getShippingAddress());
-                        txtCusOrderCity.setText(foodOrder.getShippingCity());
-                        txtCusOrderZipCode.setText(foodOrder.getShippingZipCode());
+                        foodOrderDetail.setFoodOrder(foodOrders.get(0));
+                        txtCusOrderContactPerson.setText(foodOrderDetail.getFoodOrder().getShippingContactPerson());
+                        txtCusOrderPhone.setText(foodOrderDetail.getFoodOrder().getShippingContactPhone());
+                        txtCusOrderAddress.setText(foodOrderDetail.getFoodOrder().getShippingAddress());
+                        txtCusOrderCity.setText(foodOrderDetail.getFoodOrder().getShippingCity());
+                        txtCusOrderZipCode.setText(foodOrderDetail.getFoodOrder().getShippingZipCode());
                         //set onClickListener for Calls and Location
                         btnCusOrderCallCustomer.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                mItemClickListener.onCallCustomer(foodOrder);
+                                mItemClickListener.onCallCustomer(foodOrderDetail.getFoodOrder());
                             }
                         });
                         btnCusOrderLocation.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                mItemClickListener.onLocateCustomer(foodOrder);
+                                mItemClickListener.onLocateCustomer(foodOrderDetail.getFoodOrder());
                             }
                         });
                     }
                 };
-                foodOrderDalc.foodOrdersFetched.addListener(foodOrderFetched);
-                foodOrderDalc.getFoodOrderByOrderID(foodOrderDetail.getOderID());
-            }catch (Exception e){
+                if(foodOrderDetail.getFoodOrder() == null){
+                    foodOrderDalc.foodOrdersFetched.addListener(foodOrderFetched);
+                    foodOrderDalc.getFoodOrderByOrderID(foodOrderDetail.getOderID());
+                }else{
+                    txtCusOrderContactPerson.setText(foodOrderDetail.getFoodOrder().getShippingContactPerson());
+                    txtCusOrderPhone.setText(foodOrderDetail.getFoodOrder().getShippingContactPhone());
+                    txtCusOrderAddress.setText(foodOrderDetail.getFoodOrder().getShippingAddress());
+                    txtCusOrderCity.setText(foodOrderDetail.getFoodOrder().getShippingCity());
+                    txtCusOrderZipCode.setText(foodOrderDetail.getFoodOrder().getShippingZipCode());
+                    //set onClickListener for Calls and Location
+                    btnCusOrderCallCustomer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mItemClickListener.onCallCustomer(foodOrderDetail.getFoodOrder());
+                        }
+                    });
+                    btnCusOrderLocation.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mItemClickListener.onLocateCustomer(foodOrderDetail.getFoodOrder());
+                        }
+                    });
+                }
+
+            } catch (Exception e) {
                 Toast.makeText(myContext, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 }
+
 //RecyclerView Click Listener
-interface CustomerAdapterClickListener
-{
+interface CustomerAdapterClickListener {
     void onPrepareOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail);
 
-    void onShipOrder(FoodOrder foodOrder,FoodOrderDetail foodOrderDetail);
+    void onShipOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail);
 
-    void onDeliverOrder(FoodOrder foodOrder ,FoodOrderDetail foodOrderDetail);
+    void onDeliverOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail);
 
     void onPrintOrder(FoodOrder foodOrder, FoodOrderDetail foodOrderDetail);
 

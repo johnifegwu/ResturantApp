@@ -3,6 +3,11 @@
     android:id="@+id/admin_drawer_menu">
 
     <item
+        android:id="@+id/menu_admin_dashboard"
+        android:icon="@drawable/ic_dashboard_24"
+        android:title="@string/dashboard" />
+
+    <item
         android:id="@+id/menu_new_registration"
         android:icon="@drawable/ic_business_24"
         android:title="@string/new_registration" />
@@ -16,5 +21,25 @@
         android:id="@+id/menu_Feedback"
         android:icon="@drawable/ic_baseline_feedback2_24"
         android:title="@string/customer_feedback" />
+
+    <item
+        android:id="@+id/menu_admin_Profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/profile" />
+
+    <item
+        android:id="@+id/menu_admin_append_users"
+        android:icon="@drawable/ic_append_users_24"
+        android:title="@string/append_users" />
+
+    <item
+        android:id="@+id/menu_admin_ChangePassword"
+        android:icon="@drawable/ic_baseline_lock_24"
+        android:title="@string/changePassword" />
+
+    <item
+        android:id="@+id/menu_admin_about"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="@string/about" />
 
 </menu>

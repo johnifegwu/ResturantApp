@@ -107,9 +107,7 @@ public class ShowPictureFragment extends Fragment {
             //
             this.progress.setVisibility( View.VISIBLE);
             try {
-                InputStream ims = new ByteArrayInputStream(ImageHelper.getInstance().base64StringToByteArray(module.foodItem.getFoodImg())); //assetManager.open(this.foodItem.getFoodUrl());
-                Drawable d = Drawable.createFromStream(ims, null);
-                this.foodImg.setImageDrawable(d);
+                this.foodImg.setImageDrawable(ImageHelper.getInstance().imageFromString(module.foodItem.getFoodImg()));
                 this.foodText.setText(module.foodItem.getFoodDesc());
                 this.foodPrice.setText((module.foodItem.getCurrency() + module.foodItem.getFoodPrice()));
             }catch (Exception e){
@@ -129,9 +127,8 @@ public class ShowPictureFragment extends Fragment {
                     callGetCartItems();
                 }
             };
-
             module.MyShoppingCart.cartItemsAdded.addListener("showPictureCartItemAdded",cartItemAdded);
-
+            //
             ResturantUpdatedHandler RestaurantFetched = new ResturantUpdatedHandler() {
                 @Override
                 public void invoke(List<Resturant> Resturant) {
@@ -142,7 +139,12 @@ public class ShowPictureFragment extends Fragment {
                 }
             };
             resturantDalc.resturantDataFetched.addListener(RestaurantFetched);
-            resturantDalc.getResturantByResturantID(module.foodItem.getResturantID());
+            try{
+                module.checkNetwork();
+                resturantDalc.getResturantByResturantID(module.foodItem.getResturantID());
+            }catch (Exception e){
+                Toast.makeText( requireContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
             this.progress.setVisibility( View.GONE);
             txtFulfilledBy.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -155,19 +157,28 @@ public class ShowPictureFragment extends Fragment {
     }
 
     private void addToCart(int Qty, FoodItem foodItem) {
-        progress.setVisibility(View.VISIBLE);
-        CartItem cartItem = new CartItem("",foodItem.foodID, foodItem.resturantID,module.userName,foodItem.foodImg,foodItem.foodPrice
-                ,foodItem.currency,foodItem.foodDesc,foodItem.foodImgUrl,Qty);
-        module.MyShoppingCart.AddCartItem(cartItem);
+        try{
+            progress.setVisibility(View.VISIBLE);
+            module.checkNetwork();
+            CartItem cartItem = new CartItem("",foodItem.foodID, foodItem.resturantID,module.userName,foodItem.foodImg,foodItem.foodPrice
+                    ,foodItem.currency,foodItem.foodDesc,foodItem.foodImgUrl,Qty);
+            module.MyShoppingCart.AddCartItem(cartItem);
+        }catch (Exception e){
+            progress.setVisibility(View.GONE);
+            Toast.makeText( requireContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void callGetCartItems(){
         progress.setVisibility(View.GONE);
-        module.MyShoppingCart.getCartItems(module.userName);
-    }
+        try{
+            module.checkNetwork();
+            module.MyShoppingCart.getCartItems(module.userName);
+        }catch (Exception e){
+            Toast.makeText( requireContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
-   /* private void displayCartQty(List<CartItem> cartItems) {
-        module.MyShoppingCart.getCartItems(module.userName);
-    }*/
+    }
 
 }

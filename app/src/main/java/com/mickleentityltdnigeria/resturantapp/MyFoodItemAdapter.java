@@ -39,8 +39,13 @@ public class MyFoodItemAdapter extends RecyclerView.Adapter<MyFoodItemAdapter.Vi
     private MyFoodItemRecyclerViewItemClickListener mItemClickListener;
     private FoodItemDalc foodItemDalc;
 
-    public void UpdateDate(List<FoodItem> foodItemList) {
+    public void updateData(List<FoodItem> foodItemList) {
         this.foodItems = foodItemList;
+        notifyDataSetChanged();
+    }
+
+    public void updatePicture(String imgString, int LayoutPosition){
+        foodItems.get(LayoutPosition).setFoodImg(imgString);
         notifyDataSetChanged();
     }
 
@@ -60,8 +65,7 @@ public class MyFoodItemAdapter extends RecyclerView.Adapter<MyFoodItemAdapter.Vi
         myViewHolder.itemView.findViewById(R.id.imgUpdateFoodItem).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.onItemClicked(foodItems.get(myViewHolder.getLayoutPosition()), myViewHolder.itemView.findViewById(R.id.imgUpdateFoodItem));
-                notifyDataSetChanged();
+                mItemClickListener.onItemClicked(foodItems.get(myViewHolder.getLayoutPosition()), myViewHolder.getLayoutPosition());
             }
         });
         //
@@ -172,5 +176,5 @@ public class MyFoodItemAdapter extends RecyclerView.Adapter<MyFoodItemAdapter.Vi
 
 //RecyclerView Click Listener
 interface MyFoodItemRecyclerViewItemClickListener {
-    void onItemClicked(FoodItem foodItem, ImageView img);
+    void onItemClicked(FoodItem foodItem, int LayoutPosition);
 }

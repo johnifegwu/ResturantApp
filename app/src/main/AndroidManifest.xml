@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".ApplicationContextProvider"
@@ -15,9 +15,9 @@
         android:roundIcon="@mipmap/app_icon2"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResturantApp">
-        <activity android:name=".PrintOrderActivity"/>
+        <activity android:name=".PrintOrderActivity" />
         <activity android:name=".ScanQRCodeActivity" />
-        <activity android:name=".PaymentActivity"/>
+        <activity android:name=".PaymentActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_Title"

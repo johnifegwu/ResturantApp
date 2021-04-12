@@ -16,6 +16,7 @@ import com.mickleentityltdnigeria.resturantapp.dalc.FeedBackDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.FeedBack;
 import com.mickleentityltdnigeria.resturantapp.extensions.FeedBackEventHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,6 +81,7 @@ public class FeedBackListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         feedBackDalc = new FeedBackDalc();
+        feedBackList = new ArrayList<>();
         //Reference of RecyclerView
         recyclerView = view.findViewById(R.id.feedBackListRecyclerView);
 

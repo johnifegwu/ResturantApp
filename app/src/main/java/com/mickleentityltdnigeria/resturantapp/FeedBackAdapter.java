@@ -18,6 +18,7 @@ import com.mickleentityltdnigeria.resturantapp.data.model.FeedBack;
 import com.mickleentityltdnigeria.resturantapp.extensions.FeedBackEventHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,9 +27,9 @@ import static com.mickleentityltdnigeria.resturantapp.AppGlobals.StartActivity;
 
 public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHolder> {
 
-    private List<FeedBack> feedBack = new ArrayList<>();
+    private List<FeedBack> feedBack;
     private final Context myContext = ApplicationContextProvider.getContext();
-    private FeedBackRecyclerViewItemClickListener mItemClickListener;
+    private final FeedBackRecyclerViewItemClickListener mItemClickListener;
 
     public FeedBackAdapter(List<FeedBack> feedBack, FeedBackRecyclerViewItemClickListener itemClickListener) {
         this.feedBack = feedBack;
@@ -44,7 +45,7 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.a_single_feedback_row, parent, false);
-        ViewHolder myViewHolder = new ViewHolder(view,myContext);
+        ViewHolder myViewHolder = new ViewHolder(view, myContext);
         //create click listener
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +94,7 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
             @Override
             public void invoke(List<FeedBack> feedBackList) {
                 progress.setVisibility(View.GONE);
-                feedBack = new ArrayList<>();
+                feedBack.clear();
                 notifyDataSetChanged();
                 Toast.makeText(myContext,"System updated successfully.",Toast.LENGTH_SHORT).show();
             }
@@ -145,13 +146,14 @@ public class FeedBackAdapter extends RecyclerView.Adapter<FeedBackAdapter.ViewHo
 
         void bind(FeedBack feedBack){
             try{
+                SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
                 TextView txtDate = itemView.findViewById(R.id.txtFeedBackDate);
                 TextView txtFullName = itemView.findViewById(R.id.txtFeedBackFullName);
                 TextView txtEmail = itemView.findViewById(R.id.txtFeedBackEmail);
                 TextView txtFeedBackType = itemView.findViewById(R.id.txtFeedBackType);
                 TextView txtSubject = itemView.findViewById(R.id.txtFeedBackSubject);
                 TextView txtMsgBody = itemView.findViewById(R.id.txtFeedBackMsgBody);
-                txtDate.setText(feedBack.getMsgDate().toString());
+                txtDate.setText(df.format(feedBack.getMsgDate()));
                 txtEmail.setText(feedBack.getUserEmail());
                 txtFeedBackType.setText(feedBack.getFeedBackType());
                 txtFullName.setText(feedBack.getUserFullName());

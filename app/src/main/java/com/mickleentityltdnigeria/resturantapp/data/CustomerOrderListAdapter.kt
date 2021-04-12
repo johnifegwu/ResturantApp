@@ -77,11 +77,6 @@ class CustomerOrderListAdapter(
         return myViewHolder
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val orderDetail = orderDetails[position]
-        holder.bind(orderDetail)
-    }
-
     //puts a call through to the Merchant
     private fun callMerchant(orderDetail: FoodOrderDetail) {
         //
@@ -132,112 +127,117 @@ class CustomerOrderListAdapter(
         //
     }
 
-    override fun getItemCount(): Int {
-        return orderDetails.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(orderDetails[position])
     }
+
+    override fun getItemCount() = orderDetails.size
 
 
     class ViewHolder(view: View, private val myContext: Context) : RecyclerView.ViewHolder(view) {
         //
-        private val foodItemDalc: FoodItemDalc = FoodItemDalc()
-        private val foodOrderDalc: FoodOrderDalc = FoodOrderDalc()
-
-        //
         fun bind(orderDetail: FoodOrderDetail) {
-            lateinit var foodItem: FoodItem
+            //
+            val foodItemDalc: FoodItemDalc = FoodItemDalc()
+            val foodOrderDalc: FoodOrderDalc = FoodOrderDalc()
             //
             try {
                 val dc = DecimalFormat("#,###,##0.00")
                 val cu: String = orderDetail.currency
                 //
-                val foodItemsFetched = FoodItemUpdatedHandler { fooditems ->
+                val foodItemsFetched = FoodItemUpdatedHandler { foodItems ->
                     try {
-                        foodItem = fooditems[0]
-                        //
+                        orderDetail.foodImg = foodItems[0].foodImg
                         itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(
-                            ImageHelper.getInstance().imageFromString(foodItem.foodImg)
+                            ImageHelper.getInstance().imageFromString(orderDetail.foodImg)
                         )
-                        itemView.findViewById<TextView>(R.id.txtCustomerOrderFoodItemName).text =
-                            foodItem.foodDesc
-                        itemView.findViewById<TextView>(R.id.txtCustomerOrderPrice).text =
-                            (cu + orderDetail.foodPrice)
-                        itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text =
-                            (cu + dc.format((orderDetail.subTotal)))
-                        itemView.findViewById<TextView>(R.id.txtCustomerOrderQty).text =
-                            (orderDetail.foodQty.toString())
-                        //
-                        if (!orderDetail.isCanceled() && orderDetail.isPrinted() && !orderDetail.isShipped() && !orderDetail.isDelivered()) {
-                            itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress =
-                                30
-                            itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
-                                false
-                        } else if (!orderDetail.isCanceled() && orderDetail.isPrinted() && orderDetail.isShipped() && !orderDetail.isDelivered()) {
-                            itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress =
-                                50
-                            itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
-                                false
-                        } else if (!orderDetail.isCanceled() && orderDetail.isPrinted() && orderDetail.isShipped() && orderDetail.isDelivered()) {
-                            itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress =
-                                100
-                            itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
-                                false
-                        } else if (!orderDetail.isCanceled() && !orderDetail.isPrinted() && !orderDetail.isShipped() && !orderDetail.isDelivered()) {
-                            itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress =
-                                0
-                            itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
-                                true
-                        } else if (orderDetail.isCanceled()) {
-                            itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
-                                false
-                            itemView.findViewById<TextView>(R.id.textViewCanceled).visibility =
-                                View.VISIBLE
-                        }
-                        itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).setOnClickListener {
-                                try {
-                                    //
-                                    if (!orderDetail.isPrinted()) {
-                                        //
-                                        orderDetail.setCanceled(true)
-                                        itemView.findViewById<ProgressBar>(R.id.progressBarSingleCustomerOrder).visibility =
-                                            View.VISIBLE
-                                        //
-                                        val orderUpdated = FoodOrderDetailsEventHandler { _ ->
-                                                itemView.findViewById<ProgressBar>(R.id.progressBarSingleCustomerOrder).visibility = View.GONE
-                                                itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled = false
-                                                itemView.findViewById<TextView>(R.id.textViewCanceled).visibility = View.VISIBLE
-                                            }
-                                        foodOrderDalc.foodOrderDetailsUpdated.addListener(orderUpdated)
-                                        foodOrderDalc.updateFoodOrderDetails(orderDetail)
-                                        //
-                                    }
-                                } catch (e: Exception) {
-                                    Toast.makeText(getAppContext(), e.message, Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        //
                     } catch (e: Exception) {
                         Toast.makeText(getAppContext(), e.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-                foodItemDalc.foodItemsFetched.addListener(foodItemsFetched)
-                try {
-                    //
+                if(orderDetail.foodImg == null){
+                    foodItemDalc.foodItemsFetched.addListener(foodItemsFetched)
                     foodItemDalc.getFoodItemByFoodID(orderDetail.foodID)
+                }else{
                     //
-                } catch (e: Exception) {
-                    Toast.makeText(getAppContext(), e.message, Toast.LENGTH_SHORT).show()
+                    itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(
+                        ImageHelper.getInstance().imageFromString(orderDetail.foodImg)
+                    )
+                }
+                itemView.findViewById<TextView>(R.id.txtCustomerOrderFoodItemName).text =
+                    orderDetail.foodDesc
+                itemView.findViewById<TextView>(R.id.txtCustomerOrderPrice).text =
+                    (cu + orderDetail.foodPrice)
+                itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text =
+                    (cu + dc.format((orderDetail.subTotal)))
+                itemView.findViewById<TextView>(R.id.txtCustomerOrderQty).text =
+                    (orderDetail.foodQty.toString())
+                //
+                if (!orderDetail.isCanceled() && orderDetail.isPrinted() && !orderDetail.isShipped() && !orderDetail.isDelivered()) {
+                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress =
+                        30
+                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
+                        false
+                } else if (!orderDetail.isCanceled() && orderDetail.isPrinted() && orderDetail.isShipped() && !orderDetail.isDelivered()) {
+                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress =
+                        50
+                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
+                        false
+                } else if (!orderDetail.isCanceled() && orderDetail.isPrinted() && orderDetail.isShipped() && orderDetail.isDelivered()) {
+                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress =
+                        100
+                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
+                        false
+                } else if (!orderDetail.isCanceled() && !orderDetail.isPrinted() && !orderDetail.isShipped() && !orderDetail.isDelivered()) {
+                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus).progress =
+                        0
+                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
+                        true
+                } else if (orderDetail.isCanceled()) {
+                    itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
+                        false
+                    itemView.findViewById<TextView>(R.id.textViewCanceled).visibility =
+                        View.VISIBLE
+                }
+                //
+                itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).setOnClickListener {
+                    try {
+                        //
+                        if (!orderDetail.isPrinted()) {
+                            //
+                            orderDetail.setCanceled(true)
+                            itemView.findViewById<ProgressBar>(R.id.progressBarSingleCustomerOrder).visibility =
+                                View.VISIBLE
+                            //
+                            val orderUpdated = FoodOrderDetailsEventHandler { _ ->
+                                itemView.findViewById<ProgressBar>(R.id.progressBarSingleCustomerOrder).visibility =
+                                    View.GONE
+                                itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).isEnabled =
+                                    false
+                                itemView.findViewById<TextView>(R.id.textViewCanceled).visibility =
+                                    View.VISIBLE
+                            }
+                            foodOrderDalc.foodOrderDetailsUpdated.addListener(orderUpdated)
+                            foodOrderDalc.updateFoodOrderDetails(orderDetail)
+                            //
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(getAppContext(), e.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
                 //
             } catch (e: Exception) {
-                Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(getAppContext(), e.message, Toast.LENGTH_SHORT).show()
             }
         }
 
     }
 
-}
+    }
 
-//RecyclerView Click Listener
-interface CustomerOrderListRecyclerViewItemClickListener {
-    fun onItemClicked(orderDetail: FoodOrderDetail)
-}
+    //RecyclerView Click Listener
+    interface CustomerOrderListRecyclerViewItemClickListener
+    {
+        fun onItemClicked(orderDetail: FoodOrderDetail)
+    }

@@ -45,6 +45,12 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     public Date orderDate;
     public String reportQuery;
 
+    @Exclude
+    private String foodImg = null;
+
+    @Exclude
+    private FoodOrder foodOrder = null;
+
     public FoodOrderDetail() {
         this.orderDate = new Date();
     }
@@ -75,6 +81,26 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
         this.queryString = getQueryString(this.resturantID,this.isCanceled, this.isPrinted,this.isShipped,this.isDelivered);
         this.orderDate = new Date();
         this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+    }
+
+    @Exclude
+    public FoodOrder getFoodOrder() {
+        return foodOrder;
+    }
+
+    @Exclude
+    public void setFoodOrder(FoodOrder foodOrder) {
+        this.foodOrder = foodOrder;
+    }
+
+    @Exclude
+    public String getFoodImg() {
+        return foodImg;
+    }
+
+    @Exclude
+    public void setFoodImg(String foodImg) {
+        this.foodImg = foodImg;
     }
 
     @Exclude

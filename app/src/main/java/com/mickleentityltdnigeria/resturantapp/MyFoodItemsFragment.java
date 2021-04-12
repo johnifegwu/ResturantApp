@@ -93,6 +93,8 @@ public class MyFoodItemsFragment extends Fragment {
     MyFoodItemAdapter adapter;
     List<FoodItem> foodItemList = new ArrayList<>();
     FoodItemDalc foodItemDalc;
+    int layoutPosition;
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -145,19 +147,22 @@ public class MyFoodItemsFragment extends Fragment {
         //set adapter
         adapter = new MyFoodItemAdapter(foodItemList, new MyFoodItemRecyclerViewItemClickListener() {
             @Override
-            public void onItemClicked(FoodItem foodItem, ImageView img) {
-                UpdatePicture(foodItem,img);
+            public void onItemClicked(FoodItem foodItem, int position) {
+                layoutPosition = position;
+                mGetContent.launch("image/*");
             }
         });
+
         //Set adapter to RecyclerView
         recyclerView.setAdapter(adapter);
+
         //get foodItems
         FoodItemUpdatedHandler foodItemsFetched = new FoodItemUpdatedHandler() {
             @Override
             public void invoke(List<FoodItem> foodItems) {
                 progress.setVisibility(View.GONE);
                 foodItemList = foodItems;
-                adapter.UpdateDate(foodItemList);
+                adapter.updateData(foodItemList);
             }
         };
         foodItemDalc.foodItemsFetched.addListener(foodItemsFetched);
@@ -165,20 +170,17 @@ public class MyFoodItemsFragment extends Fragment {
         //
     }
 
-    private void UpdatePicture(FoodItem foodItem, ImageView img){
-        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri uri) {
-                        // Handle the returned Uri
-                        try {
-                            foodItem.setFoodImg(ImageHelper.getInstance().byteArrayToString(ImageHelper.getInstance().decodeFile(uri)));
-                            img.setImageDrawable(ImageHelper.getInstance().imageFromString(foodItem.getFoodImg()));
-                        } catch (Exception e) {
-                            Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show();
-                        }
+    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    // Handle the returned Uri
+                    try {
+                        adapter.updatePicture(ImageHelper.getInstance().byteArrayToString(ImageHelper.getInstance().decodeFile(uri)), layoutPosition);
+                    } catch (Exception e) {
+                        Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show();
                     }
-                });
-    }
+                }
+            });
 
 }

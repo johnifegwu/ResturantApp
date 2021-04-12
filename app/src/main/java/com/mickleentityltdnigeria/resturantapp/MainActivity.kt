@@ -485,6 +485,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun goToAdminAppendUserFragment(){
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+               // navController.navigate(R.id.adminAppendUsersFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun goToAdminDashboardFragment(){
+        try {
+            if (module.isLoggedIn) {
+                //
+                drawerLayout.closeDrawer(navigationView)
+                val navController = findNavController(R.id.nav_host_fragment)
+               // navController.navigate(R.id.adminDashboardFragment)
+                //
+            }
+        } catch (e: Exception) {
+            Toast.makeText(AppGlobals.getAppContext(), e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -519,6 +547,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_new_registration -> goToNewRegistrationFragment()
             R.id.menu_Feedback -> goToFeedbackListFragment()
             R.id.menu_new_mickle_pay -> goToMicklePaySettingsFragment()
+            R.id.menu_admin_Profile -> goToProfileFragment()
+            R.id.menu_admin_ChangePassword -> goToChangePasswordFragment()
+            R.id.menu_admin_about -> gotoAbout()
+            R.id.menu_admin_append_users -> goToAdminAppendUserFragment()
+            R.id.menu_admin_dashboard -> goToAdminDashboardFragment()
 
         }
         return true
