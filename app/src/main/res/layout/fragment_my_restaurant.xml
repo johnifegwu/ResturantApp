@@ -198,11 +198,29 @@
         android:ems="10"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
-        android:nextFocusDown="@id/txtMyRestaurantCountry"
+        android:nextFocusDown="@id/txtMicklePayWalletID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMyRestauranContact" />
+
+        <EditText
+            android:id="@+id/txtMicklePayWalletID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_account_wallet_24"
+            android:ems="10"
+            android:hint="@string/mickle_pay_wallet_id"
+            android:inputType="textEmailAddress"
+            android:nextFocusDown="@id/txtMyRestaurantCountry"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantEmail" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinnerMyRestaurantTypes"
@@ -278,7 +296,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMyRestaurantEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/txtMicklePayWalletID" />
 
         <ProgressBar
             android:id="@+id/progressBarMyRestaurant"

@@ -23,14 +23,11 @@ public class ResturantDalc {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference resturantDB = database.getReference("Resturants");
 
-    public Event<ResturantUpdatedHandler> resturantDataFetched = new Event<ResturantUpdatedHandler>();
-    public Event<ResturantUpdatedHandler> newResturantAdded = new Event<ResturantUpdatedHandler>();
-    public Event<ResturantUpdatedHandler> resturantUpdated = new Event<ResturantUpdatedHandler>();
-    public Event<ResturantUpdatedHandler> resturantDeleted = new Event<ResturantUpdatedHandler>();
-    public Event<ResturantUpdatedHandler> resturantNotFound = new Event<ResturantUpdatedHandler>();
-    public Event<ResturantUpdatedHandler> duplicateResturantEvent = new Event<ResturantUpdatedHandler>();
-
-    private List<Resturant> resturants = new ArrayList<Resturant>();
+    public Event<ResturantUpdatedHandler> resturantDataFetched = new Event<>();
+    public Event<ResturantUpdatedHandler> newResturantAdded = new Event<>();
+    public Event<ResturantUpdatedHandler> resturantUpdated = new Event<>();
+    public Event<ResturantUpdatedHandler> resturantDeleted = new Event<>();
+    public Event<ResturantUpdatedHandler> resturantNotFound = new Event<>();
 
     public ResturantDalc() {
     }

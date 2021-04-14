@@ -36,6 +36,7 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/spinnerChartYear"
         app:layout_constraintStart_toEndOf="@+id/btnRefreshAdminReport"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,6 +47,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,6 +60,7 @@
         android:layout_marginEnd="3dp"
         android:contentDescription="@string/print"
         android:src="@drawable/ic_baseline_print_48"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/btnRefreshAdminReport"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -71,6 +74,7 @@
         android:layout_marginEnd="3dp"
         android:contentDescription="@string/refresh"
         android:src="@drawable/ic_refresh_48"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/spinnerChartCountry"
         app:layout_constraintStart_toEndOf="@+id/btnPrintAdminReport"
         app:layout_constraintTop_toTopOf="parent" />

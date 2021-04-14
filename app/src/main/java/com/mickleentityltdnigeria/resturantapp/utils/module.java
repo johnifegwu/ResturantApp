@@ -17,7 +17,11 @@ import com.mickleentityltdnigeria.resturantapp.exceptions.NoNetworkException;
 import com.mickleentityltdnigeria.resturantapp.extensions.CountryChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.LoginSuccessHandler;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,6 +163,7 @@ public class module {
     //New Restaurant fields
     public static Resturant newResturant = new Resturant();
     public static byte[] newRestaurantImg = null;
+
 
 }
 

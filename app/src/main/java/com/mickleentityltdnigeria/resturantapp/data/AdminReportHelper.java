@@ -329,6 +329,7 @@ public class AdminReportHelper {
     public void getReport(String country, int year){
         this.year = year;
         try{
+            this.reportIndicies = new ReportIndicies(0,0,0,0,0,0,0,0, Calendar.getInstance().get(Calendar.YEAR),0,0,0,0,0,0,0,0,Calendar.getInstance().get(Calendar.YEAR));
             this.resturantDalc.getResturantByCountry(country);
         }catch (Exception e){
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();

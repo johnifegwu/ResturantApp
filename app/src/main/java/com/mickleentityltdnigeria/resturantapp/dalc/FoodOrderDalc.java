@@ -221,7 +221,7 @@ public class FoodOrderDalc {
         Query query = FirebaseDatabase.getInstance().getReference("foodorderdetails")
                 .orderByChild("userID")
                 .equalTo(userID);
-        query.addListenerForSingleValueEvent(onDataChangedListener);
+        query.addValueEventListener(onDataChangedListener);
         //
     }
 
@@ -314,7 +314,7 @@ public class FoodOrderDalc {
         Query query = FirebaseDatabase.getInstance().getReference("foodorderdetails")
                 .orderByChild("queryString")
                 .equalTo(queryString);
-        query.addListenerForSingleValueEvent(onDataChangedListener);
+        query.addValueEventListener(onDataChangedListener);
         //
     }
 
@@ -368,7 +368,7 @@ public class FoodOrderDalc {
     }
 
     public void getFoodOrderDetailsByReportQueryForAdmin(String resturantID, int month, int year, boolean isCanceled,boolean isPrinted, boolean isShipped, boolean isDelivered){
-        String reportQuery = FoodOrderDetail.getReportQuery(resturantID,month,year, isCanceled,isPrinted, isShipped, isDelivered);
+        String reportQuery = FoodOrderDetail.getReportQuery(resturantID, month, year, isCanceled, isPrinted, isShipped, isDelivered);
         ValueEventListener onDataChangedListener =  new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

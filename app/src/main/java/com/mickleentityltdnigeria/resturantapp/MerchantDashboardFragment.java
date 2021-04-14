@@ -108,8 +108,8 @@ public class MerchantDashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try{
-            salesChart = view.findViewById(R.id.salesChartAdmin);
-            revenueChart = view.findViewById(R.id.revenueChartAdmin);
+            salesChart = view.findViewById(R.id.salesChart);
+            revenueChart = view.findViewById(R.id.revenueChart);
             spinnerChart = view.findViewById(R.id.spinnerChart);
             btnPrint = view.findViewById(R.id.btnPrintChart);
             btnRefresh = view.findViewById(R.id.btnRefreshChart);
@@ -118,8 +118,8 @@ public class MerchantDashboardFragment extends Fragment {
             btnRefresh.setVisibility(View.VISIBLE);
             spinnerChart.setVisibility(View.VISIBLE);
             printView = getLayoutInflater().inflate(R.layout.fragment_merchant_dashboard,null);
-            printSalesChart = printView.findViewById(R.id.salesChartAdmin);
-            printRevenueChart = printView.findViewById(R.id.revenueChartAdmin);
+            printSalesChart = printView.findViewById(R.id.salesChart);
+            printRevenueChart = printView.findViewById(R.id.revenueChart);
             //
             merchantReportHelper = new MerchantReportHelper(new ReportIndicesEventHandler() {
                 @Override

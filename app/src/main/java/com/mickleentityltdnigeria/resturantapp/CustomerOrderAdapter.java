@@ -37,7 +37,8 @@ public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdap
     }
 
     public void updateData(List<FoodOrderDetail> foodOrderDetailList) {
-        this.foodOrderDetails = foodOrderDetailList;
+        this.foodOrderDetails.removeAll(foodOrderDetailList);
+        this.foodOrderDetails.addAll(foodOrderDetailList);
         notifyDataSetChanged();
     }
 

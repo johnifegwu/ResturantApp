@@ -121,7 +121,7 @@ public class ApplicationDataDalc {
         };
         //
         Query query = FirebaseDatabase.getInstance().getReference("applicationData")
-                .orderByChild("company_Name");
+                .orderByChild("companyName");
         query.addListenerForSingleValueEvent(onDataChangedListener);
         //
     }

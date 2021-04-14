@@ -115,7 +115,7 @@ public class MicklePaySettingsFragment extends Fragment {
                     String value = d.getCountryName();
                     String key = d.getCountryName();
                     txtIDD.setText(("+" + d.getDialCode()));
-                    applicationData.setCompany_CurrencyCode(d.getCurrencyCode());
+                    applicationData.setCompanyCurrencyCode(d.getCurrencyCode());
                 }
 
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -132,22 +132,22 @@ public class MicklePaySettingsFragment extends Fragment {
                     int x = 0;
                     for (int i = 0; i < module.myCountries.size(); i++) {
                         Country c = module.myCountries.get(i);
-                        if(c.getCountryName().equals(applicationData.getCompany_Country())){
+                        if(c.getCountryName().equals(applicationData.getCompanyCountry())){
                             country = c;
                             x = i;
                             break;
                         }
                     }
-                    txtCompany.setText(applicationData.getCompany_Name());
-                    txtWalletID.setText(applicationData.getMICKLE_PAY_WALLET_ID());
-                    txtAddress.setText(applicationData.getCompany_Address());
-                    txtCity.setText(applicationData.getCompany_City());
-                    txtZipCode.setText(applicationData.getCompany_ZipCode());
-                    txtState.setText(applicationData.getCompany_State());
-                    txtContact.setText(applicationData.getContact_Person());
-                    txtPhone.setText(applicationData.getContact_Phone().substring((country.dialCode.length()+1)));
+                    txtCompany.setText(applicationData.getCompanyName());
+                    txtWalletID.setText(applicationData.getMicklePayWalletID());
+                    txtAddress.setText(applicationData.getCompanyAddress());
+                    txtCity.setText(applicationData.getCompanyCity());
+                    txtZipCode.setText(applicationData.getCompanyZipCode());
+                    txtState.setText(applicationData.getCompanyState());
+                    txtContact.setText(applicationData.getContactPerson());
+                    txtPhone.setText(applicationData.getContactPhone().substring((country.dialCode.length()+1)));
                     txtIDD.setText(country.getDialCode());
-                    txtEmail.setText(applicationData.getContact_Email());
+                    txtEmail.setText(applicationData.getContactEmail());
                     spinnerCountry.setSelection(x);
                 }
             };
@@ -195,16 +195,16 @@ public class MicklePaySettingsFragment extends Fragment {
                             throw new Exception("MICKLE-PAY WALLET ID is required.");
                         }
                         //
-                        applicationData.setCompany_Address(txtAddress.getText().toString().trim());
-                        applicationData.setCompany_City(txtCity.getText().toString().trim());
-                        applicationData.setCompany_Country(spinnerCountry.getSelectedItem().toString());
-                        applicationData.setCompany_Name(txtCompany.getText().toString().trim());
-                        applicationData.setCompany_State(txtState.getText().toString().trim());
-                        applicationData.setCompany_ZipCode(txtZipCode.getText().toString().trim());
-                        applicationData.setContact_Email(txtEmail.getText().toString().trim());
-                        applicationData.setContact_Person(txtContact.getText().toString().trim());
-                        applicationData.setContact_Phone((txtIDD.getText().toString().trim() + txtPhone.getText().toString().trim()));
-                        applicationData.setMICKLE_PAY_WALLET_ID(txtWalletID.getText().toString().trim());
+                        applicationData.setCompanyAddress(txtAddress.getText().toString().trim());
+                        applicationData.setCompanyCity(txtCity.getText().toString().trim());
+                        applicationData.setCompanyCountry(spinnerCountry.getSelectedItem().toString());
+                        applicationData.setCompanyName(txtCompany.getText().toString().trim());
+                        applicationData.setCompanyState(txtState.getText().toString().trim());
+                        applicationData.setCompanyZipCode(txtZipCode.getText().toString().trim());
+                        applicationData.setContactEmail(txtEmail.getText().toString().trim());
+                        applicationData.setContactPerson(txtContact.getText().toString().trim());
+                        applicationData.setContactPhone((txtIDD.getText().toString().trim() + txtPhone.getText().toString().trim()));
+                        applicationData.setMicklePayWalletID(txtWalletID.getText().toString().trim());
                         //
                         if(isAddNew){
                             applicationDataDalc.addApplicationData(applicationData);
@@ -218,6 +218,7 @@ public class MicklePaySettingsFragment extends Fragment {
                     }
                 }
             });
+            this.applicationDataDalc.getApplicationData();
         }catch (Exception e){
             progress.setVisibility(View.GONE);
             Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -4,8 +4,12 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.mickleentityltdnigeria.resturantapp.utils.DateHelper;
+import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -52,7 +56,7 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     private FoodOrder foodOrder = null;
 
     public FoodOrderDetail() {
-        this.orderDate = new Date();
+        this.orderDate = new Timestamp(new Date().getTime());
     }
 
     public FoodOrderDetail(String ID, String oderID, String userID, String foodID, String resturantID, double foodPrice, String foodDesc, String currency, double foodQty, boolean isPaid, double amountPaid, double changeGiven, String paymentDescription, boolean isShipped, Date dateShipped, String shippedBy, boolean isDelivered, Date dateDelivered, String deliveredBy, String collectedBy, boolean isCanceled, boolean isPrinted) {
@@ -70,7 +74,7 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
         this.changeGiven = changeGiven;
         this.paymentDescription = paymentDescription;
         this.isShipped = isShipped;
-        this.dateShipped = dateShipped;
+        this.dateShipped = dateShipped ;
         this.shippedBy = shippedBy;
         this.isDelivered = isDelivered;
         this.dateDelivered = dateDelivered;
@@ -80,7 +84,8 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
         this.markUpValue = ((foodPrice * foodQty) * this.markUp);
         this.queryString = getQueryString(this.resturantID,this.isCanceled, this.isPrinted,this.isShipped,this.isDelivered);
         this.orderDate = new Date();
-        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+        DateHelper dt = new DateHelper(this.orderDate);
+        this.reportQuery = getReportQuery(this.resturantID, dt.getMonth(),dt.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
@@ -147,7 +152,7 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
 
     @Exclude
     public void setDatePaid(Date datePaid) {
-        this.datePaid = datePaid;
+        this.datePaid = new Timestamp(datePaid.getTime()) ;
     }
 
     @Exclude
@@ -360,8 +365,9 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     @Exclude
     public void setDelivered(boolean delivered) {
         isDelivered = delivered;
+        DateHelper dt = new DateHelper(this.orderDate);
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
-        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+        this.reportQuery = getReportQuery(this.resturantID,dt.getMonth(),dt.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
@@ -402,8 +408,9 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     @Exclude
     public void setCanceled(boolean canceled) {
         this.isCanceled = canceled;
+        DateHelper dt = new DateHelper(this.orderDate);
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
-        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+        this.reportQuery = getReportQuery(this.resturantID,dt.getMonth(),dt.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude
@@ -424,8 +431,9 @@ public class FoodOrderDetail implements Serializable, Comparable<FoodOrderDetail
     @Exclude
     public void setPrinted(boolean printed) {
         isPrinted = printed;
+        DateHelper dt = new DateHelper(this.orderDate);
         this.queryString = getQueryString(this.resturantID,this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
-        this.reportQuery = getReportQuery(this.resturantID,this.orderDate.getMonth(),this.orderDate.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
+        this.reportQuery = getReportQuery(this.resturantID,dt.getMonth(),dt.getYear(),this.isCanceled,this.isPrinted,this.isShipped,this.isDelivered);
     }
 
     @Exclude

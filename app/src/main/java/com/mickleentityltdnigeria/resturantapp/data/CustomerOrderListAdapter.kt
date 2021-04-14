@@ -35,7 +35,8 @@ class CustomerOrderListAdapter(
         itemClickListener
 
     fun updateData(orderDetails: MutableList<FoodOrderDetail>) {
-        this.orderDetails = orderDetails
+        this.orderDetails.removeAll(orderDetails)
+        this.orderDetails.addAll(orderDetails)
         notifyDataSetChanged()
     }
 

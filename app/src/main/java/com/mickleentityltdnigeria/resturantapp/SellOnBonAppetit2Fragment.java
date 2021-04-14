@@ -157,7 +157,7 @@ public class SellOnBonAppetit2Fragment extends Fragment {
                     module.newResturant.setEmail(txtEmail.getText().toString().trim());
                     module.newResturant.setCountry(spinnerCountry.getSelectedItem().toString());
                     module.newResturant.setCurrencyCode(txtCurrency.getText().toString().trim());
-                    module.newResturant.setMICKLE_PAY_WALLET_ID(txtMicklePayWalletID.getText().toString().trim());
+                    module.newResturant.setMicklePayWalletID(txtMicklePayWalletID.getText().toString().trim());
                     //
                     NavHostFragment.findNavController(SellOnBonAppetit2Fragment.this)
                             .navigate(R.id.action_sellOnBonAppetit2Fragment_to_sellOnBonAppetit3Fragment);

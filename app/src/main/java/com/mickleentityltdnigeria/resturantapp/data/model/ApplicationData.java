@@ -9,34 +9,34 @@ import java.io.Serializable;
 public class ApplicationData  implements Serializable {
 
     public String ID;
-    public String company_Name;
-    public String company_Address;
-    public String company_City;
-    public String company_ZipCode;
-    public String company_State;
-    public String company_Country;
-    public String company_CurrencyCode;
-    public String MICKLE_PAY_WALLET_ID;
-    public String contact_Person;
-    public String contact_Phone;
-    public String contact_Email;
+    public String companyName;
+    public String companyAddress;
+    public String companyCity;
+    public String companyZipCode;
+    public String companyState;
+    public String companyCountry;
+    public String companyCurrencyCode;
+    public String micklePayWalletID;
+    public String contactPerson;
+    public String contactPhone;
+    public String contactEmail;
 
     public ApplicationData() {
     }
 
-    public ApplicationData(String ID, String company_Name, String company_Address, String company_City, String company_ZipCode, String company_State, String company_Country, String company_CurrencyCode, String MICKLE_PAY_WALLET_ID, String contact_Person, String contact_Phone, String contact_Email) {
+    public ApplicationData(String ID, String companyName, String companyAddress, String companyCity, String companyZipCode, String companyState, String companyCountry, String companyCurrencyCode, String micklePayWalletID, String contactPerson, String contactPhone, String contactEmail) {
         this.ID = ID;
-        this.company_Name = company_Name;
-        this.company_Address = company_Address;
-        this.company_City = company_City;
-        this.company_ZipCode = company_ZipCode;
-        this.company_State = company_State;
-        this.company_Country = company_Country;
-        this.company_CurrencyCode = company_CurrencyCode;
-        this.MICKLE_PAY_WALLET_ID = MICKLE_PAY_WALLET_ID;
-        this.contact_Person = contact_Person;
-        this.contact_Phone = contact_Phone;
-        this.contact_Email = contact_Email;
+        this.companyName = companyName;
+        this.companyAddress = companyAddress;
+        this.companyCity = companyCity;
+        this.companyZipCode = companyZipCode;
+        this.companyState = companyState;
+        this.companyCountry = companyCountry;
+        this.companyCurrencyCode = companyCurrencyCode;
+        this.micklePayWalletID = micklePayWalletID;
+        this.contactPerson = contactPerson;
+        this.contactPhone = contactPhone;
+        this.contactEmail = contactEmail;
     }
 
     @Exclude
@@ -50,112 +50,112 @@ public class ApplicationData  implements Serializable {
     }
 
     @Exclude
-    public String getCompany_Name() {
-        return company_Name;
+    public String getCompanyName() {
+        return companyName;
     }
 
     @Exclude
-    public void setCompany_Name(String company_Name) {
-        this.company_Name = company_Name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     @Exclude
-    public String getCompany_Address() {
-        return company_Address;
+    public String getCompanyAddress() {
+        return companyAddress;
     }
 
     @Exclude
-    public void setCompany_Address(String company_Address) {
-        this.company_Address = company_Address;
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
     }
 
     @Exclude
-    public String getCompany_City() {
-        return company_City;
+    public String getCompanyCity() {
+        return companyCity;
     }
 
     @Exclude
-    public void setCompany_City(String company_City) {
-        this.company_City = company_City;
+    public void setCompanyCity(String companyCity) {
+        this.companyCity = companyCity;
     }
 
     @Exclude
-    public String getCompany_ZipCode() {
-        return company_ZipCode;
+    public String getCompanyZipCode() {
+        return companyZipCode;
     }
 
     @Exclude
-    public void setCompany_ZipCode(String company_ZipCode) {
-        this.company_ZipCode = company_ZipCode;
+    public void setCompanyZipCode(String companyZipCode) {
+        this.companyZipCode = companyZipCode;
     }
 
     @Exclude
-    public String getCompany_State() {
-        return company_State;
+    public String getCompanyState() {
+        return companyState;
     }
 
     @Exclude
-    public void setCompany_State(String company_State) {
-        this.company_State = company_State;
+    public void setCompanyState(String companyState) {
+        this.companyState = companyState;
     }
 
     @Exclude
-    public String getCompany_Country() {
-        return company_Country;
+    public String getCompanyCountry() {
+        return companyCountry;
     }
 
     @Exclude
-    public void setCompany_Country(String company_Country) {
-        this.company_Country = company_Country;
+    public void setCompanyCountry(String companyCountry) {
+        this.companyCountry = companyCountry;
     }
 
     @Exclude
-    public String getCompany_CurrencyCode() {
-        return company_CurrencyCode;
+    public String getCompanyCurrencyCode() {
+        return companyCurrencyCode;
     }
 
     @Exclude
-    public void setCompany_CurrencyCode(String company_CurrencyCode) {
-        this.company_CurrencyCode = company_CurrencyCode;
+    public void setCompanyCurrencyCode(String companyCurrencyCode) {
+        this.companyCurrencyCode = companyCurrencyCode;
     }
 
     @Exclude
-    public String getMICKLE_PAY_WALLET_ID() {
-        return MICKLE_PAY_WALLET_ID;
+    public String getMicklePayWalletID() {
+        return micklePayWalletID;
     }
 
     @Exclude
-    public void setMICKLE_PAY_WALLET_ID(String MICKLE_PAY_WALLET_ID) {
-        this.MICKLE_PAY_WALLET_ID = MICKLE_PAY_WALLET_ID;
+    public void setMicklePayWalletID(String micklePayWalletID) {
+        this.micklePayWalletID = micklePayWalletID;
     }
 
     @Exclude
-    public String getContact_Person() {
-        return contact_Person;
+    public String getContactPerson() {
+        return contactPerson;
     }
 
     @Exclude
-    public void setContact_Person(String contact_Person) {
-        this.contact_Person = contact_Person;
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
     }
 
     @Exclude
-    public String getContact_Phone() {
-        return contact_Phone;
+    public String getContactPhone() {
+        return contactPhone;
     }
 
     @Exclude
-    public void setContact_Phone(String contact_Phone) {
-        this.contact_Phone = contact_Phone;
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
     }
 
     @Exclude
-    public String getContact_Email() {
-        return contact_Email;
+    public String getContactEmail() {
+        return contactEmail;
     }
 
     @Exclude
-    public void setContact_Email(String contact_Email) {
-        this.contact_Email = contact_Email;
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
     }
 }

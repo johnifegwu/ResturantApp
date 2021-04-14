@@ -129,11 +129,11 @@ public class PaymentActivity extends AppCompatActivity {
                         if(resturant == null){
                             throw new Exception("Merchant WALLET ID required.");
                         }
-                        String Merchant_MICKLE_PAY_WALLET_ID = resturant.getMICKLE_PAY_WALLET_ID();
+                        String Merchant_MICKLE_PAY_WALLET_ID = resturant.getMicklePayWalletID();
                         double MerchantAmountDue = getFoodOrderTotalMerchantValue(foodOrderDetails);
 
                         //Sub Merchant Wallet Details
-                        String Sub_Merchant_MICKLE_PAY_WALLET_ID = applicationData.getMICKLE_PAY_WALLET_ID();
+                        String Sub_Merchant_MICKLE_PAY_WALLET_ID = applicationData.getMicklePayWalletID();
                         double SubMerchantAmountDue = getFoodOrderTotalSubMerchantValue(foodOrderDetails);
 
                         //Make payment and get Authorization Code

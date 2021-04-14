@@ -35,6 +35,7 @@ import com.mickleentityltdnigeria.resturantapp.data.MerchantReportHelper;
 import com.mickleentityltdnigeria.resturantapp.data.ReportIndicesEventHandler;
 import com.mickleentityltdnigeria.resturantapp.data.ReportIndicies;
 import com.mickleentityltdnigeria.resturantapp.data.model.Country;
+import com.mickleentityltdnigeria.resturantapp.data.model.User;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.util.ArrayList;
@@ -116,6 +117,11 @@ public class AdminDashboardFragment extends Fragment {
         revenueChart = view.findViewById(R.id.revenueChartAdmin);
         btnPrint = view.findViewById(R.id.btnPrintAdminReport);
         btnRefresh = view.findViewById(R.id.btnRefreshAdminReport);
+        this.spinnerChartCountry.setVisibility(View.VISIBLE);
+        this.spinnerChartYear.setVisibility(View.VISIBLE);
+        btnPrint.setVisibility(View.VISIBLE);
+        btnRefresh.setVisibility(View.VISIBLE);
+        //
         printView = getLayoutInflater().inflate(R.layout.fragment_admin_dashboard,null);
         printSalesChart = printView.findViewById(R.id.salesChartAdmin);
         printRevenueChart = printView.findViewById(R.id.revenueChartAdmin);
@@ -135,12 +141,23 @@ public class AdminDashboardFragment extends Fragment {
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
+            User u = module.userData;
+            int x = 0;
+            for (int i = 0; i < module.myCountries.size(); i++) {
+                Country c = module.myCountries.get(i);
+                if(c.getCountryName().equals(u.getCountry().toUpperCase())){
+                    x = i;
+                    break;
+                }
+            }
+            spinnerChartCountry.setSelection(x);
+            //
             List<String> mYear = new ArrayList<>();
-            Integer x = Calendar.getInstance().get(Calendar.YEAR);
+            Integer d = Calendar.getInstance().get(Calendar.YEAR);
             do{
-                mYear.add(x.toString());
-                x--;
-            }while (x >= 2021);
+                mYear.add(d.toString());
+                d--;
+            }while (d >= 2021);
             ArrayAdapter<String> adapterYear = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mYear);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerChartYear.setAdapter(adapterYear);
@@ -165,7 +182,7 @@ public class AdminDashboardFragment extends Fragment {
                     salesData.setValueFormatter(new LargeValueFormatter());
                     salesChart.setData(salesData);
                     Description sd = new Description();
-                    sd.setText((String.valueOf(year) + " & " + String.valueOf(year -1) + " Quarterly Sales Report."));
+                    sd.setText((String.valueOf(year) + " & " + String.valueOf(year -1) + " Quarterly Sales Report for " + country + "."));
                     salesChart.setDescription(sd);
                     salesChart.animateXY(2000, 2000);
                     salesChart.invalidate();
@@ -180,7 +197,7 @@ public class AdminDashboardFragment extends Fragment {
                     revenueData.setValueFormatter(new LargeValueFormatter());
                     revenueChart.setData(revenueData);
                     Description rd = new Description();
-                    rd.setText((String.valueOf(year) + " & " + String.valueOf(year -1) + " Quarterly Revenue Report."));
+                    rd.setText((String.valueOf(year) + " & " + String.valueOf(year -1) + " Quarterly Revenue Report for " + country + "."));
                     revenueChart.setDescription(rd);
                     revenueChart.animateXY(2000, 2000);
                     revenueChart.invalidate();

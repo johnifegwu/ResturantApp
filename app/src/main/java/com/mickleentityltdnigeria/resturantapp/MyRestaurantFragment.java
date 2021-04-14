@@ -85,7 +85,7 @@ public class MyRestaurantFragment extends Fragment {
     ResturantDalc restaurantDalc;
     ImageView imgMyRestaurant;
     Button btnSave;
-    EditText txtName, txtCurrency, txtContact, txtEmail, txtCountry, txtIDD, txtPhone, txtaddress, txtCity, txtZipCode, txtState, txtZipCodes, txtWeb, txtDescription;
+    EditText txtName, txtCurrency, txtContact, txtEmail, txtMicklePay, txtCountry, txtIDD, txtPhone, txtaddress, txtCity, txtZipCode, txtState, txtZipCodes, txtWeb, txtDescription;
     Spinner spinnerTypes;
     Resturant resturant;
     ProgressBar progress;
@@ -102,6 +102,7 @@ public class MyRestaurantFragment extends Fragment {
         this.txtCountry = view.findViewById(R.id.txtMyRestaurantCountry);
         this.txtDescription = view.findViewById(R.id.txtMyRestaurantDesc);
         this.txtEmail = view.findViewById(R.id.txtMyRestaurantEmail);
+        this.txtMicklePay = view.findViewById(R.id.txtMicklePayWalletID);
         this.txtIDD = view.findViewById(R.id.txtMyRestaurantIDD);
         this.txtName = view.findViewById(R.id.txtMyRestauranName);
         this.txtPhone = view.findViewById(R.id.txtMyRestaurantPhone);
@@ -126,6 +127,7 @@ public class MyRestaurantFragment extends Fragment {
                 txtName.setText(resturant.getResturantName());
                 txtContact.setText(resturant.getContactPerson());
                 txtEmail.setText(resturant.getEmail());
+                txtMicklePay.setText(resturant.getMicklePayWalletID());
                 txtCountry.setText(resturant.getCountry());
                 Country country = new Country();
                 for (int i = 0; i < module.myCountries.size(); i++) {
@@ -178,6 +180,9 @@ public class MyRestaurantFragment extends Fragment {
                     if(txtDescription.getText().toString().isEmpty()){
                         throw new Exception("Description is required");
                     }
+                    if(txtMicklePay.getText().toString().isEmpty()){
+                        throw new Exception("Mickle-Pay Wallet ID is required");
+                    }
                     if(!txtZipCodes.getText().toString().isEmpty()){
                         String[] zip = txtZipCodes.getText().toString().split(" ");
                         if(zip[0] == ""){
@@ -216,6 +221,7 @@ public class MyRestaurantFragment extends Fragment {
                     resturant.setPhone((txtIDD.getText().toString().trim() + txtPhone.getText().toString().trim()));
                     resturant.setAddress(txtaddress.getText().toString());
                     resturant.setEmail(txtEmail.getText().toString().trim());
+                    resturant.setMicklePayWalletID(txtMicklePay.getText().toString().trim());
                     //set ZipCodes for updating FoodItems.
                     resturant.setZipCodes(zip);
                     //ZipCodes preserved for future updates.
