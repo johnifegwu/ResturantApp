@@ -16,10 +16,11 @@ public class DateHelper {
     private int millisecond;
 
     public DateHelper(Date date) {
+        this.cal = Calendar.getInstance();
         this.cal.setTime(date);
         this.year = this.cal.get(Calendar.YEAR);
         this.month = this.cal.get(Calendar.MONTH);
-        this.day = this.cal.get(Calendar.DAY_OF_WEEK);
+        this.day = this.cal.get(Calendar.DAY_OF_MONTH);
         this.hour = this.cal.get(Calendar.HOUR);
         this.minute = this.cal.get(Calendar.MINUTE);
         this.second = this.cal.get(Calendar.SECOND);
@@ -27,6 +28,7 @@ public class DateHelper {
     }
 
     public DateHelper(Timestamp timestamp) {
+        this.cal = Calendar.getInstance();
         this.cal.setTime(timestamp);
         this.year = this.cal.get(Calendar.YEAR);
         this.month = this.cal.get(Calendar.MONTH);
