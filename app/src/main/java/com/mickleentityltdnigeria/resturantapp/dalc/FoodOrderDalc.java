@@ -1,8 +1,10 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -222,6 +224,36 @@ public class FoodOrderDalc {
                 .orderByChild("userID")
                 .equalTo(userID);
         query.addValueEventListener(onDataChangedListener);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //
+                Query query = FirebaseDatabase.getInstance().getReference("foodorderdetails")
+                        .orderByChild("userID")
+                        .equalTo(userID);
+                query.addListenerForSingleValueEvent(onDataChangedListener);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         //
     }
 
@@ -315,6 +347,36 @@ public class FoodOrderDalc {
                 .orderByChild("queryString")
                 .equalTo(queryString);
         query.addValueEventListener(onDataChangedListener);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //
+                Query query = FirebaseDatabase.getInstance().getReference("foodorderdetails")
+                        .orderByChild("queryString")
+                        .equalTo(queryString);
+                query.addListenerForSingleValueEvent(onDataChangedListener);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         //
     }
 
