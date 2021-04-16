@@ -34,7 +34,7 @@ import java.util.List;
  * Use the {@link CustomerOrderListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CustomerOrderListFragment extends Fragment {
+public class  CustomerOrderListFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -93,6 +93,16 @@ public class CustomerOrderListFragment extends Fragment {
         this.progress.setVisibility(View.VISIBLE);
 
         // Register interest in the Order Change.
+        FoodOrderDetailsEventHandler foodOrderUpdated = new FoodOrderDetailsEventHandler() {
+            @Override
+            public void invoke(List<FoodOrderDetail> foodOrderDetails) {
+                try{
+                    orderDalc.getFoodOrderDetailsByUserID(module.userID);
+                }catch(Exception e){
+                    Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
         FoodOrderDetailsEventHandler orderDetailsFetched = new FoodOrderDetailsEventHandler() {
             public void invoke(List<FoodOrderDetail> orderDetails) {
                 foodOrderDetails = orderDetails;
@@ -109,6 +119,7 @@ public class CustomerOrderListFragment extends Fragment {
             }
         };
         try{
+            orderDalc.foodOrderDetailsUpdated.addListener(foodOrderUpdated);
             orderDalc.foodOrderDetailsNotFound.addListener(orderDetailsNotFound);
             orderDalc.foodOrderDetailsFetched.addListener(orderDetailsFetched);
             orderDalc.getFoodOrderDetailsByUserID(module.userID);
@@ -142,6 +153,23 @@ public class CustomerOrderListFragment extends Fragment {
                 @Override
                 public void onItemClicked(@NotNull FoodOrderDetail foodOrderDetail) {
 
+                }
+
+                @Override
+                public void onUpdateButtonClicked(@NotNull FoodOrderDetail foodOrderDetail) {
+                    try {
+                        //
+                        FoodOrderDetail fd = foodOrderDetail;
+                        if (!fd.isPrinted()) {
+                            //
+                            fd.setCanceled(true);
+                            progress.setVisibility(View.VISIBLE);
+                            orderDalc.updateFoodOrderDetails(fd);
+                            //
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             //Set adapter to RecyclerView

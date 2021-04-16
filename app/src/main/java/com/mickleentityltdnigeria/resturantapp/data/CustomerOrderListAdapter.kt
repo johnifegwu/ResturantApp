@@ -27,7 +27,6 @@ class CustomerOrderListAdapter(
 ) :
     RecyclerView.Adapter<CustomerOrderListAdapter.ViewHolder>() {
 
-    private lateinit var foodOrderDalc: FoodOrderDalc
     private lateinit var resturantDalc: ResturantDalc
     private val myContext: Context = ApplicationContextProvider.getContext()
     private lateinit var progress: ProgressBar
@@ -44,7 +43,6 @@ class CustomerOrderListAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.a_single_customer_order_row, parent, false)
         //
-        foodOrderDalc = FoodOrderDalc()
         resturantDalc = ResturantDalc()
         //Create View Holder
         val myViewHolder = ViewHolder(view, myContext)
@@ -56,40 +54,8 @@ class CustomerOrderListAdapter(
                 orderDetails[myViewHolder.layoutPosition]
             )
         }
-        val onOrderDetailFetched = FoodOrderDetailsEventHandler { it ->
-            try {
-                progress.visibility = View.GONE
-                updateData(it)
-            } catch (e: Exception) {
-                Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-        foodOrderDalc.foodOrderDetailsFetched.addListener(onOrderDetailFetched)
-        //
-        val orderUpdated = FoodOrderDetailsEventHandler { _ ->
-            try {
-                foodOrderDalc.getFoodOrderDetailsByUserID(module.userID)
-            } catch (e: Exception) {
-                Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-        foodOrderDalc.foodOrderDetailsUpdated.addListener(orderUpdated)
-        //
         myViewHolder.itemView.findViewById<Button>(R.id.btnCancelCustomerOrder).setOnClickListener {
-            try {
-                //
-                val fd: FoodOrderDetail = orderDetails[myViewHolder.layoutPosition]
-                //
-                if (!fd.isPrinted()) {
-                    //
-                    fd.setCanceled(true)
-                    progress.visibility = View.VISIBLE
-                    foodOrderDalc.updateFoodOrderDetails(fd)
-                    //
-                }
-            } catch (e: Exception) {
-                Toast.makeText(getAppContext(), e.message, Toast.LENGTH_SHORT).show()
-            }
+            mItemClickListener.onUpdateButtonClicked(orderDetails[myViewHolder.layoutPosition])
         }
         //
         myViewHolder.itemView.findViewById<ImageView>(R.id.btnPhoneContactSeller)
@@ -176,11 +142,11 @@ class CustomerOrderListAdapter(
         fun bind(orderDetail: FoodOrderDetail) {
             //
             try {
-                val foodItemDalc: FoodItemDalc = FoodItemDalc()
+                val foodItemDalc = FoodItemDalc()
                 val txtCanceled: TextView = itemView.findViewById(R.id.textViewCanceled)
                 val btnCancel: Button = itemView.findViewById<Button>(R.id.btnCancelCustomerOrder)
                 val progress: ProgressBar =
-                    itemView.findViewById<ProgressBar>(R.id.progressBarCustomerOrderStatus)
+                    itemView.findViewById(R.id.progressBarCustomerOrderStatus)
                 //
                 val dc = DecimalFormat("#,###,##0.00")
                 val cu: String = orderDetail.currency
@@ -247,4 +213,5 @@ class CustomerOrderListAdapter(
 //RecyclerView Click Listener
 interface CustomerOrderListRecyclerViewItemClickListener {
     fun onItemClicked(orderDetail: FoodOrderDetail)
+    fun onUpdateButtonClicked(foodOrderDetail: FoodOrderDetail)
 }
