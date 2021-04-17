@@ -174,10 +174,6 @@ class FirstFragment : Fragment() {
         val cartItemsFetched = CartItemChangedHandler { cartItems ->
             displayCartQty(cartItems)
         }
-        try{
-            module.MyShoppingCart.cartItemsFetched.removeListener("FirstFragmentCartItemsFetched")
-        }catch (e:Exception){
-        }
         module.MyShoppingCart.cartItemsFetched.addListener("FirstFragmentCartItemsFetched",cartItemsFetched)
         try{
             module.checkNetwork()
@@ -185,6 +181,17 @@ class FirstFragment : Fragment() {
         }catch (e:Exception){
             Toast.makeText(requireContext(),e.message,Toast.LENGTH_SHORT).show()
         }
+        // Register interest in the CartItems Added.
+        val cartItemAdded = CartItemChangedHandler { cartItems ->
+            progress.visibility = View.GONE
+            try{
+                module.checkNetwork()
+                module.MyShoppingCart.getCartItems(module.userName)
+            }catch(e: Exception){
+                Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+        module.MyShoppingCart.cartItemsAdded.addListener("firstFragmentCartItemAdded", cartItemAdded)
         //Reference of RecyclerView
        val mRecyclerView:RecyclerView = view.findViewById<RecyclerView>(R.id.resturantRecyclerView)
 
@@ -201,6 +208,19 @@ class FirstFragment : Fragment() {
                 //do something here.
             }
 
+            override fun onAddToCartClicked(cartItem: CartItem) {
+                try {
+                    progress.visibility = View.VISIBLE
+                    btnClicked = true
+                    module.checkNetwork()
+                    module.MyShoppingCart.AddCartItem(cartItem)
+                } catch (e: Exception) {
+                    progress.visibility = View.GONE
+                    btnClicked = false
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                }
+            }
+
         })
 
         //Set adapter to RecyclerView
@@ -212,6 +232,8 @@ class FirstFragment : Fragment() {
        adapter.appendData(foodItems)
     }
 
+    private var btnClicked: Boolean = false
+
     private fun displayCartQty(cartItems: List<CartItem>) {
         val cartTotalQty = module.getCartTotalQty(cartItems)
         if(cartTotalQty > 0){
@@ -221,11 +243,15 @@ class FirstFragment : Fragment() {
             this.btnChangeLocation.isClickable = true
             this.btnChangeLocation.isEnabled = true
         }
-        Toast.makeText(
-            requireContext(),
-            "$cartTotalQty item(s) added to Cart.",
-            Toast.LENGTH_SHORT
-        ).show()
+        if(btnClicked){
+            Toast.makeText(
+                requireContext(),
+                "$cartTotalQty item(s) added to Cart.",
+                Toast.LENGTH_SHORT
+            ).show()
+            btnClicked = false
+        }
+
     }
 
 

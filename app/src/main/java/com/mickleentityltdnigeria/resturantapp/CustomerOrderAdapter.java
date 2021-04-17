@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.mickleentityltdnigeria.resturantapp.extensions.FoodOrderEventHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +102,8 @@ public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdap
                 ImageView btnPrintCusOrder = itemView.findViewById(R.id.btnPrintCusOrder);
                 ImageView btnCusOrderCallCustomer = itemView.findViewById(R.id.btnCusOrderCallCustomer);
                 ImageView btnCusOrderLocation = itemView.findViewById(R.id.btnCusOrderLocation);
+                //progress
+                ProgressBar progress = itemView.findViewById(R.id.progressBarNewOrder);
                 //Initialize controls
                 if (foodOrderDetail.isCanceled) {
                     btnPrepareCusOrder.setEnabled(false);
@@ -124,28 +128,31 @@ public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdap
                     btnDeliverCusOrder.setEnabled(false);
                 }
                 //Set picture and Text
+                imgCusOrderImage.setImageResource(R.drawable.loadingimage);
                 try {
-                    DecimalFormat dc = new DecimalFormat("#,###,##0.00");
+                    NumberFormat dc =  NumberFormat.getNumberInstance(); // new DecimalFormat("#,###,##0.00");
                     String cu = foodOrderDetail.getCurrency();
                     //
                     FoodItemUpdatedHandler foodItemsFetched = new FoodItemUpdatedHandler() {
                         @Override
                         public void invoke(List<FoodItem> foodItems) {
-                            imgCusOrderImage.setImageDrawable(ImageHelper.getInstance().imageFromString(foodItems.get(0).getFoodImg()));
+                            progress.setVisibility(View.GONE);
                             foodOrderDetail.setFoodImg(foodItems.get(0).getFoodImg());
+                            imgCusOrderImage.setImageDrawable(ImageHelper.getInstance().imageFromString(foodOrderDetail.getFoodImg()));
                         }
                     };
-                    if (foodOrderDetail.getFoodImg() == null) {
-                        foodItemDalc.foodItemsFetched.addListener(foodItemsFetched);
+                    foodItemDalc.foodItemsFetched.addListener(foodItemsFetched);
+                    if(foodOrderDetail.getFoodImg() == null){
+                        progress.setVisibility(View.VISIBLE);
                         foodItemDalc.getFoodItemByFoodID(foodOrderDetail.getFoodID());
-                    } else {
+                    }else{
                         imgCusOrderImage.setImageDrawable(ImageHelper.getInstance().imageFromString(foodOrderDetail.getFoodImg()));
                     }
                     //
                     txtCusOrderItemDesc.setText(foodOrderDetail.getFoodDesc());
                     //Continue Set Text
                     txtCusOrderQty.setText(String.valueOf(foodOrderDetail.getFoodQty()));
-                    txtCusOrderPrice.setText((cu + foodOrderDetail.getFoodPrice()));
+                    txtCusOrderPrice.setText((cu + dc.format(foodOrderDetail.getFoodPrice())));
                     txtCusOrderTotal.setText((cu + dc.format((foodOrderDetail.getSubTotal()))));
                     //set onClickListener for Prepare, Ship and Deliver
                     btnPrepareCusOrder.setOnClickListener(new View.OnClickListener() {

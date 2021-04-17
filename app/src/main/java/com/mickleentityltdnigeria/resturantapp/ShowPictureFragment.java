@@ -30,6 +30,7 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
@@ -106,10 +107,11 @@ public class ShowPictureFragment extends Fragment {
         if (module.foodItem != null) {
             //
             this.progress.setVisibility( View.VISIBLE);
+            NumberFormat dc =  NumberFormat.getNumberInstance(); // new DecimalFormat("#,###,##0.00");
             try {
                 this.foodImg.setImageDrawable(ImageHelper.getInstance().imageFromString(module.foodItem.getFoodImg()));
                 this.foodText.setText(module.foodItem.getFoodDesc());
-                this.foodPrice.setText((module.foodItem.getCurrency() + module.foodItem.getFoodPrice()));
+                this.foodPrice.setText((module.foodItem.getCurrency() + dc.format(module.foodItem.getFoodPrice())));
             }catch (Exception e){
                 Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -117,6 +119,7 @@ public class ShowPictureFragment extends Fragment {
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
+                    progress.setVisibility(View.VISIBLE);
                     addToCart(1, module.foodItem);
                 }
             });
@@ -132,6 +135,7 @@ public class ShowPictureFragment extends Fragment {
             ResturantUpdatedHandler RestaurantFetched = new ResturantUpdatedHandler() {
                 @Override
                 public void invoke(List<Resturant> Resturant) {
+                    progress.setVisibility(View.GONE);
                     resturant = Resturant.get(0);
                     SpannableString content = new SpannableString(("Order fulfilled by: " + resturant.getResturantName()));
                     content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -141,11 +145,12 @@ public class ShowPictureFragment extends Fragment {
             resturantDalc.resturantDataFetched.addListener(RestaurantFetched);
             try{
                 module.checkNetwork();
+                progress.setVisibility(View.VISIBLE);
                 resturantDalc.getResturantByResturantID(module.foodItem.getResturantID());
             }catch (Exception e){
+                progress.setVisibility(View.GONE);
                 Toast.makeText( requireContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            this.progress.setVisibility( View.GONE);
             txtFulfilledBy.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {

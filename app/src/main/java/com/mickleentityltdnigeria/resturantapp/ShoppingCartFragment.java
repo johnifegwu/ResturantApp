@@ -27,6 +27,7 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 
@@ -163,7 +164,7 @@ public class ShoppingCartFragment extends Fragment {
 
     private void SetStatus(List<CartItem> cartItems) {
         try {
-            DecimalFormat dc = new DecimalFormat("#,###,##0.00");
+            NumberFormat dc =  NumberFormat.getNumberInstance(); // new DecimalFormat("#,###,##0.00");
             double t = module.getCartTotalValue(cartItems);
             //
             String currency = "$";

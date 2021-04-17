@@ -12,6 +12,7 @@ import com.mickleentityltdnigeria.resturantapp.R
 import com.mickleentityltdnigeria.resturantapp.data.model.CartItem
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
+import java.text.NumberFormat
 
 class ShoppingCartAdapter(
     private var cartItems: MutableList<CartItem>,
@@ -100,9 +101,10 @@ class ShoppingCartAdapter(
                         cartItem.foodImg
                     )
                 )
+                val dc = NumberFormat.getNumberInstance()// DecimalFormat("#,###,##0.00")
                 itemView.findViewById<TextView>(R.id.txtCartDesc).text = cartItem.foodDesc
                 itemView.findViewById<TextView>(R.id.txtPrice).text =
-                    (cartItem.currency + cartItem.foodPrice)
+                    (cartItem.currency + dc.format(cartItem.foodPrice))
                 itemView.findViewById<EditText>(R.id.txtQty).setText(cartItem.foodQty.toString())
 
             } catch (e: Exception) {

@@ -20,6 +20,7 @@ import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandle
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
 import java.text.DecimalFormat
+import java.text.NumberFormat
 
 class CustomerOrderListAdapter(
     private var orderDetails: MutableList<FoodOrderDetail>,
@@ -144,36 +145,35 @@ class CustomerOrderListAdapter(
             try {
                 val foodItemDalc = FoodItemDalc()
                 val txtCanceled: TextView = itemView.findViewById(R.id.textViewCanceled)
-                val btnCancel: Button = itemView.findViewById<Button>(R.id.btnCancelCustomerOrder)
-                val progress: ProgressBar =
-                    itemView.findViewById(R.id.progressBarCustomerOrderStatus)
-                //
-                val dc = DecimalFormat("#,###,##0.00")
+                val btnCancel: Button = itemView.findViewById(R.id.btnCancelCustomerOrder)
+                val progress: ProgressBar = itemView.findViewById(R.id.progressBarCustomerOrderStatus)
+                val imgOrder: ImageView = itemView.findViewById(R.id.imgCustomerOrder)
+                //set temp image
+                imgOrder.setImageResource(R.drawable.loadingimage)
+                val dc = NumberFormat.getNumberInstance()// DecimalFormat("#,###,##0.00")
                 val cu: String = orderDetail.currency
                 //
                 val foodItemsFetched = FoodItemUpdatedHandler { foodItems ->
                     try {
+                        progress.visibility = View.GONE
                         orderDetail.foodImg = foodItems[0].foodImg
-                        itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(
-                            ImageHelper.getInstance().imageFromString(orderDetail.foodImg)
+                        imgOrder.setImageDrawable(ImageHelper.getInstance().imageFromString(orderDetail.foodImg)
                         )
                     } catch (e: Exception) {
                         Toast.makeText(getAppContext(), e.message, Toast.LENGTH_SHORT).show()
                     }
                 }
                 foodItemDalc.foodItemsFetched.addListener(foodItemsFetched)
-                if (orderDetail.foodImg == null) {
+                if(orderDetail.foodImg == null){
+                    progress.visibility = View.VISIBLE
                     foodItemDalc.getFoodItemByFoodID(orderDetail.foodID)
-                } else {
-                    //
-                    itemView.findViewById<ImageView>(R.id.imgCustomerOrder).setImageDrawable(
-                        ImageHelper.getInstance().imageFromString(orderDetail.foodImg)
-                    )
+                }else{
+                    imgOrder.setImageDrawable(ImageHelper.getInstance().imageFromString(orderDetail.foodImg))
                 }
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderFoodItemName).text =
                     orderDetail.foodDesc
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderPrice).text =
-                    (cu + orderDetail.foodPrice)
+                    (cu + dc.format(orderDetail.foodPrice))
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderTotal).text =
                     (cu + dc.format((orderDetail.subTotal)))
                 itemView.findViewById<TextView>(R.id.txtCustomerOrderQty).text =

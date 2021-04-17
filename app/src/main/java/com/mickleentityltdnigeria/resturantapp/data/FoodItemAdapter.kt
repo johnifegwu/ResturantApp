@@ -14,6 +14,7 @@ import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem
 import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper
 import com.mickleentityltdnigeria.resturantapp.utils.module
+import java.text.NumberFormat
 
 
 class FoodItemAdapter(
@@ -21,7 +22,6 @@ class FoodItemAdapter(
     itemClickListener: MyRecyclerViewItemClickListener
 ) : RecyclerView.Adapter<FoodItemAdapter.ViewHolder>() {
 
-    private lateinit var progress: ProgressBar
     private val myContext:Context = ApplicationContextProvider.getContext()
     private val mItemClickListener: MyRecyclerViewItemClickListener = itemClickListener
 
@@ -38,46 +38,46 @@ class FoodItemAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.a_single_fooditem_row, parent, false)
-        // Register interest in the CartItems Added.
-        val cartItemAdded = CartItemChangedHandler { cartItems -> callGetCartItems(cartItems, view) }
-        module.MyShoppingCart.cartItemsAdded.addListener(
-            "foodItemAdapterCartItemsAdded",
-            cartItemAdded
-        )
-        //
         //Create View Holder
         val myViewHolder = ViewHolder(view, myContext)
-
         //Item Clicks
        myViewHolder.itemView.setOnClickListener(View.OnClickListener {
            mItemClickListener.onItemClicked(
                foodItems[myViewHolder.layoutPosition]
            )
        })
-        progress = myViewHolder.itemView.findViewById(R.id.progressBarFoodRow)
-
         myViewHolder.itemView.findViewById<Button>(R.id.btnAdd).setOnClickListener(View.OnClickListener {
-            progress.visibility = View.VISIBLE
             try {
-                addToCart(1, foodItems[myViewHolder.layoutPosition])
+                val foodItem = foodItems[myViewHolder.layoutPosition]
+                val cartItem:CartItem = CartItem(
+                    "",
+                    foodItem.foodID,
+                    foodItem.resturantID,
+                    module.userName,
+                    foodItem.foodImg,
+                    foodItem.foodPrice,
+                    foodItem.currency,
+                    foodItem.foodDesc,
+                    foodItem.foodImgUrl,
+                    1
+                )
+                mItemClickListener.onAddToCartClicked(cartItem)
             } catch (e: Exception) {
                 Toast.makeText(it.context, e.message, Toast.LENGTH_LONG).show()
             }
-            progress.visibility = View.GONE
         })
 
         myViewHolder.itemView.findViewById<ImageView>(R.id.imgFood).setOnClickListener(View.OnClickListener {
             //
-            progress.visibility = View.VISIBLE
             try {
                 val fooditem = foodItems[myViewHolder.layoutPosition]
                 Toast.makeText(it.context, fooditem.foodDesc, Toast.LENGTH_SHORT).show()
                 module.foodItem = fooditem
                 Navigation.findNavController(view)
                     .navigate(R.id.action_FirstFragment_to_showPictureFragment)
-            } finally {
+            } catch (e: Exception) {
+                Toast.makeText(it.context, e.message, Toast.LENGTH_LONG).show()
             }
-            progress.visibility = View.GONE
         })
 
         return myViewHolder
@@ -90,40 +90,6 @@ class FoodItemAdapter(
         holder.bind(fooditem)
     }
 
-    private fun addToCart(Qty: Int, foodItem: FoodItem) {
-        progress.visibility = View.VISIBLE
-        val cartItem:CartItem = CartItem(
-            "",
-            foodItem.foodID,
-            foodItem.resturantID,
-            module.userName,
-            foodItem.foodImg,
-            foodItem.foodPrice,
-            foodItem.currency,
-            foodItem.foodDesc,
-            foodItem.foodImgUrl,
-            Qty
-        )
-        try{
-            module.checkNetwork()
-            module.MyShoppingCart.AddCartItem(cartItem)
-        }catch(e: Exception){
-            Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
-        }
-
-    }
-
-    private fun callGetCartItems(cartItems: List<CartItem>, view: View){
-        progress.visibility = View.GONE
-        try{
-            module.checkNetwork()
-        module.MyShoppingCart.getCartItems(module.userName)
-        }catch(e: Exception){
-            Toast.makeText(myContext, e.message, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
     class ViewHolder(view: View, private val myContext: Context) : RecyclerView.ViewHolder(view) {
         fun bind(fooditem: FoodItem) {
             try
@@ -133,8 +99,9 @@ class FoodItemAdapter(
                         fooditem.foodImg
                     )
                 )
+                val dc = NumberFormat.getNumberInstance()//
                 itemView.findViewById<TextView>(R.id.txtFoodDesc).text = fooditem.foodDesc
-                itemView.findViewById<TextView>(R.id.txtPrice).text = (fooditem.currency + fooditem.foodPrice)
+                itemView.findViewById<TextView>(R.id.txtPrice).text = (fooditem.currency + dc.format(fooditem.foodPrice))
             }catch (e: Exception)
             {
                 Toast.makeText(myContext, e.message, Toast.LENGTH_LONG).show()
@@ -149,4 +116,5 @@ class FoodItemAdapter(
 //RecyclerView Click Listener
 interface MyRecyclerViewItemClickListener {
     fun onItemClicked(f: FoodItem)
+    fun onAddToCartClicked(cartItem: CartItem)
 }
