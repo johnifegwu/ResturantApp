@@ -155,7 +155,6 @@ class CustomerOrderListAdapter(
                 //
                 val foodItemsFetched = FoodItemUpdatedHandler { foodItems ->
                     try {
-                        progress.visibility = View.GONE
                         orderDetail.foodImg = foodItems[0].foodImg
                         imgOrder.setImageDrawable(ImageHelper.getInstance().imageFromString(orderDetail.foodImg)
                         )
@@ -165,7 +164,6 @@ class CustomerOrderListAdapter(
                 }
                 foodItemDalc.foodItemsFetched.addListener(foodItemsFetched)
                 if(orderDetail.foodImg == null){
-                    progress.visibility = View.VISIBLE
                     foodItemDalc.getFoodItemByFoodID(orderDetail.foodID)
                 }else{
                     imgOrder.setImageDrawable(ImageHelper.getInstance().imageFromString(orderDetail.foodImg))
