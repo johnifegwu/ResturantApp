@@ -33,6 +33,7 @@ import com.mickleentityltdnigeria.resturantapp.utils.module;
 import com.mickleentityltdnigeria.resturantapp.utils.paymentResult;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,8 @@ public class PaymentActivity extends AppCompatActivity {
     TextView txtTotalValueDue;
     Resturant resturant = null;
     ResturantDalc resturantDalc;
+    double TotalDue = 0;
+    String TranDesc = "";
 
     public static List<FoodOrderDetail> foodOrderDetails = new ArrayList<>();
 
@@ -120,33 +123,39 @@ public class PaymentActivity extends AppCompatActivity {
                     try {
                         progress.setVisibility(View.VISIBLE);
                         //validate payment inputs
-                        String CurrencyCode = foodOrderDetails.get(0).getCurrency();
+                        String tran_curr = foodOrderDetails.get(0).getCurrency();
                         //Customers details
-                        double totalDue = getFoodOrderTotalValue(foodOrderDetails);
-                        String CUSTOMER_MICKLE_PAY_WALLET_ID = Customer_MICKLE_PAY_ID;
+                        double tran_amount = getFoodOrderTotalValue(foodOrderDetails);
+                        TotalDue = tran_amount;
+                        String c_wallet_id = Customer_MICKLE_PAY_ID;
+                        String tran_desc = "Order by: " + foodOrderDetails.get(0).getFoodOrder().getShippingContactPerson();
+                        TranDesc = tran_desc;
 
                         //Main Merchant Wallet details
                         if(resturant == null){
                             throw new Exception("Merchant WALLET ID required.");
                         }
-                        String Merchant_MICKLE_PAY_WALLET_ID = resturant.getMicklePayWalletID();
-                        double MerchantAmountDue = getFoodOrderTotalMerchantValue(foodOrderDetails);
+                        String m_wallet_id = resturant.getMicklePayWalletID();
+                        double m_amount = getFoodOrderTotalMerchantValue(foodOrderDetails);
 
                         //Sub Merchant Wallet Details
-                        String Sub_Merchant_MICKLE_PAY_WALLET_ID = applicationData.getMicklePayWalletID();
-                        double SubMerchantAmountDue = getFoodOrderTotalSubMerchantValue(foodOrderDetails);
+                        String s_wallet_id = applicationData.getMicklePayWalletID();
+                        double s_amount = getFoodOrderTotalSubMerchantValue(foodOrderDetails);
 
-                        //Make payment and get Authorization Code
-                        int result = 1;
-                        String authCode = "1234567890";
-                        if (result == 1) {
-                            PaymentDetails paymentDetails = new PaymentDetails(authCode, totalDue, totalDue, 0.0, "", "", "");
-                            Intent intent = getIntent();
-                            intent.putExtra("paymentDetails", paymentDetails);
-                            setResult(RESULT_OK, intent);
-                            progress.setVisibility(View.GONE);
-                            finish();
-                        }
+                        //Make payment and get Transaction Status
+                        String api_key = "1234567890";
+                        Uri uri = Uri.parse("mickle-pay:" + resturant.getResturantID());
+                        Intent payMerchant = new Intent(Intent.ACTION_VIEW, uri);
+                        payMerchant.putExtra("api_key", api_key);
+                        payMerchant.putExtra("c_wallet_id", c_wallet_id);
+                        payMerchant.putExtra("tran_amount", tran_amount);
+                        payMerchant.putExtra("tran_curr", tran_curr);
+                        payMerchant.putExtra("tran_desc", tran_desc);
+                        payMerchant.putExtra("m_wallet_id", m_wallet_id);
+                        payMerchant.putExtra("m_amount", m_amount);
+                        payMerchant.putExtra("s_wallet_id", s_wallet_id);
+                        payMerchant.putExtra("s_amount", s_amount);
+                        mMakePaymentForResult.launch(payMerchant);
                     } catch (Exception e) {
                         progress.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -156,7 +165,7 @@ public class PaymentActivity extends AppCompatActivity {
             });
 
             try {
-                DecimalFormat dc = new DecimalFormat("#,###,##0.00");
+                NumberFormat dc = NumberFormat.getInstance();
                 String CurrencyCode = foodOrderDetails.get(0).getCurrency();
                 //Total Due
                 txtTotalValueDue.setText((CurrencyCode + dc.format(getFoodOrderTotalValue(foodOrderDetails))));
@@ -194,6 +203,35 @@ public class PaymentActivity extends AppCompatActivity {
                             Customer_MICKLE_PAY_ID = null;
                             btnPay.setEnabled(false);
                         }
+                    } catch (Exception e) {
+                        progress.setVisibility(View.GONE);
+                        Toast.makeText(PaymentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+    ActivityResultLauncher<Intent> mMakePaymentForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    try {
+                        Intent intent = result.getData();
+                        assert intent != null;
+                        String tranStatus = intent.getStringExtra("TransactStatus");
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // Handle the Intent
+                            Toast.makeText(PaymentActivity.this, "Payment succeeded with code: " + tranStatus, Toast.LENGTH_SHORT ).show();
+                            PaymentDetails paymentDetails = new PaymentDetails(tranStatus, TotalDue, TotalDue, 0.0, "MICKLE-PAY", TranDesc, module.userName);
+                            intent.putExtra("paymentDetails", paymentDetails);
+                            intent.putExtra("TransactStatus",tranStatus);
+                            setResult(RESULT_OK, intent);
+                        } else {
+                            // Handle the Intent
+                            Toast.makeText(PaymentActivity.this, "Payment failed with code: " + tranStatus, Toast.LENGTH_SHORT ).show();
+                            intent.putExtra("TransactStatus",tranStatus);
+                            setResult(RESULT_CANCELED, intent);
+                        }
+                        finish();
                     } catch (Exception e) {
                         progress.setVisibility(View.GONE);
                         Toast.makeText(PaymentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();

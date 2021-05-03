@@ -285,10 +285,10 @@ public class DeliverOrderFragment extends Fragment {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     try{
+                        Intent intent = result.getData();
+                        String tranStatus = intent.getStringExtra("TransactStatus");
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent intent = result.getData();
-                            // Handle the Intent
-                            assert intent != null;
+                            Toast.makeText(requireContext(), "Payment succeeded with code: " + tranStatus, Toast.LENGTH_SHORT ).show();
                             PaymentDetails paymentDetails = (PaymentDetails) intent.getSerializableExtra("paymentDetails");
                             //
                             if(PaymentActivity.foodOrderDetails != null && paymentDetails != null){
@@ -315,6 +315,8 @@ public class DeliverOrderFragment extends Fragment {
                                     foodOrderDetail.setCollectedBy(paymentDetails.getItemsCollectedBy());
                                     foodOrderDalc.updateFoodOrderDetails(foodOrderDetail);
                                 }
+                            }else{
+                                Toast.makeText(requireContext(), "Payment failed with code: " + tranStatus, Toast.LENGTH_SHORT ).show();
                             }
                         }
                     }catch (Exception e){
