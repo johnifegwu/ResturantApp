@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     public String userID;
-    public String uID;
     public String userName;
     public String passWord;
     public String firstName;
@@ -28,9 +27,8 @@ public class User implements Serializable {
 
     public User(){}
 
-    public User(String userID, String uID ,String userName, String passWord, String firstName, String middleName, String lastName, String eMail, String mobilePhone, String contactAddress, String city, String zipCode, String state, String country, String deviceID, String userType) {
+    public User(String userID,String userName, String passWord, String firstName, String middleName, String lastName, String eMail, String mobilePhone, String contactAddress, String city, String zipCode, String state, String country, String deviceID, String userType) {
         this.userID = userID;
-        this.uID = uID;
         this.userName = userName;
         this.passWord = passWord;
         this.firstName = firstName;
@@ -66,16 +64,6 @@ public class User implements Serializable {
     @Exclude
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    @Exclude
-    public String getuID() {
-        return uID;
-    }
-
-    @Exclude
-    public void setuID(String uID) {
-        this.uID = uID;
     }
 
     @Exclude

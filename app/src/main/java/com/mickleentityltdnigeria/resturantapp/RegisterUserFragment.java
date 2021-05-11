@@ -203,8 +203,7 @@ public class RegisterUserFragment extends Fragment {
                                         Log.d(TAG, "createUserWithEmail:success");
                                         FirebaseUser fbUser = mAuth.getCurrentUser();
                                         //Try to save new user data.
-                                        user.setuID(fbUser.getUid());
-                                        userData.AddUser(user);
+                                        userData.AddUser(user, fbUser);
                                         //
                                         assert fbUser != null;
                                         fbUser.sendEmailVerification()

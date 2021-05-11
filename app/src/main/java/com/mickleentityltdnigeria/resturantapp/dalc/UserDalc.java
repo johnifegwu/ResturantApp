@@ -3,6 +3,7 @@ package com.mickleentityltdnigeria.resturantapp.dalc;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,9 +44,9 @@ public class UserDalc {
         // Write a message to the database
     }
 
-    public void AddUser(User user)  {
+    public void AddUser(User user, FirebaseUser fbUser)  {
         //Get ID from the system.
-        String userID = userDB.push().getKey();//idGen.getInstance().getUUID();
+        String userID = fbUser.getUid();
         //Update model with acquired data.
         user.setUserID(userID);
         //save user to the system.
