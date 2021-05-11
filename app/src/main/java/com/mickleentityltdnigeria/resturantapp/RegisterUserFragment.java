@@ -179,7 +179,7 @@ public class RegisterUserFragment extends Fragment {
                     }
                     String deviceID = Settings.Secure.getString(view.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
                     deviceID = ImageHelper.getInstance().byteArrayToString(deviceID.getBytes());
-                    User user = new User("", txtEmail.getText().toString().trim(), "xxxxxxxx",
+                    User user = new User("", "", txtEmail.getText().toString().trim(), "xxxxxxxx",
                             txtFirstName.getText().toString().trim(), txtMiddleName.getText().toString().trim(), txtLastName.getText().toString().trim(),
                             txtEmail.getText().toString().trim(), txtIDD.getText().toString().trim() + txtPhone.getText().toString().trim(), txtAddress.getText().toString().trim(), txtCity.getText().toString().trim(),
                             txtZipCode.getText().toString().trim(), txtState.getText().toString().trim(), txtCountry.getSelectedItem().toString().trim(), deviceID.trim(), module.UserTypeCUSTOMER);
@@ -199,29 +199,29 @@ public class RegisterUserFragment extends Fragment {
                                     if (task.isSuccessful()) {
                                         //
                                         Toast.makeText(view.getContext(), "First level authentication successful.", Toast.LENGTH_SHORT).show();
-                                        //Try to save new user data.
-                                        userData.AddUser(user);
-                                        //
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "createUserWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        updateUI(user);
-                                        assert user != null;
-                                        user.sendEmailVerification()
+                                        FirebaseUser fbUser = mAuth.getCurrentUser();
+                                        //Try to save new user data.
+                                        user.setuID(fbUser.getUid());
+                                        userData.AddUser(user);
+                                        //
+                                        assert fbUser != null;
+                                        fbUser.sendEmailVerification()
                                                 .addOnCompleteListener(((MainActivity) requireActivity()), new OnCompleteListener() {
                                                     @Override
                                                     public void onComplete(@NonNull Task task) {
                                                         if (task.isSuccessful()) {
                                                             //
-                                                            Toast.makeText(view.getContext(), "Verification email has been sent to " + user.getEmail(),
+                                                            Toast.makeText(view.getContext(), "Verification email has been sent to " + fbUser.getEmail(),
                                                                     Toast.LENGTH_SHORT).show();
-                                                            Log.e(TAG, "Verification email sent to " + user.getEmail());
+                                                            Log.e(TAG, "Verification email sent to " + fbUser.getEmail());
                                                         } else {
                                                             Log.e(TAG, "sendEmailVerification failed!", task.getException());
                                                         }
                                                     }
                                                 });
-                                        updateUI(user);
+                                        updateUI(fbUser);
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
