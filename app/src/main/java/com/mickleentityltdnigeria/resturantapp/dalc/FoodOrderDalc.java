@@ -133,6 +133,21 @@ public class FoodOrderDalc {
 
     }
 
+    public void cancelFoodOrder(String orderDetailID){
+        //
+        foodOrderDetailDB.child(orderDetailID).child("isCanceled").setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //raise event
+                for (FoodOrderDetailsEventHandler listener : foodOrderDetailsUpdated.listeners()) {
+                    List<FoodOrderDetail> result = new ArrayList<>();
+                    listener.invoke(result);
+                }
+            }
+        });
+
+    }
+
     public void getFoodOrderByOrderID(String orderID){
         ValueEventListener onDataChangedListener =  new ValueEventListener() {
             @Override

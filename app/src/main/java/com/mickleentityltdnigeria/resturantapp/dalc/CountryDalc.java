@@ -22,7 +22,7 @@ public class CountryDalc {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference countryDB = database.getReference("countries");
 
-    public Event<CountryChangedHandler> countriesFetched = new Event<CountryChangedHandler>();
+    public Event<CountryChangedHandler> countriesFetched = new Event<>();
 
     private int _ID = 0;
 

@@ -26,6 +26,7 @@ import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandle
 import com.mickleentityltdnigeria.resturantapp.extensions.UserUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.mickleentityltdnigeria.resturantapp.AppGlobals.StartActivity;
@@ -152,6 +153,7 @@ public class SellOnBonAppetit4Fragment extends Fragment {
                     }
                     module.newResturant.setResturantDescription(txtDesc.getText().toString());
                     module.newResturant.setWebsiteUrl(txtWebsite.getText().toString().trim());
+                    module.newResturant.setNextPaymentDueDate(new Date(new Date().getTime() + 20000));
                     resturantDalc.AddResturant(module.newResturant);
                 }catch (Exception e){
                     progress.setVisibility(View.GONE);

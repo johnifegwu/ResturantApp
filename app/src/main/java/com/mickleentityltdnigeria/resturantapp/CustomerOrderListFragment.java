@@ -164,7 +164,7 @@ public class  CustomerOrderListFragment extends Fragment {
                             //
                             fd.setCanceled(true);
                             progress.setVisibility(View.VISIBLE);
-                            orderDalc.updateFoodOrderDetails(fd);
+                            orderDalc.cancelFoodOrder(fd.getID());
                             //
                         }
                     } catch (Exception e) {

@@ -1,0 +1,112 @@
+{
+  "rule": {
+    "oderDate": {
+      ".validate": "newData.val() <= now()"
+    },
+    "dateShipped": {
+      ".validate": "newData.val() <= now()"
+    },
+    "dateDelivered": {
+      ".validate": "newData.val() <= now()"
+    },
+    "dateApproved": {
+      ".validate": "newData.val() <= now()"
+    },
+    "dateSuspended": {
+      ".validate": "newData.val() <= now()"
+    },
+    "lastPaidDate": {
+      ".validate": "newData.val() <= now()"
+    },
+    "users": {
+      "$userID": {
+        "read": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
+        "write": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
+        "resturantID": {
+          ".validate": "newData.val() === oldData.val() || newData.val() === root.child('users').child(auth.uid).child('resturantID').val()"
+        },
+        "userType": {
+          ".validate": "newData.val() === oldData.val() || newData.val() === 'CUSTOMER' && data.child('userID').val() === auth.uid || newData.val() === 'SELLER' && data.child('userID').val() === auth.uid || newData.val() === 'SELLER2' && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || newData.val() === 'CUSTOMER' && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' "
+        },
+        ".validate": "newData.val() != null"
+      }
+    },
+    "foodorders": {
+      "$orderID": {
+        "read": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SELLER2' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER2'",
+        ".validate": "newData.val() != null"
+      }
+    },
+    "foodorderdetails": {
+      "$ID": {
+        "read": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && data..child('resturantID').val() === root.child('users').child(auth.uid).child('resturantID').val() || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER2'",
+        "write": "auth !== null && data..child('resturantID').val() === root.child('users').child(auth.uid).child('resturantID').val()",
+        ".validate": "newData.val() != null",
+        "isCanceled": {
+          "write": "auth !== null && data.child('userID').val() === auth.uid",
+          ".validate": "newData.val() === oldData.val() || newData.val() === true && data.child('isPrinted').val() false && data.child('isShipped').val() false && data.child('isDelivered').val() false && auth !== null && data.child('userID').val() === auth.uid"
+        },
+        "isPrinted": {
+          ".validate": "newData.val() === oldData.val() || newData.val() === true && data.child('isCanceled').val() false"
+        },
+        "isShipped": {
+          ".validate": "newData.val() === oldData.val() || newData.val() === true && data.child('isCanceled').val() false"
+        },
+        "isDelivered": {
+          ".validate": "newData.val() === oldData.val() || newData.val() === true && data.child('isCanceled').val() false"
+        },
+        "isPaid": {
+          ".validate": "newData.val() === oldData.val() || newData.val() === true && data.child('isCanceled').val() false"
+        }
+      }
+    },
+    "Resturants": {
+      "$resturantID": {
+        "read": "auth !== null",
+        "write": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && data.child('resturantID').val() === root.child('users').child(auth.uid).child('resturantID').val()",
+        ".validate": "newData.val() != null"
+      }
+    },
+    "fooditems": {
+      "$foodID": {
+        "read": "auth !== null",
+        "write": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && data.child('resturantID').val() === root.child('users').child(auth.uid).child('resturantID').val()",
+        ".validate": "newData.val() != null"
+      }
+    },
+    "shoppingCarts": {
+      "$cartID": {
+        "read": "auth !== null && data.child('userID').val() === auth.uid",
+        "write": "auth !== null && data.child('userID').val() === auth.uid"
+      }
+    },
+    "applicationData": {
+      "read": "auth !== null",
+      "write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER2'",
+      ".validate": "newData.val() != null"
+    },
+    "feedback": {
+      "read": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER2'",
+      "write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER2'",
+      ".validate": "newData.val() != null"
+    },
+    "countries": {
+      "read": "auth !== null",
+      "write": "auth !== null",
+      ".validate": "newData.val() != null && newData.hasChildren(['countryID', 'countryNumber', 'dialCode', 'currencyCode', 'countryName'])",
+      "countryID": {
+        ".validate": "newData.isNumber()"
+      },
+      "currencyCode": {
+        ".validate": "newData.isString() && newData.val().length() === 3"
+      }
+    },
+    "currentLocations": {
+      "$locationID": {
+        "read": "auth !== null && data.child('userID').val() === auth.uid",
+        "write": "auth !== null && data.child('userID').val() === auth.uid",
+        ".validate": "newData.val() != null"
+      }
+    }
+  }
+}
