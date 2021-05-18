@@ -319,13 +319,4 @@ public class UserDalc {
         //
     }
 
-    private void removeListener(ValueEventListener l){
-        try{
-            userDB.removeEventListener(l);
-        }catch (Exception e){
-
-        }
-
-    }
-
 }

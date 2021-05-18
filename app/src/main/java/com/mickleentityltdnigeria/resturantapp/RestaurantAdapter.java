@@ -206,14 +206,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                         rs.setApproved(true);
                         rs.setApprovedBy(module.userName);
                         rs.setDateApproved(new Date());
-                        rs.setNextPaymentDueDate(new Date(new Date().getTime() + 20000));
+                        resturantDalc.ApproveResturant(rs);
                     } else if (btnApprove.getText().toString().equals(suspend)) {
                         rs.setSuspended(true);
                         rs.setSuspendedBy(module.userName);
                         rs.setDateSuspended(new Date());
-                        rs.setNextPaymentDueDate(new Date(new Date().getTime() + 20000));
+                        resturantDalc.SuspendResturant(rs);
                     }
-                    resturantDalc.UpdateResturant(rs);
                     //
                 } catch (Exception e) {
                     progress.setVisibility(View.GONE);

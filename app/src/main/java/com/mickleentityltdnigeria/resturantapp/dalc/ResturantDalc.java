@@ -53,9 +53,37 @@ public class ResturantDalc {
 
     }
 
+    public void ApproveResturant(Resturant resturant){
+        String resturantID = resturant.getResturantID();
+        //save data to the system.
+        resturantDB.child(resturantID).child("approved").setValue(resturant.isApproved());
+        resturantDB.child(resturantID).child("dateApproved").setValue(resturant.getDateApproved());
+        resturantDB.child(resturantID).child("approvedBy").setValue(resturant.getApprovedBy());
+        //raise event
+        for (ResturantUpdatedHandler listener : resturantUpdated.listeners()) {
+            List<Resturant> result = new ArrayList<Resturant>();
+            result.add(resturant);
+            listener.invoke(result);
+        }
+    }
+
+    public void SuspendResturant(Resturant resturant){
+        String resturantID = resturant.getResturantID();
+        //save data to the system.
+        resturantDB.child(resturantID).child("suspended").setValue(resturant.isSuspended());
+        resturantDB.child(resturantID).child("dateSuspended").setValue(resturant.getDateSuspended());
+        resturantDB.child(resturantID).child("suspendedBy").setValue(resturant.getSuspendedBy());
+        //raise event
+        for (ResturantUpdatedHandler listener : resturantUpdated.listeners()) {
+            List<Resturant> result = new ArrayList<Resturant>();
+            result.add(resturant);
+            listener.invoke(result);
+        }
+    }
+
     public void UpdateResturant(Resturant resturant){
         //Get ID from the system.
-        String resturantID =resturant.getResturantID();
+        String resturantID = resturant.getResturantID();
         //save data to the system.
         resturantDB.child(resturantID).setValue(resturant).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

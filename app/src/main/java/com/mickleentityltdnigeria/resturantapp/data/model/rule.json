@@ -21,12 +21,14 @@
     "users": {
       "$userID": {
         "read": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
-        "write": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
+        "write": "auth !== null && data.child('userID').val() === auth.uid",
         "resturantID": {
-          ".validate": "newData.val() === oldData.val() || newData.val() === root.child('users').child(auth.uid).child('resturantID').val()"
+          "write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SELLER'",
+          ".validate": "newData.val() === oldData.val() || newData.val() === root.child('users').child(auth.uid).child('resturantID').val() || newData.val() === null && oldData.val() === root.child('users').child(auth.uid).child('resturantID').val()"
         },
         "userType": {
-          ".validate": "newData.val() === oldData.val() || newData.val() === 'CUSTOMER' && data.child('userID').val() === auth.uid || newData.val() === 'SELLER' && data.child('userID').val() === auth.uid || newData.val() === 'SELLER2' && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || newData.val() === 'CUSTOMER' && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' "
+          "write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' || auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SELLER'",
+          ".validate": "newData.val() === oldData.val() ||  newData.val() === 'CUSTOMER' && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || newData.val() === 'CUSTOMER' && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' || newData.val() === 'SELLER' && data.child('userID').val() === auth.uid || newData.val() === 'SELLER2' && root.child('users').child(auth.uid).child('userType').val() === 'SELLER' || newData.val() === 'SUPPER2' && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' "
         },
         ".validate": "newData.val() != null"
       }
@@ -64,6 +66,22 @@
       "$resturantID": {
         "read": "auth !== null",
         "write": "auth !== null && data.child('userID').val() === auth.uid || auth !== null && data.child('resturantID').val() === root.child('users').child(auth.uid).child('resturantID').val()",
+        "approved": {
+          "write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
+          ".validate": "newData.val() === oldData.val() || newData.val() === true && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'"
+        },
+        "approvedBy": {
+          "write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
+          ".validate": "newData.val() === oldData.val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
+        },
+        "suspended": {
+          "write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
+          ".validate": "newData.val() === oldData.val() || newData.val() === true && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' ||  newData.val() === false && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'"
+        },
+        "suspendedBy": {
+          "write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
+          ".validate": "newData.val() === oldData.val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
+        },
         ".validate": "newData.val() != null"
       }
     },
