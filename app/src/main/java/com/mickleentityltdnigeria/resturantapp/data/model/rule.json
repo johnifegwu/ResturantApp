@@ -55,7 +55,7 @@
           ".validate": "newData.val() === data.val() || newData.val() === true && data.child('isCanceled').val() === false"
         },
         "isDelivered": {
-          ".validate": "newData.val() === data.val() || newData.val() === true && data.child('isCanceled').val() === false"
+          ".validate": "newData.val() === datav.val() || newData.val() === true && data.child('isCanceled').val() === false"
         },
         "isPaid": {
           ".validate": "newData.val() === data.val() || newData.val() === true && data.child('isCanceled').val() === false"
@@ -72,15 +72,15 @@
         },
         "approvedBy": {
           ".write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
-          ".validate": "newData.val() === data.val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
+          ".validate": "newData.val() === data.child('approvedBy').val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
         },
         "suspended": {
           ".write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
-          ".validate": "newData.val() === data.val() || newData.val() === true && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' ||  newData.val() === false && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'"
+          ".validate": "newData.val() === data.child('suspended').val() || newData.val() === true && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' ||  newData.val() === false && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'"
         },
         "suspendedBy": {
           ".write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
-          ".validate": "newData.val() === data.val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
+          ".validate": "newData.val() === data.child('suspendedBy').val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
         },
         ".validate": "newData.val() != null"
       }
