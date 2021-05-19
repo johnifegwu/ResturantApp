@@ -21,6 +21,9 @@ import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
+import kotlin.random.URandomKt;
 
 public class FoodItemDalc {
 
@@ -113,6 +116,7 @@ public class FoodItemDalc {
                             }
                             //raise event
                             for (FoodItemUpdatedHandler listener : foodItemsFetched.listeners()) {
+                                ShuffleFoodItems(result);
                                 listener.invoke(result);
                             }
                         }
@@ -142,6 +146,26 @@ public class FoodItemDalc {
         //
         query.addListenerForSingleValueEvent(onDataChangedListener);
         //
+    }
+
+    private void ShuffleFoodItems(List<FoodItem> foodItems){
+        int max = foodItems.size()-1;
+        int min, j;
+        Random rnd;
+        for(int i = 0; i < foodItems.size(); i++){
+            rnd = new Random();
+            min = i+1;
+            if(min == max){
+               min = max-1;
+            }
+            j = min + rnd.nextInt(max);
+            SwapFoodItem(i, j, foodItems);
+        }
+    }
+    private void SwapFoodItem(int i, int j, List<FoodItem> foodItems){
+        FoodItem temp_i = foodItems.get(i);
+        foodItems.set(i,foodItems.get(j));
+        foodItems.set(j, temp_i);
     }
 
     private void getFoodItem(String foodID, String SearchParam) {

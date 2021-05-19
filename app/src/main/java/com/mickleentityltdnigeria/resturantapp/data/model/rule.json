@@ -72,15 +72,15 @@
         },
         "approvedBy": {
           ".write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
-          ".validate": "newData.val() === data.child('approvedBy').val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
+          ".validate": "newData.val() === data.val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
         },
         "suspended": {
           ".write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
-          ".validate": "newData.val() === data.child('suspended').val() || newData.val() === true && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' ||  newData.val() === false && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'"
+          ".validate": "newData.val() === data.val() || newData.val() === true && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER' ||  newData.val() === false && auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'"
         },
         "suspendedBy": {
           ".write": "auth !== null && root.child('users').child(auth.uid).child('userType').val() === 'SUPPER'",
-          ".validate": "newData.val() === data.child('suspendedBy').val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
+          ".validate": "newData.val() === data.val() || newData.val() === root.child('users').child(auth.uid).child('userName').val()"
         },
         ".validate": "newData.val() != null"
       }
@@ -113,7 +113,7 @@
       ".write": "auth !== null",
       ".validate": "newData.val() != null && newData.hasChildren(['countryID', 'countryNumber', 'dialCode', 'currencyCode', 'countryName'])",
       "countryID": {
-        ".validate": "newData.isNumber()"
+        ".validate": "newData.isNumber() && newData.val() >= 0"
       },
       "currencyCode": {
         ".validate": "newData.isString() && newData.val().length === 3"
