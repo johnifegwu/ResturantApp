@@ -146,7 +146,7 @@ public class FoodItemDalc {
         int min, j;
         for(int i = 0; i < foodItems.size(); i++){
             min = i+1;
-            if(min == max){
+            if(min >= max){
                min = max-1;
             }
             j = getRandomNumber(min, max);
