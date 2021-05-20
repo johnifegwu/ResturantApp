@@ -159,16 +159,18 @@ public class FoodItemDalc {
         int x = rnd.nextInt(max);
         if(min + x <= max){
             return min + x;
-        }else if(x <= max){
+        }else if(x <= max && x >= 0){
             return x;
         }else{
             return max ;
         }
     }
     private void SwapFoodItem(int i, int j, List<FoodItem> foodItems){
-        FoodItem temp_i = foodItems.get(i);
-        foodItems.set(i,foodItems.get(j));
-        foodItems.set(j, temp_i);
+        if(i < j || i > j){
+            FoodItem temp_i = foodItems.get(i);
+            foodItems.set(i,foodItems.get(j));
+            foodItems.set(j, temp_i);
+        }
     }
 
     private void getFoodItem(String foodID, String SearchParam) {
