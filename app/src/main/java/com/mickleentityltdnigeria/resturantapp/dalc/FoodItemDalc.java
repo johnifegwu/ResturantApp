@@ -144,7 +144,7 @@ public class FoodItemDalc {
     private void ShuffleFoodItems(List<FoodItem> foodItems){
         int max = foodItems.size()-1;
         int min, j;
-        for(int i = 0; i < foodItems.size(); i++){
+        for(int i = 0; i <= max; i++){
             min = i+1;
             if(min >= max){
                min = max-1;
