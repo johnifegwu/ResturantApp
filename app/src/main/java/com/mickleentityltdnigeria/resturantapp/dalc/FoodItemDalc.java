@@ -1,29 +1,22 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.mickleentityltdnigeria.resturantapp.data.model.CartItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItemChild;
-import com.mickleentityltdnigeria.resturantapp.extensions.CartItemChangedHandler;
 import com.mickleentityltdnigeria.resturantapp.extensions.Event;
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-
-import kotlin.random.URandomKt;
 
 public class FoodItemDalc {
 
@@ -151,15 +144,25 @@ public class FoodItemDalc {
     private void ShuffleFoodItems(List<FoodItem> foodItems){
         int max = foodItems.size()-1;
         int min, j;
-        Random rnd;
         for(int i = 0; i < foodItems.size(); i++){
-            rnd = new Random();
             min = i+1;
             if(min == max){
                min = max-1;
             }
-            j = min + rnd.nextInt(max);
+            j = getRandomNumber(min, max);
             SwapFoodItem(i, j, foodItems);
+        }
+    }
+
+    public int getRandomNumber(int min, int max){
+        Random rnd = new Random();
+        int x = rnd.nextInt(max);
+        if(min + x <= max){
+            return min + x;
+        }else if(x <= max){
+            return x;
+        }else{
+            return max ;
         }
     }
     private void SwapFoodItem(int i, int j, List<FoodItem> foodItems){
