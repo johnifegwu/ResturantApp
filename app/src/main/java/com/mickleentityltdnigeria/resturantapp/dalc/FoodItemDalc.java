@@ -1,6 +1,9 @@
 package com.mickleentityltdnigeria.resturantapp.dalc;
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -147,23 +150,26 @@ public class FoodItemDalc {
         int max = foodItems.size()-1;
         int min = 0, i, j;
         for(int x = 0; x <= max; x++){
-            i = getRandomNumber(min, max);
-            j = getRandomNumber(min, max);
+            i = getRandomNumber2(min, max);
+            j = getRandomNumber2(min, max);
             SwapFoodItem(i, j, foodItems);
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public int getRandomNumber(int min, int max){
         Random rnd = new Random();
-        int x = rnd.nextInt(max);
-        if(x >= min && x <= max){
-            return x;
-        }else if(x < min){
-            return min;
+        return rnd.ints(min, max + 1).findFirst().getAsInt();
+    }
+
+    public int getRandomNumber2(int min, int max){
+        if(!(min > max || max - min + 1 > Integer.MAX_VALUE)){
+            return new Random().nextInt(max - min + 1);
         }else{
-            return max ;
+            throw new IllegalArgumentException("Integer value out of range.");
         }
     }
+
     private void SwapFoodItem(int i, int j, List<FoodItem> foodItems){
         if(i < j || i > j){
             FoodItem temp_i = foodItems.get(i);
