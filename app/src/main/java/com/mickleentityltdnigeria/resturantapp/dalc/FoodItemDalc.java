@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import kotlin.jvm.internal.Intrinsics;
+
 public class FoodItemDalc {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -143,12 +145,9 @@ public class FoodItemDalc {
 
     private void ShuffleFoodItems(List<FoodItem> foodItems){
         int max = foodItems.size()-1;
-        int min, j;
-        for(int i = 0; i <= max; i++){
-            min = i+1;
-            if(min >= max){
-               min = max-1;
-            }
+        int min = 0, i, j;
+        for(int x = 0; x <= max; x++){
+            i = getRandomNumber(min, max);
             j = getRandomNumber(min, max);
             SwapFoodItem(i, j, foodItems);
         }
@@ -157,10 +156,10 @@ public class FoodItemDalc {
     public int getRandomNumber(int min, int max){
         Random rnd = new Random();
         int x = rnd.nextInt(max);
-        if(min + x <= max){
-            return min + x;
-        }else if(x <= max && x >= 0){
+        if(x >= min && x <= max){
             return x;
+        }else if(x < min){
+            return min;
         }else{
             return max ;
         }
