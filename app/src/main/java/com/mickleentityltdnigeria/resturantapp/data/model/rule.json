@@ -45,20 +45,20 @@
         ".write": "auth !== null && data.child('resturantID').val() === root.child('users').child(auth.uid).child('resturantID').val()",
         ".validate": "newData.val() != null",
         "isCanceled": {
-          ".write": "auth !== null && data.getParent().child('userID').val() === auth.uid",
+          ".write": "auth !== null && data.parent().child('userID').val() === auth.uid",
           ".validate": "newData.val() === data.val() || newData.val() === true && data.val() === false && data.val() === false && data.val() === false && auth !== null && data.getParent().child('userID').val() === auth.uid"
         },
         "isPrinted": {
-          ".validate": "newData.val() === data.val() || newData.val() === true && data.val() === false"
+          ".validate": "newData.val() === data.val() || newData.val() === true && data.parent().child('isCanceled').val() === false"
         },
         "isShipped": {
-          ".validate": "newData.val() === data.val() || newData.val() === true && data.val() === false"
+          ".validate": "newData.val() === data.val() || newData.val() === true && data.parent().child('isCanceled').val() === false"
         },
         "isDelivered": {
-          ".validate": "newData.val() === data.val() || newData.val() === true && data.val() === false"
+          ".validate": "newData.val() === data.val() || newData.val() === true && data.parent().child('isCanceled').val() === false"
         },
         "isPaid": {
-          ".validate": "newData.val() === data.val() || newData.val() === true && data.val() === false"
+          ".validate": "newData.val() === data.val() || newData.val() === true && data.parent().child('isCanceled').val() === false"
         }
       }
     },
