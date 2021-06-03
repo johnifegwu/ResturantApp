@@ -85,7 +85,7 @@ public class MyRestaurantFragment extends Fragment {
     ResturantDalc restaurantDalc;
     ImageView imgMyRestaurant;
     Button btnSave;
-    EditText txtName, txtCurrency, txtContact, txtEmail, txtMicklePay, txtCountry, txtIDD, txtPhone, txtaddress, txtCity, txtZipCode, txtState, txtZipCodes, txtWeb, txtDescription;
+    EditText txtName, txtMoneyBack, txtCurrency, txtContact, txtEmail, txtMicklePay, txtCountry, txtIDD, txtPhone, txtaddress, txtCity, txtZipCode, txtState, txtZipCodes, txtWeb, txtDescription;
     Spinner spinnerTypes;
     Resturant resturant;
     ProgressBar progress;
@@ -96,6 +96,7 @@ public class MyRestaurantFragment extends Fragment {
         restaurantDalc = new ResturantDalc();
         this.imgMyRestaurant = view.findViewById(R.id.imgMyRestaurant);
         this.btnSave = view.findViewById(R.id.btnSaveMyRestaurant);
+        this.txtMoneyBack = view.findViewById(R.id.txtMoneyBackGuarantee);
         this.txtContact = view.findViewById(R.id.txtMyRestauranContact);
         this.txtaddress = view.findViewById(R.id.txtMyRestaurantAddress);
         this.txtCity = view.findViewById(R.id.txtMyRestaurantCity);
@@ -125,6 +126,7 @@ public class MyRestaurantFragment extends Fragment {
                 resturant = Resturant.get(0);
                 imgMyRestaurant.setImageDrawable(ImageHelper.getInstance().imageFromString(resturant.resturantImg));
                 txtName.setText(resturant.getResturantName());
+                txtMoneyBack.setText(resturant.getMoneyBackGuaranteeInDays());
                 txtContact.setText(resturant.getContactPerson());
                 txtEmail.setText(resturant.getEmail());
                 txtMicklePay.setText(resturant.getMicklePayWalletID());
@@ -191,6 +193,9 @@ public class MyRestaurantFragment extends Fragment {
                     }else {
                         throw new Exception("You must add at least one ZipCode");
                     }
+                    if(txtMoneyBack.getText().toString().isEmpty() || Integer.parseInt(txtMoneyBack.getText().toString()) < 0){
+                        throw new Exception("Money Back Guarantee cannot be less than zero.");
+                    }
                     String zip = "";
                     String zipX = txtZipCodes.getText().toString();
                     if(zipX.contains("\n")){
@@ -212,6 +217,7 @@ public class MyRestaurantFragment extends Fragment {
                         throw new Exception("Restaurant name and Contact Person are required fields.");
                     }
                     resturant.setResturantName(txtName.getText().toString().trim());
+                    resturant.setMoneyBackGuaranteeInDays(Integer.parseInt(txtMoneyBack.getText().toString()));
                     resturant.setResturantType(spinnerTypes.getSelectedItem().toString());
                     resturant.setContactPerson(txtContact.getText().toString().trim());
                     resturant.setUserID(module.userID);

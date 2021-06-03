@@ -234,7 +234,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtMyRestauranName" />
+        app:layout_constraintTop_toBottomOf="@+id/txtMoneyBackGuarantee" />
 
     <ImageView
         android:id="@+id/imgMyRestaurant"
@@ -256,7 +256,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="3dp"
         android:ems="10"
-        android:nextFocusDown="@id/spinnerMyRestaurantTypes"
+        android:nextFocusDown="@id/txtMoneyBackGuarantee"
         android:hint="@string/restaurantName"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -264,22 +264,44 @@
         app:layout_constraintTop_toBottomOf="@+id/imgMyRestaurant"
         android:autofillHints="" />
 
-    <EditText
-        android:id="@+id/txtMyRestauranContact"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="3dp"
-        android:ems="10"
-        android:hint="@string/contact"
-        android:inputType="textPersonName"
-        android:nextFocusDown="@id/txtMyRestaurantEmail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerMyRestaurantTypes"
-        android:autofillHints="" />
+        <EditText
+            android:id="@+id/txtMoneyBackGuarantee"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_money_off_24"
+            android:drawableEnd="@drawable/ic_back_24"
+            android:ems="10"
+            android:hint="@string/moneyBack"
+            android:inputType="numberSigned"
+            android:nextFocusDown="@id/spinnerMyRestaurantTypes"
+            app:layout_constraintBottom_toTopOf="@+id/spinnerMyRestaurantTypes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMyRestauranName" />
+
+        <EditText
+            android:id="@+id/txtMyRestauranContact"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_person_24"
+            android:ems="10"
+            android:hint="@string/contact"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@id/txtMyRestaurantEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerMyRestaurantTypes" />
 
         <EditText
             android:id="@+id/txtMyRestaurantCountry"

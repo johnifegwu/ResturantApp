@@ -76,7 +76,7 @@
         android:ems="10"
         android:hint="@string/contact"
         android:inputType="textPersonName"
-        android:nextFocusDown="@id/btnNext1"
+        android:nextFocusDown="@id/txtMoneyBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerRestaurantTypes"
@@ -111,14 +111,33 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="50dp"
         android:text="@string/pic_size"
         android:textSize="15sp"
         android:textStyle="italic"
+        app:drawableStartCompat="@drawable/ic_baseline_announcement_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtContactPerson"
-        app:drawableStartCompat="@drawable/ic_baseline_announcement_24" />
+        app:layout_constraintTop_toBottomOf="@+id/txtMoneyBack" />
+
+    <EditText
+        android:id="@+id/txtMoneyBack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:autofillHints=""
+        android:drawableStart="@drawable/ic_money_off_24"
+        android:drawableEnd="@drawable/ic_back_24"
+        android:ems="10"
+        android:hint="@string/moneyBack"
+        android:inputType="numberSigned"
+        android:nextFocusDown="@id/btnNext1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtContactPerson" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

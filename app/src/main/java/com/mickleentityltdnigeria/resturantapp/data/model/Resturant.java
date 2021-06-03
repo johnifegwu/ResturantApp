@@ -14,6 +14,7 @@ public class Resturant implements Serializable {
     public String resturantName;
     public String resturantType;
     public String resturantDescription;
+    public int moneyBackGuaranteeInDays;
     public String resturantLongitude;
     public String resturantLatitude;
     public String resturantImg;
@@ -47,12 +48,13 @@ public class Resturant implements Serializable {
 
     public Resturant(){}
 
-    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String currencyCode, String MicklePayWalletID , String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date dateApproved, String approvedBy, boolean suspended, Date dateSuspended, String suspendedBy, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
+    public Resturant(String resturantID, String userID, String resturantName, String resturantType, String resturantDescription, int moneyBackGuaranteeInDays, String resturantLongitude, String resturantLatitude, String resturantImg, String resturantImgUrl, String address, String city, String zipCode, String zipCodes, String zipCodesX, String state, String country, String currencyCode, String MicklePayWalletID , String contactPerson, String phone, String email, String websiteUrl, boolean paid, boolean approved, Date dateApproved, String approvedBy, boolean suspended, Date dateSuspended, String suspendedBy, Date lastPaidDate, double amountPaid, String paymentChannel, Date nextPaymentDueDate) {
         this.resturantID = resturantID;
         this.userID = userID;
         this.resturantName = resturantName;
         this.resturantType = resturantType;
         this.resturantDescription = resturantDescription;
+        this.moneyBackGuaranteeInDays = moneyBackGuaranteeInDays;
         this.resturantLongitude = resturantLongitude;
         this.resturantLatitude = resturantLatitude;
         this.resturantImg = resturantImg;
@@ -137,6 +139,16 @@ public class Resturant implements Serializable {
     @Exclude
     public void setResturantDescription(String resturantDescription) {
         this.resturantDescription = resturantDescription;
+    }
+
+    @Exclude
+    public int getMoneyBackGuaranteeInDays() {
+        return moneyBackGuaranteeInDays;
+    }
+
+    @Exclude
+    public void setMoneyBackGuaranteeInDays(int moneyBackGuaranteeInDays) {
+        this.moneyBackGuaranteeInDays = moneyBackGuaranteeInDays;
     }
 
     @Exclude

@@ -22,6 +22,9 @@ public class FoodItem implements Serializable {
     public boolean approved;
     public Map<String,FoodItemChild> zipCodes = new HashMap<>(); //Zip Codes derived from Resturant separated by spaces
 
+    @Exclude
+    public String moneyBack = null;
+
     public FoodItem(){
 
     }

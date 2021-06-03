@@ -14,7 +14,10 @@
     <string name="refresh">Refresh</string>
     <string name="contact2">Contact</string>
     <string name="prepare">Prepare</string>
+    <string name="zeroDayMoneyBack">0 Day</string>
+    <string name="moneyBack">Money Back Guarantee (In Days)</string>
     <string name="ship">Ship</string>
+    <string name="day">Day</string>
     <string name="deliver">Deliver</string>
     <string name="canceled"><b><i>CANCELED</i></b></string>
     <string name="un_append">Un Append</string>

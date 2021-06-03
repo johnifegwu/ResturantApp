@@ -159,8 +159,7 @@ public class FoodItemDalc {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public int getRandomNumber(int min, int max){
         if((min < max) && ((max - min + 1) < Integer.MAX_VALUE)){
-        Random rnd = new Random();
-        return rnd.ints(min, max + 1).findFirst().getAsInt();
+            return new Random().ints(min, max + 1).findFirst().getAsInt();
         }else{
             throw new IllegalArgumentException("Integer value out of range.");
         }

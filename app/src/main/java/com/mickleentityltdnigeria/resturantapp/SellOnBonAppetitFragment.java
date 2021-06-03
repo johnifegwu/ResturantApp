@@ -41,7 +41,7 @@ public class SellOnBonAppetitFragment extends Fragment {
 
     Button btnAddImage, btnNext1;
     ImageView imgResturant;
-    EditText txtRestaurantName, txtContactPerson;
+    EditText txtRestaurantName, txtContactPerson, txtMoneyBack;
     AppCompatSpinner spinnerRestaurantTypes;
     ProgressBar progress;
     ResturantDalc resturantDalc;
@@ -100,6 +100,7 @@ public class SellOnBonAppetitFragment extends Fragment {
         imgResturant = view.findViewById(R.id.imgResturant);
         spinnerRestaurantTypes = view.findViewById(R.id.spinnerRestaurantTypes);
         txtContactPerson = view.findViewById(R.id.txtContactPerson);
+        txtMoneyBack = view.findViewById(R.id.txtMoneyBack);
         txtRestaurantName = view.findViewById(R.id.txtRestaurantName);
         progress = view.findViewById(R.id.progressBarNewRestaurant);
         //
@@ -155,9 +156,13 @@ public class SellOnBonAppetitFragment extends Fragment {
                     if(txtRestaurantName.getText().toString().isEmpty() || txtContactPerson.getText().toString().isEmpty()){
                         throw new Exception("Fill in all required fields.");
                     }
+                    if(txtMoneyBack.getText().toString().isEmpty() || Integer.parseInt(txtMoneyBack.getText().toString()) < 0){
+                        throw new Exception("Money Back Guarantee cannot be less than zero.");
+                    }
                     module.newResturant.setResturantName(txtRestaurantName.getText().toString().trim());
                     module.newResturant.setResturantType(spinnerRestaurantTypes.getSelectedItem().toString());
                     module.newResturant.setContactPerson(txtContactPerson.getText().toString().trim());
+                    module.newResturant.setMoneyBackGuaranteeInDays(Integer.parseInt(txtMoneyBack.getText().toString()));
                     module.newResturant.setUserID(module.userID);
                     progress.setVisibility(View.GONE);
                     NavHostFragment.findNavController(SellOnBonAppetitFragment.this)

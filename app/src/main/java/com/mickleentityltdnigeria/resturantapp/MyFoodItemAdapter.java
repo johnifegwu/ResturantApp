@@ -17,10 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mickleentityltdnigeria.resturantapp.dalc.FoodItemDalc;
+import com.mickleentityltdnigeria.resturantapp.dalc.ResturantDalc;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItem;
 import com.mickleentityltdnigeria.resturantapp.data.model.FoodItemChild;
 import com.mickleentityltdnigeria.resturantapp.data.model.Resturant;
 import com.mickleentityltdnigeria.resturantapp.extensions.FoodItemUpdatedHandler;
+import com.mickleentityltdnigeria.resturantapp.extensions.ResturantUpdatedHandler;
 import com.mickleentityltdnigeria.resturantapp.utils.ImageHelper;
 import com.mickleentityltdnigeria.resturantapp.utils.module;
 
@@ -161,14 +163,31 @@ public class MyFoodItemAdapter extends RecyclerView.Adapter<MyFoodItemAdapter.Vi
         }
 
         void bind(FoodItem foodItem) {
+            ResturantDalc resturantDalc = new ResturantDalc();
             ImageView img = itemView.findViewById(R.id.imgUpdateFoodItem);
+            EditText txtMoneyBack = itemView.findViewById(R.id.txtMoneyBackFoodItem);
             EditText txtDesc = itemView.findViewById(R.id.txtUpdateFoodItemDescription);
             EditText txtPrice = itemView.findViewById(R.id.txtUpdateFoodItemPrice);
             EditText txtCurrency = itemView.findViewById(R.id.txtUpdateFoodItemCurrency);
+            ResturantUpdatedHandler resturantFetched = new ResturantUpdatedHandler() {
+                @Override
+                public void invoke(List<Resturant> Resturant) {
+                    foodItem.moneyBack = Resturant.get(0).getMoneyBackGuaranteeInDays() + " Day";
+                    txtMoneyBack.setText(foodItem.moneyBack);
+                }
+            };
+            resturantDalc.resturantDataFetched.addListener(resturantFetched);
+            //
             img.setImageDrawable(ImageHelper.getInstance().imageFromString(foodItem.getFoodImg()));
             txtCurrency.setText(foodItem.getCurrency());
             txtPrice.setText(String.valueOf(foodItem.getFoodPrice()));
             txtDesc.setText(foodItem.getFoodDesc());
+            //
+            if(foodItem.moneyBack == null){
+                resturantDalc.getResturantByResturantID(foodItem.getResturantID());
+            }else{
+                txtMoneyBack.setText(foodItem.moneyBack);
+            }
         }
 
     }
